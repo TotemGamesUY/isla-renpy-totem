@@ -352,7 +352,11 @@ screen navigation():
             
             textbutton _("Cargar Partida") action FileLoad(1, confirm=False)
 
-        textbutton _("Reiniciar partida") action Function(setattr, persistent, "game_started", False)
+        textbutton _("Reiniciar partida") action [
+            Function(setattr, persistent, "game_started", False),
+            Function(setattr, persistent, "cantidad_capitulos", 0),
+            Function(renpy.save_persistent)
+        ]
 
         textbutton _("Preferencias") action ShowMenu("preferences")
 
@@ -1606,6 +1610,21 @@ screen pedir_id_screen():
                     action [Hide("pedir_id_screen"), Return(True)]
                 textbutton "Cancelar":
                     action [Hide("pedir_id_screen"), Return(False)]
+
+screen pedir_codigo_capitulo_screen():
+    modal True
+    
+    frame:
+        padding (20, 20)
+        vbox:
+            text "Ingresa el código para continuar:"
+            input length 10 value VariableInputValue("input_codigo_capitulo")
+            
+            hbox:
+                textbutton "Aceptar":
+                    action [Hide("pedir_codigo_capitulo_screen"), Return(True)]
+                textbutton "Cancelar":
+                    action [Hide("pedir_codigo_capitulo_screen"), Return(False)]
 
 screen player_input():
     modal True

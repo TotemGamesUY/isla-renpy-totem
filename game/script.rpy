@@ -20,6 +20,7 @@ define player_name = ""
 define player_lastname = ""
 define player_ids = ["Jugador1", "jugador2", "Jugador3"]  # Lista de IDs válidos para android
 default input_id = ""  # Variable para almacenar el ID ingresado por el jugador
+default input_codigo_capitulo = "" # Codigo que pide para continuar jugando los capitulos
 
 # Define images position
 transform left:
@@ -556,6 +557,31 @@ label pedir_id:
 
             else:
                 "Debes ingresar un ID válido."
+
+label pedir_codigo_capitulo:
+    while True:  # Se repite hasta que el ID sea válido
+        show screen pedir_codigo_capitulo_screen
+        $ resultado = ui.interact()
+
+        if resultado:
+
+            hide screen pedir_codigo_capitulo_screen
+
+            if renpy.android:  # Solo mostrar en Android   
+                if persistent.cantidad_capitulos == 4:
+                    # jump al capitulo que se quiere saltar
+                elif persistent.cantidad_capitulos == 8:
+                    # jump al capitulo que se quiere saltar
+            else :
+                if persistent.cantidad_capitulos == 2:
+                    # jump al capitulo que se quiere saltar
+                elif persistent.cantidad_capitulos == 4:
+                    # jump al capitulo que se quiere saltar
+                elif persistent.cantidad_capitulos == 6:
+                    # jump al capitulo que se quiere saltar
+                
+        else:
+            "Código inválido. Intenta nuevamente."
 
 label start:
     #$ quick_menu = False  # Oculta el menú

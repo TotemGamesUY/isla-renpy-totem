@@ -211,6 +211,7 @@ define build.itch.project = "Totem Games/La Academia v.0.2"
 # Continuación del archivo options.rpy con otras configuraciones...
 
 define persistent.game_started = False
+define persistent.cantidad_capitulos = 0
 
 ## A Google Play license key is required to perform in-app purchases. It can be
 ## found in the Google Play developer console, under "Monetize" > "Monetization
