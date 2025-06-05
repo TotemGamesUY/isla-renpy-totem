@@ -542,7 +542,6 @@ label pedir_id:
             $ resultado = ui.interact()
 
             if resultado:
-                #$ input_id = renpy.get_screen_variable("input_id")  # Obtener el ID ingresado
                 
                 if input_id in player_ids:
                     $ player_id = input_id  # Asignar el ID válido
@@ -611,7 +610,7 @@ label start_game:
 
 label comic:
     scene bg comic 1 at truecenter
-    $ persistent.first_time = True
+    $ persistent.game_started = True
     with Dissolve(1)
 
     call screen custom_button
