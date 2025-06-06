@@ -142,7 +142,7 @@ default tomas = 0
 
 # define contador de desiciones de cada capitulo
 default desicion_intro = 0
-default desicion_contador = [0,0,0,0,0,0,0,0,0,0,0,0]
+default desicion_contador = [0,0,0,0]
 default desicion_1 = 0
 default desicion_2 = 0
 default desicion_3 = 0
@@ -301,6 +301,17 @@ default todos_despiertos = False
 default bob_se_queda = False
 default marina_se_queda = False
 default laura_se_queda = False
+default encontraron_agua = False
+default reporte_todos_explorar = False
+default reporte_algunos_explorar = False
+default comidant_ingrid = False
+default bebidant_ingrid = False
+default va_con_bob = False
+default va_con_marina = False
+default va_con_laura = False
+default exploran_tres = False
+
+default liderazgo_PJ = 0 # Variable para implementar cuando desarrollemos el capítulo de los otros sobrevivientes.
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -562,30 +573,24 @@ label pedir_codigo_capitulo:
     while True:  # Se repite hasta que el ID sea válido
         show screen pedir_codigo_capitulo_screen
         $ resultado = ui.interact()
-        $ renpy.force_autosave()
 
         if resultado:
-                
+
             hide screen pedir_codigo_capitulo_screen
 
             if renpy.android:  # Solo mostrar en Android   
-                #if persistent.cantidad_capitulos == 4 and resultado == "capitulo4ok":
-                if persistent.cantidad_capitulos == 3:
+                if persistent.cantidad_capitulos == 4:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 7:
+                elif persistent.cantidad_capitulos == 8:
                     # jump al capitulo que se quiere saltar
             else :
-                if persistent.cantidad_capitulos == 1:
+                if persistent.cantidad_capitulos == 2:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 3:
+                elif persistent.cantidad_capitulos == 4:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 5:
+                elif persistent.cantidad_capitulos == 6:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 7:
-                    # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 9:
-                    # jump al capitulo que se quiere saltar
-
+                
         else:
             "Código inválido. Intenta nuevamente."
 
@@ -610,8 +615,6 @@ label start:
         call pedir_id
     else:
         jump start_game
-    
-    # call pedir_codigo_capitulo
 
 label start_game:
 
@@ -1855,7 +1858,9 @@ label p1herido_volver:
 
 label p1_herido_grupo:
     hide marina
+    with Dissolve(0.5)
     hide bob
+    with Dissolve(0.5)
     show bg jungle herida  at truecenter
     with Dissolve(0.5)
     y "¡Allí está! ¿Estará viva?"
@@ -3602,12 +3607,13 @@ label marina_laura_regresan:
     show marina hablando at center
     with Dissolve(.5)
     m "¡Hemos encontrado agua!"
+    $ encontraron_agua = True
     show laura gr hablando at leftgr
     with Dissolve(.5)
-    l "Pero vinos arboles sin nada de fruta, era ya muy tarde. Mañana hay que seguir buscando."
+    l "Pero vimos árboles sin nada de fruta, era ya muy tarde. Mañana hay que seguir buscando."
     show bob gr serio sucio at rightgr
     with Dissolve(.5)
-    b "Si hay arboles frutales, podemos volver a buscarlos mañana. Es una buena noticia."
+    b "Si hay árboles frutales, podemos volver a buscarlos mañana. Es una buena noticia."
     y "¡Al menos tenemos agua! Una cosa a la vez."
     if stuff_bidon_agua:
         y "Mañana podremos también llenar el bidon nuevamente y tener reservas aseguradas."
@@ -3829,10 +3835,9 @@ label ingrid_despierta:
     "Los primeros rayos de luz filtrándose en el refugio te despiertan."
     "Parece que Bob, Laura y Marina aún duermen, y solo se escuchan los sonidos de la selva."
     "El silencio es quebrado por unos quejidos provenientes de donde duerme Ingrid."
-
+    pause 0.5
+    "Parece que finalmente ha recuperado la conciencia. ¿Qué haces?"
     menu:
-        "Parece que finalmente ha recuperado la conciencia. ¿Qué haces?"
-
         "Volver a dormir y dejar que otro se encargue.":
             "Suspiras, te giras hacia el otro lado y vuelves a cerrar los ojos."
             $ desicion_intro += 1
@@ -3869,6 +3874,11 @@ label nutrir_ingrid:
                 # ACÁ HAY QUE ACTUALIZAR EL ICONO???
                 jump nutrir_ingrid
 
+            "Darle un poco de agua." if agua <= 0 and not bebio and bebidant_ingrid == False:
+                "El grupo no tiene reservas de agua disponibles."
+                $ bebidant_ingrid = True
+                jump nutrir_ingrid
+
             # Opción si hay comida
             "Darle algo de comida." if comida > 0 and not comio:
                 "Revisas las provisiones y le ofreces un poco de comida a Ingrid."
@@ -3877,11 +3887,16 @@ label nutrir_ingrid:
                 # ACÁ HAY QUE ACTUALIZAR EL ICONO???
                 jump nutrir_ingrid
 
+            "Darle algo de comida." if comida <= 0 and not comio and comidant_ingrid == False:
+                "El grupo no tiene nada de comida."
+                $ comidant_ingrid = True
+                jump nutrir_ingrid
+
             "Tratar de calmarla y esperar a que despierten los demás." if despierta_antes and not todos_despiertos:
                 y "Tranquila, Ingrid, estás bien. Sufrimos un naufragio, pero algunos logramos sobrevivir."
                 jump despiertan_todos
         
-            "Con eso se va a sentir un poco mejor." if not despierta antes and (comio or bebio):
+            "Con eso se va a sentir un poco mejor." if not despierta_antes and (comio or bebio):
                 y "Eso te hará bien."
                 jump dejarla_descansar
         
@@ -3952,7 +3967,7 @@ label dejarla_descansar:
     with Dissolve(.5)
     "Faltan muchos desafíos aún."
     if comida <= 5 or agua <=5:
-        ### La unica manera de que la comida no sea 0 hasta ahora es que haya encontrado los frutos
+        ### La unica manera de que la comida no sea 0 hasta ahora es que PJ haya encontrado los frutos
         show bob gr pensando at center
         with Dissolve(.5)
         b "Estoy preocupado por los recursos básicos, no demoremos mucho en seguir explorando."
@@ -3977,10 +3992,14 @@ label dejarla_descansar:
             "Ahora que Ingrid ha despertado, es seguro dejarla sola.":
                 y "Ingrid estará bien, no hemos encontrado evidencias de depredadores en la isla, y el clima no ha empeorado."
                 y "Necesitamos del esfuerzo de todos para seguir encontrando recursos."
+                $ desicion_intro += 1
+                $ reporte_todos_explorar = True
                 jump p5_explorar
             "Será mejor que uno de nosotros se quede a cuidarla, por si acaso.":
                 y "No quisiera correr riesgos, es mejor que uno de nosotros se quede."
                 y "Tampoco querría que nadie vaya solo, así que sugiero que el resto forme una expedición única."
+                $ desicion_intro += 1
+                $ reporte_algunos_explorar = True
                 jump elegir_cuidador
 
 label elegir_cuidador:
@@ -3991,7 +4010,7 @@ label elegir_cuidador:
             if stuff_bote:
                 y "Quisiera que revisáramos el bote que rescaté de la playa. Tal vez podamos usarlo para pescar."
             elif stuff_caja_grande:
-                y "Me gustaría que me ayudes a cargar una caja grande que rescaté de la playa. Tal vez haya algo que nos sirva."
+                y "Me gustaría que me ayudes a cargar una caja grande que rescaté de la playa. Tal vez haya algo que nos pueda servir."
             else:
                 y "Deberíamos ver si el bote que vi en la playa sigue ahí. Tal vez nos sirva para pescar."
             b "Buena idea, [nombre_personaje]."
@@ -3999,8 +4018,9 @@ label elegir_cuidador:
             
             menu:
                 "Me gustaría traer a Marina para tener la oportunidad de arreglar las cosas con ella." if marina < 2:
-                    y "No lo sé, después de todo Ingrid llegó a la orilla junto a Laura, tal vez sea mejor que ella se quede."
-                    l "Yo tampoco tengo problema en quedarme."
+                    y "No lo sé, después de todo Ingrid llegó a la orilla junto a Laura."
+                    y "Tal vez sea mejor que ella se quede, así ve una cara familiar."
+                    l "No tengo problema con quedarme."
                     m "Bien, iré con ustedes entonces."
                     $ laura_se_queda = True
                     jump p5_explorar
@@ -4022,9 +4042,179 @@ label elegir_cuidador:
 
 
 label p5_explorar:
+if reporte_todos_explorar:
+    "Antes de internarse en la jungla, deben decidir quién irá en cada una de las dos expediciones."
+    "Seguramente Bob haga una propuesta, pero adelántartele si ya tienes una idea."
+
+    menu:
+        "Podría ir con Bob y que juntos nos encarguemos de las cosas que quedaron en la playa.":
+            y "Tenía esperanzas de que vinieras en la expedición, Bob."
+            if stuff_bote:
+                y "Quisiera que revisáramos el bote que rescaté de la playa. Tal vez podamos usarlo para pescar."
+            elif stuff_caja_grande:
+                y "Me gustaría que me ayudes a cargar una caja grande que rescaté de la playa. Tal vez haya algo que nos pueda servir."
+            else:
+                y "Deberíamos ir a ver si el bote que vi en la playa sigue ahí. Tal vez nos sirva para pescar."
+            show bob gr parado at center
+            with Dissolve(.5)
+            b "Buena idea, [nombre_personaje]."
+            show bob parado at center
+            with Dissolve(.5)
+            $ va_con_bob = True
+            $ liderazgo += 1
+           
+        "Me gustaría traer a Marina para tener la oportunidad de arreglar las cosas con ella." if marina < 2:
+            y "Marina, siento que nos vendría bien tener un rato para conversar. ¿Hacemos equipo?"
+            show marina gr triste at left
+            with Dissolve(.5)            
+            m "Me parece una buena idea. Limar asperezas será bueno para el grupo."
+            show marina triste at left
+            with Dissolve(.5)
+            b "Excelente, entonces Laura y yo conformaremos la otra expedición."
+            l "Me parece perfecto."
+            $ va_con_marina = True
+            $ liderazgo += 1
+                
+        "Marina saca lo mejor de mi, haríamos buen equipo." if marina > 1:
+            y "Marina, siento que nos complementamos bastante, ¿te gustaría ir en mi expedición?"
+            show marina sonriendo gr at left
+            with Dissolve(.5)
+            m "Por favor, [nombre_personaje], me vas a hacer sonrojar. Me encantaría."
+            show marina sonriendo at left
+            with Dissolve(.5)
+            y "Laura, ¿estás de acuerdo en ir con Bob?"
+            l "¡Por supuesto! No hay problema."
+            $ va_con_marina = True
+            $ liderazgo += 1
+
+        "Me gustaría pasar un rato con Laura y poder limar asperezas con ella." if laura < 2:
+            y "Laura, sé que empezamos con el pié izquierdo. Tal vez si vamos juntos podamos conversar un poco."
+            show laura enojada gr at right
+            with Dissolve(.5)
+            l "Es verdad, hablando se entienden las personas."
+            show laura seria at right
+            with Dissolve(.5)
+            y "Marina, estarás bien con Bob, ¿no?"
+            m "¡Claro!"
+            $ va_con_laura = True
+            $ liderazgo += 1
+
+        "Laura ha desmotrado una gran resiliencia, juntos seguro tendremos éxito." if laura > 1:
+            y "Laura, me encantaría que fuéramos juntos, si estás de acuerdo."
+            show laura sonriendo gr at right
+            with Dissolve(.5)
+            l "¡Estaba por proponerte lo mismo!"
+            show laura sonriendo at right
+            with Dissolve(.5)
+            b "Excelente, entonces Marina y yo conformaremos la otra expedición."
+            m "Me parece perfecto."
+            $ va_con_laura = True
+            $ liderazgo += 1
+                        
+        "Más allá de todo lo que ha pasado, Bob a demostrado tener buen criterio.":
+            pause 1
+            show bg jungle1 1 at truecenter
+            with Dissolve(.5)
+
+            if encontraron_agua:
+                b "¿Qué les parece si [nombre_personaje] y yo exploramos el área cercana a la playa?"
+                b "Podemos revisar la orilla a ver si la marea trajo algo más."
+                l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
+                m "No olviden mantener los ojos abiertos por algo de comida. Nosotras haremos lo mismo."
+                $ va_con_bob = True
+
+            elif reporte_encontrar_agua_comida:
+                b "Estaba pensando, quizá sea mejor que no nos separemos. Ya sabemos dónde hay comida, gracias a [nombre_personaje]."
+                b "Podemos pasar por la playa a ver si hay algo que rescatar, y seguir hacia allí luego."
+                l "Buena idea, Bob. Entre todos podremos cargar bastantes recursos de vuelta al refugio."
+
+            else:
+                b "Dijiste que había cosas en la playa, ¿verdad [nombre_personaje]?"
+                b "Quizá tu y yo podríamos ir a ver si queda algo, o si la marea trajo algo más."
+                l "Genial, entonces Marina y yo iremos a explorar el interior de la jungla a ver si encontramos agua y comida."
+                m "¡Mantengan los ojos abiertos ustedes dos también!"
+
+    jump p5_division_tareas
+
+else:
+    "Los tres se internan en la jungla."
+    $ exploran_tres = True
+    hide bob
+    with Dissolve(0.5)
+    hide marina
+    with Dissolve(0.5)
+    hide laura
+    with Dissolve(0.5)
+    show bg jungle1 1 at truecenter
+    with Dissolve(.5)
+
+    if reporte_encontrar_agua_comida:
+        y "Vamos, les mostraré dónde había agua y comida."
+
+        if not stuff_bidon_agua and bob_se_queda:
+            show laura hablando at right
+            with Dissolve(0.5)
+            l "Ayer pensaba... En la jungla hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            show marina hablando at left
+            with Dissolve(0.5)
+            m "Podremos traer unos cuántos litros si hacemos unos cuantos."
+            hide laura
+            with Dissolve(0.5)
+            hide marina
+            with Dissolve(0.5)          
+
+        elif not stuff_bidon_agua and (laura_se_queda or marina_se_queda):
+            show bob parado hablando at center
+            with Dissolve(0.5)
+            b "Ayer, cuando me costaba conciliar el sueño, preparé estos contenedores quebrando cañas de bambú."
+            b "Podremos traer unos cuantos litros de vuelta al refugio."
+            hide bob
+            with Dissolve(0.5)  
+            
+        jump arroyo_frutos
+
+    elif encontraron_agua:
+        y "Ayer cuando regresaron dijeron que habían encontrado agua. ¿Recuerdas cómo llegar hasta allí?"
+        if laura_se_queda:
+            show marina hablando at center
+            with Dissolve(0.5)
+            m "Si, es por aquí, ¡síganme!"
+            hide marina
+            with Dissolve(0.5)
+        elif marina_se_queda:
+            show laura hablando at center
+            with Dissolve(0.5)
+            l "Si, es por aquí, ¡síganme!"
+            hide laura
+            with Dissolve(0.5)
+
+        jump manantial_marina_laura
+
+    else:
+        y "Vamos, tenemos que encontrar agua y comida lo antes posible."
+
+        jump exploracion_profunda
+
+label p5_division_tareas:
+    # Se dividen en qué grupo hace qué
+        # En este aún no inventaron la cantimplora
+
+label exploracion_profunda
+    # Este va a ser para el caso de que ni PJ ni Laura y Marina hayan encontrado nada antes.
+
+label arroyo_frutos:
+    # Si PJ encontró el arroyo con frutos antes
+
+label manantial_marina_laura:
+    # si Laura y Marina encontraron agua antes
+
+
+    
     # if not bidon entonces tienen que pensar una forma de cargar agua.
         # atar esto a la decisión de ir primero a la playa a por el bote o la caja, o si primero explorar.
         # (PJ propone caparazón de tortuga o concha marina para ir a playa, o coco o caña de bambú para ir a la jungla)
+        # si va con bob que vayan juntos a la playa
     
     # discuten como la encontraron, debe ponerse en evidencia las desiciones y acciones de todos durante el capitulo 2 y 4 
     # grupo se separa en dos grupos, uno va a buscar agua y el otro a buscar comida, oportunidad para reforzar lazos o restaurar relaciones
