@@ -430,18 +430,18 @@ init python:
 
 # Inicializar listas para cada decisión
 # define tipos de desiciones inicial
-default empático_mas = [0, 0, 0, 0]
-default empatico_menos = [0, 0, 0, 0]
-default honestidad_mas = [0, 0, 0, 0]
-default honestidad_menos = [0, 0, 0, 0]
-default integridad_mas = [0, 0, 0, 0]
-default integridad_menos = [0, 0, 0, 0]
-default responsabilidad_mas = [0, 0, 0, 0]
-default responsabilidad_menos = [0, 0, 0, 0]
-default compromiso_mas = [0, 0, 0, 0]
-default compromiso_menos = [0, 0, 0, 0]
-default colaboración_mas = [0, 0, 0, 0]
-default colaboración_menos = [0, 0, 0, 0]
+default empático_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default empatico_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default honestidad_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default honestidad_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default integridad_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default integridad_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default responsabilidad_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default responsabilidad_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default compromiso_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default compromiso_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default colaboración_mas = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+default colaboración_menos = [0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0]
 
 # lista de desiciones
 # Calcular el total de decisiones una vez
@@ -579,17 +579,21 @@ label pedir_codigo_capitulo:
             hide screen pedir_codigo_capitulo_screen
 
             if renpy.android:  # Solo mostrar en Android   
-                if persistent.cantidad_capitulos == 4:
-                    # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 8:
-                    # jump al capitulo que se quiere saltar
+                if persistent.cantidad_capitulos == 4 and resultado == "mobile121":
+                    jump chapter_5_start
+                elif persistent.cantidad_capitulos == 8 and resultado == "mobile341":
+                    jump chapter_9_start
             else :
-                if persistent.cantidad_capitulos == 2:
-                    # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 4:
-                    # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 6:
-                    # jump al capitulo que se quiere saltar
+                if persistent.cantidad_capitulos == 2 and resultado == "22":
+                    jump chapter_3_start
+                elif persistent.cantidad_capitulos == 4 and resultado == "44":
+                    jump chapter_5_start
+                elif persistent.cantidad_capitulos == 6 and resultado == "66":
+                    jump chapter_7_start
+                elif persistent.cantidad_capitulos == 8 and resultado == "88":
+                    jump chapter_9_start
+                elif persistent.cantidad_capitulos == 10 and resultado == "install523":
+                    jump chapter_11_start
                 
         else:
             "Código inválido. Intenta nuevamente."
@@ -617,6 +621,8 @@ label start:
         jump start_game
 
 label start_game:
+    $ persistent.cantidad_capitulos = 0
+    $ persistent.cantidad_capitulos += 1
 
     # Define una función para mostrar el pop-up y pedir el nombre del personaje  ############################
     # Muestra un cuadro de entrada para que el jugador introduzca el nombre
@@ -916,6 +922,7 @@ label intro_final:
 label parte_1start:
     # Inicializar el capítulo actual
     $ capitulo_actual = 1
+    $ persistent.cantidad_capitulos += 1
 
     if reporte_intro_status == "cosas":
         jump p1desicion
@@ -1988,9 +1995,16 @@ label final:
     $ choice_position = "default" # default alta superior
     menu:
         "CONTINUAR":
-            jump chapter_3_start
+            jump final_cap3
         "VOLVER A VER EL RESÚMEN":
             jump final
+    
+label final_cap3:
+    if renpy.android:
+        jump chapter_3_start
+    else:
+        call pedir_codigo_capitulo
+
 ############################################   #######   ########   ################################################################################################
 ############################################   #######   ########   ################################################################################################
 ## Aca comienza la PARTE 3 #################   #######   ########   ################################################################################################
@@ -1999,6 +2013,7 @@ label final:
 label chapter_3_start:
     # Inicializar el capítulo actual
     $ capitulo_actual = 2
+    $ persistent.cantidad_capitulos +=1
     $ compartido = False
     scene bg jungle claro at truecenter
     with Dissolve(.5)
@@ -2502,6 +2517,7 @@ label chapter_3_end:
 label chapter_4_start:
     # Inicializar el capítulo actual
     $ capitulo_actual = 3
+    $ persistent.cantidad_capitulos +=1
 
     if refugio == "cabaña":
         jump refugio_cabaña
@@ -3799,7 +3815,9 @@ label segment_1_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
+    call pedir_codigo_capitulo
     jump chapter_5_start
+
 return
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -3814,6 +3832,8 @@ return
 label chapter_5_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 4
+    $ persistent.cantidad_capitulos +=1
+
     jump ingrid_despierta
 
 label ingrid_despierta:
@@ -4197,17 +4217,16 @@ else:
         jump exploracion_profunda
 
 label p5_division_tareas:
-    # Se dividen en qué grupo hace qué
-        # En este aún no inventaron la cantimplora
+    "Se dividen en qué grupo hace qué # En este aún no inventaron la cantimplora"
 
-label exploracion_profunda
-    # Este va a ser para el caso de que ni PJ ni Laura y Marina hayan encontrado nada antes.
+label exploracion_profunda:
+    "Este va a ser para el caso de que ni PJ ni Laura y Marina hayan encontrado nada antes."
 
 label arroyo_frutos:
-    # Si PJ encontró el arroyo con frutos antes
+    "Si PJ encontró el arroyo con frutos antes"
 
 label manantial_marina_laura:
-    # si Laura y Marina encontraron agua antes
+    "si Laura y Marina encontraron agua antes"
 
 
     
@@ -4267,6 +4286,7 @@ label chapter_5_end:
 label chapter_6_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 5
+    $ persistent.cantidad_capitulos +=1
     jump ingrid_enferma
 
 label ingrid_enferma:
@@ -4314,9 +4334,15 @@ label chapter_6_end:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                jump chapter_7_start
+                jump final_cap6
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_6_end
+
+label final_cap6:
+    if renpy.android:
+        jump chapter_7_start
+    else:
+        call pedir_codigo_capitulo
 
 #################################################################################################  ########  #####  ####  ######################################
 ##################################################################################################  ######  ######  ####  ####################################################
@@ -4326,6 +4352,7 @@ label chapter_6_end:
 label chapter_7_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 6
+    $ persistent.cantidad_capitulos +=1
     jump ingrid_recupera
 
 label ingrid_recupera:
@@ -4387,6 +4414,7 @@ label chapter_7_end:
 label chapter_8_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 7
+    $ persistent.cantidad_capitulos +=1
     jump tormenta_preparativos
 
 label tormenta_preparativos:
@@ -4439,12 +4467,13 @@ label segment_2_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
+    call pedir_codigo_capitulo
     jump chapter_9_start
  
 return
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-# ACA TERMINA SEGMENTO 1                                         |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+# ACA TERMINA SEGMENTO 2                                         |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 ###################################################################################  ####   #####   #########################################################
@@ -4454,3 +4483,4 @@ return
 
 label chapter_9_start:
     "Aca comienza el segmento 3"
+    $ persistent.cantidad_capitulos +=1

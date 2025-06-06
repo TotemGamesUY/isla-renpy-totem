@@ -1600,6 +1600,8 @@ screen pedir_id_screen():
     modal True
     
     frame:
+        xalign 0.5
+        yalign 0.4
         padding (20, 20)
         vbox:
             text "Ingresa tu ID de jugador:"
@@ -1615,6 +1617,8 @@ screen pedir_codigo_capitulo_screen():
     modal True
     
     frame:
+        xalign 0.5
+        yalign 0.4
         padding (20, 20)
         vbox:
             text "Ingresa el código para continuar:"
