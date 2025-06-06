@@ -572,10 +572,9 @@ label pedir_id:
 label pedir_codigo_capitulo:
     while True:  # Se repite hasta que el ID sea válido
         show screen pedir_codigo_capitulo_screen
-        $ resultado = ui.interact()
-
-        if resultado:
-
+        $ resultado = ui.interact()  # Ahora recibe el código ingresado
+        
+        if resultado and resultado.strip():  # Validamos que haya un código válido
             hide screen pedir_codigo_capitulo_screen
 
             if renpy.android:  # Solo mostrar en Android   
@@ -583,7 +582,7 @@ label pedir_codigo_capitulo:
                     jump chapter_5_start
                 elif persistent.cantidad_capitulos == 8 and resultado == "mobile341":
                     jump chapter_9_start
-            else :
+            else:
                 if persistent.cantidad_capitulos == 2 and resultado == "22":
                     jump chapter_3_start
                 elif persistent.cantidad_capitulos == 4 and resultado == "44":
@@ -4081,7 +4080,7 @@ if reporte_todos_explorar:
             show bob parado at center
             with Dissolve(.5)
             $ va_con_bob = True
-            $ liderazgo += 1
+            $ liderazgo_PJ += 1
            
         "Me gustaría traer a Marina para tener la oportunidad de arreglar las cosas con ella." if marina < 2:
             y "Marina, siento que nos vendría bien tener un rato para conversar. ¿Hacemos equipo?"
@@ -4093,7 +4092,7 @@ if reporte_todos_explorar:
             b "Excelente, entonces Laura y yo conformaremos la otra expedición."
             l "Me parece perfecto."
             $ va_con_marina = True
-            $ liderazgo += 1
+            $ liderazgo_PJ += 1
                 
         "Marina saca lo mejor de mi, haríamos buen equipo." if marina > 1:
             y "Marina, siento que nos complementamos bastante, ¿te gustaría ir en mi expedición?"
@@ -4117,7 +4116,7 @@ if reporte_todos_explorar:
             y "Marina, estarás bien con Bob, ¿no?"
             m "¡Claro!"
             $ va_con_laura = True
-            $ liderazgo += 1
+            $ liderazgo_PJ += 1
 
         "Laura ha desmotrado una gran resiliencia, juntos seguro tendremos éxito." if laura > 1:
             y "Laura, me encantaría que fuéramos juntos, si estás de acuerdo."
@@ -4129,7 +4128,7 @@ if reporte_todos_explorar:
             b "Excelente, entonces Marina y yo conformaremos la otra expedición."
             m "Me parece perfecto."
             $ va_con_laura = True
-            $ liderazgo += 1
+            $ liderazgo_PJ += 1
                         
         "Más allá de todo lo que ha pasado, Bob a demostrado tener buen criterio.":
             pause 1

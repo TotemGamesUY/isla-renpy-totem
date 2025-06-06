@@ -1622,13 +1622,13 @@ screen pedir_codigo_capitulo_screen():
         padding (20, 20)
         vbox:
             text "Ingresa el código para continuar:"
-            input length 10 value VariableInputValue("input_codigo_capitulo")
+            input length 10 default "" value VariableInputValue("input_codigo_capitulo")
             
             hbox:
                 textbutton "Aceptar":
-                    action [Hide("pedir_codigo_capitulo_screen"), Return(True)]
+                    action [Hide("pedir_codigo_capitulo_screen"), Return(input_codigo_capitulo)]
                 textbutton "Cancelar":
-                    action [Hide("pedir_codigo_capitulo_screen"), Return(False)]
+                    action [Hide("pedir_codigo_capitulo_screen"), Return(None)]
 
 screen player_input():
     modal True
