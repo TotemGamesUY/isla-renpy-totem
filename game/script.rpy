@@ -142,7 +142,7 @@ default tomas = 0
 
 # define contador de desiciones de cada capitulo
 default desicion_intro = 0
-default desicion_contador = [0,0,0,0]
+default desicion_contador = [0,0,0,0,0,0,0,0,0,0,0,0]
 default desicion_1 = 0
 default desicion_2 = 0
 default desicion_3 = 0
@@ -562,24 +562,30 @@ label pedir_codigo_capitulo:
     while True:  # Se repite hasta que el ID sea válido
         show screen pedir_codigo_capitulo_screen
         $ resultado = ui.interact()
+        $ renpy.force_autosave()
 
         if resultado:
-
+                
             hide screen pedir_codigo_capitulo_screen
 
             if renpy.android:  # Solo mostrar en Android   
-                if persistent.cantidad_capitulos == 4:
+                #if persistent.cantidad_capitulos == 4 and resultado == "capitulo4ok":
+                if persistent.cantidad_capitulos == 3:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 8:
+                elif persistent.cantidad_capitulos == 7:
                     # jump al capitulo que se quiere saltar
             else :
-                if persistent.cantidad_capitulos == 2:
+                if persistent.cantidad_capitulos == 1:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 4:
+                elif persistent.cantidad_capitulos == 3:
                     # jump al capitulo que se quiere saltar
-                elif persistent.cantidad_capitulos == 6:
+                elif persistent.cantidad_capitulos == 5:
                     # jump al capitulo que se quiere saltar
-                
+                elif persistent.cantidad_capitulos == 7:
+                    # jump al capitulo que se quiere saltar
+                elif persistent.cantidad_capitulos == 9:
+                    # jump al capitulo que se quiere saltar
+
         else:
             "Código inválido. Intenta nuevamente."
 
@@ -604,6 +610,8 @@ label start:
         call pedir_id
     else:
         jump start_game
+    
+    # call pedir_codigo_capitulo
 
 label start_game:
 
