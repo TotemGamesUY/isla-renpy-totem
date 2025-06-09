@@ -1601,11 +1601,11 @@ screen pedir_id_screen():
     
     frame:
         xalign 0.5
-        yalign 0.4
+        yalign 0.2 # Ajuste para que la pantalla quede en la parte superior
         padding (20, 20)
         vbox:
             text "Ingresa tu ID de jugador:"
-            input length 10 value VariableInputValue("input_id")
+            input length 10 value VariableInputValue("input_id") changed [Hide("pedir_id_screen"), Return(True)]
             
             hbox:
                 textbutton "Aceptar":
@@ -1618,7 +1618,7 @@ screen pedir_codigo_capitulo_screen():
     
     frame:
         xalign 0.5
-        yalign 0.4
+        yalign 0.2
         padding (20, 20)
         vbox:
             text "Ingresa el código para continuar:"

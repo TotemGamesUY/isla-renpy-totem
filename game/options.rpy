@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.8"
+define config.version = "0.9"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -203,7 +203,7 @@ init python:
 # Otras configuraciones en tu archivo options.rpy
 
 define config.name = "La Isla"
-define config.version = "0.8"
+define config.version = "0.9"
 
 # Configuración para itch.io
 define build.itch.project = "Totem Games/La Academia v.0.2"

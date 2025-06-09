@@ -621,7 +621,7 @@ label start:
     with Dissolve(.5)
 
     if renpy.android:  # Si el juego está en Android, pedir ID
-        call pedir_id from _call_pedir_id
+        call pedir_id
     else:
         jump start_game
 
@@ -2008,7 +2008,7 @@ label final_cap3:
     if renpy.android:
         jump chapter_3_start
     else:
-        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo
+        call pedir_codigo_capitulo
 
 ############################################   #######   ########   ################################################################################################
 ############################################   #######   ########   ################################################################################################
@@ -3824,7 +3824,7 @@ label segment_1_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
-    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_1
+    call pedir_codigo_capitulo
     jump chapter_5_start
 
 return
@@ -4532,7 +4532,7 @@ label final_cap6:
     if renpy.android:
         jump chapter_7_start
     else:
-        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_2
+        call pedir_codigo_capitulo
 
 #################################################################################################  ########  #####  ####  ######################################
 ##################################################################################################  ######  ######  ####  ####################################################
@@ -4657,7 +4657,7 @@ label segment_2_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
-    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_3
+    call pedir_codigo_capitulo
     jump chapter_9_start
  
 return
