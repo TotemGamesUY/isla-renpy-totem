@@ -71,6 +71,8 @@ image bg jungle trail = im.Scale("bg jungle trail.jpg", config.screen_width, con
 image bg jungle fruit = im.Scale("bg jungle fruit.jpg", config.screen_width, config.screen_height)
 image bg jungle clearing  = im.Scale("bg jungle clearing.jpg", config.screen_width, config.screen_height)
 image bg jungle night stars  = im.Scale("bg jungle night stars.jpg", config.screen_width, config.screen_height)
+# PLACEHOLDERS:
+image bg beach sunny = im.Scale("bg beach sunny.jpg", config.screen_width, config.screen_height)
 
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 
@@ -314,6 +316,12 @@ default exploran_todos = False
 default reporte_advierte_agua = False
 default inventan_cantimploras = False
 default reporte_conejillos_de_indias = False
+default marina_laura_arroyo_frutos = False
+default reporte_esconde_bote = False
+default reporte_comparte_bote = False
+default reporte_esconde_caja = False
+default reporte_comparte_caja = False
+
 
 default liderazgo_PJ = 0 # Variable para implementar cuando desarrollemos el capítulo de los otros sobrevivientes.
 
@@ -1036,6 +1044,7 @@ label p1_grupoPlaya:
             $ reporte_busqueda_lidera = True
             $ compromiso_mas[capitulo_actual] += 1
             $ reporte_grupo = True
+            $ liderazgo += 1
             jump p1islaInvestigarLead
         "Lidere usted la búsqueda, capitán.":
             hide bob
@@ -3121,6 +3130,7 @@ label discutir_liderazgo_bob:
             b "Estás dispuest[e] a ir tu a buscar agua y comida, [nombre_personaje]?"
             y "Si, yo iré a explorar. No hay problema."
             $ desicion_intro += 1
+            $ liderazgo += 1
             $ reporte_liderazgo_aceptar = True
             $ bob += 1
             jump explorar_solo
@@ -3892,31 +3902,28 @@ label ayudar_ingrid_despertar:
 
 
 label nutrir_ingrid:
-    if (agua > 0 and not bebio) or (comida > 0 and not comio):   
+    if (agua > 0 and not bebio) or (comida > 0 and not comio):
+        "Podría ver qué tenemos y darle algo, o esperar a que los demás despierten."
         menu:
-            "Qué quieres hacer?"
-            # Opción si hay agua
             "Darle un poco de agua." if agua > 0 and not bebio:
                 "Le acercas agua a Ingrid, ayudándola con cuidado a beber."
                 $ agua -= 1
+                $ actualizar_boton_imagen()
                 $ bebio = True
-                # ACÁ HAY QUE ACTUALIZAR EL ICONO???
                 jump nutrir_ingrid
 
-            "Darle un poco de agua." if agua <= 0 and not bebio and bebidant_ingrid == False:
+            "Darle un poco de agua." if agua <= 0 and not bebio and not bebidant_ingrid:
                 "El grupo no tiene reservas de agua disponibles."
                 $ bebidant_ingrid = True
                 jump nutrir_ingrid
 
-            # Opción si hay comida
             "Darle algo de comida." if comida > 0 and not comio:
                 "Revisas las provisiones y le ofreces un poco de comida a Ingrid."
                 $ comida -= 1
                 $ comio = True
-                # ACÁ HAY QUE ACTUALIZAR EL ICONO???
                 jump nutrir_ingrid
 
-            "Darle algo de comida." if comida <= 0 and not comio and comidant_ingrid == False:
+            "Darle algo de comida." if comida <= 0 and not comio and not comidant_ingrid:
                 "El grupo no tiene nada de comida."
                 $ comidant_ingrid = True
                 jump nutrir_ingrid
@@ -4093,6 +4100,7 @@ label p5_explorar:
                     l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
                 elif reporte_encontrar_agua_comida:
                     l "Genial, entonces Marina y yo iremos al lugar que encontraste ayer."
+                    $ marina_laura_arroyo_frutos = True
                 else:
                     l "Genial, entonces Marina y yo nos adentraremos en la jungla a buscar agua y comida."
                 $ va_con_bob = True
@@ -4281,6 +4289,8 @@ label exploracion_profunda:
     with Dissolve(.5)
     pause 1
     "Explorando la jungla encuentran un sendero que parece haber sido usado antes."
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
     "Lo siguen y descubren un pequeño claro con algunas frutas comestibles y una fuente de agua cercana."
     jump arroyo_frutos
 
@@ -4297,24 +4307,42 @@ label arroyo_frutos:
             "No sabemos si está limpia, habría que hervirla antes. No es bueno que beban.":
                 y "¡Esperen! Será mejor que hirvamos el agua antes de beberla."
                 $ desicion_intro += 1
+                $ marina += 1
+                $ laura += 1
+                $ liderazgo += 1
                 $ reporte_advierte_agua = True
                 l "Odio decirlo, porque tengo mucha sed, pero [nombre_personaje] tiene razón."
                 m "Uff, bueno. ¿Podemos al menos comer un par de frutos antes de llevar todo de vuelta al campamento?"
                 l "No veo por qué no."
+                $ update_stat("hambre", hambre +1)
+                $ show_variable_changed_popup("El hambre ha disminuido", verde)
+                hide screen combined_ui
+                show screen combined_ui
+
             "Esa agua podría tener parásitos. Esperaré a ver cómo se sienten cuando regresemos.":
                 "Haces de cuenta que bebes una vez que Laura y Marina terminan y se distraen con los frutos."
-                $ desicion_intro += 1
+                $ desicion_intro += 1                
                 $ reporte_conejillos_de_indias = True
 
         if stuff_bidon_agua:
             y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
             l "Si, debemos llevarle comida a Ingrid."
-            m "Van a estar tan contentos cuando vean todo lo que llevamos!"
+            m "¡Van a estar tan contentos cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
 
         elif inventan_cantimploras:
             y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
             l "Si, debemos llevarle comida a Ingrid."
-            m "Ella y Bob van a estar tan contentos cuando vean todo lo que llevamos!"
+            m "¡Ella y Bob van a estar tan contentos cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
         else:
             y "Tenemos que encontrar una forma de transportar el agua."
             l "Por aquí hay bastante bambú."
@@ -4322,10 +4350,16 @@ label arroyo_frutos:
             m "¡Qué buena idea, Laura!"
             y "Manos a la obra entonces."
             pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
             "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
-            jump retorno_refugio
 
     elif marina_se_queda and not reporte_encontrar_agua_comida:
         show laura sonriendo at left
@@ -4343,20 +4377,38 @@ label arroyo_frutos:
                 b "Odio decirlo, porque tengo mucha sed, pero [nombre_personaje] tiene razón."
                 l "Uff, bueno. ¿Podemos al menos comer un par de frutos antes de llevar todo de vuelta al campamento?"
                 b "No veo por qué no."
+                $ update_stat("hambre", hambre +1)
+                $ show_variable_changed_popup("El hambre ha disminuido", verde)
+                hide screen combined_ui
+                show screen combined_ui
+                $ laura += 1
+                $ bob += 1
+                $ liderazgo += 1
+
             "Esa agua podría tener parásitos. Esperaré a ver cómo se sienten cuando regresemos.":
-                "Haces de cuenta que bebes una vez que Laura y Bob terminan y se distraen con los frutos."
+                "Haces de cuenta que bebes una vez que Laura y Bob terminan y se distraen con los frutos." 
                 $ desicion_intro += 1
                 $ reporte_conejillos_de_indias = True
 
         if stuff_bidon_agua:
             y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
             b "Si, debemos llevarle comida a Ingrid."
-            l "Ella y Marina van a estar tan contentas cuando vean todo lo que llevamos!"
+            l "¡Ella y Marina van a estar tan contentas cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
 
         elif inventan_cantimploras:
             y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
             b "Si, debemos llevarle comida a Ingrid."
-            l "Ella y Marina van a estar tan contentas cuando vean todo lo que llevamos!"
+            l "¡Ella y Marina van a estar tan contentas cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
         else:
             y "Tenemos que encontrar una forma de transportar el agua."
             l "Por aquí hay bastante bambú."
@@ -4364,10 +4416,16 @@ label arroyo_frutos:
             b "¡Qué buena idea, Laura!"
             y "Manos a la obra entonces."
             pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
             "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
-            jump retorno_refugio
 
     elif laura_se_queda and not reporte_encontrar_agua_comida:
         show marina sonriendo at left
@@ -4381,10 +4439,17 @@ label arroyo_frutos:
             "No sabemos si está limpia, habría que hervirla antes. No es bueno que beban.":
                 y "¡Esperen! Será mejor que hirvamos el agua antes de beberla."
                 $ desicion_intro += 1
+                $ marina += 1
+                $ bob += 1
+                $ liderazgo += 1
                 $ reporte_advierte_agua = True
                 b "Odio decirlo, porque tengo mucha sed, pero [nombre_personaje] tiene razón."
                 m "Uff, bueno. ¿Podemos al menos comer un par de frutos antes de llevar todo de vuelta al campamento?"
                 b "No veo por qué no."
+                $ update_stat("hambre", hambre +1)
+                $ show_variable_changed_popup("El hambre ha disminuido", verde)                
+                hide screen combined_ui
+                show screen combined_ui
             "Esa agua podría tener parásitos. Esperaré a ver cómo se sienten cuando regresemos.":
                 "Haces de cuenta que bebes una vez que Marina y Bob terminan y se distraen con los frutos."
                 $ desicion_intro += 1
@@ -4393,12 +4458,22 @@ label arroyo_frutos:
         if stuff_bidon_agua:
             y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
             b "Si, debemos llevarle comida a Ingrid."
-            m "Ella y Laura van a estar tan contentas cuando vean todo lo que llevamos!"
+            m "¡Ella y Laura van a estar tan contentas cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
 
         elif inventan_cantimploras:
             y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
             b "Si, debemos llevarle comida a Ingrid."
-            m "Ella y Laura van a estar tan contentas cuando vean todo lo que llevamos!"
+            m "¡Ella y Laura van a estar tan contentas cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
         else:
             y "Tenemos que encontrar una forma de transportar el agua."
             b "Por aquí hay bastante bambú."
@@ -4406,36 +4481,671 @@ label arroyo_frutos:
             m "¡Qué buena idea, Bob!"
             y "Manos a la obra entonces."
             pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
             "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
-            jump retorno_refugio
 
-    # elif exploran_todos and reporte_encontrar_agua_comida:
-    # elif va_con_laura and not reporte_encontrar_agua_comida:
-    # elif va_con_marina and not reporte_encontrar_agua_comida:
-    # elif va_con_laura and reporte_encontrar_agua_comida:
-    # elif va_con_marina and reporte_encontrar_agua_comida:
+    elif bob_se_queda and reporte_encontrar_agua_comida:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Agua, al fin!"
+        show laura sonriendo at right
+        with Dissolve(.5)
+        l "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+        
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            m "¡Vamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
 
-label p5playa:
-    "Texto de relleno"
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            m "¡Vamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            m "¡Qué buena idea, Laura!"
+            y "Manos a la obra entonces."
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5          
+            "Al terminar de cargarlas, emprenden la vuelta al refugio."
+            
+    elif marina_se_queda and reporte_encontrar_agua_comida:
+        show laura sonriendo at right
+        with Dissolve(.5)
+        l "¡Agua, al fin!"
+        show bob pensando at left
+        with Dissolve(.5)
+        b "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+        
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            b "Si, debemos llevarle agua a Ingrid."
+            l "¡Vamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú y volvamos."
+            b "Si, debemos llevarle agua a Ingrid."
+            l "¡Vamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            b "¡Qué buena idea, Laura!"
+            y "Manos a la obra entonces."
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Al terminar de cargarlas, emprenden la vuelta al refugio."
+
+    elif laura_se_queda and reporte_encontrar_agua_comida:
+        show marina sonriendo at right
+        with Dissolve(.5)
+        l "¡Agua, al fin!"
+        show bob pensando at left
+        with Dissolve(.5)
+        b "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+        
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            b "Si, debemos llevarle agua a Ingrid."
+            m "¡Vamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú y volvamos."
+            b "Si, debemos llevarle agua a Ingrid."
+            m "¡Vamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            b "Por aquí hay bastante bambú."
+            b "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            m "¡Qué buena idea, Bob!"
+            y "Manos a la obra entonces."
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Al terminar de cargarlas, emprenden la vuelta al refugio."
+
+    elif va_con_marina and not reporte_encontrar_agua_comida:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Sabía que lo lograríamos si perseverábamos!"
+        "Marina corre a beber agua del arroyo."
+        menu:
+            "No sabemos si está limpia, habría que hervirla antes. No es bueno que beba.":
+                y "¡Espera, Marina! Será mejor que hirvamos el agua antes de beberla."
+                $ desicion_intro += 1
+                $ marina += 1
+                $ reporte_advierte_agua = True
+                m "Uff, bueno. ¿Podemos al menos comer un par de frutos antes de llevar todo de vuelta al campamento?"
+                y "No veo por qué no."
+                $ update_stat("hambre", hambre +1)
+                $ show_variable_changed_popup("El hambre ha disminuido", verde)
+                hide screen combined_ui
+                show screen combined_ui
+                $ desicion_intro += 1
+                $ liderazgo += 1
+
+            "Esa agua podría tener parásitos. Esperaré a ver cómo se siente cuando regresemos.":
+                "Haces de cuenta que bebes una vez que Marina termina y se distrae con los frutos."
+                $ desicion_intro += 1
+                $ reporte_conejillos_de_indias = True
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
+            m "¡Van a estar tan contentos cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            m "¡Van a estar tan contentos cuando vean todo lo que llevamos!"
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            m "Por aquí hay bastante bambú."
+            m "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Marina! Manos a la obra entonces."
+            if marina > 0:
+                "Despues de todo, hacemos muy buen equipo, [nombre_personaje]."
+                $ marina += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif va_con_laura and not reporte_encontrar_agua_comida:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "El agua está fresca y clara, ¡y parece haber suficientes frutos para que todos podamos comer hoy!"
+        menu:
+            "No sabemos si está limpia, habría que hervirla antes. No es bueno que beba.":
+                y "¡Espera, Laura! Será mejor que hirvamos el agua antes de beberla."
+                $ desicion_intro += 1
+                $ laura += 1
+                $ reporte_advierte_agua = True
+                l "Uff, bueno. ¿Podemos al menos comer un par de frutos antes de llevar todo de vuelta al campamento?"
+                y "No veo por qué no."
+                $ update_stat("hambre", hambre +1)
+                $ show_variable_changed_popup("El hambre ha disminuido", verde)
+                hide screen combined_ui
+                show screen combined_ui
+                $ desicion_intro += 1
+                $ liderazgo += 1
+
+            "Esa agua podría tener parásitos. Esperaré a ver cómo se siente cuando regresemos.":
+                "Haces de cuenta que bebes una vez que Marina termina y se distrae con los frutos."
+                $ desicion_intro += 1
+                $ reporte_conejillos_de_indias = True
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle comida a Ingrid."
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle comida a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Laura! Manos a la obra entonces."
+            if laura > 0:
+                "Despues de todo, hacemos muy buen equipo, [nombre_personaje]."
+                $ laura += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif va_con_marina and reporte_encontrar_agua_comida:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Agua, al fin!"
+        y "Está fresca y clara."
+        "Ambos corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            m "Por aquí hay bastante bambú."
+            m "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Marina! Manos a la obra entonces."
+            m "Despues de todo, no hacemos tan mal equipo, [nombre_personaje]."
+            $ marina += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+            
+    elif va_con_laura and reporte_encontrar_agua_comida:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "¡Agua, al fin!"
+        y "Está fresca y clara."
+        "Ambos corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Laura! Manos a la obra entonces."
+            l "Despues de todo, no hacemos tan mal equipo, [nombre_personaje]."
+            $ laura += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif exploran_todos:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "¡Agua!"
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Al fin!"
+        show bob parado hablando at right
+        with Dissolve(.5)
+        b "Parece fresca y clara."        
+        "Todos corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            m "Gracias, [nombre_personaje], por traernos hasta aquí."
+            b "Buen trabajo."
+            $ liderazgo += 10
+            $ bob += 1
+            $ marina += 1
+            $ laura += 1
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            m "Gracias, [nombre_personaje], por traernos hasta aquí."
+            b "Buen trabajo."
+            $ liderazgo += 10
+            $ bob += 1
+            $ marina += 1
+            $ laura += 1
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            b "Tenemos que encontrar una forma de transportar el agua."
+            y "Por aquí hay bastante bambú."
+            y "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            m "¡Qué buena idea, [nombre_personaje]! Manos a la obra entonces."
+            l "Despues de todo, tienes madera de líder, [nombre_personaje]."
+            $ laura += 1
+            $ liderazgo += 10
+            $ bob += 1
+            $ marina += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    hide bob
+    with Dissolve(.5)
+    hide marina
+    with Dissolve(.5)
+    hide laura
+    with Dissolve(.5)
+    jump retorno_refugio
 
 label manantial_marina_laura:
-    # si Laura y Marina encontraron agua antes
-    "Texto de relleno."
-        
+    "Recorren la jungla a gran velocidad, atentos por si ven comida, pero tratando de llegar rápido para poder volver con luz."
+
+    if va_con_marina:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Aquí está! El manantial del que les hablamos."
+        y "Está fresca y clara."
+        "Ambos corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            m "Por aquí hay bastante bambú."
+            m "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Marina! Manos a la obra entonces."
+            m "Despues de todo, no hacemos tan mal equipo, [nombre_personaje]."
+            $ marina += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif va_con_laura:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "¡Aquí está! El manantial del que les hablamos."
+        y "Está fresca y clara."
+        "Ambos corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            y "¡Qué buena idea, Laura! Manos a la obra entonces."
+            l "Despues de todo, no hacemos tan mal equipo, [nombre_personaje]."
+            $ laura += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()
+            $ comida = 10
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    jump retorno_refugio
+
+label p5playa:
+    if exploran_todos:
+        "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
+        hide marina
+        with Dissolve(.5)
+        hide bob
+        with Dissolve(.5)
+        hide Laura
+        with Dissolve(.5)
+        show bg beach sunny at truecenter
+        with Dissolve(.5)
+        "Comienzan a caminar en dirección a la orilla."
+        if stuff_bote and not reporte_comparte_bote:
+            menu:
+                "El bote que rescaté de la playa no está muy lejos de aquí. Tal vez Bob pueda revisarlo.":
+                    y "Bob, acompáñame, no estamos muy lejos de donde resguardé el bote que recuperé."
+                    $ desicion_intro += 1
+                    $ reporte_comparte_bote = True
+                    show bob pensando at center
+                    with Dissolve(.5)
+                    b "¡Excelente! Veamos como está."
+                    show laura hablando at right
+                    with Dissolve(.5)
+                    l "Marina, acompáñame a la playa, veamos si quedó algo allí."
+                    show marina hablando at left
+                    with Dissolve(.5)
+                    m "Ay... ¡Espero que si!"
+                    hide marina
+                    with Dissolve(.5)
+                    hide Laura
+                    with Dissolve(.5)
+                    jump revisar_bote
+
+                "El bote está escondido cerca de aquí, pero mejor será no decir nada hasta que sea necesario.":
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para salvatar."
+                    $ desicion_intro += 1
+                    $ reporte_esconde_bote = True
+
+        elif stuff_caja_grande and not reporte_comparte_caja:
+            menu:
+                "La caja que rescaté de la playa no está muy lejos de aquí. Tal vez sería bueno revisarla.":
+                    y "Vengan, acompáñenme. Dejé la caja que encontré en la playa resguardada por aquí cerca."
+                    $ desicion_intro += 1
+                    $ reporte_comparte_caja = True
+                    "ESCENA" ###############################################            
+                    jump revisar_caja
+
+                "La caja está escondida cerca de aquí, pero mejor será no decir nada hasta que no haya alternativa.":
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para salvatar."
+
+        else:
+            "Parece que la marea trajo más restos del naufragio luego de que la tormenta amainó."
+            pause 0.5
+            "Alcanzas a Laura y Marina, que están desenterrando algo de la arena."
+            if stuff_caja_grande:
+                # encuentran bote
+                "texto"
+            elif stuff_bote:
+                # encuentran caja
+                "texto"
+            else:
+                # encuentran caja y BOTE
+                "texto"
+        "Contentos con los hallazgos, los cuatro se meten a la selva para buscar agua."
+        $ update_stat("cansancio", cansancio - 1)
+        $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+        jump arroyo_frutos
+
+    elif va_con_bob:
+        "Luego de volver tras sus pasos del día anterior durante un rato, Bob y tú llegan juntos a la playa."
+        show bg beach sunny at truecenter
+        with Dissolve(.5) 
+        "ESCENA" #####################################################
+        jump retorno_refugio
+
+label revisar_bote:
+    "Luego de quitar las hojas que usaste para proteger el bote, ambos lo voltean."
+    "Bob lo revisa minuciosamente."
+    show bob gr serio sucio at center
+    with Dissolve(.5)
+    b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
+    y "Seguramente podamos construir unos."
+    b "Este bote será de gran ayuda, [nombre_personaje]."
+    $ bob += 1           
+    b "Improvisaremos unas cañas e intentaremos pescar."
+    y "Lo volveré a esconder así podemos regresar con Laura y Marina."
+    "Vuelves a cubrir el bote con las hojas que usaste para protegerlo y se dirigen a la orilla."
+    jump p5playa
     
-    # discuten como la encontraron, debe ponerse en evidencia las desiciones y acciones de todos durante el capitulo 2 y 4 
-    # grupo se separa en dos grupos, uno va a buscar agua y el otro a buscar comida, oportunidad para reforzar lazos o restaurar relaciones
-    # ajustar stats a lo largo del capitulo, es importante que si algun stat queda en rojo, pueda pasar que se pierda alguna desicion
-    # en rojo deben ajustarse algunas opciones de manera que el jugador sepa que las tiene pero que no le da el cuero por el estado en que está
-    # Si tienen bidon pueden cargar agua, si no, deben encontrar alguna manera de llevarle agua a Ingrid. 
+label revisar_caja:
+    "ESCENA" ########################################################################################
+    jump p5playa
+    
     # Si tienen caja, podrian encontrar raciones y algunas herramientas como algun cuchillo y tenedor, algun elemento de cocina.
     # Si tienen bote, podrian encontrar un kit de pesca, una bengala, etc 
-    # recogen frutos, no hay muchos pero ven aves y algunos hurones. Tambien huellas de algun animal mas pesado, podria ser un jabalí 
+    # ven aves y algunos hurones. Tambien huellas de algun animal mas pesado, podria ser un jabalí 
     # Termina con decidir proximos pasos, se plantean diversas opciones, da para discusion y apoyo segun relacion
     # Todos confian en el rescate, es clave que Bob se muestre poco confiado pero sin revelar nada
-    #jump chapter_5_end
+    
+label retorno_refugio:
+#if comida <= 0 and not exploran_todos:
+    #alguien más encuentra comida
+#if comida <= 0 and exploran_todos:
+    # encuentran comida en el camino de vuelta (junto a huellas quizá)    
+    # En el camino alguien ve grandes huellas si no las vimos nosotros
+$ update_stat("cansancio", cansancio - 1)
+$ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+# if marina_laura_arroyo_frutos:
+    # marina y laura traen agua porque fueron al lugar que encontré ayer
+# if va_con_bob and not marina_laura_arroyo_frutos:
+    # marina y laura traen agua del lugar que encontraron ayer
+"texto"
+jump chapter_5_end
 
 label chapter_5_end:
         # Generar contenido para los pop-ups de relaciones
