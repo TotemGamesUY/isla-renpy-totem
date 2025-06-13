@@ -321,6 +321,9 @@ default reporte_esconde_bote = False
 default reporte_comparte_bote = False
 default reporte_esconde_caja = False
 default reporte_comparte_caja = False
+default caja_abierta = False
+default reporte_ocultar_marina = False
+default reporte_asustar_marina = True
 
 
 default liderazgo_PJ = 0 # Variable para implementar cuando desarrollemos el capítulo de los otros sobrevivientes.
@@ -4002,41 +4005,47 @@ label dejarla_descansar:
     show marina preocupada at left
     with Dissolve(.5)
     "Faltan muchos desafíos aún."
-    if comida <= 5 or agua <=5:
-        ### La unica manera de que la comida no sea 0 hasta ahora es que PJ haya encontrado los frutos
-        show bob pensando at center
-        with Dissolve(.5)
-        b "Estoy preocupado por los recursos básicos, no demoremos mucho en seguir explorando."
-        show bob pensando at center
-        with Dissolve(.5)
-        show laura seria at right
-        with Dissolve(.5)
-        l "Podemos hacer dos expediciones."
-        show laura seria at right
-        with Dissolve(.5)
-        show marina gr preocupada at leftgr
-        with Dissolve(.5)
-        m "¿Será seguro dejar a Ingrid sola, por más que haya despertado?"
-        show marina preocupada at left
-        with Dissolve(.5)
-        show bob pensando at center
-        with Dissolve(.5)
-        b "No del todo, pero al menos estará conciente en caso de que aparezca algún peligro."
-        show bob pensando at center
-        with Dissolve(.5)
-        menu:
-            "Ahora que Ingrid ha despertado, es seguro dejarla sola.":
-                y "Ingrid estará bien, no hemos encontrado evidencias de depredadores en la isla, y el clima no ha empeorado."
-                y "Necesitamos del esfuerzo de todos para seguir encontrando recursos."
-                $ desicion_intro += 1
-                $ reporte_todos_explorar = True
-                jump p5_explorar
-            "Será mejor que uno de nosotros se quede a cuidarla, por si acaso.":
-                y "No quisiera correr riesgos, es mejor que uno de nosotros se quede."
-                y "Tampoco querría que nadie vaya solo, así que sugiero que el resto forme una expedición única."
-                $ desicion_intro += 1
-                $ reporte_algunos_explorar = True
-                jump elegir_cuidador
+    b "Estoy preocupado por los recursos básicos, no demoremos mucho en seguir explorando."
+    l "Podemos hacer dos expediciones."
+    m "¿Será seguro dejar a Ingrid sola, por más que haya despertado?"
+    b "No del todo, pero al menos estará conciente en caso de que aparezca algún peligro."
+    m "¿Y qué peligros podrían ser esos?"
+    menu:
+        "Tal vez sea mejor no preocupar a Marina, pero no sabemos si hay otras personas o no en la isla.":
+            y "Por ejemplo, si empezara a llover, y el refugio se inundara, Ingrid ahora es capaz de darse cuenta y buscar un punto alto."
+            $ desicion_intro += 1
+            $ reporte_ocultar_marina = True
+            "Bob te mira, y en su rostro notas que se dió cuenta de que no le dijiste a Marina todo lo que tenías en mente."
+            $ bob += 1
+
+        "A Marina le vendría bien un shock de realidad, a ver si espabila.":
+            y "Marina, no sabemos si estamos solos en la isla. Podría haber habitantes cuyas costumbres no conocemos, o incluso otros supervivientes no tan amigables."
+            $ desicion_intro += 1
+            $ reporte_asustar_marina = True
+            "Bob y Laura sacuden la cabeza en desaprobación."
+            $ bob -= 1
+            $ laura -= 1
+                
+    m "Entiendo..."
+    b "Hasta ahora no ha habido ninguna señal de peligro que podamos confirmar."
+    l "Es verdad, hasta donde sabemos, Ingrid pudo haberse lastimado sola, accidentalmente."
+
+    menu:
+        "Ahora que Ingrid ha despertado, es seguro dejarla sola.":
+            y "Ingrid estará bien, es verdad que no hemos encontrado evidencia de peligros en la isla, y el clima no ha empeorado."
+            y "Necesitamos del esfuerzo de todos para seguir encontrando recursos."
+            $ desicion_intro += 1
+            $ liderazgo +=1
+            $ reporte_todos_explorar = True
+            jump p5_explorar
+
+        "Será mejor que uno de nosotros se quede a cuidarla, por si acaso.":
+            y "No quisiera correr riesgos, es mejor que uno de nosotros se quede."
+            y "Tampoco querría que nadie vaya solo, así que sugiero que el resto forme una expedición única."
+            $ desicion_intro += 1
+            $ liderazgo +=1
+            $ reporte_algunos_explorar = True
+            jump elegir_cuidador
 
 label elegir_cuidador:
     b "Todos hemos descansado bastante. Tal vez sea mejor que me quede yo, que conozco sobre primeros auxilios."
@@ -4091,11 +4100,9 @@ label p5_explorar:
                     y "Me gustaría que me ayudes a cargar una caja grande que rescaté de la playa. Tal vez haya algo que nos pueda servir."
                 else:
                     y "Deberíamos ir a ver si el bote que vi en la playa sigue ahí. Tal vez nos sirva para pescar."
-                show bob gr parado at center
+                show bob parado hablando at center
                 with Dissolve(.5)
-                b "Buena idea, [nombre_personaje]."
-                show bob parado at center
-                with Dissolve(.5)
+                b "Buena idea, [nombre_personaje]."                
                 if encontraron_agua:
                     l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
                 elif reporte_encontrar_agua_comida:
@@ -4105,15 +4112,19 @@ label p5_explorar:
                     l "Genial, entonces Marina y yo nos adentraremos en la jungla a buscar agua y comida."
                 $ va_con_bob = True
                 $ liderazgo += 1
+                hide bob
+                with Dissolve(.5)
+                hide marina
+                with Dissolve(.5)
+                hide laura
+                with Dissolve(.5)
                 jump p5playa
             
             "Me gustaría traer a Marina para tener la oportunidad de arreglar las cosas con ella." if marina < 2:
                 y "Marina, siento que nos vendría bien tener un rato para conversar. ¿Hacemos equipo?"
-                show marina gr triste at leftgr
-                with Dissolve(.5)            
-                m "Me parece una buena idea. Limar asperezas será bueno para el grupo."
                 show marina triste at left
-                with Dissolve(.5)
+                with Dissolve(.5)        
+                m "Me parece una buena idea. Limar asperezas será bueno para el grupo."                
                 b "Excelente, entonces Laura y yo conformaremos la otra expedición."
                 l "Me parece perfecto."
                 $ va_con_marina = True
@@ -4122,11 +4133,9 @@ label p5_explorar:
                     
             "Marina saca lo mejor de mi, haríamos buen equipo." if marina > 1:
                 y "Marina, siento que nos complementamos bastante, ¿te gustaría ir en mi expedición?"
-                show marina sonriendo gr at leftgr
-                with Dissolve(.5)
-                m "Por favor, [nombre_personaje], me vas a hacer sonrojar. Me encantaría."
                 show marina sonriendo at left
                 with Dissolve(.5)
+                m "Por favor, [nombre_personaje], me vas a hacer sonrojar. Me encantaría."                
                 y "Laura, ¿estás de acuerdo en ir con Bob?"
                 l "¡Por supuesto! No hay problema."
                 $ va_con_marina = True
@@ -4135,11 +4144,9 @@ label p5_explorar:
 
             "Me gustaría pasar un rato con Laura y poder limar asperezas con ella." if laura < 2:
                 y "Laura, sé que empezamos con el pié izquierdo. Tal vez si vamos juntos podamos conversar un poco."
-                show laura enojada gr at rightgr
-                with Dissolve(.5)
-                l "Es verdad, hablando se entienden las personas."
                 show laura seria at right
                 with Dissolve(.5)
+                l "Es verdad, hablando se entienden las personas."
                 y "Marina, estarás bien con Bob, ¿no?"
                 m "¡Claro!"
                 $ va_con_laura = True
@@ -4148,11 +4155,9 @@ label p5_explorar:
 
             "Laura ha desmotrado una gran resiliencia, juntos seguro tendremos éxito." if laura > 1:
                 y "Laura, me encantaría que fuéramos juntos, si estás de acuerdo."
-                show laura sonriendo gr at rightgr
-                with Dissolve(.5)
-                l "¡Estaba por proponerte lo mismo!"
                 show laura sonriendo at right
                 with Dissolve(.5)
+                l "¡Estaba por proponerte lo mismo!"
                 b "Excelente, entonces Marina y yo conformaremos la otra expedición."
                 m "Me parece perfecto."
                 $ va_con_laura = True
@@ -4170,6 +4175,12 @@ label p5_explorar:
                     l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
                     m "No olviden mantener los ojos abiertos por algo de comida. Nosotras haremos lo mismo."
                     $ va_con_bob = True
+                    hide bob
+                    with Dissolve(.5)
+                    hide marina
+                    with Dissolve(.5)
+                    hide laura
+                    with Dissolve(.5)
                     jump p5playa
 
                 elif reporte_encontrar_agua_comida:
@@ -4178,6 +4189,12 @@ label p5_explorar:
                     l "Buena idea, Bob. Entre todos podremos cargar bastantes recursos de vuelta al refugio."
                     y "Vamos, ¡a la playa!."
                     $ exploran_todos = True
+                    hide bob
+                    with Dissolve(.5)
+                    hide marina
+                    with Dissolve(.5)
+                    hide laura
+                    with Dissolve(.5)
                     jump p5playa
 
                 else:
@@ -4186,6 +4203,12 @@ label p5_explorar:
                     l "Genial, entonces Marina y yo iremos a explorar el interior de la jungla a ver si encontramos agua y comida."
                     m "¡Mantengan los ojos abiertos ustedes dos también!"
                     $ va_con_bob = True
+                    hide bob
+                    with Dissolve(.5)
+                    hide marina
+                    with Dissolve(.5)
+                    hide laura
+                    with Dissolve(.5)
                     jump p5playa
 
     else:
@@ -4242,7 +4265,12 @@ label p5_explorar:
                 l "Si, es por aquí, ¡síganme!"
                 hide laura
                 with Dissolve(0.5)
-
+            elif bob_se_queda:
+                show laura hablando at center
+                with Dissolve(0.5)
+                l "Si, es por aquí, ¡síguenos!"
+                hide laura
+                with Dissolve(0.5)
             jump manantial_marina_laura
 
         else:
@@ -4255,6 +4283,12 @@ label p5_division_tareas:
         l "Sin duda. Por más que no queden más frutas, el agua nos vendrá bien."
         b "Marina y yo buscaremos comida entonces."
         m "¡Mucha suerte, equipo!"
+        hide bob
+        with Dissolve(.5)
+        hide marina
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump arroyo_frutos
 
     elif reporte_encontrar_agua_comida and va_con_marina:
@@ -4262,6 +4296,12 @@ label p5_division_tareas:
         m "Es la única fuente de agua que conocemos, así que hagámoslo."
         b "Laura y yo nos enfocaremos en encontrar algo para comer entonces."
         l "Por favor, ¡tengan cuidado!"
+        hide bob
+        with Dissolve(.5)
+        hide marina
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump arroyo_frutos
 
     elif encontraron_agua and va_con_laura:
@@ -4269,6 +4309,12 @@ label p5_division_tareas:
         l "Si, traigamos algo de agua. Bob y Marina pueden concentrarse en buscar comida."
         b "¿Estamos todos de acuerdo entonces?"
         m "Nos vemos aquí al regreso. ¡Suerte!"
+        hide bob
+        with Dissolve(.5)
+        hide marina
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump manantial_marina_laura
     
     elif encontraron_agua and va_con_marina:
@@ -4276,12 +4322,24 @@ label p5_division_tareas:
         m "Si, un grupo debe ir a la segura."
         b "Bien, entonces Laura y yo exploraremos en busca de comida."
         l "¡Hagámoslo!"
+        hide bob
+        with Dissolve(.5)
+        hide marina
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump manantial_marina_laura
 
     else:
         b "Salgamos para lados opuestos, así cubriremos más terreno."
         l "Estoy de acuerdo, hoy es el día, tenemos que encontrar algo sí o sí."
         m "¡Estoy segura de que lo lograremos!"
+        hide bob
+        with Dissolve(.5)
+        hide marina
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump exploracion_profunda
 
 label exploracion_profunda:
@@ -4666,6 +4724,9 @@ label arroyo_frutos:
             y "Rellenemos el bidón, recojamos todos los frutos y volvamos."
             m "¡Van a estar tan contentos cuando vean todo lo que llevamos!"
             $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
             $ actualizar_boton_imagen()
             $ comida = 10
 
@@ -4951,18 +5012,19 @@ label manantial_marina_laura:
             y "Rellenemos el bidón y volvamos."
             m "Si, debemos llevarle agua a Ingrid."
             $ agua = 10
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()              
 
         elif inventan_cantimploras:
-            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            y "Llenemos las cantimploras de bambú y volvamos."
             m "Si, debemos llevarle agua a Ingrid."
             $ agua = 10
             $ boton_imagen = "bidon_lleno_icon.png"
             show screen top_right_button(boton_imagen)
             $ stuff_button_1 = "bidon"
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ actualizar_boton_imagen()            
 
         else:
             y "Tenemos que encontrar una forma de transportar el agua."
@@ -4977,8 +5039,7 @@ label manantial_marina_laura:
             $ boton_imagen = "bidon_lleno_icon.png"
             show screen top_right_button(boton_imagen)
             $ stuff_button_1 = "bidon"
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ actualizar_boton_imagen()           
             "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
@@ -4999,8 +5060,10 @@ label manantial_marina_laura:
             y "Rellenemos el bidón y volvamos."
             l "Si, debemos llevarle agua a Ingrid."
             $ agua = 10
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
 
         elif inventan_cantimploras:
             y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
@@ -5009,8 +5072,7 @@ label manantial_marina_laura:
             $ boton_imagen = "bidon_lleno_icon.png"
             show screen top_right_button(boton_imagen)
             $ stuff_button_1 = "bidon"
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ actualizar_boton_imagen()   
 
         else:
             y "Tenemos que encontrar una forma de transportar el agua."
@@ -5025,27 +5087,191 @@ label manantial_marina_laura:
             $ boton_imagen = "bidon_lleno_icon.png"
             show screen top_right_button(boton_imagen)
             $ stuff_button_1 = "bidon"
-            $ actualizar_boton_imagen()
-            $ comida = 10
+            $ actualizar_boton_imagen()   
             "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
+    elif exploran_tres and bob_se_queda:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "¡Aquí está! El manantial del que les hablamos."
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            m "¡Qué buena idea, Laura!"
+            y "Manos a la obra entonces."
+            l "Despues de todo, no hacemos tan mal equipo, nosotros tres."
+            $ laura += 1
+            $ marina += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif exploran_tres and marina_se_queda:
+        show laura sonriendo at left
+        with Dissolve(.5)
+        l "¡Aquí está! El manantial del que les hablamos."
+        show bob pensando at left
+        with Dissolve(.5)
+        b "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            l "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            l "Por aquí hay bastante bambú."
+            l "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            b "¡Qué buena idea, Laura!"
+            y "Manos a la obra entonces."
+            l "Despues de todo, no hacemos tan mal equipo, nosotros tres."
+            $ laura += 1
+            $ bob += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+
+    elif exploran_tres and laura_se_queda:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Aquí está! El manantial del que les hablamos."
+        show bob pensando at left
+        with Dissolve(.5)
+        b "Está fresca y clara."
+        "Los tres corren a beber agua del arroyo."
+        $ actualizar_boton_imagen()
+        $ update_stat("sed", sed + 3)
+        $ show_variable_changed_popup("La sed ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui
+
+        if stuff_bidon_agua:
+            y "Rellenemos el bidón y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        elif inventan_cantimploras:
+            y "Llenemos las cantimploras de bambú, recojamos todos los frutos y volvamos."
+            m "Si, debemos llevarle agua a Ingrid."
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+
+        else:
+            y "Tenemos que encontrar una forma de transportar el agua."
+            b "Por aquí hay bastante bambú."
+            b "Podemos usarlo para transportar agua si quebramos las cañas en cada sección."
+            m "¡Qué buena idea, Bob!"
+            y "Manos a la obra entonces."
+            m "Despues de todo, no hacemos tan mal equipo, nosotros tres."
+            $ marina += 1
+            $ bob += 1
+            pause 1
+            $ inventan_cantimploras = True
+            $ agua = 10
+            $ boton_imagen = "bidon_lleno_icon.png"
+            show screen top_right_button(boton_imagen)
+            $ stuff_button_1 = "bidon"
+            $ actualizar_boton_imagen()   
+            "Les lleva un tiempo, pero logran hacer unas cantimploras con el bambú."
+            pause .5
+            "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
+            
+    hide bob
+    with Dissolve(.5)
+    hide laura
+    with Dissolve(.5)
+    hide marina
+    with Dissolve(.5)
     jump retorno_refugio
 
 label p5playa:
     if exploran_todos:
-        "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
+        if not (reporte_esconde_bote or reporte_esconde_caja or reporte_comparte_bote or reporte_comparte_caja):
+            "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
+        else:
+            "El sol les ciega un poco."
         hide marina
         with Dissolve(.5)
         hide bob
         with Dissolve(.5)
-        hide Laura
+        hide laura
         with Dissolve(.5)
         show bg beach sunny at truecenter
         with Dissolve(.5)
-        "Comienzan a caminar en dirección a la orilla."
-        if stuff_bote and not reporte_comparte_bote:
+        
+        if stuff_bote and not (reporte_comparte_bote or reporte_esconde_bote):
             menu:
                 "El bote que rescaté de la playa no está muy lejos de aquí. Tal vez Bob pueda revisarlo.":
                     y "Bob, acompáñame, no estamos muy lejos de donde resguardé el bote que recuperé."
@@ -5062,89 +5288,509 @@ label p5playa:
                     m "Ay... ¡Espero que si!"
                     hide marina
                     with Dissolve(.5)
-                    hide Laura
+                    hide laura
                     with Dissolve(.5)
-                    jump revisar_bote
+                    pause .5
+                    "Luego de quitar las hojas que usaste para proteger el bote, lo voltean."
+                    "Bob lo revisa minuciosamente."
+                    show bob gr serio sucio at center
+                    with Dissolve(.5)
+                    b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
+                    y "Seguramente podamos construir unos."
+                    b "Este bote será de gran ayuda, [nombre_personaje]."
+                    $ bob += 1           
+                    b "Improvisaremos unas cañas e intentaremos pescar."
+                    y "Lo volveré a resguardar."
+                    "Vuelves a cubrir el bote con las hojas que usaste para protegerlo y se dirigen a la orilla."
+                    hide bob
+                    with Dissolve (.5)
 
                 "El bote está escondido cerca de aquí, pero mejor será no decir nada hasta que sea necesario.":
-                    "Siguen caminando hasta la orilla y comienzan a buscar algo para salvatar."
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para recuperar."
                     $ desicion_intro += 1
                     $ reporte_esconde_bote = True
+                    jump p5playa
 
-        elif stuff_caja_grande and not reporte_comparte_caja:
+        elif stuff_caja_grande and not (reporte_comparte_caja or reporte_esconde_caja):
             menu:
                 "La caja que rescaté de la playa no está muy lejos de aquí. Tal vez sería bueno revisarla.":
                     y "Vengan, acompáñenme. Dejé la caja que encontré en la playa resguardada por aquí cerca."
                     $ desicion_intro += 1
                     $ reporte_comparte_caja = True
-                    "ESCENA" ###############################################            
-                    jump revisar_caja
+                    pause .5
+                    "Remueves las hojas que usaste para proteger la caja."
+                    show marina hablando at left
+                    with Dissolve(.5)
+                    m "¿Creen que podremos abrirla entre todos?"
+                    show bob pensando at center
+                    with Dissolve(.5)
+                    b "Si, hagamos fuerza a la cuenta de tres."
+                    show laura hablando at left
+                    with Dissolve(.5)
+                    pause 0.5
+                    l "Uno..."
+                    pause 0.5
+                    l "Dos..."
+                    pause 0.5
+                    l "¡Tres!"
+                    pause 0.5
+                    "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                    y "¡Miren todo esto!"
+                    m "¡Qué dicha!"
+                    l "¡Ahora podremos cocinar algo!"
+                    "Bob mira el contenido de la caja, pensativo."
+                    m "Bob, ¿qué pasa?"
+                    b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                    b "Sin duda es un gran botín."
+                    y "¡Vamos a ver si hay algo más en la playa!"
 
                 "La caja está escondida cerca de aquí, pero mejor será no decir nada hasta que no haya alternativa.":
-                    "Siguen caminando hasta la orilla y comienzan a buscar algo para salvatar."
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para recuperar."
+                    $ desicion_intro += 1
+                    $ reporte_esconde_caja = True
+                    jump p5playa
 
         else:
             "Parece que la marea trajo más restos del naufragio luego de que la tormenta amainó."
             pause 0.5
-            "Alcanzas a Laura y Marina, que están desenterrando algo de la arena."
+            "Laura y Marina comienzan a desenterrar algo de la arena."
             if stuff_caja_grande:
-                # encuentran bote
-                "texto"
+                "Parece que se trata de un bote."
+                show marina hablando at left
+                with Dissolve(.5)
+                m "Bob, ¿crees que podremos usarlo para irnos de aquí?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."
+                show laura hablando at left
+                with Dissolve(.5)
+                l "Ni siquiera tiene remos."
+                y "Eso podemos fabricarlo nosotros."
+                b "Si, y unas cañas, ¡para poder pescar!"
+                $ stuff_bote = True    
+                $ boton_imagen = "bote_icon.png"
+                show screen top_right_button(boton_imagen)
+                $ stuff_button_1 = "bote"
+
             elif stuff_bote:
-                # encuentran caja
-                "texto"
+                "Parece que es una caja de madera."
+                show marina hablando at left
+                with Dissolve(.5)
+                m "¿Creen que podremos abrirla entre todos?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "Si, hagamos fuerza a la cuenta de tres."
+                show laura hablando at left
+                with Dissolve(.5)
+                pause 0.5
+                l "Uno..."
+                pause 0.5
+                l "Dos..."
+                pause 0.5
+                l "¡Tres!"
+                pause 0.5
+                "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                y "¡Miren todo esto!"
+                m "¡Qué dicha!"
+                l "¡Ahora podremos cocinar algo!"
+                "Bob mira el contenido de la caja, pensativo."
+                m "Bob, ¿qué pasa?"
+                b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                b "Sin duda es un gran botín."
+                $ caja_abierta = True
+
             else:
-                # encuentran caja y BOTE
-                "texto"
+                "Esforzándose entre todos para remover la arena, descubren un bote con una caja de madera adentro."
+                show marina hablando at left
+                with Dissolve(.5)
+                m "Bob, ¿crees que podremos usar este bote para irnos de aquí?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."
+                show laura hablando at left
+                with Dissolve(.5)
+                l "Ni siquiera tiene remos."
+                y "Eso podemos fabricarlo nosotros."
+                b "Si, y unas cañas, ¡para poder pescar!"
+                $ stuff_bote = True    
+                $ boton_imagen = "bote_icon.png"
+                show screen top_right_button(boton_imagen)
+                $ stuff_button_1 = "bote"
+                pause .5
+                m "¿Creen que podremos abrir la caja entre todos?"
+                b "Si, hagamos fuerza a la cuenta de tres."
+                pause 0.5
+                l "Uno..."
+                pause 0.5
+                l "Dos..."
+                pause 0.5
+                l "¡Tres!"
+                pause 0.5
+                "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                y "¡Miren todo esto!"
+                m "¡Qué dicha!"
+                l "¡Ahora podremos cocinar algo!"
+                "Bob mira el contenido de la caja, pensativo."
+                m "Bob, ¿qué pasa?"
+                b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                b "¡Sin duda es un gran botín!"
+                $ caja_abierta = True
+            
         "Contentos con los hallazgos, los cuatro se meten a la selva para buscar agua."
         $ update_stat("cansancio", cansancio - 1)
         $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+        hide marina
+        with Dissolve(.5)
+        hide bob
+        with Dissolve(.5)
+        hide laura
+        with Dissolve(.5)
         jump arroyo_frutos
 
     elif va_con_bob:
-        "Luego de volver tras sus pasos del día anterior durante un rato, Bob y tú llegan juntos a la playa."
+        if not (reporte_esconde_bote or reporte_esconde_caja or reporte_comparte_bote or reporte_comparte_caja):
+            "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
+        else:
+            "El sol les ciega un poco."
+        
         show bg beach sunny at truecenter
         with Dissolve(.5) 
-        "ESCENA" #####################################################
-        jump retorno_refugio
+        if stuff_bote and not (reporte_comparte_bote or reporte_esconde_bote):
+            menu:
+                "El bote que rescaté de la playa no está muy lejos de aquí. Tal vez Bob pueda revisarlo.":
+                    y "Bob, acompáñame, no estamos muy lejos de donde resguardé el bote que recuperé."
+                    $ desicion_intro += 1
+                    $ reporte_comparte_bote = True
+                    show bob pensando at center
+                    with Dissolve(.5)
+                    b "¡Excelente! Veamos como está."
+                    pause .5
+                    "Luego de quitar las hojas que usaste para proteger el bote, lo voltean."
+                    "Bob lo revisa minuciosamente."
+                    show bob gr serio sucio at center
+                    with Dissolve(.5)
+                    b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
+                    y "Seguramente podamos construir unos."
+                    b "Este bote será de gran ayuda, [nombre_personaje]."
+                    $ bob += 1           
+                    b "Improvisaremos unas cañas e intentaremos pescar."
+                    y "Lo volveré a resguardar."
+                    "Vuelves a cubrir el bote con las hojas que usaste para protegerlo y se dirigen a la orilla."
+                    $ stuff_bote = True    
+                    $ boton_imagen = "bote_icon.png"
+                    show screen top_right_button(boton_imagen)
+                    $ stuff_button_1 = "bote"
+                    hide bob
+                    with Dissolve (.5)
 
-label revisar_bote:
-    "Luego de quitar las hojas que usaste para proteger el bote, ambos lo voltean."
-    "Bob lo revisa minuciosamente."
-    show bob gr serio sucio at center
-    with Dissolve(.5)
-    b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
-    y "Seguramente podamos construir unos."
-    b "Este bote será de gran ayuda, [nombre_personaje]."
-    $ bob += 1           
-    b "Improvisaremos unas cañas e intentaremos pescar."
-    y "Lo volveré a esconder así podemos regresar con Laura y Marina."
-    "Vuelves a cubrir el bote con las hojas que usaste para protegerlo y se dirigen a la orilla."
-    jump p5playa
-    
-label revisar_caja:
-    "ESCENA" ########################################################################################
-    jump p5playa
-    
-    # Si tienen caja, podrian encontrar raciones y algunas herramientas como algun cuchillo y tenedor, algun elemento de cocina.
-    # Si tienen bote, podrian encontrar un kit de pesca, una bengala, etc 
-    # ven aves y algunos hurones. Tambien huellas de algun animal mas pesado, podria ser un jabalí 
-    # Termina con decidir proximos pasos, se plantean diversas opciones, da para discusion y apoyo segun relacion
-    # Todos confian en el rescate, es clave que Bob se muestre poco confiado pero sin revelar nada
+                "El bote está escondido cerca de aquí, pero mejor será no decir nada hasta que sea necesario.":
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para recuperar."
+                    $ desicion_intro += 1
+                    $ reporte_esconde_bote = True
+                    jump p5playa
+
+        elif stuff_caja_grande and not (reporte_comparte_caja or reporte_esconde_caja):
+            menu:
+                "La caja que rescaté de la playa no está muy lejos de aquí. Tal vez sería bueno revisarla.":
+                    y "Vamos, acompáñanme. Dejé la caja que encontré en la playa resguardada por aquí cerca."
+                    $ desicion_intro += 1
+                    $ reporte_comparte_caja = True
+                    pause .5
+                    "Remueves las hojas que usaste para proteger la caja."
+                    y "¿Crees que podremos abrirla entre los dos?"
+                    show bob pensando at center
+                    with Dissolve(.5)
+                    b "Si, hagamos fuerza a la cuenta de tres."
+                    pause 0.5
+                    b "Uno..."
+                    pause 0.5
+                    b "Dos..."
+                    pause 0.5
+                    b "¡Tres!"
+                    pause 0.5
+                    "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                    y "¡Mira todo esto!"                    
+                    "Bob mira el contenido de la caja, pensativo."
+                    y "Bob, ¿qué pasa?"
+                    b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                    b "Sin duda es un gran botín."
+                    y "¡Vamos a ver si hay algo más en la playa!"
+                    $ caja_abierta = True
+
+                "La caja está escondida cerca de aquí, pero mejor será no decir nada hasta que no haya alternativa.":
+                    "Siguen caminando hasta la orilla y comienzan a buscar algo para recuperar."
+                    $ desicion_intro += 1
+                    $ reporte_esconde_caja = True
+                    jump p5playa
+        else:
+            "Caminan hasta la orilla"
+            "Parece que la marea trajo más restos del naufragio luego de que la tormenta amainó."
+            pause 0.5
+            "Bob ve algo y comienza a desenterrarlo."
+            if stuff_caja_grande:
+                "Parece que se trata de un bote."                
+                y "Bob, ¿crees que podremos usarlo para irnos de aquí?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."                
+                b "Ni siquiera tiene remos."
+                y "Eso podemos fabricarlo nosotros."
+                b "Si, y unas cañas, ¡para poder pescar!"
+                $ stuff_bote = True    
+                $ boton_imagen = "bote_icon.png"
+                show screen top_right_button(boton_imagen)
+                $ stuff_button_1 = "bote"
+
+            elif stuff_bote:
+                "Parece que es una caja de madera."
+                y "¿Crees que podremos abrirla?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "Si, hagamos fuerza a la cuenta de tres."                
+                pause 0.5
+                b "Uno..."
+                pause 0.5
+                b "Dos..."
+                pause 0.5
+                b "¡Tres!"
+                pause 0.5
+                "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                y "¡Mira todo esto!"                
+                "Bob mira el contenido de la caja, pensativo."
+                y "Bob, ¿qué pasa?"
+                b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                b "Sin duda es un gran botín."
+                $ caja_abierta = True
+
+            else:
+                "Esforzándose entre los dos para remover la arena, descubren un bote con una caja de madera adentro."
+                y "Bob, ¿crees que podremos usar este bote para irnos de aquí?"
+                show bob pensando at center
+                with Dissolve(.5)
+                b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."                
+                b "Ni siquiera tiene remos."
+                y "Eso podemos fabricarlo nosotros."
+                b "Si, y unas cañas, ¡para poder pescar!"
+                $ stuff_bote = True    
+                $ boton_imagen = "bote_icon.png"
+                show screen top_right_button(boton_imagen)
+                $ stuff_button_1 = "bote"
+                pause .5
+                y "¿Crees que podremos abrir la caja entre los dos?"
+                b "Si, hagamos fuerza a la cuenta de tres."
+                pause 0.5
+                b "Uno..."
+                pause 0.5
+                b "Dos..."
+                pause 0.5
+                b "¡Tres!"
+                pause 0.5
+                "Dentro de la caja hay una pistola de bengalas, una pala, instrumentos para hacer fuego, un cuchillo, una parrilla y una brújula."
+                y "¡Mira todo esto!"                
+                "Bob mira el contenido de la caja, pensativo."
+                y "Bob, ¿qué pasa?"
+                b "¿Eh? No, nada, estaba pensando en todo lo que podremos hacer con esto."
+                b "¡Sin duda es un gran botín!"
+                $ caja_abierta = True
+
+        "Contentos con los hallazgos, emprenden el retorno al refugio."
+        hide bob
+        with Dissolve(.5)
+        jump retorno_refugio
     
 label retorno_refugio:
-#if comida <= 0 and not exploran_todos:
-    #alguien más encuentra comida
-#if comida <= 0 and exploran_todos:
-    # encuentran comida en el camino de vuelta (junto a huellas quizá)    
-    # En el camino alguien ve grandes huellas si no las vimos nosotros
-$ update_stat("cansancio", cansancio - 1)
-$ show_variable_changed_popup("El cansancio ha aumentado", rojo)
-# if marina_laura_arroyo_frutos:
-    # marina y laura traen agua porque fueron al lugar que encontré ayer
-# if va_con_bob and not marina_laura_arroyo_frutos:
-    # marina y laura traen agua del lugar que encontraron ayer
-"texto"
+    show bg jungle1 1 at truecenter
+    with Dissolve(.5)
+
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+
+    if comida <=0 and (exploran_todos or exploran_tres):
+        "En el camino de vuelta, encuentran unos pocos frutos de una especie que hasta ahora no habían visto, parecen sabrosos."
+        $ comida += 5
+        if hambre <= 1:
+            "Comen algunos y llevan el resto para el campamento."
+            $ update_stat("hambre", hambre +1)
+            $ show_variable_changed_popup("El hambre ha disminuido", verde)
+            hide screen combined_ui
+            show screen combined_ui            
+        "También ven huellas de grandes pezuñas."
+        "Se miran, pero nadie quiere decir lo obvio."
+        "Hay algún tipo de hebívoro grande en la isla."
+
+    elif exploran_todos or exploran_tres:
+        "En el camino de vuelta, encuentran huellas de grandes pezuñas."
+        "Se miran, pero nadie quiere decir lo obvio."
+        "Hay algún tipo de hebívoro grande en la isla."
+        
+    if refugio == "cabaña":
+        show bg jungle hut at truecenter
+        with Dissolve(.5)
+    elif refugio == "cueva":
+        show bg jungle cave at truecenter
+        with Dissolve(.5)
+    elif refugio == "claro":
+        show bg jungle clearing at truecenter
+        with Dissolve(.5)
+
+    "Luego de una ardua jornada de exploración, el refugio ya está a la vista."
+
+    if exploran_todos:
+        show marina sonriendo at left
+        with Dissolve(.5)
+        m "¡Vamos! Ingrid necesita comer y beber algo."
+        hide marina
+        with Dissolve(.5)
+        "Los cuatro entran al refugio."
+
+    elif exploran_tres:
+        if laura_se_queda or bob_se_queda:
+            show marina sonriendo at left
+            with Dissolve(.5)
+            m "¡Vamos! Ingrid necesita comer y beber algo."
+            hide marina
+            with Dissolve(.5)
+        elif marina_se_queda:
+            show laura sonriendo at left
+            with Dissolve(.5)
+            l "¡Vamos! Ingrid necesita comer y beber algo."
+            hide laura
+            with Dissolve(.5)
+        "Los tres entran al refugio."
+
+    else:
+        if va_con_bob:
+            "Se encuentran con Laura y Marina poco antes de llegar."
+            show bob saludando sucio at center
+            with Dissolve(.5)
+            show marina hablando at left
+            with Dissolve(.5)
+            show laura hablando at right
+            with Dissolve(.5)
+            b "¡Marina, Laura! Me alegra verlas de nuevo."
+            l "Lo mismo digo, Bob."
+            m "¿Pudieron encontrar algo?"
+            b "¡Por suerte si!"
+
+            if reporte_comparte_bote:
+                b "Revisamos el bote que [nombre_personaje] había rescatado de la playa."
+                b "Servirá para pescar, pero no para irnos de la isla."
+                y "Tendremos que construir unas cañas de pescar, así como unos remos."
+                b "Y ustedes, ¿encontraron algo?"
+                m "¡Trajimos agua!"
+                l "Y además, encontramos algunos frutos cuando volvíamos."
+                $ comida += 5
+                m "Y algo más..."
+                l "Encontramos huellas de lo que parece ser un herbívoro grande."
+                m "Laura dice que puede ser un tapir o algún tipo de ciervo."
+                l "Marina teme que se trate de un jabalí."
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+            elif reporte_comparte_caja:
+                b "Revisamos la caja que [nombre_personaje] había rescatado de la playa."
+                b "Tenía unas cuantas cosas útiles."
+                "Le muestras las distintas herramientas a Laura y Marina."
+                y "Y ustedes, ¿encontraron algo?"
+                m "¡Trajimos agua!"
+                l "Y además, encontramos algunos frutos cuando volvíamos."
+                $ comida += 5
+                m "Y algo más..."
+                l "Encontramos huellas de lo que parece ser un herbívoro grande."
+                m "Laura dice que puede ser un tapir o algún tipo de ciervo."
+                l "Marina teme que se trate de un jabalí."
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+        elif va_con_marina:
+            "Se encuentran con Laura y Bob poco antes de llegar."
+            show bob saludando sucio at center
+            with Dissolve(.5)
+            show marina hablando at left
+            with Dissolve(.5)
+            show laura hablando at right
+            with Dissolve(.5)
+            b "¡Marina, [nombre_personaje]! Me alegra verles de nuevo."
+            m "Lo mismo digo, Bob."
+            l "¿Pudieron encontrar algo?"
+            y "¡Por suerte si!"
+
+            if reporte_encontrar_agua_comida or encontraron_agua:
+                m "Trajimos agua. ¿Y ustedes?"
+                b "Nosotros encontramos algunos frutos cuando volvíamos."
+                $ comida += 5
+                l "Y algo más..."
+                b "Encontramos huellas de lo que parece ser un herbívoro grande."
+                l "Bob dice que puede ser un tapir o algún tipo de ciervo."
+                l "Yo temo que se trate de un jabalí."
+                m "¡Qué miedo!"
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+            else:
+                m "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
+                b "Nosotros solamente encontramos huellas de lo que parece ser un herbívoro grande."
+                l "Bob dice que puede ser un tapir o algún tipo de ciervo."
+                l "Yo temo que se trate de un jabalí."
+                m "¡Qué miedo!"
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+        elif va_con_laura:
+            "Se encuentran con Marina y Bob poco antes de llegar."
+            show bob saludando sucio at center
+            with Dissolve(.5)
+            show marina hablando at left
+            with Dissolve(.5)
+            show laura hablando at right
+            with Dissolve(.5)
+            b "¡Laura, [nombre_personaje]! Me alegra verles de nuevo."
+            l "Lo mismo digo, Bob."
+            m "¿Pudieron encontrar algo?"
+            y "¡Por suerte si!"
+
+            if reporte_encontrar_agua_comida or encontraron_agua:
+                l "Trajimos agua. ¿Y ustedes?"
+                b "Nosotros encontramos algunos frutos cuando volvíamos."
+                $ comida += 5
+                m "Y algo más..."
+                b "Encontramos huellas de lo que parece ser un herbívoro grande."
+                m "Bob dice que puede ser un tapir o algún tipo de ciervo."
+                m "Yo temo que se trate de un jabalí."
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+            else:
+                l "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
+                b "Nosotros solamente encontramos huellas de lo que parece ser un herbívoro grande."
+                m "Bob dice que puede ser un tapir o algún tipo de ciervo."
+                m "Yo temo que se trate de un jabalí."                
+                b "Tranquila, Marina. Estaremos preparados."
+                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                m "Entremos, Ingrid necesita beber y comer algo."
+                "Los cuatro entran al refugio."
+
+    "Dentro del refugio, Ingrid parece estar algo incómoda, pero está despierta."
+    if bob_se_queda:
+        "Bob se encuentra a su lado, y los saluda con la cabeza al verles entrar."
+    elif laura_se_queda:
+        "Laura se encuentra a su lado, y sonríe cuando los ve."
+    elif marina_se_queda:
+        "Marina se encuentra a su lado, y deja escapar un pequeño grito de júbilo cuando se da cuenta de que volvieron."
+    "Ingrid sigue recostada, y apenas le alcanza la voz para saludarlos."
+    "Entre todos reparten el agua y la comida."
+    "Afuera, en la jungla, el sol comienza a ponerse y los ruidos de la noche reemplazan a los del día."
+
 jump chapter_5_end
 
 label chapter_5_end:
