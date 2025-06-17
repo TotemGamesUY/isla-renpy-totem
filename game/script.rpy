@@ -8,10 +8,10 @@ define m = Character("Marina Lee", color="#dfcdd6")
 define b = Character("Capt. Bob Williams", color="#546ace")
 define l = Character("Laura Esteban", color="#d4373f")
 define y = Character("[nombre_personaje] [[Tú]", color="#1d7c3a")
-define c = Character("Charles Grey", color="#363131")
-define e = Character("Erika Smith", color="#363131")
-define t = Character("Tomás Greenson", color="#363131")
-define i = Character("Ingrid Sversson", color="#363131")
+define c = Character("Charles Grey", color="#5b746c")
+define k = Character("Erika Smith", color="#e07c4d")
+define t = Character("Tomás Greenson", color="#b19621")
+define i = Character("Ingrid Sversson", color="#6c742d")
 
 
 #define el player id
@@ -45,11 +45,18 @@ transform moveinleft:
     xalign -1.0
     ypos posicion_pop_up_y
     linear 1.0 xalign posicion_pop_up_x
+transform centerleft:
+    xalign 0.35
+    yalign 1.25
+transform centerright:
+    xalign 0.65
+    yalign 1.25
 
 # Variables de genero
 default genero = "Femenino"
 default e = "a"
 default le = "la"
+default n = "n"
 
 # Define the scaled background image
 image bg inicio = im.Scale("main_01.jpg", config.screen_width, config.screen_height)
@@ -322,10 +329,48 @@ default reporte_comparte_bote = False
 default reporte_esconde_caja = False
 default reporte_comparte_caja = False
 default caja_abierta = False
+default reporte_no_buscar_de_noche = False
 default reporte_ocultar_marina = False
 default reporte_asustar_marina = True
-
-
+default reporte_cuida_ingrid_cap7 = False
+default reporte_refugio_visitado_1 = ""
+default reporte_refugio_visitado_2 = ""
+default reporte_opinion_refugio = ""
+default reporte_conflicto_entre_lideres = ""
+default confianza_ingrid = 0
+default jugador_lider = 0
+default jugador_mediador = 0
+default destino_exploracion_1 = ""
+default opciones_exploracion = []
+default opciones_texto = []
+default reporte_ingrid_te_convence = False
+default reporte_oyen_jabali = False
+default confianza_tomas = 0
+default confianza_charles = 0
+default reporte_respetuoso_tomas = False
+default reporte_intenta_conectar_tomas = False
+default reporte_broma_charles = False
+default reporte_desconfia_charles = False 
+default apoyo_laura = False
+default apoyo_ingrid = False
+default apoyo_charles = False
+default estrategia_agresiva = False
+default estrategia_pacifica = 0
+default estrategia_pasiva = 0
+default player = 0
+default apoyo_tomas = 0
+default apoyo_bob = 0
+default apoyo_erika = 0
+default grupo_jugador = []
+default grupo_bob = []
+default grupo_erika = []
+default apoyo_lider_jugador = 0
+default apoyo_lider_bob = 0
+default apoyo_lider_erika = 0
+default relacion_fuerte_jugador = []
+default relacion_conflictiva_jugador = []
+default personaje_indeciso = ""
+default dialogo_personajes = {}
 default liderazgo_PJ = 0 # Variable para implementar cuando desarrollemos el capítulo de los otros sobrevivientes.
 
 default relaciones_cap1_bob = 99
@@ -661,10 +706,12 @@ label start_game:
             $ genero = "Masculino"
             $ e = "o"
             $ le = "el"
+            $ n = "n"
         "Femenino":
             $ genero = "Femenino"
             $ le = "la"
             $ e = "a"
+            $ n = "na"
     jump comic
 
 label comic:
@@ -1045,7 +1092,6 @@ label p1_grupoPlaya:
             with Dissolve(.5)
             $ desicion_intro += 1
             $ reporte_busqueda_lidera = True
-            $ compromiso_mas[capitulo_actual] += 1
             $ reporte_grupo = True
             $ liderazgo += 1
             jump p1islaInvestigarLead
@@ -1056,7 +1102,6 @@ label p1_grupoPlaya:
             with Dissolve(.5)
             $ desicion_intro += 1
             $ reporte_búsqueda_sigue = True
-            $ colaboración_mas[capitulo_actual] += 1
             $ reporte_grupo = True
             jump p1islaInvestigarLead
         "Mejor sigo por mi cuenta, adiós.":
@@ -1066,7 +1111,6 @@ label p1_grupoPlaya:
             with Dissolve(.5)
             $ desicion_intro += 1
             $ reporte_búsqueda_separado = True
-            $ colaboración_menos[capitulo_actual] += 1
             $ reporte_grupo = True
             $ reporte_grupo_separado = True 
             jump p1islaInvestigar
@@ -5833,7 +5877,734 @@ label chapter_6_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 5
     $ persistent.cantidad_capitulos +=1
-    jump ingrid_enferma
+    jump cap6_inicio
+
+label cap6_inicio:
+    # Ambiente: final del día, tono inquietante
+    # Ingrid comienza a desvariar por fiebre. Puede haber diálogo reflexivo antes del brote
+    # El jugador puede elegir cómo reaccionar (preocuparse, minimizar, delegar)
+    # Ingrid, antes de caer inconsciente, describe algunas plantas útiles → se activa la misión
+
+    $ capitulo_actual = 6
+    scene bg jungle night stars at truecenter
+    with fade
+
+    show screen combined_ui
+
+    "La noche cae lenta sobre la isla. El calor no cede, y la humedad parece espesa como el silencio que envuelve al refugio."
+
+    show ingrid preocupada at left
+    with dissolve
+
+    i "No me siento... {w=0.5} nada bien... Mi cabeza arde... y la vista se me nubla..."
+
+    "{i}Ingrid tambalea y apoya una mano en la pared de bambú improvisada. El grupo la rodea, su frente brilla con sudor frío.{/i}"
+
+    y "¿Estás con fiebre? ¡Estás ardiendo, Ingrid!"
+
+    i "En la jungla... hay plantas... que podrían ayudar. Busquen {i}cúrcuma{/i} y {i}equinácea{/i}... Tienen propiedades antibióticas si se hierven..."
+
+    "{i}Ingrid intenta seguir explicando, pero su voz se apaga en un murmullo antes de desplomarse lentamente.{/i}"
+
+    hide ingrid
+    with dissolve
+
+    $ reporte_fiebre_ingrid = True
+    $ cansancio -= 1
+    $ ingrid -= 1  # tensión emocional
+
+    "El grupo reacciona de inmediato. Bob le toma el pulso, Laura se tapa la boca angustiada, Marina busca trapos húmedos. Vos quedás mirando la jungla oscura…"
+
+    $ choice_position = "alta"
+
+    menu:
+        "Me acerco y la recuesto con cuidado, tratando de calmar a los demás.":
+            $ reporte_ayuda_ingrid = True
+            $ ingrid += 1
+            y "Tranquilos… Respira. Está caliente, pero estable."
+
+        "Me mantengo cerca, pero dejo que otros la asistan. No soy médic[e].":
+            $ reporte_observa_ingrid = True
+            "{i}Decidís no intervenir directamente, pero prestás atención a cada gesto del grupo.{/i}"
+
+        "Me alejo un poco. No quiero estar cerca si esto se complica.":
+            $ reporte_aleja_ingrid = True
+            $ ingrid -= 1
+            "{i}Los demás te miran con desconfianza, aunque nadie dice nada. Sentís un leve peso en el estómago.{/i}"
+
+    pause 0.5
+
+    # Avanza a discusión sobre las plantas medicinales
+    jump cap6_1_formacion_grupos
+
+label cap6_1_formacion_grupos:
+        # Todos discuten si salir ahora o esperar
+    # Se genera un conflicto de posiciones: elección del jugador + reacción del grupo
+    # Se define grupo de salida y grupo que se queda
+    # Si el jugador propone algo, un personaje se le opone (Laura y Bob pueden ser útiles para polarizar)
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El aire se llena de tensión. Ingrid yace inmóvil, su respiración agitada. La noche es espesa, apenas rota por el murmullo de la jungla.{/i}"
+
+    show bob parado serio at right
+    with Dissolve(0.5)
+
+    b "Si hay algo que pueda ayudar, tiene que ser ahora. Si esperamos al amanecer, podría ser tarde."
+
+    show laura seria at left
+    with Dissolve(0.5)
+
+    l "¿Salir a esta hora? Con esta oscuridad... Es una locura. Nos vamos a perder, o algo peor."
+
+    show marina preocupada at center
+    with Dissolve(0.5)
+
+    m "Me da mucho miedo pero si alguien más va a buscar la plantas, yo también voy"
+
+    l "No tenemos linternas, y el terreno es peligroso incluso de día..."
+
+    "{i}Los ojos de todos recaen sobre vos. Sos parte del grupo, pero también alguien que empieza a tener un peso propio.{/i}"
+
+    $ choice_position = "alta"
+    y "Hay que decidir rápido: ¿buscar ahora, o esperar?"
+    menu:
+        "Ingrid necesita esas plantas. No me voy a quedar de brazos cruzados.":
+            $ reporte_decide_buscar_de_noche = True
+            $ cansancio -= 1
+            $ marina += 1
+            $ laura -= 1
+            $ bob += 1
+            y "Yo voy Marina. No tenemos tiempo. Si alguien quiere venir, bien. Si no, iré igual."
+            "{i}Un silencio. Luego Bob asiente y se prepara para la búsqueda. Marina contiene un suspiro tenso y se acerca también.{/i}"
+            hide bob
+            with Dissolve (0.5)
+            hide marina
+            with Dissolve (0.5)
+            l "Es una mala idea, me sorprende que no vean el riesgo. Yo me quedo con Ingrid."
+            hide laura
+            with Dissolve (0.5)
+            jump cap6_3_buscadores
+
+        "Deberiamos esperar todos. No servirá de nada perderse. Es mejor salir al amanecer.":
+            $ reporte_no_buscar_de_noche = True
+            $ laura += 1
+            $ bob -= 1
+            y "En este estado, salir sería exponer a más personas. Hay que tener cabeza fría."
+            "{i}Bob frunce el ceño. Laura te mira como si al fin alguien razonara. Marina simplemente asiente, en silencio.{/i}" 
+            jump cap6_3_refugio
+
+        "Yo prefiero esperar. Pero que cada uno haga lo que le parezca.":
+            $ reporte_buscar_quien_quiera = True
+            $ laura += 1
+            $ bob -= 1
+            y "Creo que es muy peligroso, yo no voy a ir si deciden arriesgarse."
+            "{i}Bob frunce el ceño. Laura te mira como si al fin alguien razonara. Marina simplemente asiente, en silencio.{/i}"        
+            jump cap6_NPCs_buscan
+
+label cap6_NPCs_buscan:
+    b "Ingrid necesita ayuda. Voy a intentar encontrar esas plantas."
+    hide bob
+    with Dissolve (0.5)
+    m "Yo también voy, ojalá las encontremos cerca."
+    hide marina
+    with Dissolve (0.5)
+    l "Es una mala idea, me sorprende que no vean el riesgo."
+    jump cap6_3_refugio
+
+label cap6_3_refugio:
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+    if reporte_no_buscar_de_noche:
+        "{i}La selva oscura parece contener el aliento. El grupo intenta calmar a Ingrid y matar el tiempo, pero la tensión se palpa en el aire.{/i}"
+        show marina preocupada at left
+        with Dissolve(0.5)
+        m "No me lo puedo sacar de la cabeza... ¿y si esta espera le cuesta la vida?"
+        show laura seria at right
+        with Dissolve(0.5)
+        l "No podíamos salir a ciegas. Lo lógico era cuidarla acá. La decisión está tomada."
+        "{i}Te sentás cerca del fuego improvisado. Las sombras parpadean sobre los rostros agotados. A tu lado, Marina mira el suelo sin hablar.{/i}"
+    else:
+        "{i}La selva oscura parece contener el aliento. Laura y tú intentan calmar a Ingrid y matar el tiempo, pero la tensión se palpa en el aire.{/i}"
+        "{i}Te sentás cerca del fuego improvisado. Las sombras parpadean sobre los rostros agotados. Ingrid se queja de tanto en tanto con la frente llena de sudor.{/i}"
+
+    $ choice_position = "alta"
+
+    menu:
+        "Acompaño a Ingrid y le humedezco la frente con agua fresca.":
+            $ reporte_cuidado_pasivo = True
+            $ ingrid += 1
+            "{i}La fiebre no baja, pero el simple acto de estar cerca parece darle algo de paz.{/i}"
+
+        "Intento mantener al grupo tranquilo. Hablo con Marina y Laura." if reporte_no_buscar_de_noche:
+            $ reporte_contenido_emocional = True
+            $ marina += 1
+            $ laura += 1
+            y "Estamos haciendo lo mejor que podemos. Si salimos sin rumbo, podría haber más de un herido."
+
+        "Me mantengo al margen. Esta tensión me supera.":
+            $ reporte_aislado_refugio = True
+            if reporte_no_buscar_de_noche:
+                $ marina -= 1
+            "{i}Observás el fuego en silencio. El murmullo de la selva parece crecer dentro tuyo.{/i}"
+        
+        "Mato el tiempo hablando con Laura."if reporte_buscar_quien_quiera:
+            $ reporte_aislado_refugio = True
+            $ laura += 1
+            "{i}Conversan en voz baja, contandose cosas de lo que hacían antes del naufragio.{/i}"
+
+    # Oportunidad de cambiar de opinión
+    jump cap6_3_refugio_opcion_salida
+
+label cap6_3_refugio_opcion_salida:
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    "{i}Las ramas crujen con el viento. Cada sonido nocturno parece más fuerte mientras la ansiedad se acumula como el calor encerrado en el refugio.{/i}"
+
+    $ choice_position = "alta"
+
+    menu:
+        "Salir a bsucar. No puedo quedarme esperando mientras Ingrid empeora.":
+            $ reporte_salio_en_solitario = True
+            "{i}Agarras una rama larga, te ajustás la ropa, y te deslizás entre los árboles sin hacer ruido.{/i}"
+            jump cap6_3_salida_en_solitario
+
+        "Seguir esperando. Es demasiado arriesgado. Debo sostener la decisión que tomé.":
+            $ reporte_sostiene_decision = True
+            "{i}Cerrás los puños. Esperar no se siente bien, pero cambiar ahora sería peor. O eso intentás creer.{/i}"
+            show bob bob parado serio at right
+            with Dissolve (0.5)
+            b "Ingrid está cada vez peor, voy a buscar esas plantas ahora mismo."
+            hide bob 
+            with Dissolve (0.5)
+            show marina preocupada at left
+            with Dissolve(0.5)
+            m "¡Espera Bob! Yo tambien voy..."
+            hide marina 
+            with Dissolve (0.5)
+            jump cap6_4_reunion
+
+label cap6_3_salida_en_solitario_marina:
+
+    scene bg jungle clearing at truecenter
+    with Dissolve(0.5)
+
+    "{i}La oscuridad no es completa, pero sí suficiente para perderte si das un paso en falso. Cada crujido bajo tus pies podría ser un sendero... o una trampa.{/i}"
+
+    "{i}Después de unos minutos, una silueta encorvada aparece junto a un tronco caído. Se mueve apenas, como si luchara por mantenerse despierta.{/i}"
+
+    show marina gr triste at leftgr
+    with Dissolve(0.5)
+
+    m "[nombre_personaje]... Pensé que no... que nadie vendría."
+
+    y "¿Estás herida? Te estuvimos esperando. ¿Qué pasó?"
+
+    m "Escuché algo. Me asusté. Corrí. Me tropecé con una raíz... no pude gritar."
+    m "Luego me escondí...pero encontré las plantas..."
+
+    "{i}La ayudás a ponerse de pie. Está temblorosa pero parece estar bien. Tomás su brazo con firmeza y comenzás el regreso.{/i}"
+
+    $ reporte_encuentra_marina = True
+    $ marina += 1
+    $ sed -= 1
+    $ hambre -= 1
+
+    jump cap6_final
+
+label cap6_3_salida_en_solitario:
+    "{i}Avanzas entre los arboles en una oscuridad casi completa, buscando las plantas o señales de los demás{/i}"
+    "{i}Un paso en falso, y caés rodando cuesta abajo entre hojas mojadas y barro.{/i}"
+    hide marina
+    hide bob
+
+    $ reporte_caida_terraplen = True
+    $ cansancio -= 1
+    hide screen combined_ui
+    show screen combined_ui
+
+    y "¡Ahhh...!"
+
+    scene bg jungle night search at truecenter
+    with Dissolve(0.5)
+
+    $ choice_position = "default"
+    menu:
+        "Hcaer un gran esfuerzo fisico para intentar agarrarte de algo":
+            "{i}Lográs frenar la caída aferrándote a una raíz. El golpe dejó una punzada aguda en tu brazo.{/i}"
+            $ cansancio -= 1
+            hide screen combined_ui
+            show screen combined_ui
+            $ choice_position = "alta"
+
+            menu:
+                "Ignorar el golpe El grupo me necesita ahora.":
+                    $ reporte_ignora_herida = True
+                    "{i}Apoyás el peso en el otro brazo. Te incorporas como puedes para continuar la búsqueda.{/i}"
+                "Examinar el brazo. Podría ser serio.":
+                    $ reporte_verifica_herida = True
+                    "{i}Parece solo una raspadura, le haces un vendaje hasta que puedas lavar la herida.{/i}"
+        "Dejarte rodar, tratando de protegerte todo lo posible.":
+            "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
+            scene bg jungle night fall at truecenter
+            with Dissolve(0.5)
+            $ reporte_caida_rodar = True
+            "{i}Te levantas en medio de la oscuridad, apenas se ve nada. Ladera arriba se escuchan unas voces{/i}"
+            y "¡Aqui! ¡Aquí!"
+    "{i} A lo lejos se sienten unos gruñidos. Bob grita una advertencia entre ruido de ramas rotas. Algo está pasando donde están los otros.{/i}"  
+    jump cap6_volver_solo
+
+
+label cap6_3_buscadores:
+        # Eventos secuenciales con obstáculos:
+    # - Tropezón / caída
+    # - Espinas / rasguños (afecta 'cansancio' o variable reporte_herida)
+    # - Ruido del jabalí (detonante de separación)
+    # Un personaje se pierde
+    # Fin: regreso parcial al refugio
+
+    scene bg jungle trail at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El aire húmedo de la selva nocturna raspa la garganta. Cada paso entre ramas crujientes parece despertar a algo más que los grillos.{/i}"
+
+    show marina hablando at left
+    with Dissolve(0.5)
+
+    m "Creo que es por acá. Si no me falla la memoria, Ingrid dijo que la cortezarroja crece junto a palmas del tallo rojo."
+
+    show bob parado serio at right
+    with Dissolve(0.5)
+
+    b "Sigamos así. Hay que buscar con cuidado, pero tampoco se separen..."
+
+    "{i}Un paso en falso, y caés rodando cuesta abajo entre hojas mojadas y barro.{/i}"
+    hide marina
+    hide bob
+
+    $ reporte_caida_terraplen = True
+    $ cansancio -= 1
+    hide screen combined_ui
+    show screen combined_ui
+
+    y "¡Ahhh...!"
+
+    scene bg jungle night search at truecenter
+    with Dissolve(0.5)
+
+    $ choice_position = "default"
+    menu:
+        "Hcaer un gran esfuerzo fisico para intentar agarrarte de algo":
+            "{i}Lográs frenar la caída aferrándote a una raíz. El golpe dejó una punzada aguda en tu brazo.{/i}"
+            $ cansancio -= 1
+            hide screen combined_ui
+            show screen combined_ui
+
+            show bob parado serio at left
+            with Dissolve(0.5)
+            b "[nombre_personaje], ¿estás bien?"
+            $ choice_position = "alta"
+
+            menu:
+                "Ignorar el golpe El grupo me necesita ahora.":
+                    $ reporte_ignora_herida = True
+                    "{i}Apoyás el peso en el otro brazo. Te incorporas como puedes para continuar la búsqueda.{/i}"
+                    y "Si, si, no es nada."
+                "Examinar el brazo. Podría ser serio.":
+                    $ reporte_verifica_herida = True
+                    y "No sé, me duele el brazo."
+                    b "Déjame ver..."
+                    b "Parece solo una raspadura, le he hecho un vendaje pero debes lavarlo cuanto antes.{/i}"
+            y "Sigamos con la búsqueda."
+        "Dejarte rodar, tratando de protegerte todo lo posible.":
+            "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
+            scene bg jungle night fall at truecenter
+            with Dissolve(0.5)
+            "{i}Te levantas en medio de la oscuridad, apenas se ve nada. A lo lejos se siente una voz que grita tu nombre{/i}"
+            y "¡Aqui! ¡Aquí!"
+            "{i}Ladera arriba se sienten unos gruñidos. Bob grita una advertencia a lo lejos. Algo está pasando donde quedaron los otros.{/i}"
+            $ reporte_caida_rodar = True
+            jump cap6_volver_solo
+    
+    show marina preocupada at right
+    with Dissolve(0.5)
+    m "¡Qué susto me diste, [nombre_personaje]!"
+    y "No ha sido nada, Marina. Sigamos buscando."
+    jump cep6_jabali_grupo
+
+label cep6_jabali_grupo:
+    scene bg jungle night crisis at truecenter
+    with Dissolve(0.5)
+
+    "{i}Avanzan un poco más, pero algo cruje entre los árboles. Un gruñido ronco corta el murmullo de la noche.{/i}"
+
+    show marina gr hablando at leftgr
+    with Dissolve(0.5)
+
+    m "¿¡Escucharon eso!? Eso no fue un mono..."
+
+    $ reporte_oyen_jabali = True
+
+    show bob gr parado hablando at rightgr
+    with Dissolve(0.5)
+
+    b "¡No se muevan! ¡Manténganse juntos!"
+
+    "{i}Pero alguien corre. Otro grita. El caos irrumpe.{/i}"
+    hide marina
+    hide bob
+    with Dissolve(0.5)
+
+    "{i}En la oscuridad se oyen ramas quebrarse. Todos corren entre los arboles.{/i}"
+
+    $ cansancio -= 1
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Un gruñido furioso llega desde atrás y sientes como algo pasa cerca rompiendo ramas.{/i}"
+
+    hide erika
+    hide bob
+    with Dissolve(0.5)
+
+    jump cap6_volver_solo
+
+label cap6_volver_solo:
+    "{i}Cuando vuelve la calma te das cuenta. Ya no están cerca. La jungla vuelve al silencio, esta vez vacío.{/i}"
+
+    $ reporte_grupo_separado = True
+    $ bob -= 1
+    $ erika -= 1
+    $ cansancio -= 1
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+    "{i}Lográs regresar al campamento, jadeando, con hojas pegadas al rostro y el brazo punzando.{/i}"
+
+    show laura gr hablando at leftgr
+    with Dissolve(0.5)
+
+    l "¿¡Dónde están los demás!? ¿Por qué estás sol[e]?"
+
+    y "Nos separamos... hubo un ruido. Un gruñido fuerte. Intenté seguir, pero la oscuridad..."
+
+    $ reporte_regreso_sin_grupo = True
+
+    jump cap6_4_reunion
+
+label cap6_4_reunion:
+    # El grupo se reúne. Falta alguien.
+    # Se genera una discusión fuerte, con culpabilización
+    # El jugador puede optar por calmar, culpar, o irse en silencio
+    # Se actualizan relaciones
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+    show laura seria at left
+    with Dissolve(0.5)
+    "{i}Mientras aún estás explicando la situación a Laura, Bob llega al refugio...solo.{/i}"
+    if reporte_regreso_sin_grupo:
+        if reporte_oyen_jabali:
+            show bob parado hablando at right
+            with Dissolve(0.5)
+            b "Que alivio haber podido regresar al campamento."
+            show laura seria  at left
+            with Dissolve(0.5)
+
+            l "Pero no todos. Falta Marina."
+
+            b "En la caminata de vuelta... Marina se quedó atrás. Escuchamos un ruido fuerte. Un gruñido. Corrimos…"
+
+            show laura gr enojada at leftgr
+            with Dissolve(0.5)
+
+            l "Y no se les ocurrió volver por ella…"
+            show bob parado serio at right
+            with Dissolve(0.5)
+
+            show laura gr seria at leftgr
+            with Dissolve(0.5)
+
+            "{i}El silencio se densifica. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
+
+            $ choice_position = "alta"
+
+            menu:
+                "¡No se puede culpar a nadie! Esto fue un accidente.":
+                    $ reporte_intervencion_neutra = True
+                    y "Nadie quiso esto. Estábamos todos al límite."
+
+                "Bob estaba mas cerca, yo me habia movido lejos de ellos.":
+                    $ reporte_reclamo_por_salida = True
+                    $ bob -= 1
+                    y "Ahora falta Marina. ¿Qué pasó Bob? Tu eras quién estaba mas cerca de ella"
+                    show bob gr parado enojado at rightgr
+                    with Dissolve(0.5)
+                    b "Fué todo muy caótico, no se quién estaba mas cerca de quién."
+
+                "Me quedo callad[e]. Pero estoy hirviéndo por dentro.":
+                    $ reporte_silencio_tensionado = True
+                    "{i}Mantenés el rostro serio. Por dentro, te sientes responsable.{/i}"
+        else:
+            show bob parado serio at right
+            with Dissolve(0.5)
+            b "Estaba preocupado luego que cayeras por la pendiente, no te veiamos en la oscuridad."
+            b "Que alivio hque hayas podido llegar al refugio [nombre_personaje]."
+            show laura enojada at left
+            with Dissolve(0.5)
+
+            l "Pero no todos. Falta Marina."
+
+            b "En la caminata de vuelta... Marina se quedó atrás. Escuchamos un ruido fuerte. Un gruñido. Corrimos…"
+            l "Y no se te ocurrió volver por ella…"
+
+            "{i}El silencio se densifica. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
+
+            $ choice_position = "alta"
+
+            menu:
+                "¡No se puede culpar a nadie! Esto fue un accidente.":
+                    $ reporte_apoyo_bob_jabali = True
+                    $ bob += 1
+                    y "No es culpa e Bob. Estábamos todos al límite."
+
+                "Realmente me sorprende de Bob.":
+                    $ reporte_reclamo_por_salida = True
+                    $ bob -= 1
+                    y "Ahora falta Marina. ¿Qué pasó Bob? Me sorporende que la dejaras en la selva."
+                    show bob gr parado enojado at rightgr
+                    with Dissolve(0.5)
+                    b "Fué todo muy caótico, luego de correr no sabia ni donde estaba yo."
+
+                "Me quedo callad[e]. Pero estoy hirviéndo por dentro.":
+                    $ reporte_silencio_tensionado = True
+                    "{i}Mantenés el rostro serio. Por dentro, te sientes responsable.{/i}"
+
+    show bob parado hablando at right
+    with Dissolve(0.5)
+
+    b "Tenemos que decidir. ¿Esperamos hasta el amanecer o salimos ahora a buscarla?"
+
+    jump cap6_5_decision_final
+
+label cap6_5_decision_final:
+    # El jugador puede:
+    # - Ir a buscar a la persona perdida con alguien más
+    # - Esperar en el refugio (desencadena resultado pasivo)
+    # Resultado variable según decisiones pasadas (confianza, relación, cansancio)
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+    show bob parado serio at right
+    with Dissolve(0.5)
+    show laura seria at left
+    with Dissolve(0.5)
+
+    $ cansancio +=1
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}El grupo vuelve a rodear el fuego. Nadie habla por un momento. El cansancio aprieta los hombros, pero la tensión mantiene los ojos abiertos.{/i}"
+
+    show laura enojada at left
+    with Dissolve(0.5)
+
+    l "Entonces... ¿van a buscarla o esperan a que vuelva por su cuenta?"
+    show bob parado hablando at right
+    with Dissolve(0.5)
+    b "Es un problema de todos..."
+    show laura gr enojada at leftgr
+    with Dissolve(0.5)
+    l "¡De ninguna manera! Yo dije claramente que era un error ir a la selva de noche."
+    l "Ahora es su responsabilidad lo que le pase a Marina."
+    $ choice_position = "alta"
+
+    menu:
+        "Debemos ir a buscarla. Aunque sea de noche, no podemos dejarla sola.":
+            $ reporte_decide_buscar_marina = True
+            $ bob += 1
+            $ laura +=1
+            y "Si ella estuviera acá, insistiría en salir a buscarnos. No podemos fallarle ahora."
+            "{i}Bob asiente. Se preparan con lo poco que tienen y se internan nuevamente en la selva.{/i}"
+            jump cap6_rescate_en_la_noche
+
+        "Esperar hasta el amanecer. Es peligroso y no ayudaría que más se pierdan.":
+            $ reporte_decide_esperar_marina = True
+            $ laura -= 1
+            $ bob -= 1
+            y "No servirá de nada tener otra persona perdida en la jungla. El momento para ."
+            "{i}El grupo no parece muy satisfecho. El fuego se aviva, pero el frío de la duda se queda.{/i}"
+            jump cap6_espera_al_amanecer
+
+        "Yo voy a buscarla, no mas errores.":
+            $ reporte_decide_esperar_marina = True
+            $ laura += 1
+            $ bob -= 1
+            y "Yo voy, ustedes esperen aqui."
+            b "Yo puedo ayudar a buscarla también."
+            y "El momento para no dejarla atrás ya pasó, Bob. Ahora déjame a mi resolver el problema."
+            "{i}Bob queda en silencio ante tus palabras mientras te internas en la noche.{/i}"
+            jump cap6_3_salida_en_solitario_marina
+
+label cap6_rescate_en_la_noche:
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}De nuevo en la espesura. Esta vez, los pasos son más pesados. Las hojas crujen con la humedad y el miedo. Cada sombra parece un animal agazapado.{/i}"
+
+    show bob gr parado serio at rightgr
+    with Dissolve(0.5)
+
+    b "Debería haber vuelto por ella antes. No vuelvas a separarte de mí. Esta vez no."
+
+    $ sed -= 1
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Tras unos minutos de búsqueda en el claro donde se separaron, escuchás un leve quejido. Te adelantás entre arbustos y ahí está...{/i}"
+
+    show marina gr triste at leftgr
+    with Dissolve(0.5)
+
+    m "[nombre_personaje]... ¿Bob? ¿Están ahí...? Pensé que no lo contaba."
+
+    b "¡Marina! Por todos los cielos..."
+
+    "{i}La ayudás a levantarse. Está cubierta de barro y hojas secas, con un rasguño en el brazo y la mirada perdida.{/i}"
+
+    m "Me escondí cuando escuché el gruñido. Después fue muy tarde para volver."
+    m "Pero encontré las plantas..."
+
+    $ reporte_rescate_exitoso = True
+    $ marina += 2
+    $ bob += 1
+    $ hambre -= 1
+    hide screen combined_ui
+    show screen combined_ui
+    $ reporte_regreso_marina = True
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    "{i}Regresan juntos. El refugio se ilumina con las últimas brasas y el alivio contenido en los rostros que los reciben.{/i}"
+
+    show laura hablando at center
+    with Dissolve(0.5)
+
+    l "¡Marina!"
+
+    m "Estoy bien... estoy bien, gracias a [nombre_personaje] y Bob."
+
+    $ laura += 1
+
+    jump cap6_final
+
+label cap6_espera_al_amanecer:
+
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}La noche se estira más de lo habitual. Cada rama que cruje es una pregunta. Nadie duerme. Cada uno lucha con sus pensamientos en silencio.{/i}"
+
+    show laura seria at left
+    with Dissolve(0.5)
+
+    l "No soporto no saber. Pero salir en medio de esta oscuridad solo haría todo peor."
+
+    show bob gr parado serio at rightgr
+    with Dissolve(0.5)
+
+    b "...Tal vez. O tal vez no hicimos lo suficiente."
+
+    "{i}El fuego se consume en brasas. La selva murmura con viento leve. Luego, el primer rayo de luz se filtra entre las ramas.{/i}"
+
+    scene bg jungle clearing at truecenter
+    with Dissolve(0.5)
+
+    "{i}Y entonces, una figura aparece. Cojeando, con el rostro pálido y el brazo rasguñado.{/i}"
+
+    show marina gr triste at center
+    with Dissolve(0.5)
+
+    m "Pensé... que no volvía. Me perdí... pero encontré un claro. Esperé hasta que hubo luz."
+
+    show bob parado hablando at right
+    show laura gr sorprendida at leftgr
+    with Dissolve(0.5)
+
+    b "Marina…"
+
+    l "¿Estás bien? ¡Te dimos por perdida!"
+
+    m "Estoy... agotada. Pero viva."
+    m "Encontré las plantas..."
+
+    "{i}La ayudás a sentarse. Le ofrecés agua. Nadie habla más. Solo las aves comienzan a cantar en la copa de los árboles.{/i}"
+
+    $ reporte_marina_vuelve_sola = True
+    $ marina -= 1
+    $ hambre -= 1
+    $ sed -= 1
+    $ cansancio -= 1
+
+    jump cap6_final
+
+label cap6_final:
+    # Si hubo misión de rescate, se encuentran las plantas y al personaje
+    # Si se esperó: la persona llega al amanecer extenuada
+    # Se curan heridas de Ingrid con las plantas
+    # Se muestran consecuencias → se cierra el capítulo
+    if refugio == "cueva":
+        scene bg jungle cave at truecenter
+    elif refugio == "cabana":
+        scene bg jungle hut at truecenter
+    elif refugio == "claro":
+        scene bg jungle clearing at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Apenas la luz se afianza entre las hojas, preparan una infusión con las plantas recolectadas. Una olla improvisada burbujea sobre el fuego.{/i}"
+
+    show laura hablando at left
+    show bob parado serio at right
+    with Dissolve(0.5)
+
+    l "¿Esto funcionará?"
+
+    b "Si Ingrid tenía razón… y la preparación está bien hecha, deberíamos ver una mejora pronto."
+
+    "{i}Le aplican con cuidado el líquido tibio sobre la herida de Ingrid. Nadie habla. Solo se escucha el lento goteo del agua condensada entre las hojas.{/i}"
+
+    show ingrid preocupada at center
+    with Dissolve(0.5)
+
+    i "(en voz baja) Se siente… menos caliente."
+
+    "{i}Una exhalación de alivio. Pequeña, pero real. Algo se ha ganado esta noche: tiempo, confianza, y el hilo que mantiene unido a un grupo en la incertidumbre.{/i}"
+
+    "{size=-10}Tus decisiones de esta noche no pasaron desapercibidas. La confianza, la tensión, las heridas... todo deja huella.{/size}"
+
+
+    jump chapter_6_end  
+
+    return
+
+#################################################################################################################
 
 label ingrid_enferma:
     # casi al anochecer, Ingrid empiza con una fiebre muy alta. Tiene una infeccion
@@ -5880,15 +6651,16 @@ label chapter_6_end:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                jump final_cap6
+                #jump final_cap6
+                jump chapter_7_start
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_6_end
 
-label final_cap6:
-    if renpy.android:
-        jump chapter_7_start
-    else:
-        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_2
+#label final_cap6:
+#    if renpy.android:
+#        jump chapter_7_start
+#    else:
+#        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_2
 
 #################################################################################################  ########  #####  ####  ######################################
 ##################################################################################################  ######  ######  ####  ####################################################
@@ -5899,7 +6671,7 @@ label chapter_7_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 6
     $ persistent.cantidad_capitulos +=1
-    jump ingrid_recupera
+    jump cap7_inicio
 
 label ingrid_recupera:
     # a la mañana todos están muy cansados
@@ -5916,9 +6688,875 @@ label ingrid_recupera:
     # Se plantea tema de rescate y Bob advierte que la tormenta los dejo muy lejos de las rutas y de donde se supone que debian estar.
     # Se da una discusion sobre que refugio es mejor para juntarse todos
     # Deberian ir surgiendo dos lideres en oposicion, puede ser que el jugador tome el rol del otro lider o que apoye a uno frente al otro
-    
+
     jump chapter_7_end
+
+label cap7_inicio:
+
+    $ capitulo_actual = 7
+
+    if refugio == "cueva":
+        scene bg jungle cave
+    elif refugio == "cabana":
+        scene bg jungle hut
+    elif refugio == "claro":
+        scene bg jungle clearing
+
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El amanecer se filtra entre hojas amplias y húmedas. Nadie dice nada al despertar: solo cuerpos exhaustos que intentan reincorporarse.{/i}"
+
+    show ingrid preocupada at center
+    with Dissolve(0.5)
+
+    i "(débil) Me siento menos débil... creo que puedo moverme, aunque despacio."
+
+    $ ingrid += 1
+    $ cansancio = max(1, cansancio - 1)
+
+    show bob parado hablando at right
+    with Dissolve(0.5)
+
+    b "Necesitamos más herramientas, comida... información. Hay que revisar los otros refugios. Ingrid no puede moverse mucho, así que uno de nosotros debería quedarse."
+
+    show marina seria at left
+    with Dissolve(0.5)
+
+    if marina <= -1:
+        m "Con suerte esta vez no se olvidan de nadie en medio de la selva."
+    elif marina >= 2:
+        m "Si puedo ayudar a Ingrid a levantarse del todo, contá conmigo."
+    else:
+        m "Podría quedarme con Ingrid, si quieren."
+
+    "{i}A vos te queda claro que donde están no será suficiente. Y hay lugares que podrían tener lo que falta.{/i}"
+
+    python:
+        opciones_exploracion = []
+        opciones_texto = []
+
+        if refugio != "cabana":
+            opciones_exploracion.append("cabana")
+            opciones_texto.append("Explorar la Cabaña")
+
+        if refugio != "cueva":
+            opciones_exploracion.append("cueva")
+            opciones_texto.append("Explorar la Cueva")
+
+        if refugio != "claro":
+            opciones_exploracion.append("claro")
+            opciones_texto.append("Explorar el Claro")
+
+    if len(opciones_exploracion) == 1:
+        $ destino_exploracion_1 = opciones_exploracion[0]
+        jump cap7_decidir_quien_va
+    else:
+        menu:
+            "[opciones_texto[0]]":
+                $ destino_exploracion_1 = opciones_exploracion[0]
+                jump cap7_decidir_quien_va
+
+            "[opciones_texto[1]]":
+                $ destino_exploracion_1 = opciones_exploracion[1]
+                jump cap7_decidir_quien_va
      
+label cap7_decidir_quien_va:
+
+    if refugio == "cueva":
+        scene bg jungle cave
+    elif refugio == "cabana":
+        scene bg jungle hut
+    elif refugio == "claro":
+        scene bg jungle clearing
+
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show ingrid preocupada at center
+    with Dissolve(0.5)
+
+    i "(débil) Si me dan algo de apoyo, puedo seguir buscando más plantas útiles. Pero todavía me cuesta mantenerme en pie sola."
+
+    show bob parado hablando at right
+    with Dissolve(0.5)
+
+    b "Uno debería quedarse con Ingrid. El resto puede ir al lugar que elegimos. Recolectar. Revisar. Lo que aparezca, será útil."
+
+    show laura seria at left
+    with Dissolve(0.5)
+
+    l "Yo puedo quedarme. Aunque también me gustaría ir, si hace falta."
+
+    if marina <= -1:
+        show marina enojada at center
+        with Dissolve(0.5)
+        m "Hagan lo que quieran. Ya estoy acostumbrada a que las decisiones se tomen sin pensar en todos."
+    elif marina >= 2:
+        show marina hablando at center
+        with Dissolve(0.5)
+        m "Puedo quedarme con Ingrid, si eso ayuda. Hoy me siento un poco más lúcida."
+    else:
+        show marina seria at center
+        with Dissolve(0.5)
+        m "No me molesta quedarme o ir. Lo que sea más útil."
+
+    menu:
+        "Voy a ir a explorar con el grupo.":
+            $ jugador_va_explorar = True
+            jump cap7_formar_grupo_exploracion
+
+        "Prefiero quedarme con Ingrid y asistirla.":
+            $ jugador_va_explorar = False
+            $ reporte_cuida_ingrid_cap7 = True
+            jump cap7_refugio_con_ingrid
+
+label cap7_formar_grupo_exploracion:
+
+    scene bg jungle_trail at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El grupo comienza a organizarse para la exploración. Ingrid queda en el refugio, confiando en que traerán algo útil.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    show marina seria at left
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    b "Vamos a hacer esto rápido. Necesitamos eficiencia, no dudas."
+
+    e "Si nos organizamos bien desde el principio, no vamos a perder tiempo en debates innecesarios."
+
+    "{i}Los dos enfoques son claros: acción rápida con Bob o planificación meticulosa con Erika.{/i}"
+
+    menu:
+        "Tomar el liderazgo del grupo":
+            $ jugador_lider += 2
+            "{i}Tomás cruza los brazos, evaluándote con interés.{/i}"
+
+            t "Si querés liderar, espero que sepas lo que hacés."
+
+        "Seguir el método de Bob: exploración rápida y efectiva":
+            $ apoyo_bob += 2
+            "{i}Bob asiente con firmeza.{/i}"
+
+            b "Bien, no vamos a perder tiempo."
+
+        "Seguir el enfoque de Erika: organización antes de avanzar":
+            $ apoyo_erika += 2
+            "{i}Erika sonríe brevemente.{/i}"
+
+            e "Si mantenemos el control, vamos a conseguir mejores resultados."
+
+    "{i}Los personajes comienzan a definir sus posiciones dentro del grupo.{/i}"
+
+    show tomas serio at right
+    show marina seria at left
+    show charles serio at center
+    show ingrid seria at far_left
+    show laura seria at far_right
+    with Dissolve(0.5)
+
+    python:
+        grupo_jugador = []
+        grupo_bob = []
+        grupo_erika = []
+
+        for personaje in ["tomas", "marina", "charles", "laura"]:
+            if getattr(player, f"apoyo_{personaje}") > 2:
+                grupo_jugador.append(personaje)
+            elif apoyo_bob > apoyo_erika:
+                grupo_bob.append(personaje)
+            else:
+                grupo_erika.append(personaje)
+
+        if len(grupo_jugador) < 3:
+            personaje_cambio = grupo_bob[-1] if len(grupo_bob) > len(grupo_erika) else grupo_erika[-1]
+            grupo_jugador.append(personaje_cambio)
+            grupo_bob.remove(personaje_cambio) if personaje_cambio in grupo_bob else grupo_erika.remove(personaje_cambio)
+
+    "{i}El grupo está listo. La exploración comienza ahora.{/i}"
+
+    jump cap7_union_con_grupo_explorador
+
+label cap7_refugio_con_ingrid:
+
+    if refugio == "cueva":
+        scene bg jungle cave
+    elif refugio == "cabana":
+        scene bg jungle hut
+    elif refugio == "claro":
+        scene bg jungle clearing
+
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Mientras los demás se preparan para salir, vos te quedás junto a Ingrid, acomodando unas hojas secas para que se recueste mejor.{/i}"
+
+    show ingrid preocupada at center
+    with Dissolve(0.5)
+
+    i "Gracias por quedarte... pero no deberías."
+
+    y "¿Perdón?"
+
+    i "Lo que necesitamos está allá afuera. Yo voy a estar bien. Marina me ayudó a reconocer algunas plantas esta mañana. Puedo arreglármelas."
+
+    "{i}La mirás. Tiene ojeras, las manos temblorosas, pero hay determinación en su tono.{/i}"
+
+    i "Vos necesitás ver lo que hay más allá de este lugar. Entender con quiénes estamos, qué decisiones tomar. No te aísles ahora."
+
+    menu:
+        "Aceptar ir después de todo":
+            $ reporte_ingrid_te_convence = True
+            $ ingrid += 2
+            "Tenés razón. Solo no quería dejarte sola."
+
+            i "Y yo agradezco eso. Pero ahora confío en que vas a volver con algo bueno."
+
+            jump cap7_union_con_grupo_explorador
+
+        "Insistir en quedarte a ayudarla":
+            $ ingrid += 1
+            $ confianza_ingrid += 2
+            "Prefiero asegurarme de que estés bien antes de tomar otras decisiones."
+
+            i "Es arriesgado, pero agradezco que pienses en eso."
+
+            "{i}La mirada de Ingrid refleja alivio, pero también preocupación por los demás.{/i}"
+
+            jump cap7_permanecer_con_ingrid
+
+        "Responder con firmeza pero afecto":
+            $ relacion_ingrid += 1
+            "Confío en que podés manejar esto, pero prometo volver rápido."
+
+            i "Bueno, si lo prometés... Supongo que tengo que confiar en eso."
+
+            "{i}Ingrid exhala con algo de tensión, pero asiente con confianza.{/i}"
+
+            jump cap7_union_con_grupo_explorador
+
+        "Dudar antes de tomar la decisión":
+            $ confianza_ingrid -= 1
+            "No sé si es lo correcto..."
+
+            i "Si dudás tanto, tal vez ya tomaste tu decisión."
+
+            "{i}La expresión de Ingrid es seria, pero no fría. Sabe que esta situación es difícil para todos.{/i}"
+
+            jump cap7_duda_sobre_exploracion
+
+label cap7_union_con_grupo_explorador:
+
+    scene bg jungle path at truecenter
+    with Dissolve(0.5)
+
+    "{i}Te apresurás a tomar una cantimplora, algo de cuerda, y salís en dirección al punto de encuentro que habían discutido antes. Tras unos minutos, ves al grupo acercándose desde la otra dirección.{/i}"
+
+    show bob parado serio at right
+    show laura seria at left
+    show marina seria at center
+    with Dissolve(0.5)
+
+    b "[nombre_personaje]… ¿te arrepentiste de ser bue[n] enfermer[e]?"
+
+    y "Ingrid insistió. Dijo que era más útil si los alcanzaba."
+
+    if marina <= -1:
+        m "¿En serio? ¿Ahora decidís que es momento de actuar? ¿Y si Ingrid empeora? Genial."
+
+        $ marina -= 1
+    elif marina >= 2:
+        m "Qué bueno que viniste. Ingrid se veía un poco mejor. No quería decirlo, pero creo que también quería que vinieras."
+
+        $ marina += 1
+    else:
+        m "Ok. Supongo que es mejor que estés acá ahora."
+
+    # Decisión de Marina de quedarse
+    if marina >= 1:
+        m "Igual... yo voy a volver con ella. Me preocupa cómo quedó. Ustedes sigan. Me encargo."
+
+    else:
+        m "No sé si esto tiene sentido. Me voy. Alguien tiene que estar con ella, aunque otros tengan prioridades más... flexibles."
+
+    $ reporte_marina_regresa = True
+
+    hide marina with Dissolve(0.5)
+
+    "{i}Marina se aleja sin mirar atrás. El grupo queda ahora compuesto por vos, Bob y Laura.{/i}"
+
+    jump cap7_antes_de_encuentro_nuevos
+
+label cap7_antes_de_encuentro_nuevos:
+
+    scene bg jungle path at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El grupo avanza con paso más lento. Ahora son solo tres: vos, Bob y Laura. La falta de Marina se siente, pero el objetivo sigue siendo el mismo.{/i}"
+
+    show laura seria at left
+    with Dissolve(0.5)
+
+    l "Pensé que encontraríamos solo plantas y piedras. Pero... mirá."
+
+    show bob gr parado serio at rightgr
+    with Dissolve(0.5)
+
+    b "Esto es... ¿una estructura?"
+
+    "{i}Bob se agacha y toca la tierra en un área despejada. Está nivelada. Ordenada. No es natural. Y más allá, hay señales claras: una lona improvisada, restos organizados de madera.{/i}"
+
+    show laura sorprendida at left
+    with Dissolve(0.5)
+
+    l "Alguien estuvo acá. No solo de paso. Se instalaron."
+
+    menu:
+        "Me acerco con precaución. Puede ser alguien en problemas.":
+            $ reporte_investiga_nuevo_grupo = True
+            y "Si hay más sobrevivientes, tenemos que saberlo."
+
+        "Me quedo observando. Prefiero evaluar primero antes de actuar.":
+            $ reporte_cautela_nuevo_grupo = True
+            y "Alguien organizó esto... Pero eso no nos dice si deberíamos confiar."
+
+        "Me preparo para cualquier escenario. Más personas pueden significar peligro.":
+            $ reporte_defensa_nuevo_grupo = True
+            y "Podría ser buena noticia. O mala."
+
+    jump cap7_encuentro_tomas_charles
+
+label cap7_encuentro_tomas_charles:
+
+    scene bg jungle path at truecenter
+    with Dissolve(0.5)
+
+    "{i}El sonido seco de ramas partiéndose rompe la monotonía del camino. Un hombre inclinado junta leña con precisión calculada. No duda. No desperdicia energía.{/i}"
+
+    show tomas serio at center
+    with Dissolve(0.5)
+
+    t "Si van a quedar mirándome, háganlo sin distraerme."
+
+    show bob gr parado serio at rightgr
+    with Dissolve(0.5)
+
+    b "Vaya. Y yo que pensaba que nos recibirían con una sonrisa."
+
+    show laura hablando at left
+    with Dissolve(0.5)
+
+    l "No lo culpo. Mantenerse ocupado es clave."
+
+    menu:
+        "Respeto su enfoque. Mejor trabajar que hablar sin sentido.":
+            $ reporte_respetuoso_tomas = True
+            y "No te vamos a detener. Es bueno ver a alguien que hace lo que tiene que hacer."
+
+        "Intento interactuar, aunque no parece muy receptivo.":
+            $ reporte_intenta_conectar_tomas = True
+            y "¿Cuánto tiempo llevan organizándose así? Es impresionante."
+
+        "No le doy importancia. No es problema mío.":
+            $ reporte_distante_tomas = True
+            y "No nos molesta. Seguí con lo tuyo."
+
+    "{i}Tomás asiente apenas, recoge otra rama, y sigue con su tarea sin esperar respuesta.{/i}"
+
+    scene bg jungle resting_spot at truecenter
+    with Dissolve(0.5)
+
+    "{i}Más adelante, el contraste es evidente: otro hombre descansa contra una roca, piernas cruzadas, observando el horizonte sin preocupación aparente.{/i}"
+
+    show charles hablando at center
+    with Dissolve(0.5)
+
+    c "No se preocupen por Tomás. Es así con todo el mundo."
+
+    show bob parado serio at right
+    show laura hablando at left
+    with Dissolve(0.5)
+
+    l "¿Y vos? ¿Cuánto tiempo llevan organizándose?"
+
+    "{i}Charles sonríe, relajado, sin mostrar la misma urgencia que el otro.{/i}"
+
+    c "El tiempo suficiente para saber que es mejor dejar que otros hagan el trabajo duro."
+
+    menu:
+        "Bromeo. Al menos no intenta ocultarlo.":
+            $ reporte_broma_charles = True
+            y "No puedo discutir con alguien que lo dice con honestidad."
+
+        "Me incomoda un poco. Parece demasiado despreocupado.":
+            $ reporte_desconfia_charles = True
+            y "¿No te preocupa ser útil? No todos tienen la misma suerte."
+
+        "Lo ignoro. No hay razón para invertir tiempo en esto.":
+            $ reporte_no_interactua_charles = True
+            y "Sigan con lo suyo."
+
+    "{i}Charles no parece afectado por ninguna respuesta. Solo sonríe, se incorpora, y los guía más adelante.{/i}"
+
+    jump cap7_conflicto_tomas_charles
+
+label cap7_conflicto_tomas_charles:
+
+    scene bg jungle resting_spot at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show tomas serio at right
+    show charles hablando at left
+    with Dissolve(0.5)
+
+    "{i}Apenas se cruzan, Tomás no tarda en hablar. Su expresión es neutral, pero su tono tiene peso.{/i}"
+
+    t "Mientras yo recogía leña, vos te quedaste… descansando."
+
+    c "No estaba descansando. Estaba evaluando la zona, asegurándome de que no tuviéramos problemas."
+
+    t "¿Ah, sí? Porque cuando te vio [nombre_personaje], lo que hacías no parecía muy útil."
+
+    "{i}Tomás cruza los brazos. Charles apenas altera su postura, pero su expresión cambia sutilmente.{/i}"
+
+    menu:
+        "Apoyar a Tomás. Charles no estaba haciendo nada.":
+            $ confianza_tomas += 1
+            $ confianza_charles -= 1
+            y "Si lo que Charles hacía era útil, yo no lo noté. No lo vi moverse para hacer nada."
+
+            t "Exacto."
+
+            c "Vaya, qué rápid[e] en sacar conclusiones."
+
+        "Apoyar a Charles. Tal vez sí estaba haciendo algo.":
+            $ confianza_charles += 1
+            $ confianza_tomas -= 1
+            y "No podemos asumir que porque no lo vimos, no hizo nada. Tal vez sí estaba evaluando algo."
+
+            t "Espero que de verdad sea el caso."
+
+            c "Me alegra que alguien lo entienda."
+
+        "No intervenir. No es mi problema.":
+            y "No me meto en esto."
+
+            "{i}Ambos se miran y continúan la conversación, al parecen esas discusiones se dan a menudo estre ellos.{/i}"
+
+    jump cap7_encuentro_nuevo_grupo
+
+label cap7_encuentro_nuevo_grupo:
+
+    scene bg jungle makeshift_camp at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show erika seria at center
+    with Dissolve(0.5)
+
+    k "Espero que no estén tocando nada que no sea suyo."
+
+    "{i}El grupo se detiene. Frente a ustedes, una mujer de postura firme observa todo con precisión calculada. No hay inseguridad en su mirada. Solo evaluación.{/i}"
+
+    show bob parado serio at right
+    show laura seria at left
+    with Dissolve(0.5)
+
+    l "No es nuestra intención. Solo intentamos entender quién más está aquí."
+
+    b "Si hay más sobrevivientes, tenemos que saberlo."
+
+    # Ajuste de tono según las interacciones previas
+    if reporte_respetuoso_tomas:
+        k "Tomás ya los vio, supongo. Si fueron lo suficientemente inteligentes, entendieron que preferimos la eficiencia sobre la charla vacía."
+    elif reporte_intenta_conectar_tomas:
+        k "Tomás no es el tipo de persona que habla por hablar. Si llegaron hasta acá, espero que al menos hayan sacado algo útil de verlo en acción."
+    elif reporte_distante_tomas:
+        k "Si no se molestaron en conocer a Tomás, tal vez tampoco necesiten saber lo que encontramos aquí."
+
+    if reporte_broma_charles:
+        k "Y Charles… bueno, supongo que ya notaron cómo sobrevive."
+    elif reporte_desconfia_charles:
+        k "Si Charles les pareció poco comprometido, ya entienden por qué tengo que asegurarme de que todo lo que hacemos tenga sentido."
+    elif reporte_no_interactua_charles:
+        k "Charles no siempre es lo que parece. Tal vez debería preocuparme más por cómo interactúa con ustedes."
+
+    "{i}Erika cruza los brazos. Su postura no es hostil, pero tampoco es de bienvenida automática.{/i}"
+
+    menu:
+        "Con confianza. No quiero parecer débil ante ella.":
+            $ reporte_se_muestra_firme = True
+            y "No estamos aquí para causar problemas. Queremos saber qué opciones hay."
+
+        "Con precaución. No quiero que nos vea como una amenaza.":
+            $ reporte_se_muestra_cauteloso = True
+            y "Es bueno ver un grupo organizado. Solo queremos entender la situación."
+
+        "Con apertura. Prefiero evitar conflicto innecesario.":
+            $ reporte_se_muestra_abierto = True
+            y "Si podemos ayudarnos mutuamente, creo que todos ganamos."
+
+    "{i}Erika observa por unos segundos. Luego da un leve asentimiento, como si estuviera procesando cada palabra.{/i}"
+
+    jump cap7_discusion_grupo
+
+label cap7_discusion_grupo:
+
+    scene bg jungle makeshift_camp at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show erika seria at center
+    with Dissolve(0.5)
+
+    k "El rescate no va a ser inmediato. Si es que llega."
+
+    show bob gr serio at right
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    b "La tormenta nos alejó de cualquier ruta normal. No estamos donde deberíamos. Si quieren confiar en que nos buscan, háganlo. Pero no va a pasar mañana."
+
+    l "Lo que significa que tenemos que decidir cómo nos organizamos."
+
+    show tomas serio at rightgr
+    show charles hablando at leftgr
+    with Dissolve(0.5)
+
+    t "Separados, sobrevivimos. Juntos, mejoramos. Pero no todos piensan igual."
+
+    c "La pregunta no es si podemos vivir separados. Es si realmente queremos."
+
+    "{i}Los grupos ahora se observan unos a otros. Se sabe que unificar los refugios traería ventajas, pero también abriría fricciones.{/i}"
+
+    menu:
+        "Apoyar la unión. Es lo mejor en términos de organización.":
+            $ reporte_apoya_union = True
+            y "La cantidad de recursos y habilidades combinadas nos daría más oportunidades. Separados, desperdiciamos posibilidades."
+
+        "Dudar. Es arriesgado y podría causar tensiones innecesarias.":
+            $ reporte_indeciso_union = True
+            y "Es verdad que juntos tenemos ventajas, pero esto no va a ser fácil. No quiero que se convierta en otro problema."
+
+        "Oponerse. Prefiero mantener independencia.":
+            $ reporte_opone_union = True
+            y "Más gente también significa más conflictos. No hay garantía de que funcione."
+
+    "{i}La decisión no será inmediata. Pero la conversación ya sentó la base para lo que viene.{/i}"
+
+    jump cap7_evaluacion_refugio
+
+label cap7_evaluacion_refugio:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Cada persona expone su preferencia sobre el refugio. Las opiniones están claras, pero la decisión aún no se ha tomado.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "La cabaña es el mejor lugar. Tiene estructura y fue lo primero que encontramos."
+
+    k "Este refugio ya está organizado. Mudarnos solo nos haría perder tiempo."
+
+    hide bob
+    show marina seria at left
+    with Dissolve(0.5)
+
+    m "Si nos quedamos en la cabaña, yo me muero de calor. La cueva es mejor."
+
+    hide marina
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    t "El claro en la colina nos da visión del mar. Si alguien nos busca, podríamos verlos primero."
+
+    hide tomas
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    c "Si nos peleamos por esto, va a ser peor. Tomemos una decisión ya."
+
+    "{i}Las posturas están fijadas, pero la decisión aún depende de quién la tome.{/i}"
+
+    menu:
+        "Quedarse en la cabaña. Es el lugar más seguro.":
+            $ preferencia_refugio = "cabaña"
+            $ bob += 1
+            "La cabaña tiene estructura. Sabemos cómo funciona."
+
+        "Elegir la cueva. Marina tiene razón sobre el calor.":
+            $ preferencia_refugio = "cueva"
+            $ marina += 1
+            "El clima es clave. Si sufrimos el calor, será peor."
+
+        "Quedarse en el refugio actual. Erika tiene un punto.":
+            $ preferencia_refugio = "actual"
+            $ erika += 1
+            "No tiene sentido desperdiciar lo que ya está asentado."
+
+        "Mudarse al claro en la colina. Se podría detectar rescates.":
+            $ preferencia_refugio = "colina"
+            $ tomas += 1
+            "Si podemos ver el mar, podemos anticipar rescates. Tener esa ventaja puede cambiar todo."
+
+    "{i}La elección está hecha. Algunos la aceptan. Otros tienen dudas. La estructura del grupo se ha definido.{/i}"
+
+    jump cap7_formacion_alianzas
+
+label cap7_formacion_alianzas:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Los supervivientes han llegado al refugio. Ingrid permanece dentro, descansando, mientras los demás discuten afuera.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "No hay dudas de que la cabaña es la mejor opción. Ya la conocemos y sabemos que es segura."
+
+    k "El refugio aquí es más estable. Ya tiene organización."
+
+    hide bob
+    show marina seria at left
+    with Dissolve(0.5)
+
+    m "Segura, pero insoportable. La cueva nos dará descanso del calor."
+
+    hide marina
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    l "La cueva puede ser buena, pero también puede tener humedad o problemas en una tormenta."
+
+    hide laura
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    t "Si el primer refugio visitado tenía recursos, ¿por qué no aprovecharlo?"
+
+    hide tomas
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    c "En cualquier caso, no vamos a convencer a todos con una sola opción."
+
+    "{i}Las opiniones chocan. Nadie logra un consenso. Ahora queda decidir.{/i}"
+
+    menu:
+        "La cabaña es lo más seguro.":
+            $ preferencia_refugio = "cabaña"
+            $ bob += 1
+            "Ya conocemos la cabaña y tiene estructura. Tiene sentido quedarnos."
+
+        "La cueva ofrece frescura y es clave para sobrevivir aquí.":
+            $ preferencia_refugio = "cueva"
+            $ marina += 1
+            "El calor es insoportable. La cueva es una opción práctica."
+
+        "El refugio actual tiene la mejor organización.":
+            $ preferencia_refugio = "actual"
+            $ erika += 1
+            "Si ya está asentado, mejor aprovechar lo que ya se construyó."
+
+        "Mudarse al otro refugio visitado podría ser mejor en recursos.":
+            $ preferencia_refugio = "alternativo"
+            $ tomas += 1
+            "Ese lugar tenía espacio y materiales útiles. No deberíamos descartarlo."
+
+    "{i}La decisión está tomada. Algunos están satisfechos. Otros, no tanto. Las dinámicas del grupo han cambiado.{/i}"
+
+    jump cap7_tension_liderazgo
+
+label cap7_tension_liderazgo:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Las conversaciones sobre el refugio han dejado claro que el grupo se está dividiendo en posturas. Pero una decisión aún más importante sigue pendiente.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "Ahora que sabemos dónde instalarnos, necesitamos liderazgo real."
+
+    k "No sirve tener un lugar si nadie sabe cómo manejarlo."
+
+    hide bob
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    l "Si no organizamos roles, esto va a terminar en desastre."
+
+    hide laura
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    t "Alguien tiene que tomar el mando. No podemos seguir con discusiones eternas."
+
+    hide tomas
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    c "Cada uno tiene una forma de ver las cosas, pero alguien tiene que hacer que funcionen."
+
+    "{i}La tensión crece. La pregunta es obvia, pero nadie la ha dicho en voz alta. Hasta ahora.{/i}"
+
+    menu:
+        "Apoyar a Erika. Su enfoque estratégico es lo más sólido.":
+            $ reporte_apoya_liderazgo_erika = True
+            $ erika += 2
+            "Si queremos orden, lo mejor es seguir una estructura clara. Erika tiene la mejor visión para eso."
+
+        "Apoyar a Bob. Su adaptabilidad es clave en un entorno incierto.":
+            $ reporte_apoya_liderazgo_bob = True
+            $ bob += 2
+            "No siempre podemos seguir un plan rígido. Bob sabe reaccionar mejor ante lo inesperado."
+
+        "Tomar el rol de liderazgo. Quiero marcar la dirección del grupo.":
+            $ reporte_postula_liderazgo = True
+            $ bob -= 1
+            $ erika -= 1
+            $ jugador_lider = True
+            "Si lo que necesitamos es alguien que equilibre estrategia y reacción, puedo tomar ese rol."
+
+        "Evitar tomar partido. No importa quién lidere si no trabajamos juntos.":
+            $ reporte_evade_liderazgo = True
+            "No es solo quién manda. Lo importante es que todos podamos funcionar como grupo."
+
+    "{i}La decisión marca el rumbo del grupo. Algunos aceptan el resultado. Otros, no tanto. Pero lo inevitable está definido: hay un liderazgo establecido.{/i}"
+
+    jump cap7_final
+
+label cap7_final:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}La decisión se ha tomado. No hay vuelta atrás. Ahora, cada uno asimila el resultado.{/i}"
+
+    if preferencia_refugio == "actual":
+        $ refugio = "actual"
+        "{i}El grupo se queda en el refugio que ya está construido. No habrá cambios drásticos, solo ajustes en la convivencia.{/i}"
+
+        show bob parado serio at centerright
+        show erika seria at centerleft
+        with Dissolve(0.5)
+
+        b "Bien. Conocemos este lugar, sabemos cómo manejarlo."
+
+        k "Mantener estabilidad nos da ventaja."
+
+        hide bob
+        show marina seria at left
+        with Dissolve(0.5)
+
+        m "Al menos no tenemos que movernos otra vez."
+
+        hide marina
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        t "Espero que sea la decisión correcta."
+
+        hide tomas
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        c "Bueno, será cuestión de adaptarse."
+
+    elif preferencia_refugio == "nuevo":
+        $ refugio = "nuevo"
+        "{i}El grupo decide mudarse al refugio del nuevo grupo. La transición será un desafío.{/i}"
+
+        show bob parado serio at centerright
+        show erika seria at centerleft
+        with Dissolve(0.5)
+
+        b "Supongo que nos toca aprender sobre este lugar."
+
+        k "Es la opción más estable. Lo mejor es aprovecharla."
+
+        hide bob
+        show marina seria at left
+        with Dissolve(0.5)
+
+        m "Esperemos que sea lo que necesitamos."
+
+        hide marina
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        t "Lo organizamos bien, o vamos a lamentarlo."
+
+        hide tomas
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        c "No está tan mal. Al menos no tuvimos que construir todo desde cero."
+
+    elif preferencia_refugio == "alternativo":
+        $ refugio = "alternativo"
+        "{i}El grupo abandona ambos refugios y se traslada al primer lugar visitado. Es un riesgo, pero algunos ven oportunidad.{/i}"
+
+        show bob parado serio at centerright
+        show erika seria at centerleft
+        with Dissolve(0.5)
+
+        b "Si realmente tiene recursos, hay que asegurarnos de que funcione."
+
+        k "Empezamos desde cero, pero con intención clara."
+
+        hide bob
+        show marina seria at left
+        with Dissolve(0.5)
+
+        m "Prefiero esto a estar atrapada en el calor de la cabaña."
+
+        hide marina
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        t "Este lugar tiene potencial. No fue una mala idea."
+
+        hide tomas
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        c "Bueno, veremos si realmente valió la pena."
+
+    "{i}No todos están conformes. Algunos apoyan la decisión, otros la aceptan con dudas. Pero nadie se irá solo. Lo que viene será en grupo, para bien o para mal.{/i}"
+
+    "{size=-10}Las alianzas han cambiado. Las posiciones se han definido. A partir de ahora, las decisiones marcarán el futuro del grupo.{/size}"
+
+    jump chapter_7_end
 
 label chapter_7_end:
         # Generar contenido para los pop-ups de relaciones
@@ -5961,7 +7599,7 @@ label chapter_8_start:
     # Inicializar el capítulo actual (empieza en 0 por lo que es un numero menor que el capitulo, ej cap 2 debe tener la variable en 1)
     $ capitulo_actual = 7
     $ persistent.cantidad_capitulos +=1
-    jump tormenta_preparativos
+    jump cap8_avisar_tormenta
 
 label tormenta_preparativos:
     # Se ve en el horizonte una gran tormenta
@@ -5976,7 +7614,1340 @@ label tormenta_preparativos:
     # un equipo responsabiliza al otro de las perdidas y la discusion termina en el grupo dividiendose en dos
     jump chapter_8_end 
 
-label chapter_8_end:
+label cap8_avisar_tormenta:
+
+    scene bg horizon_storm_clouds at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El cielo ha cambiado. Nubes oscuras se alzan en la distancia, avanzando lento pero con determinación. La tormenta viene.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    e "Hay que empezar a reforzar el refugio. Si no nos preparamos ahora, después será imposible."
+
+    b "¿Reforzarlo? Primero asegurémonos de tener lo básico para sobrevivir."
+
+    hide bob
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    l "Si el viento es fuerte, lo que tengamos se puede volar. Necesitamos seguridad primero."
+
+    hide laura
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    t "Si la lluvia es intensa, en la colina vamos a estar en problemas. No hay mucha protección allí."
+
+    hide tomas
+    show marina seria at left
+    with Dissolve(0.5)
+
+    m "La cueva puede inundarse. Si el agua sube demasiado, vamos a quedar atrapados."
+
+    hide marina
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    c "No es momento para discusiones eternas. Hay que decidir qué hacer ya."
+
+    "{i}Los líderes siguen enfrentándose. No pueden ponerse de acuerdo. Ahora depende de qué estrategia se seguirá.{/i}"
+
+    menu:
+        "Apoyar el enfoque de Erika: refuerzo estructural del refugio.":
+            $ enfoque_preparacion = "estructura"
+            $ erika += 2
+            "Si el refugio no resiste, de nada sirven los recursos."
+
+        "Apoyar el enfoque de Bob: asegurarse de tener provisiones antes que nada.":
+            $ enfoque_preparacion = "recursos"
+            $ bob += 2
+            "Si sobrevivimos el desastre pero no tenemos lo necesario, no servirá de nada."
+
+        "Equilibrar ambos enfoques. Se debe trabajar en todo a la vez.":
+            $ enfoque_preparacion = "equilibrado"
+            $ bob += 1
+            $ erika += 1
+            "Si no podemos decidir qué es más importante, mejor asegurarnos de cubrir ambos frentes."
+
+    "{i}La elección marcará la estrategia del grupo. Algunos la aceptarán, otros no. La preparación comienza.{/i}"
+
+    jump cap8_prioridades_refugio
+
+label cap8_prioridades_refugio:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}La tormenta se acerca. Cada minuto cuenta. Todos miran hacia quien tomó la decisión previa sobre la estrategia.{/i}"
+
+    if enfoque_preparacion == "estructura":
+        "{i}El grupo se enfoca en reforzar el refugio. Se reparten tareas para asegurar la protección contra el viento y la lluvia.{/i}"
+        
+        show erika seria at centerleft
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        e "Tomás, revisa las estructuras que podrían caerse. Necesitamos asegurar cada punto débil."
+
+        t "Voy. Si encontramos algo crítico, lo reforzamos con lo que tengamos."
+
+        show bob parado serio at centerright
+        with Dissolve(0.5)
+
+        b "Y mientras hacen eso, ¿qué pasa con la comida y el agua? No podemos encerrarnos sin lo esencial."
+
+        e "Nos ocuparemos después. Si no protegemos el refugio, perderemos todo."
+
+    elif enfoque_preparacion == "recursos":
+        "{i}El grupo prioriza buscar provisiones. Se dividen para encontrar alimentos, agua y materiales de emergencia.{/i}"
+        
+        show bob parado serio at centerright
+        show marina seria at left
+        with Dissolve(0.5)
+
+        b "Marina, ayudame a buscar almacenamiento para el agua. Si se contamina, será un problema."
+
+        m "Ya tengo algunas ideas. Si encontramos recipientes suficientes, podemos asegurarnos de que no se eche a perder."
+
+        show erika seria at centerleft
+        with Dissolve(0.5)
+
+        e "Si gastamos demasiado tiempo en eso, el refugio se quedará vulnerable."
+
+    elif enfoque_preparacion == "equilibrado":
+        "{i}El grupo trata de trabajar en todo a la vez. Se distribuyen tareas, pero algunos creen que es demasiado para manejar en tan poco tiempo.{/i}"
+        
+        show bob parado serio at centerright
+        show erika seria at centerleft
+        with Dissolve(0.5)
+
+        e "Si dividimos esfuerzos, podremos hacer todo más rápido."
+
+        b "O podríamos hacer todo mal por no concentrarnos."
+
+    "{i}Las tensiones aumentan. Algunos personajes aceptan el plan, otros dudan de su efectividad. Pero no hay tiempo para cambiar la estrategia ahora.{/i}"
+
+    jump cap8_acercamiento_personajes
+
+label cap8_acercamiento_personajes:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Antes de que todos se dispersen para prepararse, aún queda un momento para conversar. Podría ser una oportunidad para acercarse a alguien y definir alianzas en lo que viene.{/i}"
+
+    menu:
+        "Acercarse a Marina.":
+            jump cap8_acercamiento_marina
+
+        "Acercarse a Tomás.":
+            jump cap8_acercamiento_tomas
+
+        "Acercarse a Laura.":
+            jump cap8_acercamiento_laura
+
+        "Acercarse a Charles.":
+            jump cap8_acercamiento_charles
+
+        "Acercarse a Ingrid.":
+            jump cap8_acercamiento_ingrid
+
+    "{i}No hay tiempo para más. Ahora, el grupo debe prepararse para la tormenta.{/i}"
+
+    jump cap8_separacion_grupo
+
+label cap8_acercamiento_ingrid:
+
+    show ingrid seria at left
+    with Dissolve(0.5)
+
+    "{i}Ingrid observa el entorno con una expresión de análisis, aunque su agotamiento es evidente. Sus dedos trazan patrones sobre la tierra, como si intentara resolver un problema invisible.{/i}"
+
+    if ingrid > 0:
+        "{i}Su mirada se suaviza cuando nota la presencia. Parece dispuesta a escuchar.{/i}"
+
+        menu:
+            "Ingrid, siempre es interesante escucharte. ¿Cómo ves lo que viene?":
+                $ ingrid += 1
+                "Tu manera de analizar las cosas es útil ahora."
+
+                i "Lo que viene es un desastre previsible. Y, sin embargo, algunos aún actúan como si fuera opcional prepararse."
+
+            "Vamos a necesitar cabeza fría en esta tormenta. Sé que podés aportarlo.":
+                $ ingrid += 1
+                "Tu enfoque racional es clave."
+
+                i "Si logramos que escuchen con lógica, tal vez sí."
+
+    else:
+        "{i}Ingrid nota la presencia, pero no parece demasiado receptiva. No tiene paciencia para lo obvio.{/i}"
+
+        menu:
+            "No siempre es fácil entender lo que es claro para vos. Pero quiero intentarlo.":
+                $ ingrid += 1
+                "Sé que ves cosas que otros pasan por alto."
+
+                i "Si al menos intentaran pensar... Tal vez no estaríamos en esta situación."
+
+            "Te entiendo. Pero no todos tienen tu perspectiva científica.":
+                "No todos ven el problema como vos."
+
+                i "No deberíamos necesitar una ciencia para entender cosas básicas."
+
+    "{i}Aún queda el tema más importante: cómo se organizarán después de esto.{/i}"
+
+    menu:
+        "¿Cómo ves el liderazgo?":
+            jump cap8_liderazgo_ingrid
+
+    jump cap8_separacion_grupo
+
+label cap8_liderazgo_ingrid:
+
+    "{i}Ingrid entrecierra los ojos. Es un tema que claramente le ha dado vueltas en la cabeza.{/i}"
+
+    menu:
+        "Bob sabe adaptarse. Sobrevivir es más importante que planificar cada detalle.":
+            $ apoyo_bob += 1
+            "Si reaccionamos rápido, sobreviviremos mejor."
+
+            i "Adaptación es clave. Pero sin estructura, eso se convierte en caos."
+
+        "Erika mantiene orden. Necesitamos lógica.":
+            $ apoyo_erika += 1
+            "Si no tenemos una base de organización, nos vamos a hundir."
+
+            i "Orden significa estructura. Y estructura significa posibilidad de estabilidad."
+
+        "Yo puedo marcar la dirección. Necesitamos lógica y adaptabilidad." if ingrid >= 0:
+            $ jugador_lider += 1
+            "Si queremos sobrevivir, debemos actuar juntos."
+
+            i "Si podés balancear ambos enfoques, tal vez valga la pena intentarlo."
+
+    "{i}Las ideas están claras. Cuando llegue el momento, Ingrid ya tendrá su postura definida.{/i}"
+
+    jump cap8_separacion_grupo
+
+label cap8_acercamiento_tomas:
+
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    "{i}Tomás observa la tormenta en la distancia, pensativo. Sus manos juegan con un pedazo de madera, como si pudiera encontrar respuestas en la textura.{/i}"
+
+    if tomas < 0:
+        "{i}Sus ojos se fijan en la presencia, pero no parece particularmente interesado en hablar.{/i}"
+
+        menu:
+            "Sé que tuvimos diferencias, pero prefiero que trabajemos juntos en esto.":
+                $ tomas += 1
+                "No tiene sentido seguir con tensión."
+
+                t "Siempre es más fácil decirlo cuando la tormenta está en la puerta."
+
+            "No vamos a llegar lejos si seguimos peleando. Mejor enfocarnos en lo que viene.":
+                "No podemos darnos el lujo de perder más tiempo."
+
+                t "Quizás tengas razón. No significa que confíe en vos de golpe."
+
+    else:
+        "{i}Al notar la presencia, asiente levemente. Parece abierto a la conversación.{/i}"
+
+        menu:
+            "Tomás, siempre es útil tu perspectiva. ¿Cómo ves la situación?":
+                $ tomas += 1
+                "Si tenemos que actuar rápido, prefiero hacerlo con un plan."
+
+                t "No vamos a tener demasiado margen cuando esto empiece."
+
+            "Vamos a necesitar gente que piense en el largo plazo. Sé que podés aportar eso.":
+                $ tomas += 1
+                "La tormenta es solo parte del problema."
+
+                t "Si sobrevivimos, el desastre será lo que venga después."
+
+    "{i}Aún queda el tema más importante: cómo se organizarán después de esto.{/i}"
+
+    menu:
+        "¿Cómo ves el liderazgo?":
+            jump cap8_liderazgo_tomas
+
+    jump cap8_separacion_grupo
+
+label cap8_liderazgo_tomas:
+
+    "{i}Tomás deja de jugar con el trozo de madera y fija la mirada. Es obvio que ya ha pensado en esto.{/i}"
+
+    menu:
+        "Bob tiene razón. Adaptarse es más importante que un plan rígido.":
+            $ apoyo_bob += 1
+            "Si reaccionamos rápido, sobreviviremos mejor."
+
+            t "Bob improvisa bien. Solo espero que no nos cueste caro."
+
+        "Erika sabe lo que hace. Sin estructura, todo colapsa.":
+            $ apoyo_erika += 1
+            "Si no tenemos control, el desastre nos va a arrastrar."
+
+            t "Un plan tiene sentido. Pero si es demasiado rígido, nos va a hundir igual."
+
+        "Yo puedo marcar la dirección. Necesitamos lógica y adaptabilidad." if tomas >= 0:
+            $ jugador_lider += 1
+            "Si queremos sobrevivir, debemos actuar juntos."
+
+            t "Si sabés equilibrarlo bien, quizás tenga sentido."
+
+    "{i}Las ideas están claras. Cuando llegue el momento, Tomás ya tendrá su postura definida.{/i}"
+
+    jump cap8_separacion_grupo
+
+label cap8_acercamiento_laura:
+
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    "{i}Laura mira hacia el cielo y luego al suelo, como si en ambos pudiera encontrar una señal. Sus dedos juegan con un collar gastado que cuelga de su cuello.{/i}"
+
+    if laura < 0:
+        "{i}Su expresión se endurece levemente al notar la presencia. No parece incómoda, pero tampoco entusiasmada.{/i}"
+
+        menu:
+            "Sé que no hemos coincidido mucho, pero prefiero que trabajemos juntos.":
+                $ laura += 1
+                "Lo que viene es más grande que cualquier diferencia."
+
+                l "No puedo negar que es verdad. Solo espero que realmente lo creas."
+
+            "No tenemos que llevarnos bien, pero sí sobrevivir juntos.":
+                "No vamos a llegar lejos si cada quien tira para su lado."
+
+                l "Sobrevivir juntos... sí, eso es lo único que realmente importa."
+
+    else:
+        "{i}Su mirada suaviza al notar la presencia. Aunque preocupada, está dispuesta a escuchar.{/i}"
+
+        menu:
+            "Laura, no importa lo que venga, quiero que sepas que me importa lo que pase con vos.":
+                $ laura += 1
+                "Siempre es mejor enfrentar esto con alguien en quien confiar."
+
+                l "Eso significa mucho. Gracias."
+
+            "Sé que esto es difícil para todos, pero vamos a salir adelante.":
+                $ laura += 1
+                "No podemos perder el enfoque ahora."
+
+                l "Me gusta pensar que sí, aunque cuesta."
+
+    "{i}Aún queda el tema más importante: cómo se organizarán después de esto.{/i}"
+
+    menu:
+        "¿Cómo ves el liderazgo?":
+            jump cap8_liderazgo_laura
+
+    jump cap8_separacion_grupo
+
+label cap8_liderazgo_laura:
+
+    "{i}Laura exhala con lentitud antes de responder. Ya ha pensado en esto, pero aún duda.{/i}"
+
+    menu:
+        "Bob tiene razón. Adaptarse es más importante que un plan rígido.":
+            $ apoyo_bob += 1
+            "Si reaccionamos rápido, sobreviviremos mejor."
+
+            l "Bob no se rinde fácil. Eso es bueno."
+
+        "Erika sabe lo que hace. Sin estructura, todo colapsa.":
+            $ apoyo_erika += 1
+            "Si no tenemos control, el desastre nos va a arrastrar."
+
+            l "A veces deseo que todo tuviera sentido."
+
+        "Yo puedo marcar la dirección. Necesitamos lógica y adaptabilidad." if laura >= 0:
+            $ jugador_lider += 1
+            "Si queremos sobrevivir, debemos actuar juntos."
+
+            l "Si de verdad sabés cómo hacerlo, entonces sí."
+
+    "{i}Las ideas están claras. Cuando llegue el momento, Laura ya tendrá su postura definida.{/i}"
+
+    jump cap8_separacion_grupo
+
+label cap8_separacion_grupo:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Las decisiones están tomadas. Ahora cada uno debe actuar antes de que la tormenta golpee. Pero incluso en la preparación, las tensiones siguen aumentando.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "Nos dividimos. No podemos perder tiempo organizando una discusión que no tiene sentido."
+
+    e "Si no lo hacemos bien, lo perderemos todo."
+
+    "{i}Los grupos empiezan a formarse según la afinidad y las prioridades establecidas antes.{/i}"
+
+    hide erika
+    show tomas serio at right
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    if apoyo_bob > apoyo_erika:
+        "{i}Bob toma más control en la coordinación. Su enfoque es claro: moverse rápido, asegurar lo básico.{/i}"
+
+        t "Si vamos por recursos, lo hacemos ya."
+
+        l "Pero si no protegemos el refugio..."
+
+        b "Nos preocuparemos por eso después."
+
+        "{i}Marina y Charles se suman a su grupo, preparándose para salir rápidamente.{/i}"
+
+    elif apoyo_erika > apoyo_bob:
+        "{i}Erika mantiene el liderazgo, asegurándose de que cada movimiento tenga lógica y planificación.{/i}"
+
+        e "Si reforzamos lo necesario primero, evitamos mayores problemas después."
+
+        t "Esperemos que tengamos tiempo."
+
+        l "Va a ser difícil, pero es lo mejor."
+
+        "{i}Marina y Charles se suman a su grupo, aunque todavía hay tensión.{/i}"
+
+    elif jugador_lider:
+        "{i}El jugador logra consolidar su liderazgo. La decisión es equilibrada, pero aún hay divisiones internas.{/i}"
+
+        l "Si logramos coordinar bien, tal vez todo funcione."
+
+        b "Eso espero."
+
+        e "No tenemos margen para errores."
+
+        "{i}El grupo se mueve según el plan establecido. La tormenta sigue acercándose.{/i}"
+
+    "{i}Cada grupo se dispersa, preparándose para lo peor. La tormenta aún no ha comenzado... pero ya está cambiando todo.{/i}"
+
+    jump cap8_preparacion_tormenta
+
+label cap8_preparacion_tormenta:
+
+    scene bg jungle_storm_approaching at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El cielo está cubierto de nubes densas. El viento ha comenzado a aumentar su fuerza. La tormenta es inminente.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "No tenemos tiempo para dudas. Si nos organizamos rápido, vamos a resistir."
+
+    e "La improvisación nos puede costar caro. Tenemos que estructurar un plan concreto antes de actuar."
+
+    "{i}Las dos posturas son claras: rapidez y adaptación con Bob, o análisis y estructura con Erika. El grupo espera la decisión del jugador.{/i}"
+
+    menu:
+        "Priorizar una preparación rápida y efectiva":
+            $ apoyo_bob += 2
+            "{i}Bob asiente de inmediato.{/i}"
+
+            b "Buena decisión. Movámonos ya."
+
+        "Planificar una estrategia estructurada antes de actuar":
+            $ apoyo_erika += 2
+            "{i}Erika cruza los brazos y asiente con una mirada determinada.{/i}"
+
+            e "Si evitamos errores ahora, vamos a evitar problemas después."
+
+        "Manejar un equilibrio entre rapidez y estrategia":
+            $ jugador_mediador += 2
+            "{i}Erika y Bob intercambian una mirada tensa, pero no discuten.{/i}"
+
+            b "Bien, espero que no nos atrasemos demasiado."
+
+            e "Mientras mantengamos el control, podremos adaptarnos."
+
+    "{i}Los personajes comienzan a prepararse según el enfoque elegido.{/i}"
+
+    show tomas serio at right
+    show marina seria at left
+    show laura preocupada at center
+    with Dissolve(0.5)
+
+    "{i}Mientras el grupo trabaja, las tensiones comienzan a surgir entre algunos miembros.{/i}"
+
+    if apoyo_bob > apoyo_erika:
+        "{i}Erika observa cómo Bob dirige las acciones, pero su expresión es de desaprobación.{/i}"
+
+        e "Si esto sale mal, no digas que no lo advertí."
+
+    elif apoyo_erika > apoyo_bob:
+        "{i}Bob resopla al ver que el plan de Erika se implementa sin cambios.{/i}"
+
+        b "Espero que esto no nos haga perder tiempo que no tenemos."
+
+    else:
+        "{i}El equilibrio parece frágil. Cada personaje actúa con su propio enfoque, sin una dirección unificada.{/i}"
+
+    "{i}El grupo continúa reforzando el refugio y asegurando los recursos antes de la llegada de la tormenta.{/i}"
+
+    jump cap8_tormenta_golpea
+
+label cap8_formacion_equipos:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}La tormenta está cerca. No hay tiempo para perder. Cada persona expone su estrategia para proteger el refugio antes de que sea demasiado tarde.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "Vamos a usar lo que tenemos. No podemos perder tiempo con medidas demasiado complejas."
+
+    e "Si no reforzamos la estructura con un plan claro, todo se vendrá abajo."
+
+    "{i}El jugador también puede proponer alternativas, pero no todos estarán de acuerdo.{/i}"
+
+    menu:
+        "Seguir el plan de Bob: rapidez y adaptación con materiales disponibles.":
+            $ equipo_bob = True
+            jump cap8_proteccion_bob
+        
+        "Seguir el plan de Erika: reforzar con lógica y medidas estructurales.":
+            $ equipo_erika = True
+            jump cap8_proteccion_erika
+
+        "Proponer alternativa 1 según refugio.":
+            $ equipo_jugador_opcion1 = True
+            jump cap8_proteccion_jugador_opcion1
+
+        "Proponer alternativa 2 según refugio.":
+            $ equipo_jugador_opcion2 = True
+            jump cap8_proteccion_jugador_opcion2
+
+label cap8_proteccion_bob:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Bob lidera su estrategia con rapidez, enfocándose en usar lo disponible en lugar de perder tiempo en cálculos complejos.{/i}"
+
+    show bob parado serio at centerright
+    show marina seria at left
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    b "No podemos quedarnos quietos midiendo cada centímetro. Tomamos lo que sirva y lo aseguramos."
+
+    m "Sí, pero si reforzamos algo mal, puede ser peor."
+
+    c "No vamos a solucionar todo, pero sí lo urgente."
+
+    "{i}El jugador tiene algunas decisiones dentro de esta estrategia.{/i}"
+
+    menu:
+        "Tomar riesgos y acelerar el proceso.":
+            $ riesgo_bob += 1
+            "Lo importante es que algo quede reforzado, aunque no sea perfecto."
+
+            b "Esa es la actitud. Mejor algo que nada."
+
+            "{i}Algunos personajes dudan de la eficacia del proceso, pero otros siguen adelante.{/i}"
+
+        "Asegurar bien los materiales antes de actuar.":
+            $ precision_bob += 1
+            "Si lo hacemos mal, puede ser peor."
+
+            m "Finalmente alguien piensa un poco."
+
+            "{i}El proceso es más lento, pero más estructurado.{/i}"
+
+        "Ayudar al otro equipo a avanzar más rápido.":
+            $ colaboracion_bob += 1
+            "Si perdemos tiempo compitiendo, todos sufrimos."
+
+            b "No soy fan de perder tiempo, pero es cierto."
+
+            "{i}Los equipos cooperan brevemente, aunque las diferencias siguen presentes.{/i}"
+
+        "Imponerse dentro del equipo y dirigir más activamente.":
+            $ liderazgo_bob += 1
+            "Si seguimos improvisando, esto no va a servir."
+
+            c "Wow, alguien toma el mando."
+
+            "{i}El grupo se ajusta a la nueva dinámica, pero algunos no lo aceptan bien.{/i}"
+
+    "{i}El proceso sigue, mientras los otros equipos también enfrentan dificultades. El jugador nota que la separación sigue generando fricción.{/i}"
+
+    jump cap8_finalizacion_proteccion
+
+label cap8_proteccion_erika:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Erika lidera su estrategia con precisión. Cada decisión es calculada para evitar errores que puedan costar caro.{/i}"
+
+    show erika seria at centerleft
+    show tomas serio at right
+    show laura preocupada at left
+    with Dissolve(0.5)
+
+    e "Si aseguramos cada punto crítico, podemos reducir el impacto de la tormenta."
+
+    t "Esperemos que funcione. No tendremos segunda oportunidad."
+
+    l "Con calma y precisión, podríamos evitar desastres."
+
+    "{i}El jugador tiene varias decisiones dentro de esta estrategia.{/i}"
+
+    menu:
+        "Seguir estrictamente las mediciones de Erika.":
+            $ precision_erika += 1
+            "No podemos darnos el lujo de errores aquí."
+
+            e "Exacto. Cada centímetro cuenta."
+
+            "{i}El proceso es más lento, pero más seguro.{/i}"
+
+        "Acelerar el proceso y asegurarlo sobre la marcha.":
+            $ riesgo_erika += 1
+            "Si tardamos demasiado, la tormenta nos golpeará sin preparación."
+
+            t "Siempre y cuando no desarme lo que ya tenemos."
+
+            "{i}La estructura queda lista, pero hay dudas sobre su resistencia.{/i}"
+
+        "Ayudar al otro equipo a reforzar más rápido.":
+            $ colaboracion_erika += 1
+            "Si todos trabajamos juntos, podremos terminar antes."
+
+            l "Eso ayudaría a reducir riesgos."
+
+            "{i}Los equipos cooperan brevemente, aunque la tensión sigue presente.{/i}"
+
+        "Imponerse dentro del equipo y tomar decisiones activas.":
+            $ liderazgo_erika += 1
+            "Si seguimos dudando, la tormenta decidirá por nosotros."
+
+            t "Si tenés razón, mejor asegurarnos de hacerlo bien."
+
+            "{i}Algunos personajes aceptan el liderazgo, otros lo cuestionan.{/i}"
+
+    "{i}Los refuerzos avanzan, pero el otro grupo también enfrenta dificultades. La división sigue generando fricción.{/i}"
+
+    jump cap8_finalizacion_proteccion
+
+label cap8_proteccion_jugador_opcion1:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El jugador plantea una alternativa propia para reforzar el refugio, basada en el entorno y los recursos disponibles.{/i}"
+
+    if refugio == "cabaña":
+        "{i}La cabaña es resistente, pero el techo podría ceder. Se necesita una estructura de soporte adicional.{/i}"
+
+        show marina seria at left
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        m "Si reforzamos el techo con troncos, podríamos evitar un colapso."
+
+        t "Podría funcionar, pero tiene que estar bien asegurado."
+
+    elif refugio == "cueva":
+        "{i}La cueva ofrece protección contra el viento, pero podría inundarse si la lluvia es intensa. Se necesitan barreras para desviar el agua.{/i}"
+
+        show laura preocupada at left
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        l "Podríamos construir canales para dirigir el agua fuera."
+
+        c "Siempre y cuando no se desmorone todo mientras trabajamos."
+
+    elif refugio == "colina":
+        "{i}El claro en la colina ofrece visibilidad, pero está completamente expuesto. Se necesita asegurar refugios individuales y bloquear el viento.{/i}"
+
+        show ingrid seria at left
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        i "Podríamos usar mantas y estructuras improvisadas para frenar el impacto del viento."
+
+        t "Si logramos hacerlo bien, podríamos evitar que todo vuele."
+
+    "{i}El jugador puede decidir cómo abordar la ejecución.{/i}"
+
+    menu:
+        "Tomar riesgos y avanzar rápido con lo disponible.":
+            $ riesgo_jugador_op1 += 1
+            "Lo importante es que algo quede reforzado, aunque no sea perfecto."
+
+            "{i}El grupo se mueve rápido, pero la estabilidad es incierta.{/i}"
+
+        "Asegurar cada paso antes de avanzar.":
+            $ precision_jugador_op1 += 1
+            "No podemos permitirnos errores aquí."
+
+            "{i}El proceso es más lento, pero más seguro.{/i}"
+
+        "Ayudar al otro grupo a mejorar su solución.":
+            $ colaboracion_jugador_op1 += 1
+            "Si no nos coordinamos, vamos a perder demasiado tiempo."
+
+            "{i}El otro equipo recibe apoyo temporal, aunque la tensión sigue.{/i}"
+
+        "Imponerse dentro del equipo y tomar el liderazgo.":
+            $ liderazgo_jugador_op1 += 1
+            "Si no establecemos un plan claro, la improvisación nos va a hundir."
+
+            "{i}Algunos aceptan el liderazgo, otros lo cuestionan.{/i}"
+
+    "{i}El proceso sigue, pero el otro grupo también enfrenta dificultades. La división sigue generando fricción.{/i}"
+
+    jump cap8_finalizacion_proteccion
+
+label cap8_proteccion_jugador_opcion2:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El jugador propone otra alternativa basada en los puntos críticos del refugio. Algunos dudan, pero otros apoyan la idea.{/i}"
+
+    if refugio == "cabaña":
+        "{i}La cabaña tiene estructura, pero los soportes pueden debilitarse. Se necesita redistribuir el peso para evitar colapsos.{/i}"
+
+        show tomas serio at right
+        show charles hablando at left
+        with Dissolve(0.5)
+
+        t "Si aseguramos los pilares y reforzamos con troncos, podemos distribuir mejor la carga."
+
+        c "Siempre y cuando no se derrumbe mientras lo hacemos."
+
+    elif refugio == "cueva":
+        "{i}La cueva es estable, pero el suelo es húmedo. Se deben levantar plataformas para evitar filtraciones y mejorar la estabilidad.{/i}"
+
+        show marina seria at left
+        show laura preocupada at right
+        with Dissolve(0.5)
+
+        m "Si ponemos piedras grandes en las áreas críticas, podríamos prevenir el deslizamiento."
+
+        l "Podría funcionar, aunque dependerá del suelo."
+
+    elif refugio == "colina":
+        "{i}El claro en la colina ofrece visibilidad, pero es vulnerable. Se deben construir barreras de madera y roca para frenar el viento.{/i}"
+
+        show ingrid seria at left
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        i "Si elevamos barreras estratégicas, podríamos reducir el impacto del viento."
+
+        t "Siempre y cuando tengamos suficiente material para hacerlo bien."
+
+    "{i}El jugador puede decidir cómo ejecutar la estrategia.{/i}"
+
+    menu:
+        "Tomar riesgos y avanzar rápido con lo disponible.":
+            $ riesgo_jugador_op2 += 1
+            "Lo importante es que algo quede reforzado, aunque no sea perfecto."
+
+            "{i}El grupo trabaja rápido, pero algunos dudan sobre la estabilidad.{/i}"
+
+        "Asegurar cada paso antes de avanzar.":
+            $ precision_jugador_op2 += 1
+            "Si lo hacemos mal, todo puede empeorar."
+
+            "{i}El proceso toma más tiempo, pero es más seguro.{/i}"
+
+        "Ayudar al otro grupo a mejorar su solución.":
+            $ colaboracion_jugador_op2 += 1
+            "Si todos trabajamos juntos, podremos terminar antes."
+
+            "{i}El otro equipo recibe apoyo temporal, aunque la tensión sigue.{/i}"
+
+        "Imponerse dentro del equipo y tomar el liderazgo.":
+            $ liderazgo_jugador_op2 += 1
+            "Si seguimos dudando, la tormenta decidirá por nosotros."
+
+            "{i}Algunos aceptan el liderazgo, otros lo cuestionan.{/i}"
+
+    "{i}El proceso sigue, pero el otro grupo también enfrenta dificultades. La división sigue generando fricción.{/i}"
+
+    jump cap8_finalizacion_proteccion
+
+label cap8_finalizacion_proteccion:
+
+    scene bg jungle_player_refuge at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Las últimas horas han sido intensas. Cada equipo avanzó con su estrategia, pero la división ha cobrado un precio.{/i}"
+
+    if equipo_bob:
+        "{i}El grupo de Bob logró reforzar lo esencial con rapidez, pero algunos dudan de la estabilidad de ciertas áreas.{/i}"
+        
+        show bob parado serio at centerright
+        show marina seria at left
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        c "Bueno, al menos tenemos algo."
+
+        m "Si se cae después, no digas que no te avisé."
+
+        b "Hicimos lo que teníamos que hacer."
+
+    if equipo_erika:
+        "{i}El grupo de Erika siguió cada cálculo con precisión, pero la lentitud causó preocupaciones en los demás.{/i}"
+        
+        show erika seria at centerleft
+        show tomas serio at right
+        show laura preocupada at left
+        with Dissolve(0.5)
+
+        t "No hay margen de error con este tipo de decisiones."
+
+        l "Solo espero que haya sido suficiente."
+
+        e "Si seguimos la lógica, debería funcionar."
+
+    if equipo_jugador_opcion1:
+        "{i}La propuesta del jugador recibió apoyo de algunos, pero otros aún dudan de su efectividad.{/i}"
+        
+        show marina seria at left
+        show tomas serio at right
+        with Dissolve(0.5)
+
+        m "No diré que fue una mala idea, pero veremos si se mantiene."
+
+        t "Si no hay fallos críticos, podría ser útil."
+
+    if equipo_jugador_opcion2:
+        "{i}La segunda alternativa del jugador fue recibida con cierto escepticismo, aunque logró aplicarse.{/i}"
+        
+        show ingrid seria at left
+        show charles hablando at right
+        with Dissolve(0.5)
+
+        i "No era la opción más lógica, pero al menos se intentó."
+
+        c "Sí, si no funciona nos preocuparemos después."
+
+    "{i}Los últimos ajustes están hechos. La tormenta no dará más tiempo. Ahora solo queda esperar el impacto.{/i}"
+
+    jump cap8_tormenta_golpea
+
+label cap8_tormenta_golpea:
+
+    scene bg jungle_storm_aftermath
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
+
+    show screen combined_ui
+
+    "{i}El viento ruge, la lluvia cae con violencia. La tormenta golpea con toda su fuerza. En segundos, el refugio se convierte en un caos.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "¡Las paredes están cediendo! ¡Necesitamos refuerzos ahora!"
+
+    e "¡Si movemos lo que aseguramos antes, podríamos empeorar la situación!"
+
+    "{i}La discusión se vuelve acalorada, mientras el refugio sigue siendo azotado.{/i}"
+
+    menu:
+        "Apoyar la decisión de Bob: improvisar rápido.":
+            $ apoyo_bob += 2
+            "Tenemos que actuar antes de que todo se derrumbe."
+
+            "{i}Bob asiente con rapidez, pero Erika parece furiosa por el cambio repentino.{/i}"
+
+        "Apoyar la decisión de Erika: seguir el refuerzo estructural.":
+            $ apoyo_erika += 2
+            "Si seguimos moviendo cosas sin lógica, vamos a perder más."
+
+            "{i}Erika se enfoca en estabilizar el refugio, pero Bob maldice por perder tiempo.{/i}"
+
+        "Intentar mediar entre ambos, buscando equilibrio.":
+            $ jugador_lider += 2
+            "No podemos perder tiempo peleando. Encontramos un punto medio."
+
+            "{i}Bob y Erika siguen frustrados, pero algunos del grupo intentan coordinar mejor.{/i}"
+
+    "{i}Mientras tanto, otro conflicto se desata.{/i}"
+
+    show marina seria at left
+    show laura preocupada at right
+    with Dissolve(0.5)
+
+    m "¡No podemos preocuparnos por cada cosa, necesitamos lo esencial!"
+
+    l "¡Las personas importan más que los materiales! ¡No podemos dejar a nadie atrás!"
+
+    menu:
+        "Apoyar a Marina: enfocarse en lo necesario para sobrevivir.":
+            $ apoyo_marina += 2
+            "Si no tenemos lo básico, todo lo demás es irrelevante."
+
+            "{i}Marina sigue adelante, pero Laura se frustra y se aleja.{/i}"
+
+        "Apoyar a Laura: salvar a los más afectados.":
+            $ apoyo_laura += 2
+            "No podemos dejar a nadie atrás."
+
+            "{i}Laura se enfoca en ayudar, pero Marina murmura sobre pérdida de recursos.{/i}"
+
+        "Buscar un punto medio, asegurando ambas cosas.":
+            $ jugador_lider += 2
+            "Podemos hacer ambas cosas si nos organizamos bien."
+
+            "{i}El grupo intenta coordinar, aunque sigue la tensión.{/i}"
+
+    "{i}La tormenta se intensifica y los enfrentamientos crecen. Todavía falta el peor momento.{/i}"
+
+    jump cap8_crisis_personajes
+
+label cap8_crisis_personajes:
+
+    scene bg jungle_storm at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
+
+    show screen combined_ui
+
+    "{i}La tormenta ruge sin descanso. En medio del desastre, los conflictos personales estallan como fuego en la lluvia.{/i}"
+
+    show ingrid seria at left
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    i "¡Si seguimos sin coordinación, esto se va a desmoronar!"
+
+    c "¡No necesito instrucciones cada segundo! ¡Sé lo que estoy haciendo!"
+
+    "{i}El enfrentamiento entre Ingrid y Charles escala rápidamente. Ambos tienen ideas opuestas sobre cómo actuar.{/i}"
+
+    menu:
+        "Apoyar a Ingrid: seguir una estrategia lógica.":
+            $ apoyo_ingrid += 2
+            "Si seguimos improvisando, todo va a fallar."
+
+            "{i}Ingrid respira hondo, agradeciendo el respaldo. Charles maldice y se aleja.{/i}"
+
+        "Apoyar a Charles: actuar intuitivamente sin reglas rígidas.":
+            $ apoyo_charles += 2
+            "Si seguimos esperando órdenes, vamos a perder tiempo."
+
+            "{i}Charles sonríe, confiado. Ingrid aprieta los dientes, frustrada.{/i}"
+
+        "Intentar calmar a ambos, enfocándose en el resultado.":
+            $ jugador_lider += 2
+            "Lo que importa es sobrevivir, no ganar discusiones."
+
+            "{i}Ambos siguen tensos, pero intentan cooperar momentáneamente.{/i}"
+
+    "{i}Otro conflicto surge en el refugio.{/i}"
+
+    show tomas serio at right
+    with Dissolve(0.5)
+
+    t "¡No podemos quedarnos encerrados aquí! ¡Si algo falla, necesitamos movilidad!"
+
+    show bob parado serio at centerright
+    with Dissolve(0.5)
+
+    b "Si salimos ahora, el viento nos va a destrozar. Quedarnos es la única opción."
+
+    "{i}Tomas y Bob discuten sobre si moverse o mantenerse en el refugio.{/i}"
+
+    menu:
+        "Apoyar a Tomás: priorizar movimiento por seguridad.":
+            $ apoyo_tomas += 2
+            "Si nos quedamos, podríamos quedar atrapados."
+
+            "{i}Tomás se prepara para moverse, mientras Bob sigue discutiendo.{/i}"
+
+        "Apoyar a Bob: quedarse para evitar mayores riesgos.":
+            $ apoyo_bob += 2
+            "Si nos dispersamos, podríamos perderlo todo."
+
+            "{i}Bob asiente, mientras Tomás se muestra frustrado con la decisión.{/i}"
+
+        "Intentar evaluar la situación sin tomar partido.":
+            $ jugador_lider += 2
+            "Lo que decidamos ahora va a definir si sobrevivimos."
+
+            "{i}El grupo intenta coordinar, pero la tensión sigue presente.{/i}"
+
+    "{i}Cada decisión marca una postura en el grupo. La tormenta sigue intensificándose.{/i}"
+
+    jump cap8_punto_de_quiebre
+
+label cap8_punto_de_quiebre:
+
+    scene bg jungle_storm at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
+
+    show screen combined_ui
+
+    "{i}El viento ruge con fuerza, la lluvia golpea en todas direcciones. El refugio tiembla y cruje, cada sonido parece anunciar su colapso.{/i}"
+
+    show bob parado serio at centerright
+    show erika seria at centerleft
+    with Dissolve(0.5)
+
+    b "¡Esto no hubiera pasado si hubiéramos actuado antes!"
+
+    e "¡Si hubiéramos seguido el plan en lugar de reaccionar sin pensar, nada se hubiera roto!"
+
+    "{i}Los líderes están al borde del colapso. La tensión se siente en cada mirada, en cada palabra.{/i}"
+
+    show tomas serio at right
+    show marina seria at left
+    with Dissolve(0.5)
+
+    t "¡No podemos quedarnos aquí! ¡Si la estructura falla, quedaremos atrapados!"
+
+    m "¡Si empezamos a movernos sin seguridad, podríamos terminar peor!"
+
+    "{i}Los primeros enfrentamientos se presentan. Nadie está seguro de cuál es la mejor opción.{/i}"
+
+    menu:
+        "Apoyar a Bob: actuar rápido antes de que el refugio colapse.":
+            $ apoyo_bob += 2
+            "Si seguimos esperando, el desastre será peor."
+
+            "{i}Bob se enfoca en movilizar a su grupo, pero Erika sigue en desacuerdo.{/i}"
+
+        "Apoyar a Erika: seguir el plan de refuerzo estructural.":
+            $ apoyo_erika += 2
+            "Si movemos las cosas sin lógica, solo aceleraremos el colapso."
+
+            "{i}Erika trabaja con rapidez, pero Bob maldice por perder tiempo.{/i}"
+
+        "Tomar control y mediar entre ambos.":
+            $ jugador_lider += 2
+            "Podemos encontrar un punto medio si mantenemos el control."
+
+            "{i}Los personajes intentan coordinar, aunque las tensiones siguen aumentando.{/i}"
+
+    "{i}Pero la tormenta no es el único peligro...{/i}"
+
+    show ingrid seria at left
+    show charles hablando at right
+    with Dissolve(0.5)
+
+    i "¡Algo se mueve afuera! ¡No estamos solos!"
+
+    c "¡No hay tiempo para preocuparse por eso ahora!"
+
+    "{i}Un ruido seco atraviesa la lluvia. Un bramido fuerte. Es imposible confundirlo...{/i}"
+
+    show bg jungle_storm_jabali at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
+
+    "{i}Un jabalí se ha acercado al refugio, desorientado y agresivo. Cualquier movimiento en falso podría ser un desastre.{/i}"
+
+    menu:
+        "Intentar alejar al jabalí sin violencia.":
+            $ estrategia_pacifica += 2
+            "Si logramos desviar su atención, podríamos evitar una confrontación."
+
+            "{i}El grupo intenta dispersarlo, pero la criatura sigue inquieta.{/i}"
+
+        "Atacar al jabalí para alejarlo por la fuerza.":
+            $ estrategia_agresiva += 2
+            "Si nos quedamos quietos, podría ser peor."
+
+            "{i}Los personajes reaccionan con rapidez, pero algunos dudan de la agresividad.{/i}"
+
+        "No hacer nada y observar su reacción.":
+            $ estrategia_pasiva += 2
+            "Quizás no nos haya detectado del todo."
+
+            "{i}El grupo mantiene la tensión, pero algunos cuestionan la falta de acción.{/i}"
+
+    "{i}La tormenta sigue intensificándose. La estructura está cediendo. La situación es insostenible.{/i}"
+
+    jump cap8_enfrentamiento_lideres
+
+label cap8_enfrentamiento_lideres:
+
+    scene bg jungle_aftermath_storm at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show bob furioso at right
+    show erika tensa at left
+    with Dissolve(0.5)
+
+    "{i}Las primeras gotas aún resbalan de las hojas tras la tormenta, pero la tensión es más fuerte que cualquier aguacero.{/i}"
+
+    b "¡Esto fue un desastre! ¿Cuántas veces lo dije? Necesitábamos actuar rápido. En vez de eso, perdimos tiempo en tus planes eternos."
+
+    e "¿Planes eternos? Lo que nos puso en peligro fue tu improvisación. Si hubiéramos reforzado el refugio como discutimos antes, la tormenta no habría sido una amenaza."
+
+    "{i}Ambos se miran con furia contenida. Nadie está dispuesto a ceder.{/i}"
+
+    show tomas serio at center
+    with Dissolve(0.5)
+
+    t "(en voz baja) Esto ya no es una discusión, es una fractura real."
+
+    "{i}Bob da un paso hacia adelante, sin apartar la mirada de Erika.{/i}"
+
+    b "Mirá los daños. Fijate en las provisiones que perdimos, en cómo el refugio quedó al borde del colapso. Si hubiéramos explorado antes, tendríamos materiales suficientes."
+
+    e "¿Explorar antes? ¿A riesgo de separarnos demasiado cuando sabíamos que las condiciones eran peligrosas? No podíamos permitir que alguien quedara varado en medio del desastre."
+
+    "{i}Bob se vuelve hacia vos, buscando apoyo en su argumento.{/i}"
+
+    b "Decime. ¿No creés que la exploración nos habría dado una ventaja antes del desastre?"
+
+    menu:
+        "Sí, deberíamos haber actuado antes":
+            $ apoyo_lider_bob += 2
+            "{i}Bob asiente con firmeza. Sabía que alguien tenía que ver lo evidente.{/i}"
+
+        "No, quedarse juntos era la mejor opción":
+            $ apoyo_lider_erika += 2
+            "{i}Erika exhala con un dejo de alivio. No todos tomaban riesgos a la ligera.{/i}"
+
+        "Ambos tienen razón en algo, pero el enfoque estuvo equivocado":
+            "{i}Bob y Erika intercambian una mirada, sorprendidos por tu postura independiente.{/i}"
+
+    "{i}La discusión sigue escalando, pero Erika cambia de estrategia.{/i}"
+
+    show marina preocupada at left
+    show laura tensa at right
+    with Dissolve(0.5)
+
+    e "Hubo otro problema que ignoraste, Bob. No aseguramos la confianza de todos antes de la tormenta, y eso nos costó."
+
+    b "La confianza no nos iba a proteger de la lluvia. Se necesitaban acciones, no palabras."
+
+    e "¿De verdad creés que liderar es solo tomar acción? ¿O creés que la estabilidad del grupo no importa?"
+
+    "{i}Ahora Erika se gira hacia vos. Esta vez, espera tu opinión.{/i}"
+
+    menu:
+        "La confianza es clave para cualquier grupo, Erika tiene razón":
+            $ apoyo_lider_erika += 2
+            "{i}Erika sonríe levemente. Al menos alguien entiende lo que significa sostener un grupo.{/i}"
+
+        "La acción es más importante que la estabilidad interna":
+            $ apoyo_lider_bob += 2
+            "{i}Bob suelta una risa seca. Finalmente, alguien que entiende la urgencia de sobrevivir.{/i}"
+
+        "Ambos se enfocaron en lo incorrecto":
+            "{i}Silencio. Erika y Bob cruzan miradas, sin saber bien cómo procesar tu respuesta.{/i}"
+
+    "{i}Las palabras han sido dichas. Ahora todo se reduce a una única pregunta: ¿Quién liderará el grupo después de esto?{/i}"
+
+    jump cap8_eleccion_liderazgo
+label cap8_eleccion_liderazgo:
+
+    scene bg jungle_division_decision at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}El grupo está fragmentado. Nadie quiere admitirlo, pero la separación es inevitable.{/i}"
+
+    show bob serio at left
+    show erika seria at right
+    with Dissolve(0.5)
+
+    "{i}Bob y Erika esperan. Alguien tiene que definir el rumbo.{/i}"
+
+    menu:
+        "Apoyar a Bob como líder":
+            $ apoyo_lider_bob += 3
+            "{i}Bob exhala con alivio y asiente. Es hora de actuar.{/i}"
+            jump cap8_dialogo_lider_bob
+
+        "Apoyar a Erika como líder":
+            $ apoyo_lider_erika += 3
+            "{i}Erika cruza los brazos con firmeza. El grupo necesita orden.{/i}"
+            jump cap8_dialogo_lider_erika
+
+        "Tomar el liderazgo":
+            $ apoyo_lider_jugador += 3
+            "{i}Las miradas se centran en vos. Si tomás el control, todo depende de tu próximo movimiento.{/i}"
+
+    "{i}Para fortalecer tu posición, intentás convencer a uno de los dos de unirse a tu bando.{/i}"
+
+    menu:
+        "Intentar que Bob se una a tu grupo":
+            if apoyo_lider_bob >= 0:
+                "{i}Bob te observa, duda por un segundo, pero finalmente acepta.{/i}"
+                $ grupo_jugador.append("bob")
+            else:
+                "{i}Bob niega con la cabeza. No confía en tu liderazgo.{/i}"
+
+        "Intentar que Erika se una a tu grupo":
+            if apoyo_lider_erika >= 0:
+                "{i}Erika frunce el ceño, pero finalmente accede con reticencia.{/i}"
+                $ grupo_jugador.append("erika")
+            else:
+                "{i}Erika se cruza de brazos. No está dispuesta a seguirte.{/i}"
+
+    "{i}Las decisiones están tomadas. Ahora cada personaje debe decidir con quién quedarse.{/i}"
+
+    jump cap8_formacion_grupos_finales
+
+label cap8_dialogo_lider_bob:
+
+    "{i}Bob te observa con una mirada firme.{/i}"
+
+    b "Si estás conmigo, tenemos que hacer las cosas bien. No más indecisiones, no más pérdidas de tiempo. ¿Estás listo para eso?"
+
+    menu:
+        "Sí, hay que actuar rápido":
+            "{i}Bob sonríe levemente. Siente que esta es la decisión correcta.{/i}"
+
+        "No siempre hay que apresurarse":
+            "{i}Bob frunce el ceño, pero decide no discutirlo ahora.{/i}"
+
+    "{i}El grupo empieza a separarse.{/i}"
+
+    jump cap8_formacion_grupos_finales
+
+label cap8_dialogo_lider_erika:
+
+    "{i}Erika te observa con atención, como analizando tu respuesta.{/i}"
+
+    e "Si vas a estar en mi grupo, hay reglas. Todo tiene que estar bien planeado. No podemos repetir los errores que nos trajeron acá."
+
+    menu:
+        "Estoy de acuerdo, el orden es clave":
+            "{i}Erika asiente con satisfacción. La organización garantizará su éxito.{/i}"
+
+        "El orden es importante, pero hay que adaptarse":
+            "{i}Erika suspira. No siempre se puede prever todo.{/i}"
+
+    "{i}El grupo empieza a separarse.{/i}"
+
+    jump cap8_formacion_grupos_finales
+
+label cap8_formacion_grupos_finales:
+
+    scene bg jungle_final_decision at truecenter
+    with Dissolve(0.5)
+
+    show screen combined_ui
+
+    show bob serio at left
+    show erika seria at right
+    with Dissolve(0.5)
+
+    "{i}Los grupos están definidos. Ahora cada personaje debe decidir su camino.{/i}"
+
+    python:
+        personaje_indeciso = "ingrid"
+
+        for personaje in ["tomas", "marina", "charles", "laura"]:
+            if getattr(store, f"apoyo_{personaje}", 0) > 2:
+                grupo_jugador.append(personaje)
+            elif apoyo_lider_bob > apoyo_lider_erika:
+                grupo_bob.append(personaje)
+            else:
+                grupo_erika.append(personaje)
+
+        # Ajustar equilibrio de grupos
+        if len(grupo_jugador) < 3:
+            personaje_cambio = grupo_bob[-1] if len(grupo_bob) > len(grupo_erika) else grupo_erika[-1]
+            grupo_jugador.append(personaje_cambio)
+            grupo_bob.remove(personaje_cambio) if personaje_cambio in grupo_bob else grupo_erika.remove(personaje_cambio)
+
+    "{i}Los personajes aparecen uno por uno.{/i}"
+
+    python:
+        for personaje in grupo_jugador + grupo_bob + grupo_erika:
+            personaje_img = f"{personaje} serio"
+
+            renpy.show(personaje_img, at_list=[Position(xalign=0.5)], layer="master")
+            renpy.pause(0.5)
+
+            if personaje in grupo_jugador:
+                mensaje_decision = f"{personaje} decide quedarse con vos."
+                nueva_posicion = 0.2
+            else:
+                mensaje_decision = f"{personaje} decide irse con el otro grupo."
+                nueva_posicion = 0.8
+
+            renpy.say("", mensaje_decision)
+            renpy.show(personaje_img, at_list=[Position(xalign=nueva_posicion)], layer="master")
+            renpy.pause(0.5)
+
+    "{i}El último personaje, Ingrid, duda por un momento.{/i}"
+
+    show ingrid seria at center
+    with Dissolve(0.5)
+
+    menu:
+        "Intentar convencer a Ingrid de quedarse":
+            if getattr(store, "apoyo_ingrid", 0) > 2:
+                "{i}Después de una larga pausa, Ingrid acepta, pero su expresión muestra incertidumbre.{/i}"
+                python:
+                    grupo_jugador.append("ingrid")
+                    renpy.show("ingrid seria", at_list=[Position(xalign=0.2)], layer="master")
+                    renpy.pause(0.5)
+            else:
+                "{i}Ingrid sacude la cabeza. No puede cambiar su decisión.{/i}"
+                python:
+                    renpy.show("ingrid seria", at_list=[Position(xalign=0.8)], layer="master")
+                    renpy.pause(0.5)
+
+        "Dejar que tome su decisión":
+            "{i}Ingrid respira hondo y finalmente se aleja, pero antes de irse, te mira una última vez.{/i}"
+            python:
+                renpy.show("ingrid seria", at_list=[Position(xalign=0.8)], layer="master")
+                renpy.pause(0.5)
+
+    "{i}Los grupos están formados. No hay vuelta atrás.{/i}"
+
+    jump cap8_end
+
+label cap8_end:
         # Generar contenido para los pop-ups de relaciones
         $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
         $ relaciones_cap7_bob = bob
