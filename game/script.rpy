@@ -4055,7 +4055,7 @@ label dejarla_descansar:
     b "No del todo, pero al menos estará conciente en caso de que aparezca algún peligro."
     m "¿Y qué peligros podrían ser esos?"
     menu:
-        "Tal vez sea mejor no preocupar a Marina, pero no sabemos si hay otras personas o no en la isla.":
+        "Tal vez sea mejor no preocupar a Marina, pero no sabemos si volverá la tormenta, o qué animales hay en la isla.":
             y "Por ejemplo, si empezara a llover, y el refugio se inundara, Ingrid ahora es capaz de darse cuenta y buscar un punto alto."
             $ desicion_intro += 1
             $ reporte_ocultar_marina = True
@@ -4063,7 +4063,8 @@ label dejarla_descansar:
             $ bob += 1
 
         "A Marina le vendría bien un shock de realidad, a ver si espabila.":
-            y "Marina, no sabemos si estamos solos en la isla. Podría haber habitantes cuyas costumbres no conocemos, o incluso otros supervivientes no tan amigables."
+            y "Marina, no sabemos qué puede pasar ni qué peligros hay en la isla."
+            y "Podría haber depredadores, podría volver la tormenta, podría pasarnos algo a nosotros, dejando a Ingrid sola."
             $ desicion_intro += 1
             $ reporte_asustar_marina = True
             "Bob y Laura sacuden la cabeza en desaprobación."
@@ -4072,11 +4073,11 @@ label dejarla_descansar:
                 
     m "Entiendo..."
     b "Hasta ahora no ha habido ninguna señal de peligro que podamos confirmar."
-    l "Es verdad, hasta donde sabemos, Ingrid pudo haberse lastimado sola, accidentalmente."
+    l "Es verdad, hasta donde sabemos..."
 
     menu:
         "Ahora que Ingrid ha despertado, es seguro dejarla sola.":
-            y "Ingrid estará bien, es verdad que no hemos encontrado evidencia de peligros en la isla, y el clima no ha empeorado."
+            y "Ingrid estará bien, es verdad que no hemos encontrado evidencia de peligros en la isla, y el clima no ha empeorado por ahora."
             y "Necesitamos del esfuerzo de todos para seguir encontrando recursos."
             $ desicion_intro += 1
             $ liderazgo +=1
@@ -4397,6 +4398,8 @@ label exploracion_profunda:
     jump arroyo_frutos
 
 label arroyo_frutos:
+    show bg jungle river at truecenter
+    with Dissolve(.5)
     if bob_se_queda and not reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
@@ -4962,13 +4965,13 @@ label arroyo_frutos:
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
     elif exploran_todos:
-        show laura sonriendo at left
+        show laura sonriendo right
         with Dissolve(.5)
         l "¡Agua!"
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Al fin!"
-        show bob parado hablando at right
+        show bob parado hablando at center
         with Dissolve(.5)
         b "Parece fresca y clara."        
         "Todos corren a beber agua del arroyo."
@@ -5014,7 +5017,7 @@ label arroyo_frutos:
             m "¡Qué buena idea, [nombre_personaje]! Manos a la obra entonces."
             l "Despues de todo, tienes madera de líder, [nombre_personaje]."
             $ laura += 1
-            $ liderazgo += 10
+            $ liderazgo += 1
             $ bob += 1
             $ marina += 1
             pause 1
@@ -5137,7 +5140,7 @@ label manantial_marina_laura:
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
     elif exploran_tres and bob_se_queda:
-        show laura sonriendo at left
+        show laura sonriendo at right
         with Dissolve(.5)
         l "¡Aquí está! El manantial del que les hablamos."
         show marina sonriendo at left
@@ -5189,7 +5192,7 @@ label manantial_marina_laura:
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
     elif exploran_tres and marina_se_queda:
-        show laura sonriendo at left
+        show laura sonriendo at right
         with Dissolve(.5)
         l "¡Aquí está! El manantial del que les hablamos."
         show bob pensando at left
@@ -5244,7 +5247,7 @@ label manantial_marina_laura:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Aquí está! El manantial del que les hablamos."
-        show bob pensando at left
+        show bob pensando at right
         with Dissolve(.5)
         b "Está fresca y clara."
         "Los tres corren a beber agua del arroyo."
@@ -5369,7 +5372,7 @@ label p5playa:
                     show bob pensando at center
                     with Dissolve(.5)
                     b "Si, hagamos fuerza a la cuenta de tres."
-                    show laura hablando at left
+                    show laura hablando at right
                     with Dissolve(.5)
                     pause 0.5
                     l "Uno..."
@@ -5406,7 +5409,7 @@ label p5playa:
                 show bob pensando at center
                 with Dissolve(.5)
                 b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."
-                show laura hablando at left
+                show laura hablando at right
                 with Dissolve(.5)
                 l "Ni siquiera tiene remos."
                 y "Eso podemos fabricarlo nosotros."
@@ -5424,7 +5427,7 @@ label p5playa:
                 show bob pensando at center
                 with Dissolve(.5)
                 b "Si, hagamos fuerza a la cuenta de tres."
-                show laura hablando at left
+                show laura hablando at right
                 with Dissolve(.5)
                 pause 0.5
                 l "Uno..."
@@ -5451,7 +5454,7 @@ label p5playa:
                 show bob pensando at center
                 with Dissolve(.5)
                 b "No, si bien parece estar intacto, no es una embarcación para hacerse a la mar."
-                show laura hablando at left
+                show laura hablando at right
                 with Dissolve(.5)
                 l "Ni siquiera tiene remos."
                 y "Eso podemos fabricarlo nosotros."
@@ -5660,12 +5663,14 @@ label retorno_refugio:
             show screen combined_ui            
         "También ven huellas de grandes pezuñas."
         "Se miran, pero nadie quiere decir lo obvio."
-        "Hay algún tipo de hebívoro grande en la isla."
+        "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
+        "Hay marcas en la madera, como si algo con grandes colmillos hubiera estado rascando la corteza."
 
     elif exploran_todos or exploran_tres:
         "En el camino de vuelta, encuentran huellas de grandes pezuñas."
         "Se miran, pero nadie quiere decir lo obvio."
-        "Hay algún tipo de hebívoro grande en la isla."
+        "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
+        "Hay marcas en la madera, como si algo con grandes colmillos hubiera estado rascando la corteza."
         
     if refugio == "cabaña":
         show bg jungle hut at truecenter
@@ -5695,7 +5700,7 @@ label retorno_refugio:
             hide marina
             with Dissolve(.5)
         elif marina_se_queda:
-            show laura sonriendo at left
+            show laura sonriendo at right
             with Dissolve(.5)
             l "¡Vamos! Ingrid necesita comer y beber algo."
             hide laura
@@ -5725,11 +5730,11 @@ label retorno_refugio:
                 l "Y además, encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
                 m "Y algo más..."
-                l "Encontramos huellas de lo que parece ser un herbívoro grande."
-                m "Laura dice que puede ser un tapir o algún tipo de ciervo."
-                l "Marina teme que se trate de un jabalí."
+                l "Encontramos grandes huellas de pezuñas."
+                m "Laura dice que puede ser un jabalí."
+                l "También había marcas de colmillos en la corteza de un árbol."
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
@@ -5742,11 +5747,11 @@ label retorno_refugio:
                 l "Y además, encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
                 m "Y algo más..."
-                l "Encontramos huellas de lo que parece ser un herbívoro grande."
-                m "Laura dice que puede ser un tapir o algún tipo de ciervo."
-                l "Marina teme que se trate de un jabalí."
+                l "Encontramos grandes huellas de pezuñas."
+                m "Laura dice que puede ser un jabalí."
+                l "También había marcas de colmillos en la corteza de un árbol."
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
@@ -5768,23 +5773,23 @@ label retorno_refugio:
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
                 l "Y algo más..."
-                b "Encontramos huellas de lo que parece ser un herbívoro grande."
-                l "Bob dice que puede ser un tapir o algún tipo de ciervo."
-                l "Yo temo que se trate de un jabalí."
+                b "Encontramos grandes huellas de pezuñas."
+                l "Bob dice que puede ser un jabalí."
+                b "También había marcas de colmillos en la corteza de un árbol."
                 m "¡Qué miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
             else:
                 m "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
-                b "Nosotros solamente encontramos huellas de lo que parece ser un herbívoro grande."
-                l "Bob dice que puede ser un tapir o algún tipo de ciervo."
-                l "Yo temo que se trate de un jabalí."
+                b "Nosotros solamente encontramos grandes huellas de pezuñas."
+                l "Bob dice que puede ser un jabalí."
+                b "También había marcas de colmillos en la corteza de un árbol."
                 m "¡Qué miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
@@ -5806,22 +5811,24 @@ label retorno_refugio:
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
                 m "Y algo más..."
-                b "Encontramos huellas de lo que parece ser un herbívoro grande."
-                m "Bob dice que puede ser un tapir o algún tipo de ciervo."
-                m "Yo temo que se trate de un jabalí."
+                b "Encontramos grandes huellas de pezuñas."
+                m "Bob dice que puede ser un jabalí."
+                b "También había marcas de colmillos en la corteza de un árbol."
+                m "¡Me da mucho miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
-                m "Entremos, Ingrid necesita beber y comer algo."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
+                l "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
             else:
                 l "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
-                b "Nosotros solamente encontramos huellas de lo que parece ser un herbívoro grande."
-                m "Bob dice que puede ser un tapir o algún tipo de ciervo."
-                m "Yo temo que se trate de un jabalí."                
+                b "Nosotros solamente encontramos grandes huellas de pezuñas."
+                m "Bob dice que puede ser un jabalí."
+                b "También había marcas de colmillos en la corteza de un árbol."
+                m "¡Me da mucho miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
-                y "Cualquiera de esas opciones suena mucho mas apetecible que unos frutos..."
-                m "Entremos, Ingrid necesita beber y comer algo."
+                y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
+                l "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
     "Dentro del refugio, Ingrid parece estar algo incómoda, pero está despierta."
@@ -5897,23 +5904,29 @@ label cap6_inicio:
     with dissolve
 
     i "No me siento... {w=0.5} nada bien... Mi cabeza arde... y la vista se me nubla..."
-
+    
     "{i}Ingrid tambalea y apoya una mano en la pared de bambú improvisada. El grupo la rodea, su frente brilla con sudor frío.{/i}"
 
-    y "¿Estás con fiebre? ¡Estás ardiendo, Ingrid!"
+    y "Con permiso, Ingrid."
 
-    i "En la jungla... hay plantas... que podrían ayudar. Busquen {i}cúrcuma{/i} y {i}equinácea{/i}... Tienen propiedades antibióticas si se hierven..."
+    "{i}Apoyas tu mano sobre su frente y sientes que está muy caliente.{/i}"
 
-    "{i}Ingrid intenta seguir explicando, pero su voz se apaga en un murmullo antes de desplomarse lentamente.{/i}"
+    y "¡Estás ardiendo en fiebre, Ingrid!"
+
+    i "En la jungla... hay plantas... que podrían ayudar."
+    i "Busquen {i}cúrcuma{/i} y {i}equinácea{/i}... Tienen propiedades antibióticas si se hierven..."
+
+    "{i}Ingrid intenta seguir explicando, pero su voz se apaga en un suspiro antes de desplomarse lentamente.{/i}"
 
     hide ingrid
     with dissolve
 
     $ reporte_fiebre_ingrid = True
-    $ cansancio -= 1
     $ ingrid -= 1  # tensión emocional
 
-    "El grupo reacciona de inmediato. Bob le toma el pulso, Laura se tapa la boca angustiada, Marina busca trapos húmedos. Vos quedás mirando la jungla oscura…"
+    "El grupo reacciona de inmediato. Bob le toma el pulso, Laura se tapa la boca angustiada, Marina busca trapos húmedos."
+    
+    "Afuera la jungla está muy oscura."
 
     $ choice_position = "alta"
 
@@ -5921,16 +5934,31 @@ label cap6_inicio:
         "Me acerco y la recuesto con cuidado, tratando de calmar a los demás.":
             $ reporte_ayuda_ingrid = True
             $ ingrid += 1
-            y "Tranquilos… Respira. Está caliente, pero estable."
+            $ liderazgo += 1
+
+            y "Marina, dame eso, por favor."
+
+            "{i}Marina te pasa un trapo humedecido.{/i}"
+
+            y "Esto debería ayudar a que baje la fiebre."
+            
+            y "No se preocupen. Por ahora está estable."
 
         "Me mantengo cerca, pero dejo que otros la asistan. No soy médic[e].":
             $ reporte_observa_ingrid = True
-            "{i}Decidís no intervenir directamente, pero prestás atención a cada gesto del grupo.{/i}"
+
+            "{i}Decides no intervenir directamente, pero prestás atención y te aseguras de no estorbar.{/i}"
 
         "Me alejo un poco. No quiero estar cerca si esto se complica.":
             $ reporte_aleja_ingrid = True
             $ ingrid -= 1
-            "{i}Los demás te miran con desconfianza, aunque nadie dice nada. Sentís un leve peso en el estómago.{/i}"
+            $ bob -= 1
+            $ marina -= 1
+            $ laura -= 1
+
+            "{i}Los demás te miran y en seguida notas la decepción en sus ojos.{/i}"
+
+            "{i}Aunque nadie te dice nada, sientes la presión.{/i}"
 
     pause 0.5
 
@@ -5948,43 +5976,54 @@ label cap6_1_formacion_grupos:
 
     show screen combined_ui
 
-    "{i}El aire se llena de tensión. Ingrid yace inmóvil, su respiración agitada. La noche es espesa, apenas rota por el murmullo de la jungla.{/i}"
+    "{i}El aire se llena de tensión. Ingrid yace inmóvil y su respiración agitada es lo único que interrumpe el murmullo de la jungla.{/i}"
+    
+    "{i}La oscuridad de la noche es espesa afuera.{/i}"
 
     show bob parado serio at right
     with Dissolve(0.5)
 
-    b "Si hay algo que pueda ayudar, tiene que ser ahora. Si esperamos al amanecer, podría ser tarde."
+    b "Si hay algo que pueda ayudarla, tenemos que encontrarlo esta noche."
+
+    b "Si esperamos al amanecer, podría ser tarde."
 
     show laura seria at left
     with Dissolve(0.5)
 
-    l "¿Salir a esta hora? Con esta oscuridad... Es una locura. Nos vamos a perder, o algo peor."
+    l "¿Salir a esta hora? ¿Con esta oscuridad?"
+    
+    l "Es una locura. Nos vamos a perder, o algo peor."
 
     show marina preocupada at center
     with Dissolve(0.5)
 
-    m "Me da mucho miedo pero si alguien más va a buscar la plantas, yo también voy"
+    m "Me da mucho miedo, pero si alguien más va a buscar las plantas, yo también voy."
 
-    l "No tenemos linternas, y el terreno es peligroso incluso de día..."
+    l "No tenemos linternas y el terreno es peligroso incluso de día..."
 
-    "{i}Los ojos de todos recaen sobre vos. Sos parte del grupo, pero también alguien que empieza a tener un peso propio.{/i}"
+    "{i}Los ojos de todos recaen sobre ti. Eres un[e] más del grupo, pero también alguien que empieza a tener influencia en el.{/i}"
 
     $ choice_position = "alta"
-    y "Hay que decidir rápido: ¿buscar ahora, o esperar?"
+    y "Lo que sea que decidamos, debe ser ya."
+
     menu:
         "Ingrid necesita esas plantas. No me voy a quedar de brazos cruzados.":
             $ reporte_decide_buscar_de_noche = True
+            $ liderazgo +=1
             $ cansancio -= 1
             $ marina += 1
             $ laura -= 1
             $ bob += 1
-            y "Yo voy Marina. No tenemos tiempo. Si alguien quiere venir, bien. Si no, iré igual."
-            "{i}Un silencio. Luego Bob asiente y se prepara para la búsqueda. Marina contiene un suspiro tenso y se acerca también.{/i}"
+            y "Yo voy, Marina. No podemos perder más tiempo."
+            y "Si alguien quiere venir, bien. Si no, iré igual."
+            "{i}Luego de un breve silencio, Bob asiente y se comienza a preparar para la búsqueda.{/i}"
+            "{i}Marina contiene un suspiro tenso y hace lo mismo.{/i}"
             hide bob
             with Dissolve (0.5)
             hide marina
             with Dissolve (0.5)
-            l "Es una mala idea, me sorprende que no vean el riesgo. Yo me quedo con Ingrid."
+            l "Es una mala idea, me sorprende que no vean el riesgo."
+            l "Yo me quedo con Ingrid."
             hide laura
             with Dissolve (0.5)
             jump cap6_3_buscadores
@@ -5992,24 +6031,28 @@ label cap6_1_formacion_grupos:
         "Deberiamos esperar todos. No servirá de nada perderse. Es mejor salir al amanecer.":
             $ reporte_no_buscar_de_noche = True
             $ laura += 1
-            $ bob -= 1
-            y "En este estado, salir sería exponer a más personas. Hay que tener cabeza fría."
-            "{i}Bob frunce el ceño. Laura te mira como si al fin alguien razonara. Marina simplemente asiente, en silencio.{/i}" 
+            $ bob -= 1 
+            y "Piénsenlo. Si algo le pasara a alguno de nosotros allá afuera, ¿qué hacemos?"
+            y "No estamos como para, además de una persona enferma, tener que cuidar de un herido."
+            "{i}Bob frunce el ceño y Laura abre las manos, agradeciendo que alguien le de la razón.{/i}"
+            "{i}Marina simplemente asiente, en silencio.{/i}" 
             jump cap6_3_refugio
 
-        "Yo prefiero esperar. Pero que cada uno haga lo que le parezca.":
+        "Yo prefiero esperar. Que cada uno haga lo que le parezca.":
             $ reporte_buscar_quien_quiera = True
             $ laura += 1
             $ bob -= 1
-            y "Creo que es muy peligroso, yo no voy a ir si deciden arriesgarse."
-            "{i}Bob frunce el ceño. Laura te mira como si al fin alguien razonara. Marina simplemente asiente, en silencio.{/i}"        
+            y "Creo que es muy peligroso, yo no voy a ir."
+            y "Si deciden arriesgarse, es responsabilidad de ustedes."
+            "{i}Bob frunce el ceñoy Laura abre las manos, agradeciendo que alguien le de la razón.{/i}"
+            "{i}Marina simplemente asiente, en silencio.{/i}"        
             jump cap6_NPCs_buscan
 
 label cap6_NPCs_buscan:
     b "Ingrid necesita ayuda. Voy a intentar encontrar esas plantas."
     hide bob
     with Dissolve (0.5)
-    m "Yo también voy, ojalá las encontremos cerca."
+    m "Yo también voy, ojalá las encontremos y nos veamos pronto."
     hide marina
     with Dissolve (0.5)
     l "Es una mala idea, me sorprende que no vean el riesgo."
@@ -6022,42 +6065,46 @@ label cap6_3_refugio:
 
     show screen combined_ui
     if reporte_no_buscar_de_noche:
-        "{i}La selva oscura parece contener el aliento. El grupo intenta calmar a Ingrid y matar el tiempo, pero la tensión se palpa en el aire.{/i}"
+        "{i}El grupo intenta confortar a Ingrid, pero la tensión en el aire hace que los minutos parezcan horas.{/i}"
         show marina preocupada at left
         with Dissolve(0.5)
         m "No me lo puedo sacar de la cabeza... ¿y si esta espera le cuesta la vida?"
         show laura seria at right
         with Dissolve(0.5)
         l "No podíamos salir a ciegas. Lo lógico era cuidarla acá. La decisión está tomada."
-        "{i}Te sentás cerca del fuego improvisado. Las sombras parpadean sobre los rostros agotados. A tu lado, Marina mira el suelo sin hablar.{/i}"
+        "{i}Te sientas cerca del fuego improvisado.{/i}"
+        "{i}Las sombras parpadean sobre los rostros agotados y afuera la oscuridad es total.{/i}"
+        "{i}A tu lado, Marina mira al suelo sin hablar.{/i}"
     else:
-        "{i}La selva oscura parece contener el aliento. Laura y tú intentan calmar a Ingrid y matar el tiempo, pero la tensión se palpa en el aire.{/i}"
-        "{i}Te sentás cerca del fuego improvisado. Las sombras parpadean sobre los rostros agotados. Ingrid se queja de tanto en tanto con la frente llena de sudor.{/i}"
+        "{i}Laura y tú intentan confortar a Ingrid. Los minutos parezcan horas{/i}"
+        "{i}Te sientas cerca del fuego improvisado.{/i}"
+        "{i}Las sombras parpadean sobre sus rostros agotados.{/i}"
+        "{i}Los quejidos de Ingrid son lo único que rompe la tensión del silencio.{/i}"
 
     $ choice_position = "alta"
 
     menu:
-        "Acompaño a Ingrid y le humedezco la frente con agua fresca.":
+        "Me acerco a Ingrid y le humedezco la frente con el paño húmedo.":
             $ reporte_cuidado_pasivo = True
             $ ingrid += 1
-            "{i}La fiebre no baja, pero el simple acto de estar cerca parece darle algo de paz.{/i}"
+            "{i}La fiebre no baja, pero el paño fresco parece darle algo de alivio.{/i}"
 
         "Intento mantener al grupo tranquilo. Hablo con Marina y Laura." if reporte_no_buscar_de_noche:
             $ reporte_contenido_emocional = True
             $ marina += 1
             $ laura += 1
-            y "Estamos haciendo lo mejor que podemos. Si salimos sin rumbo, podría haber más de un herido."
+            y "Estamos haciendo lo mejor que podemos. Si salimos sin saber ni donde pisamos, podría haber más de un herido."
 
         "Me mantengo al margen. Esta tensión me supera.":
             $ reporte_aislado_refugio = True
             if reporte_no_buscar_de_noche:
                 $ marina -= 1
-            "{i}Observás el fuego en silencio. El murmullo de la selva parece crecer dentro tuyo.{/i}"
-        
-        "Mato el tiempo hablando con Laura."if reporte_buscar_quien_quiera:
+            "{i}Observás el fuego en silencio. No puede sacarte los ruidos de la selva de la cabeza.{/i}"
+                    
+        "Mejor hacer pasar el tiempo hablando con Laura."if reporte_buscar_quien_quiera:
             $ reporte_aislado_refugio = True
             $ laura += 1
-            "{i}Conversan en voz baja, contandose cosas de lo que hacían antes del naufragio.{/i}"
+            "{i}Conversan en voz baja, durante un largo rato, contándose cómo eran sus vidas antes del naufragio.{/i}"
 
     # Oportunidad de cambiar de opinión
     jump cap6_3_refugio_opcion_salida
@@ -6067,19 +6114,19 @@ label cap6_3_refugio_opcion_salida:
     scene bg jungle night stars at truecenter
     with Dissolve(0.5)
 
-    "{i}Las ramas crujen con el viento. Cada sonido nocturno parece más fuerte mientras la ansiedad se acumula como el calor encerrado en el refugio.{/i}"
+    "{i}Las ramas crujen con el viento. Los sonidos nocturnos parecen más fuertes a medida que la ansiedad se acumula.{/i}"
 
     $ choice_position = "alta"
 
     menu:
-        "Salir a bsucar. No puedo quedarme esperando mientras Ingrid empeora.":
+        "Debo salir a buscar las plantas. Ingrid no mejora, no puede esperar hasta el amanecer.":
             $ reporte_salio_en_solitario = True
-            "{i}Agarras una rama larga, te ajustás la ropa, y te deslizás entre los árboles sin hacer ruido.{/i}"
+            "{i}Agarras una rama larga y te deslizas entre los árboles sin hacer ruido.{/i}"
             jump cap6_3_salida_en_solitario
 
-        "Seguir esperando. Es demasiado arriesgado. Debo sostener la decisión que tomé.":
+        "Mejor seguir esperando. Es demasiado arriesgado salir. Debo sostener la decisión que tomé.":
             $ reporte_sostiene_decision = True
-            "{i}Cerrás los puños. Esperar no se siente bien, pero cambiar ahora sería peor. O eso intentás creer.{/i}"
+            "{i}Cerrás los puños. Comienzas a dudar que haya sido una buena idea quedarse, pero dar marcha atrás tampoco es una opción.{/i}"
             show bob bob parado serio at right
             with Dissolve (0.5)
             b "Ingrid está cada vez peor, voy a buscar esas plantas ahora mismo."
@@ -6087,45 +6134,24 @@ label cap6_3_refugio_opcion_salida:
             with Dissolve (0.5)
             show marina preocupada at left
             with Dissolve(0.5)
-            m "¡Espera Bob! Yo tambien voy..."
+            m "¡Espera Bob! Yo tambien voy."
             hide marina 
             with Dissolve (0.5)
+            "{i}Laura se encoje de hombros.{/i}"
+            pause .5
+            "{i}Conversan en voz baja, durante un largo rato, contándose cómo eran sus vidas antes del naufragio.{/i}"
             jump cap6_4_reunion
 
-label cap6_3_salida_en_solitario_marina:
-
-    scene bg jungle clearing at truecenter
-    with Dissolve(0.5)
-
-    "{i}La oscuridad no es completa, pero sí suficiente para perderte si das un paso en falso. Cada crujido bajo tus pies podría ser un sendero... o una trampa.{/i}"
-
-    "{i}Después de unos minutos, una silueta encorvada aparece junto a un tronco caído. Se mueve apenas, como si luchara por mantenerse despierta.{/i}"
-
-    show marina gr triste at leftgr
-    with Dissolve(0.5)
-
-    m "[nombre_personaje]... Pensé que no... que nadie vendría."
-
-    y "¿Estás herida? Te estuvimos esperando. ¿Qué pasó?"
-
-    m "Escuché algo. Me asusté. Corrí. Me tropecé con una raíz... no pude gritar."
-    m "Luego me escondí...pero encontré las plantas..."
-
-    "{i}La ayudás a ponerse de pie. Está temblorosa pero parece estar bien. Tomás su brazo con firmeza y comenzás el regreso.{/i}"
-
-    $ reporte_encuentra_marina = True
-    $ marina += 1
-    $ sed -= 1
-    $ hambre -= 1
-
-    jump cap6_final
-
 label cap6_3_salida_en_solitario:
-    "{i}Avanzas entre los arboles en una oscuridad casi completa, buscando las plantas o señales de los demás{/i}"
-    "{i}Un paso en falso, y caés rodando cuesta abajo entre hojas mojadas y barro.{/i}"
     hide marina
     hide bob
+    hide ingrid
+    hide laura
 
+    "{i}Avanzas un buen rato entre los arboles en una oscuridad casi completa, buscando las plantas.{/i}"
+    pause .5
+    "{i}Das un paso en falso, y caes rodando cuesta abajo entre hojas mojadas y barro.{/i}"
+    
     $ reporte_caida_terraplen = True
     $ cansancio -= 1
     hide screen combined_ui
@@ -6138,28 +6164,32 @@ label cap6_3_salida_en_solitario:
 
     $ choice_position = "default"
     menu:
-        "Hcaer un gran esfuerzo fisico para intentar agarrarte de algo":
-            "{i}Lográs frenar la caída aferrándote a una raíz. El golpe dejó una punzada aguda en tu brazo.{/i}"
+        "Hacer un gran esfuerzo fisico para intentar agarrarte de algo":
+            "{i}Logras frenar la caída aferrándote a una raíz. El golpe en seco deja una punzada aguda en tu brazo.{/i}"            
             $ cansancio -= 1
             hide screen combined_ui
             show screen combined_ui
             $ choice_position = "alta"
 
             menu:
-                "Ignorar el golpe El grupo me necesita ahora.":
+                "Ignorar el golpe. Ingrid me necesita.":
                     $ reporte_ignora_herida = True
-                    "{i}Apoyás el peso en el otro brazo. Te incorporas como puedes para continuar la búsqueda.{/i}"
+                    "{i}Cambias de mano el bastón improvisado, apoyando el peso en el otro brazo.{/i}"
+                    "{i}Te incorporas como puedes para continuar la búsqueda.{/i}"
                 "Examinar el brazo. Podría ser serio.":
                     $ reporte_verifica_herida = True
-                    "{i}Parece solo una raspadura, le haces un vendaje hasta que puedas lavar la herida.{/i}"
+                    "{i}Parece ser solo una raspadura, improvisas un vendaje que sirva hasta que puedas lavar la herida.{/i}"
         "Dejarte rodar, tratando de protegerte todo lo posible.":
             "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
             scene bg jungle night fall at truecenter
             with Dissolve(0.5)
             $ reporte_caida_rodar = True
-            "{i}Te levantas en medio de la oscuridad, apenas se ve nada. Ladera arriba se escuchan unas voces{/i}"
-            y "¡Aqui! ¡Aquí!"
-    "{i} A lo lejos se sienten unos gruñidos. Bob grita una advertencia entre ruido de ramas rotas. Algo está pasando donde están los otros.{/i}"  
+            "{i}Te levantas en medio de la oscuridad.{/i}"
+            "{i}Ladera arriba se escuchan algunas voces. Parece que Bob y Marina están cerca.{/i}"
+            y "¡Aquí! ¡Aquí!"
+    pause .5
+    "{i} A lo lejos se sienten unos gruñidos. Escuchas a Bob gritando una advertencia entre ruidos de ramas rotas.{/i}"
+    "{i}Comienzas a rodear la ladera ya que subir por donde caíste es imposible.{/i}"  
     jump cap6_volver_solo
 
 
@@ -6176,19 +6206,20 @@ label cap6_3_buscadores:
 
     show screen combined_ui
 
-    "{i}El aire húmedo de la selva nocturna raspa la garganta. Cada paso entre ramas crujientes parece despertar a algo más que los grillos.{/i}"
+    "{i}El aire húmedo de la selva nocturna se siente pesado.{/i}"
+    "{i}Cada paso entre ramas crujientes parece capaz de despertar algo más que los grillos.{/i}"
 
     show marina hablando at left
     with Dissolve(0.5)
 
-    m "Creo que es por acá. Si no me falla la memoria, Ingrid dijo que la cortezarroja crece junto a palmas del tallo rojo."
+    m "Mantengan los ojos bien abiertos."
 
     show bob parado serio at right
     with Dissolve(0.5)
 
-    b "Sigamos así. Hay que buscar con cuidado, pero tampoco se separen..."
+    b "Si, busquemos con cuidado, y no nos separem..."
 
-    "{i}Un paso en falso, y caés rodando cuesta abajo entre hojas mojadas y barro.{/i}"
+    "{i}Das un paso en falso, y caes rodando cuesta abajo entre hojas mojadas y barro.{/i}"
     hide marina
     hide bob
 
@@ -6204,19 +6235,19 @@ label cap6_3_buscadores:
 
     $ choice_position = "default"
     menu:
-        "Hcaer un gran esfuerzo fisico para intentar agarrarte de algo":
-            "{i}Lográs frenar la caída aferrándote a una raíz. El golpe dejó una punzada aguda en tu brazo.{/i}"
+        "Hacer un gran esfuerzo fisico para intentar agarrarte de algo.":
+            "{i}Lográs frenar la caída aferrándote a una raíz. El golpe en seco deja una punzada aguda en tu brazo.{/i}"
             $ cansancio -= 1
             hide screen combined_ui
             show screen combined_ui
 
             show bob parado serio at left
             with Dissolve(0.5)
-            b "[nombre_personaje], ¿estás bien?"
+            b "Ey, [nombre_personaje], ¿estás bien?"
             $ choice_position = "alta"
 
             menu:
-                "Ignorar el golpe El grupo me necesita ahora.":
+                "Ignorar el golpe, Ingrid me necesita.":
                     $ reporte_ignora_herida = True
                     "{i}Apoyás el peso en el otro brazo. Te incorporas como puedes para continuar la búsqueda.{/i}"
                     y "Si, si, no es nada."
@@ -6224,79 +6255,81 @@ label cap6_3_buscadores:
                     $ reporte_verifica_herida = True
                     y "No sé, me duele el brazo."
                     b "Déjame ver..."
-                    b "Parece solo una raspadura, le he hecho un vendaje pero debes lavarlo cuanto antes.{/i}"
-            y "Sigamos con la búsqueda."
+                    b "Parece solo una raspadura. Hagámosle un vendaje, pero debes lavarlo cuanto antes.{/i}"
+            pause .5
+            y "Gracias, Bob. Sigamos con la búsqueda."
+            show marina preocupada at right
+            with Dissolve(0.5)
+            m "¡Qué susto me diste, [nombre_personaje]!"
+            y "No ha sido nada, Marina. Sigamos buscando."
+            jump cep6_jabali_grupo
+
         "Dejarte rodar, tratando de protegerte todo lo posible.":
             "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
             scene bg jungle night fall at truecenter
             with Dissolve(0.5)
             "{i}Te levantas en medio de la oscuridad, apenas se ve nada. A lo lejos se siente una voz que grita tu nombre{/i}"
             y "¡Aqui! ¡Aquí!"
-            "{i}Ladera arriba se sienten unos gruñidos. Bob grita una advertencia a lo lejos. Algo está pasando donde quedaron los otros.{/i}"
+            "{i}Ladera arriba se sienten unos gruñidos. Escuchas a Bob gritando una advertencia a lo lejos.{/i}"
+            "{i}Algo está pasando donde quedaron los demás.{/i}"
             $ reporte_caida_rodar = True
-            jump cap6_volver_solo
-    
-    show marina preocupada at right
-    with Dissolve(0.5)
-    m "¡Qué susto me diste, [nombre_personaje]!"
-    y "No ha sido nada, Marina. Sigamos buscando."
-    jump cep6_jabali_grupo
+            jump cap6_volver_solo    
 
 label cep6_jabali_grupo:
     scene bg jungle night crisis at truecenter
     with Dissolve(0.5)
 
-    "{i}Avanzan un poco más, pero algo cruje entre los árboles. Un gruñido ronco corta el murmullo de la noche.{/i}"
+    "{i}Avanzan un poco más, pero algo cruje entre los árboles. Un gruñido ronco corta el silencio de la noche.{/i}"
 
     show marina gr hablando at leftgr
     with Dissolve(0.5)
 
-    m "¿¡Escucharon eso!? Eso no fue un mono..."
+    m "¿¡Escucharon!? Eso no fue un grillo..."
 
     $ reporte_oyen_jabali = True
 
     show bob gr parado hablando at rightgr
     with Dissolve(0.5)
 
-    b "¡No se muevan! ¡Manténganse juntos!"
+    b "¡No se muevan! ¡Manténganse junt..."
 
-    "{i}Pero alguien corre. Otro grita. El caos irrumpe.{/i}"
+    "{i}El crujido de las plantas junto a ti te hace saltar, sorprendido.{/i}"
+    "{i}Marina sale corriendo, asustada. Sales detrás de ella pero cuando te das cuenta, no sabes donde está ella, ni tampoco Bob."
     hide marina
     hide bob
     with Dissolve(0.5)
 
-    "{i}En la oscuridad se oyen ramas quebrarse. Todos corren entre los arboles.{/i}"
+    "{i}En la oscuridad se oyen ramas quebrarse. No sabes si son tus compañeros corriendo entre los arboles, o algo más, acechando furtivamente.{/i}"
 
     $ cansancio -= 1
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}Un gruñido furioso llega desde atrás y sientes como algo pasa cerca rompiendo ramas.{/i}"
+    "{i}Un gruñido furioso llega desde atrás y saltas a un costado.{/i}"
 
-    hide erika
+    hide marina
     hide bob
     with Dissolve(0.5)
 
     jump cap6_volver_solo
 
 label cap6_volver_solo:
-    "{i}Cuando vuelve la calma te das cuenta. Ya no están cerca. La jungla vuelve al silencio, esta vez vacío.{/i}"
+    "{i}Cuando recuperas la calma te das cuenta de que ya no escuchas a Bob, ni tampoco a Marina.{/i}"
+    "{i}El silencio se ha apoderado nuevamente de la jungla.{/i}"
 
     $ reporte_grupo_separado = True
-    $ bob -= 1
-    $ erika -= 1
     $ cansancio -= 1
 
     scene bg jungle night stars at truecenter
     with Dissolve(0.5)
-    "{i}Lográs regresar al campamento, jadeando, con hojas pegadas al rostro y el brazo punzando.{/i}"
+    "{i}Logras regresar al campamento, jadeando, con hojas pegadas al rostro y el brazo dolorido.{/i}"
 
     show laura gr hablando at leftgr
     with Dissolve(0.5)
 
-    l "¿¡Dónde están los demás!? ¿Por qué estás sol[e]?"
+    l "¿¡Dónde están los demás!?"
 
-    y "Nos separamos... hubo un ruido. Un gruñido fuerte. Intenté seguir, pero la oscuridad..."
+    y "Hubo un ruido, un gruñido fuerte. Intenté encontrar a los demás, pero la oscuridad..."
 
     $ reporte_regreso_sin_grupo = True
 
@@ -6311,84 +6344,124 @@ label cap6_4_reunion:
     with Dissolve(0.5)
     show laura seria at left
     with Dissolve(0.5)
-    "{i}Mientras aún estás explicando la situación a Laura, Bob llega al refugio...solo.{/i}"
+    "{i}Mientras hablas con Laura, Bob vuelve, pero está solo.{/i}"
     if reporte_regreso_sin_grupo:
         if reporte_oyen_jabali:
             show bob parado hablando at right
             with Dissolve(0.5)
-            b "Que alivio haber podido regresar al campamento."
+            b "Que alivio haber podido regresar al refugio."
             show laura seria  at left
             with Dissolve(0.5)
+            l "¿¡Y Marina!?"
 
-            l "Pero no todos. Falta Marina."
-
-            b "En la caminata de vuelta... Marina se quedó atrás. Escuchamos un ruido fuerte. Un gruñido. Corrimos…"
+            b "Escuchamos un ruido fuerte. Un gruñido. Todos corrimos..."
 
             show laura gr enojada at leftgr
             with Dissolve(0.5)
 
-            l "Y no se les ocurrió volver por ella…"
+            l "¿Y no se les ocurrió volver por ella?"
             show bob parado serio at right
             with Dissolve(0.5)
 
             show laura gr seria at leftgr
             with Dissolve(0.5)
 
-            "{i}El silencio se densifica. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
+            "{i}El silencio se vuelve más denso. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
 
             $ choice_position = "alta"
 
             menu:
-                "¡No se puede culpar a nadie! Esto fue un accidente.":
+                "No se puede culpar a nadie. Esto era impredecible.":
                     $ reporte_intervencion_neutra = True
-                    y "Nadie quiso esto. Estábamos todos al límite."
+                    y "Nadie quiso que esto pasara. Había algo allí fuera. Nos sorprendió."
 
-                "Bob estaba mas cerca, yo me habia movido lejos de ellos.":
+                "Cuando Marina corrió, fui tras ella, pero Bob no.":
                     $ reporte_reclamo_por_salida = True
                     $ bob -= 1
-                    y "Ahora falta Marina. ¿Qué pasó Bob? Tu eras quién estaba mas cerca de ella"
+                    y "¿Dónde estabas cuando fui tras Marina, Bob?"
                     show bob gr parado enojado at rightgr
                     with Dissolve(0.5)
-                    b "Fué todo muy caótico, no se quién estaba mas cerca de quién."
+                    b "Fué todo muy caótico, de un momento a otro ya no los vi."
 
-                "Me quedo callad[e]. Pero estoy hirviéndo por dentro.":
+                "Me quedo callad[e].":
                     $ reporte_silencio_tensionado = True
-                    "{i}Mantenés el rostro serio. Por dentro, te sientes responsable.{/i}"
+                    "{i}Te mantienes en silencio. Por dentro, te sientes responsable.{/i}"
         else:
             show bob parado serio at right
             with Dissolve(0.5)
-            b "Estaba preocupado luego que cayeras por la pendiente, no te veiamos en la oscuridad."
-            b "Que alivio hque hayas podido llegar al refugio [nombre_personaje]."
+
+            b "Aquí estás, ¡[nombre_personaje]!"
+            b "Te vimos caer y corrimos a ver qué te había pasado, pero la oscuridad no nos dejaba ver el final de la colina."
+            b "Luego escuchamos un gruñido y algo moviéndose entre los arbustos."
+            b "Le dije a Marina que corra, pero cuando estuve fuera de peligro, no puede encontrarla."
+            
             show laura enojada at left
             with Dissolve(0.5)
 
-            l "Pero no todos. Falta Marina."
+            l "¿¡Y no se te ocurrió volver por ella?"
 
-            b "En la caminata de vuelta... Marina se quedó atrás. Escuchamos un ruido fuerte. Un gruñido. Corrimos…"
-            l "Y no se te ocurrió volver por ella…"
-
-            "{i}El silencio se densifica. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
+            "{i}El silencio se vuelve más denso. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir{/i}"
 
             $ choice_position = "alta"
 
             menu:
-                "¡No se puede culpar a nadie! Esto fue un accidente.":
+                "No se puede culpar a nadie. Esto era impredecible.":
                     $ reporte_apoyo_bob_jabali = True
                     $ bob += 1
-                    y "No es culpa e Bob. Estábamos todos al límite."
+                    y "No es culpa de Bob. Allí fuera no se veía nada."
 
                 "Realmente me sorprende de Bob.":
                     $ reporte_reclamo_por_salida = True
                     $ bob -= 1
-                    y "Ahora falta Marina. ¿Qué pasó Bob? Me sorporende que la dejaras en la selva."
+                    y "La verdad que no esperaba algo así de ti Bob. Hubiera imaginado que la buscarías hasta encontrarla."
                     show bob gr parado enojado at rightgr
                     with Dissolve(0.5)
-                    b "Fué todo muy caótico, luego de correr no sabia ni donde estaba yo."
+                    b "Fué todo muy caótico, les pido que comprendan. No veía ni dónde estaba parado."
 
-                "Me quedo callad[e]. Pero estoy hirviéndo por dentro.":
+                "Me quedo callad[e] solamente para no crear más problemas.":
                     $ reporte_silencio_tensionado = True
-                    "{i}Mantenés el rostro serio. Por dentro, te sientes responsable.{/i}"
+                    "{i}Mantienes el rostro serio. Por dentro, sientes que Bob es responsable de que Marina esté perdida.{/i}"
+    else:
+        show bob parado hablando at right
+        with Dissolve(0.5)
+        b "Que alivio haber podido regresar al refugio."
+        show laura seria  at left
+        with Dissolve(0.5)
+        l "¿¡Y Marina!?"
 
+        b "Escuchamos un ruido fuerte. Un gruñido. Algo moviéndose en los arbustos. Ambos corrimos..."
+
+        show laura gr enojada at leftgr
+        with Dissolve(0.5)
+
+        l "¿Y no se te ocurrió volver por ella?"
+        show bob parado serio at right
+        with Dissolve(0.5)
+
+        show laura gr seria at leftgr
+        with Dissolve(0.5)
+
+        "{i}El silencio se vuelve más denso. Las llamas del fuego proyectan sombras que parecen temblar junto a las palabras que nadie quiere decir.{/i}"
+
+        $ choice_position = "alta"
+
+        menu:
+            "No se puede culpar a nadie. Esto era impredecible.":
+                $ reporte_intervencion_neutra = True
+                y "Nadie quiso que esto pasara, Laura."
+
+            "Realmente me sorprende de Bob.":
+                $ reporte_reclamo_por_salida = True
+                $ bob -= 1
+                y "La verdad que no esperaba algo así de ti Bob. Hubiera imaginado que la buscarías hasta encontrarla."
+                show bob gr parado enojado at rightgr
+                with Dissolve(0.5)
+                b "Fué todo muy caótico, les pido que comprendan. No veía ni dónde estaba parado."
+
+            "Me quedo callad[e] solamente para no crear más problemas.":
+                $ reporte_silencio_tensionado = True
+                "{i}Mantienes el rostro serio. Por dentro, sientes que Bob es responsable de que Marina esté perdida.{/i}"
+                    
     show bob parado hablando at right
     with Dissolve(0.5)
 
@@ -6413,19 +6486,22 @@ label cap6_5_decision_final:
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}El grupo vuelve a rodear el fuego. Nadie habla por un momento. El cansancio aprieta los hombros, pero la tensión mantiene los ojos abiertos.{/i}"
+    "{i}El grupo vuelve a rodear el fuego. Nadie habla por un momento.{/i}"
+    "{i}Están agotados, pero aún no han encontrado las plantas para Ingird, y Marina puede estar herida, sola, en la selva.{/i}"
 
     show laura enojada at left
     with Dissolve(0.5)
 
-    l "Entonces... ¿van a buscarla o esperan a que vuelva por su cuenta?"
+    l "¡No aguanto más!"
+    l "¿Van a ir a buscarla o esperan que mágicamente aparezca sana y salva?"
+
     show bob parado hablando at right
     with Dissolve(0.5)
-    b "Es un problema de todos..."
+
+    b "¿Van a...? O sea que tú no irías."
     show laura gr enojada at leftgr
     with Dissolve(0.5)
     l "¡De ninguna manera! Yo dije claramente que era un error ir a la selva de noche."
-    l "Ahora es su responsabilidad lo que le pase a Marina."
     $ choice_position = "alta"
 
     menu:
@@ -6433,22 +6509,23 @@ label cap6_5_decision_final:
             $ reporte_decide_buscar_marina = True
             $ bob += 1
             $ laura +=1
-            y "Si ella estuviera acá, insistiría en salir a buscarnos. No podemos fallarle ahora."
+            y "Si ella estuviera aquí, insistiría en salir a buscarnos. No podemos fallarle ahora."
             "{i}Bob asiente. Se preparan con lo poco que tienen y se internan nuevamente en la selva.{/i}"
             jump cap6_rescate_en_la_noche
 
-        "Esperar hasta el amanecer. Es peligroso y no ayudaría que más se pierdan.":
+        "Mejor esperar hasta el amanecer. Ahora es peligroso y no ayudaría que más personas se pierdan.":
             $ reporte_decide_esperar_marina = True
             $ laura -= 1
             $ bob -= 1
-            y "No servirá de nada tener otra persona perdida en la jungla. El momento para ."
-            "{i}El grupo no parece muy satisfecho. El fuego se aviva, pero el frío de la duda se queda.{/i}"
+            y "Si vamos ahora puede volver a pasar lo mismo. Esperemos a la primera luz."
+            "{i}El grupo no parece muy satisfecho. Ninguno logra conciliar el sueño. La duda los carcome.{/i}"
             jump cap6_espera_al_amanecer
 
         "Yo voy a buscarla, no mas errores.":
             $ reporte_decide_esperar_marina = True
             $ laura += 1
             $ bob -= 1
+            $ liderazgo +=1
             y "Yo voy, ustedes esperen aqui."
             b "Yo puedo ayudar a buscarla también."
             y "El momento para no dejarla atrás ya pasó, Bob. Ahora déjame a mi resolver el problema."
@@ -6462,30 +6539,35 @@ label cap6_rescate_en_la_noche:
 
     show screen combined_ui
 
-    "{i}De nuevo en la espesura. Esta vez, los pasos son más pesados. Las hojas crujen con la humedad y el miedo. Cada sombra parece un animal agazapado.{/i}"
+    "{i}De nuevo en la espesura. Esta vez, los pasos son más pesados.{/i}"
+    "{i}El miedo les invade, y cada sombra parece un animal agazapado.{/i}"
 
     show bob gr parado serio at rightgr
     with Dissolve(0.5)
 
-    b "Debería haber vuelto por ella antes. No vuelvas a separarte de mí. Esta vez no."
+    b "Debería haber vuelto por ella antes."
+
+    y "Bob, de nada sirve lamentarse ahora."
+    y "Hagamos silencio, así podemos escuchar si nos llama, o si algo acecha."
 
     $ sed -= 1
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}Tras unos minutos de búsqueda en el claro donde se separaron, escuchás un leve quejido. Te adelantás entre arbustos y ahí está...{/i}"
+    "{i}Tras unos minutos de búsqueda en el claro donde se separaron, escuchás un leve quejido. Te asomas entre los arbustos y ahí está...{/i}"
 
     show marina gr triste at leftgr
     with Dissolve(0.5)
 
-    m "[nombre_personaje]... ¿Bob? ¿Están ahí...? Pensé que no lo contaba."
+    m "¿Eres tu,[nombre_personaje]? ¿Bob?"
+    m "Uff... ¡que alivio! Pensé que no vería otro amanecer."
 
     b "¡Marina! Por todos los cielos..."
 
     "{i}La ayudás a levantarse. Está cubierta de barro y hojas secas, con un rasguño en el brazo y la mirada perdida.{/i}"
 
-    m "Me escondí cuando escuché el gruñido. Después fue muy tarde para volver."
-    m "Pero encontré las plantas..."
+    m "Me escondí cuando todo se descontroló. Después fue muy tarde para volver."
+    m "¡Pero encontré las plantas!"
 
     $ reporte_rescate_exitoso = True
     $ marina += 2
@@ -6505,7 +6587,7 @@ label cap6_rescate_en_la_noche:
 
     l "¡Marina!"
 
-    m "Estoy bien... estoy bien, gracias a [nombre_personaje] y Bob."
+    m "Estoy bien, gracias a [nombre_personaje] y Bob."
 
     $ laura += 1
 
@@ -6518,7 +6600,8 @@ label cap6_espera_al_amanecer:
 
     show screen combined_ui
 
-    "{i}La noche se estira más de lo habitual. Cada rama que cruje es una pregunta. Nadie duerme. Cada uno lucha con sus pensamientos en silencio.{/i}"
+    "{i}La noche se estira más de lo habitual.{/i}"
+    "{i}Cada rama que cruje es una pregunta y nadie duerme. Cada uno lucha con sus pensamientos en silencio.{/i}"
 
     show laura seria at left
     with Dissolve(0.5)
@@ -6528,32 +6611,38 @@ label cap6_espera_al_amanecer:
     show bob gr parado serio at rightgr
     with Dissolve(0.5)
 
-    b "...Tal vez. O tal vez no hicimos lo suficiente."
+    b "Tal vez. O tal vez no hicimos lo suficiente."
 
-    "{i}El fuego se consume en brasas. La selva murmura con viento leve. Luego, el primer rayo de luz se filtra entre las ramas.{/i}"
+    "{i}El fuego se consume hasta que solo quedan unas brasas.{/i}"
+    "{i}La selva murmura con viento leve a medida que comienza a amanecer.{/i}"
 
     scene bg jungle clearing at truecenter
     with Dissolve(0.5)
 
-    "{i}Y entonces, una figura aparece. Cojeando, con el rostro pálido y el brazo rasguñado.{/i}"
+    "{i}Poco después una figura aparece en la entrada del refugio.{/i}"
+    "{i}Cojeando, con el rostro pálido y el brazo rasguñado, la silueta de Marina es recortada por los primeros rayos de luz.{/i}"
 
     show marina gr triste at center
     with Dissolve(0.5)
 
-    m "Pensé... que no volvía. Me perdí... pero encontré un claro. Esperé hasta que hubo luz."
+    m "Pensé... que no volvía."
+    m "Me perdí... pero encontré un claro."
+    m "Esperé hasta que hubo algo luz."
 
     show bob parado hablando at right
     show laura gr sorprendida at leftgr
     with Dissolve(0.5)
 
-    b "Marina…"
+    b "Marina..."
 
     l "¿Estás bien? ¡Te dimos por perdida!"
 
-    m "Estoy... agotada. Pero viva."
-    m "Encontré las plantas..."
+    m "Estoy... agotada. Pero estoy bien..."
+    m "Y encontré las plantas."
 
-    "{i}La ayudás a sentarse. Le ofrecés agua. Nadie habla más. Solo las aves comienzan a cantar en la copa de los árboles.{/i}"
+    "{i}La ayudás a sentarse. Le ofrecés agua.{/i}"
+    "{i}Nadie habla más.{/i}"
+    "{i}Solo se escucha el canto del las aves desde las copas de los árboles.{/i}"
 
     $ reporte_marina_vuelve_sola = True
     $ marina -= 1
@@ -6563,11 +6652,42 @@ label cap6_espera_al_amanecer:
 
     jump cap6_final
 
+label cap6_3_salida_en_solitario_marina:
+
+    scene bg jungle clearing at truecenter
+    with Dissolve(0.5)
+
+    "{i}La oscuridad no es completa, pero sí suficiente para perderte si das un paso en falso.{/i}"
+
+    "{i}Después de unos minutos de buscar con cuidado, una silueta encorvada aparece junto a un tronco caído.{/i}"
+    "{i}Se mueve lentamente, como si ya no tuviera energías.{/i}"
+
+    show marina gr triste at leftgr
+    with Dissolve(0.5)
+
+    m "Ay... [nombre_personaje]."
+    m "Pensé que... que nadie vendría."
+
+    y "¿Estás herida? Te estuvimos esperando. ¿Qué pasó?"
+
+    m "Escuché algo. Me asusté. Corrí. Me tropecé con una raíz... no pude gritar."
+    m "Luego me escondí... y fue allí que encontré las plantas."
+
+    "{i}La ayudás a ponerse de pie. Está temblorosa pero parece estar bien. Tomas su brazo con firmeza y comienzan el regreso.{/i}"
+
+    $ reporte_encuentra_marina = True
+    $ marina += 1
+    $ sed -= 1
+    $ hambre -= 1
+
+    jump cap6_final
+
 label cap6_final:
     # Si hubo misión de rescate, se encuentran las plantas y al personaje
     # Si se esperó: la persona llega al amanecer extenuada
     # Se curan heridas de Ingrid con las plantas
     # Se muestran consecuencias → se cierra el capítulo
+    hide marina
     if refugio == "cueva":
         scene bg jungle cave at truecenter
     elif refugio == "cabana":
@@ -6578,7 +6698,8 @@ label cap6_final:
 
     show screen combined_ui
 
-    "{i}Apenas la luz se afianza entre las hojas, preparan una infusión con las plantas recolectadas. Una olla improvisada burbujea sobre el fuego.{/i}"
+    "{i}Reavivan el fuego para preparar una infusión con las plantas recolectadas.{/i}"
+    "{i}Una olla improvisada burbujea sobre las llamas mientras Marina descansa.{/i}"
 
     show laura hablando at left
     show bob parado serio at right
@@ -6586,18 +6707,24 @@ label cap6_final:
 
     l "¿Esto funcionará?"
 
-    b "Si Ingrid tenía razón… y la preparación está bien hecha, deberíamos ver una mejora pronto."
+    b "Si Ingrid tenía razón y la preparación está bien hecha, deberíamos ver una mejoría pronto."
 
-    "{i}Le aplican con cuidado el líquido tibio sobre la herida de Ingrid. Nadie habla. Solo se escucha el lento goteo del agua condensada entre las hojas.{/i}"
+    "{i}Aplican con cuidado el líquido tibio sobre la herida de Ingrid en silencio.{/i}"
+    "{i}Solo se escucha el lento goteo del agua condensada entre las hojas y los quejidos soñolientos de Ingrid..{/i}"
+    "{i}Esperan pacientemente hasta que, al rato, Ingid abre los ojos nuevamente.{/i}"
 
     show ingrid preocupada at center
     with Dissolve(0.5)
 
-    i "(en voz baja) Se siente… menos caliente."
+    i "Se siente..."
+    "{i}Ingrid hace un gran esfuerzo para hablar.{/i}"
+    i "Se siente menos caliente."
 
-    "{i}Una exhalación de alivio. Pequeña, pero real. Algo se ha ganado esta noche: tiempo, confianza, y el hilo que mantiene unido a un grupo en la incertidumbre.{/i}"
+    "{i}Todos sueltan un suspiro de alivio.{/i}"
+    "{i}Visible en el rostro de todos, esta victoria es pequeña, pero real.{/i}"
+    "{i}Esta noche tumultuosa ha dado sus frutos: el grupo ganó tiempo, confianza, y unidad en la incertidumbre.{/i}"
 
-    "{size=-10}Tus decisiones de esta noche no pasaron desapercibidas. La confianza, la tensión, las heridas... todo deja huella.{/size}"
+    "{size=-10}Tus decisiones de esta noche no pasaron desapercibidas. Los tropiezos, el cansancio, las heridas... todo deja huella.{/size}"
 
 
     jump chapter_6_end  
