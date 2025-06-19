@@ -6835,7 +6835,7 @@ label cap7_inicio:
 
     "{i}El amanecer se filtra entre hojas amplias y húmedas. Nadie dice nada al despertar: solo cuerpos exhaustos que intentan reincorporarse.{/i}"
 
-    show ingrid preocupada at center
+    show ingrid preocupada at left
     with Dissolve(0.5)
 
     i "(débil) Me siento menos débil... creo que puedo moverme, aunque despacio."
@@ -6843,12 +6843,13 @@ label cap7_inicio:
     $ ingrid += 1
     $ cansancio = max(1, cansancio - 1)
 
-    show bob parado hablando at right
+    show bob parado hablando at center
     with Dissolve(0.5)
 
-    b "Necesitamos más herramientas, comida... información. Hay que revisar los otros refugios. Ingrid no puede moverse mucho, así que uno de nosotros debería quedarse."
+    b "Necesitamos más herramientas, comida... cosas utiles. Hay que revisar los lugares que vimos como refugios."
+    b "Ingrid no puede moverse mucho, así que uno de nosotros debería quedarse."
 
-    show marina seria at left
+    show marina seria at right
     with Dissolve(0.5)
 
     if marina <= -1:
@@ -6910,6 +6911,9 @@ label cap7_decidir_quien_va:
     show bob parado hablando at right
     with Dissolve(0.5)
 
+    hide ingrid
+    with Dissolve(0.5)
+
     b "Uno debería quedarse con Ingrid. El resto puede ir al lugar que elegimos. Recolectar. Revisar. Lo que aparezca, será útil."
 
     show laura seria at left
@@ -6924,12 +6928,13 @@ label cap7_decidir_quien_va:
     elif marina >= 2:
         show marina hablando at center
         with Dissolve(0.5)
-        m "Puedo quedarme con Ingrid, si eso ayuda. Hoy me siento un poco más lúcida."
+        m "Puedo quedarme con Ingrid, si eso ayuda. Aun no estoy del todo repuesta."
     else:
         show marina seria at center
         with Dissolve(0.5)
         m "No me molesta quedarme o ir. Lo que sea más útil."
 
+    $ choice_position = "default" # default alta superior
     menu:
         "Voy a ir a explorar con el grupo.":
             $ jugador_va_explorar = True
@@ -6949,67 +6954,53 @@ label cap7_formar_grupo_exploracion:
 
     "{i}El grupo comienza a organizarse para la exploración. Ingrid queda en el refugio, confiando en que traerán algo útil.{/i}"
 
-    show bob parado serio at centerright
-    show erika seria at centerleft
-    show marina seria at left
-    show tomas serio at right
+    show bob parado serio at center
+    show marina hablando at left
+    show laura seria at right
     with Dissolve(0.5)
 
-    b "Vamos a hacer esto rápido. Necesitamos eficiencia, no dudas."
+    b "Quien se queda entonces."
 
-    e "Si nos organizamos bien desde el principio, no vamos a perder tiempo en debates innecesarios."
+    m "Alguien tiene que decidir."
 
-    "{i}Los dos enfoques son claros: acción rápida con Bob o planificación meticulosa con Erika.{/i}"
+    "{i}Laura y Marina quieren ir pero estan dispuestas a quedarse. Bob no ha hecho mencion de quedarse en ningun momento.{/i}"
 
+    $ choice_position = "alta" # default alta superior
     menu:
-        "Tomar el liderazgo del grupo":
+        "Tomar el liderazgo del grupo, Marina deberia quedarse.":
             $ jugador_lider += 2
-            "{i}Tomás cruza los brazos, evaluándote con interés.{/i}"
+            $ marina -= 1
+            y "Yo tomare la desicion."
+            y "Marina, tu has pasado por una noche complicada. Te guste o no, esta exploracion va a ser agotadora."
 
-            t "Si querés liderar, espero que sepas lo que hacés."
+            m "Si querés liderar, espero que sepas lo que hacés."
 
-        "Seguir el método de Bob: exploración rápida y efectiva":
+        "Bob toma buenas decisiones.":
             $ apoyo_bob += 2
-            "{i}Bob asiente con firmeza.{/i}"
+            "{i}Miras a Bob indicandole que tome una desicion. Bob asiente con firmeza.{/i}"
 
-            b "Bien, no vamos a perder tiempo."
+            b "Marina, mejor que descanses y te recuperes. Vean si pueden encontrar plantas con Ingrid."
 
-        "Seguir el enfoque de Erika: organización antes de avanzar":
-            $ apoyo_erika += 2
-            "{i}Erika sonríe brevemente.{/i}"
+        "Laura se ofrecio, que se quede ella":
+            $ laura -= 1
+            y "Laura, te ofreciste antes a quedarte, quizas sea lo mejor."
 
-            e "Si mantenemos el control, vamos a conseguir mejores resultados."
+            l "Deberia quedarse Marina, ella esta cansada de la noche y vamos a tener que avanzar mucho."
+            m "No demoeremos mas, yo me quedo."
+            "{i}Marina se va con Ingrid pero no parece estar muy contenta.{/i}"
+            hide marina
+            with Dissolve (0.5)
 
-    "{i}Los personajes comienzan a definir sus posiciones dentro del grupo.{/i}"
-
-    show tomas serio at right
-    show marina seria at left
-    show charles serio at center
-    show ingrid seria at far_left
-    show laura seria at far_right
+    hide marina
     with Dissolve(0.5)
-
-    python:
-        grupo_jugador = []
-        grupo_bob = []
-        grupo_erika = []
-
-        for personaje in ["tomas", "marina", "charles", "laura"]:
-            if getattr(player, f"apoyo_{personaje}") > 2:
-                grupo_jugador.append(personaje)
-            elif apoyo_bob > apoyo_erika:
-                grupo_bob.append(personaje)
-            else:
-                grupo_erika.append(personaje)
-
-        if len(grupo_jugador) < 3:
-            personaje_cambio = grupo_bob[-1] if len(grupo_bob) > len(grupo_erika) else grupo_erika[-1]
-            grupo_jugador.append(personaje_cambio)
-            grupo_bob.remove(personaje_cambio) if personaje_cambio in grupo_bob else grupo_erika.remove(personaje_cambio)
 
     "{i}El grupo está listo. La exploración comienza ahora.{/i}"
 
     jump cap7_union_con_grupo_explorador
+
+label explorar_primer_sitio:
+    # Gerva: aca deberia haber un condicional para manejar que refugio es el elegido para explorar por el jugador y que encuentren lo que hay alli
+    jump cap7_antes_de_encuentro_nuevos
 
 label cap7_refugio_con_ingrid:
 
@@ -7033,12 +7024,13 @@ label cap7_refugio_con_ingrid:
 
     y "¿Perdón?"
 
-    i "Lo que necesitamos está allá afuera. Yo voy a estar bien. Marina me ayudó a reconocer algunas plantas esta mañana. Puedo arreglármelas."
+    i "Lo que necesitamos está allá afuera. Yo voy a estar bien. Ire buscando plantas por aqui cerca. Puedo arreglármelas."
 
     "{i}La mirás. Tiene ojeras, las manos temblorosas, pero hay determinación en su tono.{/i}"
 
-    i "Vos necesitás ver lo que hay más allá de este lugar. Entender con quiénes estamos, qué decisiones tomar. No te aísles ahora."
+    i "Es mejor que te sumes a la exploracion. Cuantos mas ojos haya en eso, mas posibilidades de encontrar algo util."
 
+    $ choice_position = "alta" # default alta superior
     menu:
         "Aceptar ir después de todo":
             $ reporte_ingrid_te_convence = True
@@ -7054,14 +7046,14 @@ label cap7_refugio_con_ingrid:
             $ confianza_ingrid += 2
             "Prefiero asegurarme de que estés bien antes de tomar otras decisiones."
 
-            i "Es arriesgado, pero agradezco que pienses en eso."
+            i "Te agradezco que pienses en eso."
 
             "{i}La mirada de Ingrid refleja alivio, pero también preocupación por los demás.{/i}"
 
             jump cap7_permanecer_con_ingrid
 
         "Responder con firmeza pero afecto":
-            $ relacion_ingrid += 1
+            $ ingrid += 1
             "Confío en que podés manejar esto, pero prometo volver rápido."
 
             i "Bueno, si lo prometés... Supongo que tengo que confiar en eso."
@@ -7070,22 +7062,22 @@ label cap7_refugio_con_ingrid:
 
             jump cap7_union_con_grupo_explorador
 
-        "Dudar antes de tomar la decisión":
+        "Me quede por compromiso":
             $ confianza_ingrid -= 1
-            "No sé si es lo correcto..."
+            "Me alegra que digas eso, en realidad queria ir pero..."
 
-            i "Si dudás tanto, tal vez ya tomaste tu decisión."
+            i "No quiero ser una carga."
 
             "{i}La expresión de Ingrid es seria, pero no fría. Sabe que esta situación es difícil para todos.{/i}"
 
-            jump cap7_duda_sobre_exploracion
+            jump cap7_union_con_grupo_explorador
 
 label cap7_union_con_grupo_explorador:
 
     scene bg jungle path at truecenter
     with Dissolve(0.5)
 
-    "{i}Te apresurás a tomar una cantimplora, algo de cuerda, y salís en dirección al punto de encuentro que habían discutido antes. Tras unos minutos, ves al grupo acercándose desde la otra dirección.{/i}"
+    "{i}Te apresurás a tomar tus cosas, y salís en dirección al punto de encuentro que habían discutido antes. Tras unos minutos, ves al grupo acercándose desde la otra dirección.{/i}"
 
     show bob parado serio at right
     show laura seria at left
@@ -7119,7 +7111,7 @@ label cap7_union_con_grupo_explorador:
     hide marina with Dissolve(0.5)
 
     "{i}Marina se aleja sin mirar atrás. El grupo queda ahora compuesto por vos, Bob y Laura.{/i}"
-
+    # Gerva: aca hace falta que se explique que encontraron los otros en el otro refugio, capaz que se necesita otro label entremedio
     jump cap7_antes_de_encuentro_nuevos
 
 label cap7_antes_de_encuentro_nuevos:
@@ -7129,7 +7121,7 @@ label cap7_antes_de_encuentro_nuevos:
 
     show screen combined_ui
 
-    "{i}El grupo avanza con paso más lento. Ahora son solo tres: vos, Bob y Laura. La falta de Marina se siente, pero el objetivo sigue siendo el mismo.{/i}"
+    "{i}El grupo avanza rumbo al otro lugar de refugio. Quizas alli puedan encontrar algo mas.{/i}"
 
     show laura seria at left
     with Dissolve(0.5)
@@ -7143,11 +7135,12 @@ label cap7_antes_de_encuentro_nuevos:
 
     "{i}Bob se agacha y toca la tierra en un área despejada. Está nivelada. Ordenada. No es natural. Y más allá, hay señales claras: una lona improvisada, restos organizados de madera.{/i}"
 
-    show laura sorprendida at left
+    show laura gr hablando at leftgr
     with Dissolve(0.5)
 
-    l "Alguien estuvo acá. No solo de paso. Se instalaron."
+    l "Entonces debe haber mas supervivientes!"
 
+        $ choice_position = "default" # default alta superior
     menu:
         "Me acerco con precaución. Puede ser alguien en problemas.":
             $ reporte_investiga_nuevo_grupo = True
@@ -7161,6 +7154,9 @@ label cap7_antes_de_encuentro_nuevos:
             $ reporte_defensa_nuevo_grupo = True
             y "Podría ser buena noticia. O mala."
 
+    hide Laura
+    hide bob
+    with Dissolve (0.5)
     jump cap7_encuentro_tomas_charles
 
 label cap7_encuentro_tomas_charles:
@@ -7170,12 +7166,12 @@ label cap7_encuentro_tomas_charles:
 
     "{i}El sonido seco de ramas partiéndose rompe la monotonía del camino. Un hombre inclinado junta leña con precisión calculada. No duda. No desperdicia energía.{/i}"
 
-    show tomas serio at center
+    show tomas serio at right
     with Dissolve(0.5)
 
-    t "Si van a quedar mirándome, háganlo sin distraerme."
+    t "Estaba seguro que alguno mas tenia que haber llegado a la isla. Si van a quedar mirándome, háganlo sin distraerme."
 
-    show bob gr parado serio at rightgr
+    show bob parado serio at centerleft
     with Dissolve(0.5)
 
     b "Vaya. Y yo que pensaba que nos recibirían con una sonrisa."
@@ -7185,6 +7181,7 @@ label cap7_encuentro_tomas_charles:
 
     l "No lo culpo. Mantenerse ocupado es clave."
 
+    $ choice_position = "default" # default alta superior
     menu:
         "Respeto su enfoque. Mejor trabajar que hablar sin sentido.":
             $ reporte_respetuoso_tomas = True
@@ -7200,10 +7197,12 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Tomás asiente apenas, recoge otra rama, y sigue con su tarea sin esperar respuesta.{/i}"
 
+    hide tomas
+    with Dissolve (0.5)
     scene bg jungle resting_spot at truecenter
     with Dissolve(0.5)
 
-    "{i}Más adelante, el contraste es evidente: otro hombre descansa contra una roca, piernas cruzadas, observando el horizonte sin preocupación aparente.{/i}"
+    "{i}Un poco al costado, el contraste es evidente: otro hombre descansa contra una roca, piernas cruzadas, observando el horizonte sin preocupación aparente.{/i}"
 
     show charles hablando at center
     with Dissolve(0.5)
@@ -7219,7 +7218,7 @@ label cap7_encuentro_tomas_charles:
     "{i}Charles sonríe, relajado, sin mostrar la misma urgencia que el otro.{/i}"
 
     c "El tiempo suficiente para saber que es mejor dejar que otros hagan el trabajo duro."
-
+    $ choice_position = "alta" # default alta superior
     menu:
         "Bromeo. Al menos no intenta ocultarlo.":
             $ reporte_broma_charles = True
@@ -7258,6 +7257,7 @@ label cap7_conflicto_tomas_charles:
 
     "{i}Tomás cruza los brazos. Charles apenas altera su postura, pero su expresión cambia sutilmente.{/i}"
 
+    $ choice_position = "alta" # default alta superior
     menu:
         "Apoyar a Tomás. Charles no estaba haciendo nada.":
             $ confianza_tomas += 1
@@ -7291,20 +7291,20 @@ label cap7_encuentro_nuevo_grupo:
 
     show screen combined_ui
 
-    show erika seria at center
+    show erika seria at left
     with Dissolve(0.5)
 
-    k "Espero que no estén tocando nada que no sea suyo."
+    k "Hola. Espero que no vaya a generar problemas."
 
     "{i}El grupo se detiene. Frente a ustedes, una mujer de postura firme observa todo con precisión calculada. No hay inseguridad en su mirada. Solo evaluación.{/i}"
 
-    show bob parado serio at right
-    show laura seria at left
+    show bob parado serio at centerright
+    show laura seria at right
     with Dissolve(0.5)
 
     l "No es nuestra intención. Solo intentamos entender quién más está aquí."
 
-    b "Si hay más sobrevivientes, tenemos que saberlo."
+    b "Si hay más sobrevivientes, tenemos que ayudarnos. Estamos todos en la misma situacion."
 
     # Ajuste de tono según las interacciones previas
     if reporte_respetuoso_tomas:
@@ -7323,6 +7323,7 @@ label cap7_encuentro_nuevo_grupo:
 
     "{i}Erika cruza los brazos. Su postura no es hostil, pero tampoco es de bienvenida automática.{/i}"
 
+    $ choice_position = "alta" # default alta superior
     menu:
         "Con confianza. No quiero parecer débil ante ella.":
             $ reporte_se_muestra_firme = True
@@ -7342,6 +7343,11 @@ label cap7_encuentro_nuevo_grupo:
 
 label cap7_discusion_grupo:
 
+    # Gerva: aca quedo muy verde todo.
+    # Primero expandir el tema del rescate, que manejen opciones, bob callado con cara de no muy convencido, finalmente le preguntan y dice que este en la loma del orto
+    # Segundo hay que hacer una logica condicional que maneje en que refugio esta el jugador y en cual esta erika, y a partir de ahi que se den las interacciones de los otros personajes y las opciones
+    # Tienen que ir del refugio de erika de nuevo al del jugador y recien ahi deciden
+    # hay que actualziar al finak la variable refugio para poder poner el fondo correcto en las scenes
     scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
