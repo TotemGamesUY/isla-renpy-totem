@@ -3193,7 +3193,7 @@ label opciones_campamento:
     with Dissolve(.5)
     b "Creo que es mejor que haga algo con este refugio. Pronto se hará de noche y todos necesitamos descansar."
 
-    $ choice_position = "default" # default alta superior
+    $ choice_position = "alta" # default alta superior
     menu:
         "Estoy agotad[e]" if cansancio == 3:
             y "En realidad ya no puedo ni estar en pie. Voy a recostarme aquí un rato."
@@ -3228,7 +3228,7 @@ label refugio_siesta:
 
     hide bob
     with Dissolve(.5)
-    "Te recuestas a descansar un poco. Y te quedas dormido."
+    "Te recuestas a descansar un poco. Y te quedas dormid[e]."
     pause 1.5
     if bob < 0:
         "Duermes un largo rato. Despiertas y parece que Marina y Laura ya regresaron porque se escuchan sus voces fuera del refugio."
@@ -3289,7 +3289,7 @@ label cuidar_ingrid:
     "Ingrid no esta bien, ha perdido mucha sangre y no parece estar consciente."
     hide marina
     with Dissolve(.5)
-    hide bob_discusion
+    hide bob
     with Dissolve(.5)
     hide laura
     with Dissolve(.5)
@@ -3313,6 +3313,7 @@ label cuidar_ingrid:
     hide screen combined_ui
     show screen combined_ui
     "Te despiertas un par de horas después, te sientes menos cansad[e]."
+    
     jump marina_laura_regresan 
 
 label bob_discusion_2:
@@ -3690,6 +3691,8 @@ label pregunta_descanso_jungla:
     jump final_primer_dia
 
 label marina_laura_regresan:
+    hide bob
+
     show marina hablando at center
     with Dissolve(.5)
     m "¡Hemos encontrado agua!"
@@ -3762,7 +3765,7 @@ label interact_with_characters:
     show bg jungle night stars at truecenter
     with Dissolve(.5)
     "Es un buen momento para acercarte a alguno de tus compañeros y conversar."
-    $ choice_position = "alta" # default alta superior
+    $ choice_position = "superior" # default alta superior
     menu:
         "Hablar con Marina sobre cómo se siente." if reporte_wellness_m == False:
             $ desicion_intro += 1
@@ -3847,6 +3850,12 @@ label interact_with_characters:
             jump interact_with_characters
 
         "Dejar que todos descansen por ahora.":
+            if reporte_wellness_b == True and reporte_wellness_l == True and reporte_wellness_m == True:
+                y "Me alegra haber podido hablar con todos, aunque el sueño haya sido intermitente."
+            y "Deberíamos descansar. Mañana será otro día difícil."
+            jump chapter_4_end
+        
+        "No tengo nada que hablar con los demas en este momento.":
             if reporte_wellness_b == True and reporte_wellness_l == True and reporte_wellness_m == True:
                 y "Me alegra haber podido hablar con todos, aunque el sueño haya sido intermitente."
             y "Deberíamos descansar. Mañana será otro día difícil."
@@ -6548,7 +6557,7 @@ label cap6_rescate_en_la_noche:
     "{i}De nuevo en la espesura. Esta vez, los pasos son más pesados.{/i}"
     "{i}El miedo les invade, y cada sombra parece un animal agazapado.{/i}"
 
-    show bob gr parado sucio at rightgr
+    show bob gr parado at rightgr
     with Dissolve(0.5)
 
     b "Debería haber vuelto por ella antes."
