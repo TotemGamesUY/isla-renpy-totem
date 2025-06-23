@@ -344,6 +344,7 @@ default destino_exploracion_1 = ""
 default destino_exploracion_2 = ""
 default opciones_exploracion = []
 default opciones_exploracion2 = []
+default objeto_faltante = []
 default opciones_texto = []
 default reporte_ingrid_te_convence = False
 default reporte_oyen_jabali = False
@@ -377,6 +378,18 @@ default climb_hill = False
 default reporte_cautela_hongos = False
 default reporte_descuido_hongos = False
 default yesca = False
+default reporte_se_muestra_firme = False
+default reporte_se_muestra_cauteloso = False
+default reporte_se_muestra_abierto = False
+default reporte_apoya_union = False
+default reporte_indeciso_union = False
+default reporte_opone_union = False
+default reporte_secreto_rescate = False
+default reporte_verdad_rescate = False
+default reporte_apoya_liderazgo_erika = False
+default reporte_apoya_liderazgo_bob = False
+default reporte_postula_liderazgo = False
+default reporte_evade_liderazgo = False
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -6818,24 +6831,6 @@ label chapter_7_start:
     hide Laura
     jump cap7_inicio
 
-label ingrid_recupera:
-    # a la mañana todos están muy cansados
-    # Ingrid se despierta sin fiebre, puede hacer cosas pero aun está debil
-    # se propone ir a alguno de los otros posibles refugios y ver si alli hay algo de utilidad 
-    # si en capitulo 3 el jugador no vio el claro, deberia haberlo visto en el cap5 y proponerlo como lugar de exploracion
-    # branch: ir a cabaña o ir a cueva o ir a claro en saliente (uno de estos es el lugar donde estan refugiados por lo que siempre hay dos opciones a explorar)
-    # Alguien se queda con ingrid para ayudarla a seguir buscando hierbas utiles, el resto va al otro lugar
-    # en el primer lugar (sea cual sea encuentran algo util
-    # En la cabaña alguna herramienta,  algo para hacer fuego, en la cueva una buena cantidad hongos comestibles y en el saliente unos cuantos nidos con huevos
-    # En el segundo lugar se encuentran con otro grupo de supervivientes, que han encontrado lo que habia en ese lugar y tienen todo muy organizado
-    # Se introducen a Charles, Erika y Tomás, que son los nuevos personajes. Uno esta en el campamento y los otros van llegando luego
-    # Cada uno tiene habilidades para mantener el grupo funcionando, lograron recuperar varias cosas de la playa (una de las que no eligio el jugador y alguna otra cosa)
-    # Se plantea tema de rescate y Bob advierte que la tormenta los dejo muy lejos de las rutas y de donde se supone que debian estar.
-    # Se da una discusion sobre que refugio es mejor para juntarse todos
-    # Deberian ir surgiendo dos lideres en oposicion, puede ser que el jugador tome el rol del otro lider o que apoye a uno frente al otro
-
-    jump chapter_7_end
-
 label cap7_inicio:
     
     $ capitulo_actual = 7
@@ -7011,7 +7006,7 @@ label cap7_formar_grupo_exploracion:
 
             l "Debería quedarse Marina, ella esta cansada de la noche y nos espera una larga caminata."
             $ liderazgo -= 1
-            m "Si, no demoeremos mas, yo me quedo."
+            m "Si, no demoremos mas, yo me quedo."
             "{i}Marina se va con Ingrid pero no parece estar muy contenta.{/i}"
             hide marina
             with Dissolve (0.5)
@@ -7180,6 +7175,7 @@ label explorar_primer_sitio:
         b "La proteína nos vendrá bien."
         l "Ayudenme a bajar y revisemos el resto de los árboles."
         "{i}Recolectan una docena de huevos de variados tamaños y se disponen a seguir explorando.{/i}"
+        $ comida += 5
         
     jump cap7_antes_de_encuentro_nuevos
 
@@ -7231,7 +7227,7 @@ label cap7_antes_de_encuentro_nuevos:
     show bob gr parado sucio at rightgr
     with Dissolve(0.5)
 
-    b "Esto es... ¿un campamento?"
+    b "Esto es... ¿un campamento habitado?"
 
     "{i}Bob se agacha y toca la tierra en un área despejada. Está nivelada. Ordenada. No es natural.{/i}"
     "{i}Más allá, hay señales claras: una lona improvisada, restos organizados de madera.{/i}"
@@ -7245,7 +7241,8 @@ label cap7_antes_de_encuentro_nuevos:
     menu:
         "Me acerco con precaución. Puede haber alguien en problemas.":
             $ reporte_investiga_nuevo_grupo = True
-            y "Si hay más sobrevivientes, tenemos que saberlo."
+            y "Si hay más sobrevivientes, tenemos que ayudarlos."
+            $ liderazgo += 1
 
         "Me quedo observando. Prefiero evaluar la situación antes de actuar.":
             $ reporte_cautela_nuevo_grupo = True
@@ -7262,7 +7259,7 @@ label cap7_antes_de_encuentro_nuevos:
 
 label cap7_encuentro_tomas_charles:
 
-    "{i}El sonido seco de ramas quebrándose rompe el silencio.{/i}"
+    "{i}El sonido seco de madera crujiente rompe el silencio.{/i}"
     "{i}Miran en dirección al sonido y ven a un hombre junta ramas y las quiebra, apilándolas en un atado bajo su brazo.{/i}"
     "{i}Sus movimientos son precisos. No duda. No desperdicia energía.{/i}"
 
@@ -7277,32 +7274,41 @@ label cap7_encuentro_tomas_charles:
     
     show tomas serio at left
     with Dissolve(0.5)
-    t "Ah si... ¿no eras tu el capitán del barco? Yo soy Tomás."
+    t "Ah si... ¿no eras tú el capitán del barco? Yo soy Tomás."
 
     b "Mucho gusto, Tomás. Y si, efectivamente, yo era el capitán."
 
     t "Imaginé que más personas habrían logrado salvarse."
+
     t "Parece que hubiesen visto un fantasma. Me distraen, y le prometí al resto que me encargaría de la leña."
 
-    "{i}Bob, Laura y tú se quedan perplejos ante la indiferencia del sujeto.{/i}"
+    "{i}Bob, Laura y tú intercambian miradas, entusiasmados ante la mención de más personas.{/i}"
 
-    b "Vaya. Y yo que pensaba que si encontrábamos más sobrevivientes, nos recibirían con una sonrisa."
+    "{i}Observan el refugio con mas detenimiento, y las ven.{/i}"
 
-    l "No me quejaría si fuera tu, Bob. Parece que aquí tienen todo bien aceitado."
+    "{i}Bastante cerca, descansando, recostado contra una roca, hay otro sujeto que los mira, Parece curioso pero relajado.{/i}"
+
+    "{i}Un poco más lejos hay una mujer. Está demasiado ocupada asegurando las ataduras de un toldo como para interesarse demasiado en ustedes.{/i}"
+
+    "{i}Tu y tus compañeros se miran, los tres perplejos ante la indiferencia de este grupo.{/i}"
+
+    b "Vaya... Y yo que pensaba que si encontrábamos más sobrevivientes, nos recibirían con una sonrisa."
+
+    l "No me quejaría si fuera tu, Bob. Parece que aquí tienen todo bien aceitado. ¡Hasta descansos tienen!"
 
     $ choice_position = "default" # default alta superior
     menu:
-        "Respeto entrega y concentración.":
+        "Me disculpo con Tomás, no es mi intención distraerlo.":
             $ reporte_respetuoso_tomas = True
-            y "No te queremos molestar. Es bueno ver a alguien que valora su propio esfuerzo."
+            y "No te queremos molestar. Es bueno ver a alguien que le da valor al tiempo y esfuerzo de su trabajo."
 
-        "Aunque no parezca muy receptivo, debemos saber más.":
+        "Aunque Tomás no parezca muy receptivo, debemos saber más.":
             $ reporte_intenta_conectar_tomas = True
-            y "Dices que hay otros. ¿Cuánto tiempo llevan organizándose así? Es impresionante."
+            y "¿Cuánto tiempo llevan organizándose así? Es impresionante."
 
-        "No le doy importancia. No es problema mío.":
+        "Tomás no parece muy receptivo, mejor será hablar con los demás.":
             $ reporte_distante_tomas = True
-            y "Nada te detiene."
+            y "No te haremos perder más tiempo."
 
     "{i}Tomás se encoge de hombros, recoge otra rama, y sigue con su tarea sin prestarles demasiada atención.{/i}"
 
@@ -7311,15 +7317,17 @@ label cap7_encuentro_tomas_charles:
     scene bg jungle resting_spot at truecenter
     with Dissolve(0.5)
 
-    "{i}Miran alrededor y pronto notan que otro hombre descansa contra una roca, sus piernas cruzadas, observando el horizonte sin preocupación aparente.{/i}"
+    "{i}Se acercan al sujeto que está descansando. Tiene sus piernas cruzadas, curioseando y sin preocupación aparente.{/i}"
 
     show charles hablando at left
     with Dissolve(0.5)
 
     c "No se preocupen por Tomás. Es así con todo el mundo."
+
     c "Yo soy Charles. Bienvenidos a nuestro humilde refugio."
 
     show bob parado serio at center
+    with Dissolve(0.5)
     show laura hablando at right
     with Dissolve(0.5)
 
@@ -7327,7 +7335,7 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Charles sonríe, relajado, sin mostrar el mismo fastidio que Tomás.{/i}"
 
-    c "El tiempo suficiente para saber que es mejor dejar que otros hagan el trabajo duro."
+    c "El tiempo suficiente para entender que es mejor dejar que otros hagan el trabajo duro."
     $ choice_position = "alta" # default alta superior
     menu:
         "Mejor apelar al humor para romper el hielo.":
@@ -7338,11 +7346,11 @@ label cap7_encuentro_tomas_charles:
             $ reporte_desconfia_charles = True
             y "¿No te preocupa ser una carga para el resto?"
 
-        "Lo ignoro. No hay razón para invertir tiempo en esto.":
+        "Discutir su argumento sería una clara pérdida de tiempo.":
             $ reporte_no_interactua_charles = True
-            y "Parece que tienen todo bajo control."
+            y "Parece que tienes todo bajo control."
 
-    "{i}Charles tan solo sonríe, se incorpora, y les hace un gesto para que lo acompañen.{/i}"
+    "{i}Charles tan solo sonríe. Parece menos interesado en ustedes que en el hecho de que estén aquí.{/i}"    
 
     jump cap7_conflicto_tomas_charles
 
@@ -7352,37 +7360,40 @@ label cap7_conflicto_tomas_charles:
     with Dissolve(0.5)
 
     show screen combined_ui
-
-    show tomas serio at right
-    show charles hablando at left
+    hide Bob
+    with Dissolve(.5)
+    hide laura
+    with Dissolve(.5)
+    show tomas serio at right    
     with Dissolve(0.5)
 
-    "{i}Tomás también se acerca. Su expresión esconde el enfado que el tono de su voz demuestra cuando habla.{/i}"
+    "{i}Atrás de ustedes se deja de escuchar el crujir de la madera. Tomás mira a Charles con un atado de ramas bajo el brazo.{/i}"
+    "{i}Su expresión esconde el enfado que el tono de su voz delata cuando habla.{/i}"
 
-    t "Mientras yo recogía leña tu, una vez más, te quedaste descansando."
+    t "Algunos de nosotros trabajamos duro, mientras otros holgazanean descansando."
 
     c "No estaba descansando. Estaba vigilando, asegurándome de que no tuviéramos problemas."
     c "A estos los escuché acercándose hace rato. Pero parecen inofensivos, ¿no?"
 
     t "¿Ah, sí? Dime, [nombre_personaje], ¿tú que piensas?"
 
-    "{i}Tomás cruza los brazos. Charles apenas altera su postura, pero su expresión cambia sutilmente.{/i}"
+    "{i}Tomás cruza los brazos. Charles apenas se voltea, pero te mira atentamente.{/i}"
 
     $ choice_position = "alta" # default alta superior
     menu:
-        "Apoyar a Tomás. Charles estaba holgazaneando.":
+        "Apoyar a Tomás. Charles estaba holgazaneando.":            
             $ confianza_tomas += 1
             $ confianza_charles -= 1
-            y "Si lo que Charles hacía era útil, yo no lo noté. No lo vi ni moverse cuando llegamos."
+            y "Si lo que Charles hacía era útil, yo no lo noté. No lo vi ni moverse desde que llegamos."
 
             t "Exacto."
 
             c "Vaya, qué rápid[e] eres para sacar conclusiones."
 
-        "Apoyar a Charles. Tal vez sí estaba haciendo algo.":
+        "Apoyar a Charles. Tal vez sí estaba haciendo algo.":            
             $ confianza_charles += 1
             $ confianza_tomas -= 1
-            y "No podemos asumir que no estaba en realidad vigilando, por más relajada que fuera su postura."
+            y "No podemos asumir que no estaba en realidad vigilando, por más relajado que pareciera."
 
             t "Espero que de verdad sea el caso."
 
@@ -7391,7 +7402,12 @@ label cap7_conflicto_tomas_charles:
         "No intervenir. No es mi problema.":
             y "Ah no. Yo mo me meto en esto."
 
-            "{i}Ambos se miran y continúan discutiendo, como si vinieran haciéndolo desde el naufragio.{/i}"
+            "{i}Ambos continúan discutiendo, como si vinieran haciéndolo desde que sobrevivieron al naufragio.{/i}"
+
+    hide tomas
+    with Dissolve(0.5)
+    hide charles
+    with Dissolve(0.5)
 
     jump cap7_encuentro_nuevo_grupo
 
@@ -7402,403 +7418,494 @@ label cap7_encuentro_nuevo_grupo:
 
     show screen combined_ui
 
-    show erika seria at left
-    with Dissolve(0.5)
-
-    k "Hola. Espero que no vaya a generar problemas."
-
-    "{i}El grupo se detiene. Frente a ustedes, una mujer de postura firme observa todo con precisión calculada. No hay inseguridad en su mirada. Solo evaluación.{/i}"
-
-    show bob parado serio at centerright
-    show laura seria at right
-    with Dissolve(0.5)
-
-    l "No es nuestra intención. Solo intentamos entender quién más está aquí."
-
-    b "Si hay más sobrevivientes, tenemos que ayudarnos. Estamos todos en la misma situacion."
-
-    # Ajuste de tono según las interacciones previas
-    if reporte_respetuoso_tomas:
-        k "Tomás ya los vio, supongo. Si fueron lo suficientemente inteligentes, entendieron que preferimos la eficiencia sobre la charla vacía."
-    elif reporte_intenta_conectar_tomas:
-        k "Tomás no es el tipo de persona que habla por hablar. Si llegaron hasta acá, espero que al menos hayan sacado algo útil de verlo en acción."
-    elif reporte_distante_tomas:
-        k "Si no se molestaron en conocer a Tomás, tal vez tampoco necesiten saber lo que encontramos aquí."
-
-    if reporte_broma_charles:
-        k "Y Charles… bueno, supongo que ya notaron cómo sobrevive."
-    elif reporte_desconfia_charles:
-        k "Si Charles les pareció poco comprometido, ya entienden por qué tengo que asegurarme de que todo lo que hacemos tenga sentido."
-    elif reporte_no_interactua_charles:
-        k "Charles no siempre es lo que parece. Tal vez debería preocuparme más por cómo interactúa con ustedes."
-
-    "{i}Erika cruza los brazos. Su postura no es hostil, pero tampoco es de bienvenida automática.{/i}"
-
-    $ choice_position = "alta" # default alta superior
-    menu:
-        "Con confianza. No quiero parecer débil ante ella.":
-            $ reporte_se_muestra_firme = True
-            y "No estamos aquí para causar problemas. Queremos saber qué opciones hay."
-
-        "Con precaución. No quiero que nos vea como una amenaza.":
-            $ reporte_se_muestra_cauteloso = True
-            y "Es bueno ver un grupo organizado. Solo queremos entender la situación."
-
-        "Con apertura. Prefiero evitar conflicto innecesario.":
-            $ reporte_se_muestra_abierto = True
-            y "Si podemos ayudarnos mutuamente, creo que todos ganamos."
-
-    "{i}Erika observa por unos segundos. Luego da un leve asentimiento, como si estuviera procesando cada palabra.{/i}"
-
-    jump cap7_discusion_grupo
-
-label cap7_discusion_grupo:
-
-    # Gerva: aca quedo muy verde todo.
-    # Primero expandir el tema del rescate, que manejen opciones, bob callado con cara de no muy convencido, finalmente le preguntan y dice que este en la loma del orto
-    # Segundo hay que hacer una logica condicional que maneje en que refugio esta el jugador y en cual esta erika, y a partir de ahi que se den las interacciones de los otros personajes y las opciones
-    # Tienen que ir del refugio de erika de nuevo al del jugador y recien ahi deciden
-    # hay que actualziar al finak la variable refugio para poder poner el fondo correcto en las scenes
-    scene bg jungle makeshift_camp at truecenter
-    with Dissolve(0.5)
-
-    show screen combined_ui
-
     show erika seria at center
     with Dissolve(0.5)
 
-    k "El rescate no va a ser inmediato. Si es que llega."
+    k "¿Recién llegaron y ya están causando problemas?"
 
-    show bob gr serio at right
-    show laura preocupada at left
+    "{i}Frente a ustedes aparece una mujer de postura firme y mirada penetrante.{/i}"
+    "{i}No parece alterada por su presencia. Solo los observa, evalúandolos.{/i}"
+
+    show bob parado serio at left
+    show laura seria at right
     with Dissolve(0.5)
 
-    b "La tormenta nos alejó de cualquier ruta normal. No estamos donde deberíamos. Si quieren confiar en que nos buscan, háganlo. Pero no va a pasar mañana."
+    b "No era nuestra intención causar ningún problema."
+    
+    l "Recién llegamos."
 
-    l "Lo que significa que tenemos que decidir cómo nos organizamos."
+    "{i}La mujer los recorre con su mirada, midiéndolos.{/i}"
 
-    show tomas serio at rightgr
-    show charles hablando at leftgr
+    if liderazgo < 5:        
+        "{i}Cuando vuelve a hablar, lo hace dirigiéndose a Bob, como si reconociera en el al líder del tu grupo."
+
+    else:
+        "{i}Cuando vuelve a hablar, lo hace dirigiéndose a ti, como si te reconociera como el líder de tu grupo."        
+
+    k "Yo soy Erika."
+    
+    if reporte_respetuoso_tomas:
+        k "Ya conocieron a Tomás y vi que entendieron el valor que le damos aquí al trabajo."
+
+    elif reporte_intenta_conectar_tomas:
+        k "Disculpen si Tomás no contestó con precisión a sus preguntas. Prefiere concentrarse en su trabajo."
+
+    elif reporte_distante_tomas:
+        k "Tomás no estaba siendo insolente con ustedes, [nombre_personaje]. No todos tenemos las mismas prioridades, y el estaba trabajando."
+    
+    if confianza_tomas > confianza_charles:
+
+        k "¿Qué decir de charles que no haya dicho ya [nombre_personaje]. Solo digamos que verlo trabajar no es algo que se da todos los días."
+    
+    elif confianza_tomas < confianza_charles:
+
+        k "Si estás del lado de Charles, [nombre_personaje], comienzo a pensar que tu grupo ha sobrevivido a pesar de ti, y no gracias a ti."
+    else:
+        k "Han causado más problemas de los que creen."
+        k "Charles quería descansar y ahora está siendo fastidiado por Tomás."
+        k "Y Tomás, que quería trabajar, está perdiendo el tiempo recriminándole a Charles que no hace nada."
+
+    "{i}Erika cruza los brazos. Su postura no es hostil pero tampoco amigable.{/i}"
+
+    $ choice_position = "alta" # default alta superior
+    menu:
+        "Debo mostrar confianza. Quiero verme fuerte ante ella.":
+            $ reporte_se_muestra_firme = True
+            $ desicion_intro += 1
+            $ liderazgo += 1
+            y "No estamos aquí para causar problemas. Queremos saber qué y quién más hay en la isla, nada más."
+            y "Mi nombre es [nombre_personaje]. Ellos son Laura y Bob."
+
+        "No quiero que nos vea como una amenaza. Debo cuidar mis palabras.":
+            $ reporte_se_muestra_cauteloso = True
+            $ desicion_intro += 1
+            y "Es bueno ver más sobrevivientes, y sobre todo, tan organizados."
+            y "Mi nombre es [nombre_personaje]. Ellos son Laura y Bob."
+
+        "Debo ser abierto y apelar a la colaboración mútua.":
+            $ reporte_se_muestra_abierto = True
+            $ desicion_intro += 1
+            $ liderazgo += 1
+            y "Mi nombre es [nombre_personaje]. Ellos son Laura y Bob."
+            y "Estamos todos juntos en esto. Nos encantaría saber qué dificultades han tenido y en qué podemos ayudarnos."            
+
+    "{i}Erika te observa por unos segundos. Luego da un leve asentimiento, como si estuviera procesando cada palabra.{/i}"
+
+    k "Nosotros llegamos todos juntos a la playa, aferrándonos a un único salvavidas."
+    k "Desde entonces nos hemos manejado bastante bien entre los tres."
+
+    l "Pudieron rescatar algo de la playa?"
+
+    k "Al principio priorizamos buscar refugio, pero al día siguiente volvimos a ver qué quedaba."
+
+    python:
+        objeto_faltante = []
+
+        if not stuff_bidon_agua:
+            objeto_faltante.append("bidón de agua lleno")
+        if not stuff_bote:
+            objeto_faltante.append("bote")
+        if not stuff_caja_grande:
+            objeto_faltante.append("cajón")
+
+    if len(objeto_faltante) == 1:
+        k "Recuperamos un [objeto_faltante[0]]."
+        if not stuff_caja_grande:
+            k "Tenía unas cuantas cosas útiles dentro."
+    else:
+        k "Recuperamos un [objeto_faltante[0]] y un [objeto_faltante[1]]."
+        if not stuff_caja_grande:
+             k "El cajón tenía unas cuantas cosas útiles dentro."  
+    
+    l "Nosotros pasamos por algo parecido, pero tenemos una persona recuperándose de una herida."
+
+    b "Y es por eso que quisiera proponer que nos organicemos para juntar ambos grupos."
+    b "Ustedes están un poco mejor que nosotros, y sin duda nos vendrá bien su ayuda."
+    b "Pero seguramente nosotros podamos ayudarles a organizarnos para que todo sea más fácil para todos."
+
+    k "No lo se. Tener dos refugios conviviendo en la isla tampoco es una mala idea."
+    k "Tomás, Charles, ¿ustedes qué piensan?"
+
+    show tomas serio at centerleft
+    with Dissolve(0.5)
+    show charles hablando at centerright
     with Dissolve(0.5)
 
-    t "Separados, sobrevivimos. Juntos, mejoramos. Pero no todos piensan igual."
+    t "Separados, apenas hemos sobrevivido. Juntos, podremos estar mejor."
 
-    c "La pregunta no es si podemos vivir separados. Es si realmente queremos."
+    c "Creo que estamos lo suficientemente bien como para que ninguna de las dos opciones sea terrible para nadie."
 
-    "{i}Los grupos ahora se observan unos a otros. Se sabe que unificar los refugios traería ventajas, pero también abriría fricciones.{/i}"
+    t "Estas bien gracias a Erika y a mi."
+    t "Deberías apoyar la idea de la unión, Charles. Cuanta más gente, más se disimulará tu pereza."
+
+    "{i}Los grupos ahora se observan unos a otros. Unificar los refugios traería ventajas, pero también posbiles fricciones.{/i}"
 
     menu:
         "Apoyar la unión. Es lo mejor en términos de organización.":
             $ reporte_apoya_union = True
+            $ desicion_intro += 1
             y "La cantidad de recursos y habilidades combinadas nos daría más oportunidades. Separados, desperdiciamos posibilidades."
 
-        "Dudar. Es arriesgado y podría causar tensiones innecesarias.":
+        "Mencionar que forzar una unión es arriesgado y podría causar tensiones innecesarias.":
             $ reporte_indeciso_union = True
-            y "Es verdad que juntos tenemos ventajas, pero esto no va a ser fácil. No quiero que se convierta en otro problema."
+            $ desicion_intro += 1
+            $ laura += 1
+            y "Es verdad que juntos tendríamos ventajas, pero esto no va a ser fácil y requeriría de esfuerzo y paciencia por parte de todos."
 
         "Oponerse. Prefiero mantener independencia.":
             $ reporte_opone_union = True
-            y "Más gente también significa más conflictos. No hay garantía de que funcione."
+            $ desicion_intro += 1
+            $ bob -= 1
+            y "Más gente también significa más roces. No hay garantía de que funcione."
 
-    "{i}La decisión no será inmediata. Pero la conversación ya sentó la base para lo que viene.{/i}"
+    l "Decidan lo que decidan, todos lo entenderemos. No pretendemos imponerles nuestros problemas tampoco."
+
+    k "Estamos de acuerdo en que queremos soluciones, y no problemas."
+
+    t "Juntos podríamos dividirnos las tareas para que algunos se encarguen de pensar formas de salir de esta isla."
+
+    l "O al menos mejorar nuestras chances de ser rescatados."
+
+    k "Si es que nos están buscando siquiera."
+
+    "{i}Las palabras de Erika provocan una reacción en Bob que el intenta disimular, y cuando nota que lo viste, esquiva tu mirada.{/i}"
+    
+    menu:
+        "Bob sabe algo que nosotros no. No podemos permitirnos guardar secretos que puedan ser importantes para el resto.":            
+            $ desicion_intro += 1
+            $ bob -= 1
+            y "Bob, ¿qué pasa que no estás tan confiado con que vayamos a ser rescatados?"
+            $ reporte_secreto_rescate = True
+
+        "Mejor no exponerlo frente al resto.":
+            "{i}Decides preguntarle más tarde, pero Laura se te adelanta. Parece que ella también notó algo raro.{/i}"            
+            $ desicion_intro += 1
+            $ bob += 1
+            l "Bob, ¿qué pasa que no estás tan confiado con que vayamos a ser rescatados?"
+            $ reporte_verdad_rescate = True
+            
+    "{i}Todas las miradas se clavan en el.{/i}"
+
+    k "Señor capitán, será mejor que hable, si quiere que estas negociaciones de unidad prosperen."
+
+    "{i}Bob recorre los rostros de los demás, uno por uno. La desesperanza en su mirada anuncia la naturaleza de lo que sabe.{/i}"
+
+    pause .5
+
+    b "La tormenta nos alejó de cualquier ruta normal."
+    b "Probablemente estamos muy lejos de los lugares en los que una misión de rescate buscaría primero."
+    b "No significa que no hay esperanzas, pero si nos rescatan, será solo después de que expandan el área de búsqueda."
+            
+    "{i}Las noticias. Provocan una serie de reacciones.{/i}"
+    "{i}Laura mira a Bob con un atisbo de decepción, a la que el responde agachando la cabeza.{/i}"
+    "{i}Tomás intenta evitar que la desesperación se apodere de el, y Charles comienza a entender que esto va para largo.{/i}"
+    "{i}Erica es la única que, mirando al vacío, parece estar calculando su próximo movimiento con la nueva información.{/i}"
+    "{i}Luego se pone a observar al resto, deteniéndose en Laura y en ti.{/i}"
+
+    k "Bob, parece que tendrás que dar algunas explicaciones a tus compañeros. Parecen sorprendidos con la noticia."
+    K "Los dejaremos solos mientras nosotros debatimos sobre la idea de unificar los grupos."
+
+    "{i}Erika, Charles y Tomás se apartan para decidir qué van a hacer.{/i}"
+
+    hide erika
+    with Dissolve(0.5)
+    hide tomas
+    with Dissolve(0.5)
+    hide charles
+    with Dissolve(0.5)
+
+    b "Nosotros también debemos tomar una decisión."
+
+    if reporte_opone_union:
+        b "Laura, [nombre_personaje] ya manifestó estar en contra de la idea. Tú decides."
+        l "Lo siento, [nombre_personaje], pero debemos darle una chance a mantenernos todos juntos."
+    else:
+        b "Pero ninguno de los dos ha dicho que esté en contra, así que asumiré que al menos están dispuestos a darle una chance."
+
+    pause 1
+
+    "{i}Los otros tres regresan luego de unos minutos.{/i}"
+
+    show erika seria at center
+    with Dissolve(0.5)
+    show tomas serio at centerleft
+    with Dissolve(0.5)
+    show charles hablando at centerright
+    with Dissolve(0.5)
+
+    k "Hemos tomado una decisión."
+    t "Nos uniremos a ustedes."    
+
+    "{i}Todos intercambian sonrisas que se vuelven risas de júbilo a medida que comprenden dos cosas muy distintas.{/i}"
+    "{i}Han mejorado sus chances de supervivencia enormemente, y eso les devuelve la esperanza que las noticias de Bob les quitaron.{/i}"
+    "{i}Van a tener que aprender a trabajar en equipo aún más que antes.{/i}"
+    "{i}Un grupo más grande también significa más individualidades con las que convivir.{/i}"
+
+    c "Dependiendo de cómo lo miremos, también podríamos decir que son ellos los que se unen a nosotros."
+
+    "{i}Charles suelta una carcajada, dejando claro que se trata de una broma, y pronto todos están riendo junto a el.{/i}"
+    
+    t "Más allá de la broma, lo cierto es que tendremos que decidir cuál será nuestro principal."
+
+    b "¿Por qué no nos acompañan de vuelta a nuestro refugio, así pueden ver qué tal está?"
+
+    l "Y de esa forma podremos saber qué opinan Ingrid y Marina antes de decidir."
+
+    "{i}El resto asiente. Juntan algunas cosas básicas y emprenden el viaje.{/i}"
+
+    hide bob
+    with Dissolve(0.5)
+    hide laura
+    with Dissolve(0.5)
+    hide erika
+    with Dissolve(0.5)
+    hide charles
+    with Dissolve(0.5)
+    hide tomas
+    with Dissolve(0.5)
 
     jump cap7_evaluacion_refugio
 
 label cap7_evaluacion_refugio:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle1 at truecenter
     with Dissolve(0.5)
+
+    "{i}Charles, Erika y Tomás se sorprenden gratamente al ver qué fácil que han aprendido a moverse a través de la jungla.{/i}"
 
     show screen combined_ui
 
-    "{i}Cada persona expone su preferencia sobre el refugio. Las opiniones están claras, pero la decisión aún no se ha tomado.{/i}"
+    if refugio == "cueva":
+        scene bg jungle cave
+    elif refugio == "cabana":
+        scene bg jungle hut
+    elif refugio == "claro":
+        scene bg jungle clearing
 
-    show bob parado serio at centerright
-    show erika seria at centerleft
-    with Dissolve(0.5)
+    "{i}Le presentan a Ingrid y Marina los nuevos integrantes del grupo, y las ponen al tanto de todo.{/i}"
 
-    b "La cabaña es el mejor lugar. Tiene estructura y fue lo primero que encontramos."
+    show bob parado hablando at right
 
-    k "Este refugio ya está organizado. Mudarnos solo nos haría perder tiempo."
+    b "Bueno, ahora que estamos todos juntos, y han tenido oportunidad de ver el lugar, es hora que discutamos a dónde queremos refugiarnos."
+
+    "{i}Todos comienzan a proponer argumentos defendiendo su posición.{/i}"
+
+    b "A ver, a ver. Vamos a ordenarnos, de a uno. Comenzaré yo."       
+    b "Creo que la cabaña es la mejor opción. Tiene una estructura sobre la que se puede expandir."
+
+    if destino_exploracion_2 == "cabana":
+        
+        show erika show erika seria at center
+        with Dissolve(0.5)
+        k "Además de que, como vieron, ya está muy bien organizada."
+
+        show charles hablando at centerleft
+        with Dissolve(0.5)    
+        c "Y nos ahorraría la mudanza."
+
+        show tomas serio at left
+        with Dissolve(0.5)
+        t "De todas formas vamos a ayudarlos con sus cosas."
+
+    elif refugio == "cabana":
+        
+        show erika show erika seria at centerleft
+        with Dissolve(0.5)
+        k "Se nota que le han puesto esfuerzo, y no puedo esperar a proponerles algunas mejoras."
+
+        show charles hablando at left
+        with Dissolve(0.5)
+        c "¿Tendríamos que traer todo para aquí?"
+
+        show laura hablando at centerright
+        with Dissolve(0.5)
+        l "Por supuesto que los ayudaríamos."
+       
+    else:
+        show erika show erika seria at centerleft
+        with Dissolve(0.5)
+        k "La cabaña es el único sitio al que ninguno de nosotros tres ha ido."
+
+        show tomas serio at left
+        with Dissolve(0.5)
+        t "Este refugio no está mal. Si Bob dice que la cabaña puede estar aún mejor, opino que confiemos en el."
 
     hide bob
-    show marina triste at left
+    with Dissolve(0.5)
+    hide laura
+    with Dissolve(0.5)
+    hide erika
+    with Dissolve(0.5)
+    hide charles
+    with Dissolve(0.5)
+    hide tomas
     with Dissolve(0.5)
 
-    m "Si nos quedamos en la cabaña, yo me muero de calor. La cueva es mejor."
+    show marina triste at centerleft
+    with Dissolve(0.5)        
+    m "La cabaña no puede ser nuestro refugio definitivo. Es demasiado calurosa."
+    m "A Ingrid y a mi nos vendría mejor la cueva para terminar de recuperarnos. Es más fresca."    
 
-    hide marina
     show tomas serio at right
     with Dissolve(0.5)
-
     t "El claro en la colina nos da visión del mar. Si alguien nos busca, podríamos verlos primero."
 
-    hide tomas
-    show charles hablando at right
+    show charles hablando at centerright
+    with Dissolve(0.5)
+    c "¿Qué opinas tú, Ingrid?"
+
+    show ingrid seria at left
     with Dissolve(0.5)
 
-    c "Si nos peleamos por esto, va a ser peor. Tomemos una decisión ya."
+    i "Yo no seré de mucha ayuda con la, o las, mudanzas, así que prefiero que decidan ustedes."
 
-    "{i}Las posturas están fijadas, pero la decisión aún depende de quién la tome.{/i}"
+    hide ingrid
+    with Dissolve(0.5)
+
+    show laura hablando at left
+    with Dissolve(0.5)
+
+    l "Yo estoy con Tomás en esta. La colina es una gran ventaja para hacer contacto. Podríamos crear un faro y que nos puedan ver desde lejos."
+
+    "{i}Parece que todos los refugios tienen quien los prefiere.{/i}"
 
     menu:
-        "Quedarse en la cabaña. Es el lugar más seguro.":
+        "Quedarse en la cabaña. Es el lugar más consistente.":
             $ preferencia_refugio = "cabaña"
+            $ desicion_intro += 1
+            $ erika += 1
             $ bob += 1
-            "La cabaña tiene estructura. Sabemos cómo funciona."
+            $ charles += 1
+            $ marina -= 1
+            $ tomás -= 1
+            $ laura -= 1
+            $ refugio = "cabana"
+            "La cabaña nos da las mejores opciones a futuro. Como dice Bob, es más fácil de mejorar."
 
         "Elegir la cueva. Marina tiene razón sobre el calor.":
             $ preferencia_refugio = "cueva"
+            $ desicion_intro += 1
+            $ erika -= 1
+            $ bob -= 1
+            $ charles += 1
             $ marina += 1
-            "El clima es clave. Si sufrimos el calor, será peor."
+            $ tomás -= 1
+            $ laura -= 1
+            $ refugio = "cueva"
+            "El clima es clave. Ya sufrimos los mosquitos durante el día. Si tampoco podemos descansar en paz, a largo plazo será un problema."
 
-        "Quedarse en el refugio actual. Erika tiene un punto.":
-            $ preferencia_refugio = "actual"
-            $ erika += 1
-            "No tiene sentido desperdiciar lo que ya está asentado."
-
-        "Mudarse al claro en la colina. Se podría detectar rescates.":
+        "Mudarse al claro en la colina. Su ventaja estratégica es demasiado buena como para no aprovecharla.":
             $ preferencia_refugio = "colina"
-            $ tomas += 1
-            "Si podemos ver el mar, podemos anticipar rescates. Tener esa ventaja puede cambiar todo."
+            $ desicion_intro += 1
+            $ erika -= 1
+            $ bob -= 1
+            $ charles -= 1
+            $ marina -= 1
+            $ tomás += 1
+            $ laura += 1
+            $ refugio = "claro"
+            "Poder ver el mar es clave. Y la idea de Laura de hacer un faro también es buena."
 
-    "{i}La elección está hecha. Algunos la aceptan. Otros tienen dudas. La estructura del grupo se ha definido.{/i}"
+    "{i}Tu opinión termina de inclinar la balanza.{/i}"
+    "{i}La elección está hecha. Algunos la aceptan. Otros tienen dudas.{/i}"
+    "{i}Ingrid, Marina, Laura, Bob y tu comienzan a preparar todo mientras que Erika, Charles y Tomás regresan a su refugio para hacer lo mismo.{/i}"
+    "{i}Esta noche dormirán todos bajo un mismo techo.{/i}"
 
+    hide bob
+    with Dissolve(0.5)
+    hide laura
+    with Dissolve(0.5)
+    hide erika
+    with Dissolve(0.5)
+    hide charles
+    with Dissolve(0.5)
+    hide tomas
+    with Dissolve(0.5)
+    hide ingrid
+    with Dissolve(0.5)
+    
     jump cap7_formacion_alianzas
 
 label cap7_formacion_alianzas:
 
-    scene bg jungle_player_refuge at truecenter
-    with Dissolve(0.5)
-
+    if refugio == "cueva":
+        scene bg jungle cave
+    elif refugio == "cabana":
+        scene bg jungle hut
+    elif refugio == "claro":
+        scene bg jungle clearing
+   
     show screen combined_ui
 
-    "{i}Los supervivientes han llegado al refugio. Ingrid permanece dentro, descansando, mientras los demás discuten afuera.{/i}"
+    "{i}Las conversaciones sobre el refugio han dejado claro que el grupo se está dividiendo en posturas.{/i}"
+    "{i}Pero una decisión aún más importante sigue pendiente.{/i}"
 
     show bob parado serio at centerright
+    with Dissolve(0.5)
+    b "Ahora que sabemos dónde instalarnos, necesitamos encarar aquello que, al menos nostotros, hemos postergado."
+    b "Debemos elegir alguien que lidere nuestros esfuerzos."
+
     show erika seria at centerleft
     with Dissolve(0.5)
+    k "Estoy de acuerdo. No sirve tener un refugio si no vamos a tirar todos para una misma dirección."
 
-    b "No hay dudas de que la cabaña es la mejor opción. Ya la conocemos y sabemos que es segura."
+    show laura preocupada at right
+    with Dissolve(0.5)
+    l "Designar roles, como el de líder, va a ser escencial para seguir mejorando nuestras chances."
 
-    k "El refugio aquí es más estable. Ya tiene organización."
+   
+    show tomas serio at left
+    with Dissolve(0.5)
+    t "No tenemos por qué discutirlo demasiado. Nosotros trabajamos bien bajo el liderazgo de Erika."
 
-    hide bob
-    show marina triste at left
+    show charles hablando at center
     with Dissolve(0.5)
 
-    m "Segura, pero insoportable. La cueva nos dará descanso del calor."
+    c "Es cierto. Pero cada uno tiene su forma de ver las cosas. Ellos por ejemplo, no tenían un líder definido."
 
-    hide marina
-    show laura preocupada at left
-    with Dissolve(0.5)
+    if liderazgo >= 5:
+        l "Si bien no siempre hicimos lo que decían, tanto [nombre_personaje] como Bob han oficiado como líderes en diferentes momentos"
 
-    l "La cueva puede ser buena, pero también puede tener humedad o problemas en una tormenta."
-
-    hide laura
-    show tomas serio at right
-    with Dissolve(0.5)
-
-    t "Si el primer refugio visitado tenía recursos, ¿por qué no aprovecharlo?"
-
-    hide tomas
-    show charles hablando at right
-    with Dissolve(0.5)
-
-    c "En cualquier caso, no vamos a convencer a todos con una sola opción."
-
-    "{i}Las opiniones chocan. Nadie logra un consenso. Ahora queda decidir.{/i}"
+    "{i}Todos intercambian miradas. De a poco algunas van aterrizando sobre ti.{/i}"
 
     menu:
-        "La cabaña es lo más seguro.":
-            $ preferencia_refugio = "cabaña"
-            $ bob += 1
-            "Ya conocemos la cabaña y tiene estructura. Tiene sentido quedarnos."
-
-        "La cueva ofrece frescura y es clave para sobrevivir aquí.":
-            $ preferencia_refugio = "cueva"
-            $ marina += 1
-            "El calor es insoportable. La cueva es una opción práctica."
-
-        "El refugio actual tiene la mejor organización.":
-            $ preferencia_refugio = "actual"
-            $ erika += 1
-            "Si ya está asentado, mejor aprovechar lo que ya se construyó."
-
-        "Mudarse al otro refugio visitado podría ser mejor en recursos.":
-            $ preferencia_refugio = "alternativo"
-            $ tomas += 1
-            "Ese lugar tenía espacio y materiales útiles. No deberíamos descartarlo."
-
-    "{i}La decisión está tomada. Algunos están satisfechos. Otros, no tanto. Las dinámicas del grupo han cambiado.{/i}"
-
-    jump cap7_tension_liderazgo
-
-label cap7_tension_liderazgo:
-
-    scene bg jungle_player_refuge at truecenter
-    with Dissolve(0.5)
-
-    show screen combined_ui
-
-    "{i}Las conversaciones sobre el refugio han dejado claro que el grupo se está dividiendo en posturas. Pero una decisión aún más importante sigue pendiente.{/i}"
-
-    show bob parado serio at centerright
-    show erika seria at centerleft
-    with Dissolve(0.5)
-
-    b "Ahora que sabemos dónde instalarnos, necesitamos liderazgo real."
-
-    k "No sirve tener un lugar si nadie sabe cómo manejarlo."
-
-    hide bob
-    show laura preocupada at left
-    with Dissolve(0.5)
-
-    l "Si no organizamos roles, esto va a terminar en desastre."
-
-    hide laura
-    show tomas serio at right
-    with Dissolve(0.5)
-
-    t "Alguien tiene que tomar el mando. No podemos seguir con discusiones eternas."
-
-    hide tomas
-    show charles hablando at right
-    with Dissolve(0.5)
-
-    c "Cada uno tiene una forma de ver las cosas, pero alguien tiene que hacer que funcionen."
-
-    "{i}La tensión crece. La pregunta es obvia, pero nadie la ha dicho en voz alta. Hasta ahora.{/i}"
-
-    menu:
-        "Apoyar a Erika. Su enfoque estratégico es lo más sólido.":
+        "Apoyar a Erika. Parece tener una personalidad idónea para el rol.":
             $ reporte_apoya_liderazgo_erika = True
+            $ desicion_intro += 1
             $ erika += 2
-            "Si queremos orden, lo mejor es seguir una estructura clara. Erika tiene la mejor visión para eso."
+            y "Estoy de acuerdo con Tomás. Claramente, bajo el mando de Erika, ellos han logrado optimizar sus esfuerzos."
+            b "La verdad es que [nombre_personaje] dice la verdad. Démosle una chance a Erika."
 
         "Apoyar a Bob. Su adaptabilidad es clave en un entorno incierto.":
             $ reporte_apoya_liderazgo_bob = True
+            $ desicion_intro += 1
             $ bob += 2
-            "No siempre podemos seguir un plan rígido. Bob sabe reaccionar mejor ante lo inesperado."
+            y "No siempre podemos seguir un plan rígido. Bob sabe reaccionar mejor ante lo inesperado."
+            k "Estoy dispuesta a darle a Bob una oportunidad."
 
-        "Tomar el rol de liderazgo. Quiero marcar la dirección del grupo.":
+        "Tomar el rol de liderazgo. Es hora de hacerme responsable del grupo." if liderazgo >= 5:
             $ reporte_postula_liderazgo = True
+            $ desicion_intro += 1
             $ bob -= 1
             $ erika -= 1
             $ liderazgo += 1
-            "Si lo que necesitamos es alguien que equilibre estrategia y reacción, puedo tomar ese rol."
+            y "He estado en cada decisión difícil que tomamos hasta ahora. Me gustaría que siga siendo así."
+            y "Quiero proponerles que sea yo quien ocupe el rol de líder."
+            "{i}Los demás esperan unos momentos para ver si Erika o Bob tienen alguna objeción, pero no.{/i}"
+            "{i}Tu seguridad ha dejado su marca.{/i}"
 
         "Evitar tomar partido. No importa quién lidere si no trabajamos juntos.":
             $ reporte_evade_liderazgo = True
-            "No es solo quién manda. Lo importante es que todos podamos funcionar como grupo."
+            $ desicion_intro += 1
+            "Lo que importa no es solo quién manda, sino que todos podamos funcionar como grupo."
+            "{i}Tus palabras parecen resonar en los oídos de todos, que te miran bajo unos nuevos ojos.{/i}"
+            b "Dicho como un verdadero líder, [nombre_personaje]."
+            k "Por más que me cueste admitirlo, es cierto. Tu humildad es sincera. Creo que debes ser tú quien ocupe el rol."
+            "{i}Los demás asienten, más o menos convencidos, pero todos te demuestran su apoyo.{/i}"
 
-    "{i}La decisión marca el rumbo del grupo. Algunos aceptan el resultado. Otros, no tanto. Pero lo inevitable está definido: hay un liderazgo establecido.{/i}"
-
-    jump cap7_final
-
-label cap7_final:
-
-    scene bg jungle_player_refuge at truecenter
-    with Dissolve(0.5)
-
-    show screen combined_ui
-
-    "{i}La decisión se ha tomado. No hay vuelta atrás. Ahora, cada uno asimila el resultado.{/i}"
-
-    if preferencia_refugio == "actual":
-        $ refugio = "actual"
-        "{i}El grupo se queda en el refugio que ya está construido. No habrá cambios drásticos, solo ajustes en la convivencia.{/i}"
-
-        show bob parado serio at centerright
-        show erika seria at centerleft
-        with Dissolve(0.5)
-
-        b "Bien. Conocemos este lugar, sabemos cómo manejarlo."
-
-        k "Mantener estabilidad nos da ventaja."
-
-        hide bob
-        show marina triste at left
-        with Dissolve(0.5)
-
-        m "Al menos no tenemos que movernos otra vez."
-
-        hide marina
-        show tomas serio at right
-        with Dissolve(0.5)
-
-        t "Espero que sea la decisión correcta."
-
-        hide tomas
-        show charles hablando at right
-        with Dissolve(0.5)
-
-        c "Bueno, será cuestión de adaptarse."
-
-    elif preferencia_refugio == "nuevo":
-        $ refugio = "nuevo"
-        "{i}El grupo decide mudarse al refugio del nuevo grupo. La transición será un desafío.{/i}"
-
-        show bob parado serio at centerright
-        show erika seria at centerleft
-        with Dissolve(0.5)
-
-        b "Supongo que nos toca aprender sobre este lugar."
-
-        k "Es la opción más estable. Lo mejor es aprovecharla."
-
-        hide bob
-        show marina triste at left
-        with Dissolve(0.5)
-
-        m "Esperemos que sea lo que necesitamos."
-
-        hide marina
-        show tomas serio at right
-        with Dissolve(0.5)
-
-        t "Lo organizamos bien, o vamos a lamentarlo."
-
-        hide tomas
-        show charles hablando at right
-        with Dissolve(0.5)
-
-        c "No está tan mal. Al menos no tuvimos que construir todo desde cero."
-
-    elif preferencia_refugio == "alternativo":
-        $ refugio = "alternativo"
-        "{i}El grupo abandona ambos refugios y se traslada al primer lugar visitado. Es un riesgo, pero algunos ven oportunidad.{/i}"
-
-        show bob parado serio at centerright
-        show erika seria at centerleft
-        with Dissolve(0.5)
-
-        b "Si realmente tiene recursos, hay que asegurarnos de que funcione."
-
-        k "Empezamos desde cero, pero con intención clara."
-
-        hide bob
-        show marina triste at left
-        with Dissolve(0.5)
-
-        m "Prefiero esto a estar atrapada en el calor de la cabaña."
-
-        hide marina
-        show tomas serio at right
-        with Dissolve(0.5)
-
-        t "Este lugar tiene potencial. No fue una mala idea."
-
-        hide tomas
-        show charles hablando at right
-        with Dissolve(0.5)
-
-        c "Bueno, veremos si realmente valió la pena."
-
-    "{i}No todos están conformes. Algunos apoyan la decisión, otros la aceptan con dudas. Pero nadie se irá solo. Lo que viene será en grupo, para bien o para mal.{/i}"
-
-    "{size=-10}Las alianzas han cambiado. Las posiciones se han definido. A partir de ahora, las decisiones marcarán el futuro del grupo.{/size}"
+    "{i}La decisión marca el rumbo del grupo.{/i}"
+    "{i}Algunos aceptan el resultado. Otros, no tanto.{/i}"
+    "{i}Por lo menos dejaron de postergar este momento. Ya habrá tiempo de cambiar el rumbo si las cosas no funcionan.{/i}"
 
     jump chapter_7_end
 
