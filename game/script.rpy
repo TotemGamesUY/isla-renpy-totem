@@ -82,8 +82,15 @@ image bg inside cave  = im.Scale("bg inside_cave.jpg", config.screen_width, conf
 image bg inside cabin  = im.Scale("bg inside_cabin.jpg", config.screen_width, config.screen_height)
 image bg inside shelter  = im.Scale("bg inside_shelter1.jpg", config.screen_width, config.screen_height)
 image bg beach sunny = im.Scale("bg beach sunny.jpg", config.screen_width, config.screen_height)
+image bg jungle night explore1 = im.Scale("bg jungle night explore1.jpg", config.screen_width, config.screen_height)
+image bg jungle night explore2 = im.Scale("bg jungle night explore2.jpg", config.screen_width, config.screen_height)
+image bg jungle night search = im.Scale("bg jungle night search.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
+
+#webp animados
+image fondo_animado = im.Scale("fondo_hojas.webp", config.screen_width, config.screen_height)
+
 
 # Define the character image
 image marina hablando = "Marina_hablando.png"
@@ -6267,6 +6274,7 @@ label cap6_3_salida_en_solitario:
 
     "{i}Avanzas un buen rato entre los arboles en una oscuridad casi completa, buscando las plantas.{/i}"
     pause .5
+    scene bg jungle night explore2 at truecenter
     "{i}Das un paso en falso, y caes rodando cuesta abajo entre hojas mojadas y barro.{/i}"
     
     $ reporte_caida_terraplen = True
@@ -6318,7 +6326,7 @@ label cap6_3_buscadores:
     # Un personaje se pierde
     # Fin: regreso parcial al refugio
 
-    scene bg jungle trail at truecenter
+    scene bg jungle night explore1 at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -6335,6 +6343,8 @@ label cap6_3_buscadores:
     with Dissolve(0.5)
 
     b "Si, busquemos con cuidado, y no nos separem..."
+    scene bg jungle night explore2 at truecenter
+    with Dissolve(0.5)
 
     "{i}Das un paso en falso, y caes rodando cuesta abajo entre hojas mojadas y barro.{/i}"
     hide marina
