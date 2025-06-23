@@ -81,10 +81,9 @@ image bg jungle night stars  = im.Scale("bg jungle night stars.jpg", config.scre
 image bg inside cave  = im.Scale("bg inside_cave.jpg", config.screen_width, config.screen_height)
 image bg inside cabin  = im.Scale("bg inside_cabin.jpg", config.screen_width, config.screen_height)
 image bg inside shelter  = im.Scale("bg inside_shelter1.jpg", config.screen_width, config.screen_height)
-# PLACEHOLDERS:
 image bg beach sunny = im.Scale("bg beach sunny.jpg", config.screen_width, config.screen_height)
-
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
+# PLACEHOLDERS:
 
 # Define the character image
 image marina hablando = "Marina_hablando.png"
@@ -5367,7 +5366,7 @@ label p5playa:
                     show laura hablando at right
                     with Dissolve(.5)
                     l "Marina, acompáñame a la playa, veamos si quedó algo allí."
-                    show marina hablando at left
+                    show marina hablando at center
                     with Dissolve(.5)
                     m "Ay... ¡Espero que si!"
                     hide marina
@@ -5377,7 +5376,7 @@ label p5playa:
                     pause .5
                     "Luego de quitar las hojas que usaste para proteger el bote, lo voltean."
                     "Bob lo revisa minuciosamente."
-                    show bob gr serio sucio at center
+                    show bob gr serio sucio at leftgr
                     with Dissolve(.5)
                     b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
                     y "Seguramente podamos construir unos."
@@ -5545,13 +5544,13 @@ label p5playa:
                     y "Bob, acompáñame, no estamos muy lejos de donde resguardé el bote que recuperé."
                     $ desicion_intro += 1
                     $ reporte_comparte_bote = True
-                    show bob pensando at center
+                    show bob pensando at left
                     with Dissolve(.5)
                     b "¡Excelente! Veamos como está."
                     pause .5
                     "Luego de quitar las hojas que usaste para proteger el bote, lo voltean."
                     "Bob lo revisa minuciosamente."
-                    show bob gr serio sucio at center
+                    show bob gr serio sucio at leftgr
                     with Dissolve(.5)
                     b "El casco no está perforado, y no ha entrado agua en las reservas de flotación. Pero faltan los remos."
                     y "Seguramente podamos construir unos."
@@ -5751,10 +5750,14 @@ label retorno_refugio:
             with Dissolve(.5)
             show marina hablando at left
             with Dissolve(.5)
-            show laura hablando at right
+            show laura seria at right
             with Dissolve(.5)
             b "¡Marina, Laura! Me alegra verlas de nuevo."
+            show laura hablando at right
+            with Dissolve(.5)
             l "Lo mismo digo, Bob."
+            show laura seria at right
+            with Dissolve(.5)
             m "¿Pudieron encontrar algo?"
             b "¡Por suerte si!"
 
@@ -5763,13 +5766,27 @@ label retorno_refugio:
                 b "Servirá para pescar, pero no para irnos de la isla."
                 y "Tendremos que construir unas cañas de pescar, así como unos remos."
                 b "Y ustedes, ¿encontraron algo?"
+                show bob parado serio at center
+                with Dissolve(.5)
                 m "¡Trajimos agua!"
+                show marina sonriendo at left
+                with Dissolve(.5)
                 l "Y además, encontramos algunos frutos cuando volvíamos."
+                show laura sonriendo at right
+                with Dissolve(.5)
                 $ comida += 5
                 m "Y algo más..."
+                show marina preocupada at left
+                with Dissolve(.5)
                 l "Encontramos grandes huellas de pezuñas."
+                show laura hablando at right
+                with Dissolve(.5)
                 m "Laura dice que puede ser un jabalí."
+                show marina triste at left
+                with Dissolve(.5)
                 l "También había marcas de colmillos en la corteza de un árbol."
+                show laura seria at right
+                with Dissolve(.5)
                 b "Tranquila, Marina. Estaremos preparados."
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
@@ -5780,13 +5797,27 @@ label retorno_refugio:
                 b "Tenía unas cuantas cosas útiles."
                 "Le muestras las distintas herramientas a Laura y Marina."
                 y "Y ustedes, ¿encontraron algo?"
+                show bob parado serio at center
+                with Dissolve(.5)
                 m "¡Trajimos agua!"
+                show marina sonriendo at left
+                with Dissolve(.5)
                 l "Y además, encontramos algunos frutos cuando volvíamos."
+                show laura sonriendo at right
+                with Dissolve(.5)
                 $ comida += 5
                 m "Y algo más..."
+                show marina preocupada at left
+                with Dissolve(.5)
                 l "Encontramos grandes huellas de pezuñas."
+                show laura hablando at right
+                with Dissolve(.5)
                 m "Laura dice que puede ser un jabalí."
+                show marina triste at left
+                with Dissolve(.5)
                 l "También había marcas de colmillos en la corteza de un árbol."
+                show laura seria at right
+                with Dissolve(.5)
                 b "Tranquila, Marina. Estaremos preparados."
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
@@ -5810,20 +5841,36 @@ label retorno_refugio:
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
                 l "Y algo más..."
+                show bob parado serio at center
+                with Dissolve(.5)
                 b "Encontramos grandes huellas de pezuñas."
                 l "Bob dice que puede ser un jabalí."
+                show laura seria at right
+                with Dissolve(.5)
                 b "También había marcas de colmillos en la corteza de un árbol."
+                show bob parado hablando at center
+                with Dissolve(.5)
                 m "¡Qué miedo!"
+                show marina triste at left
+                with Dissolve(.5)
                 b "Tranquila, Marina. Estaremos preparados."
+                show bob parado serio at center
+                with Dissolve(.5)
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
             else:
                 m "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
+                show bob parado serio at center
+                with Dissolve(.5)
                 b "Nosotros solamente encontramos grandes huellas de pezuñas."
+                show laura seria at right
+                with Dissolve(.5)
                 l "Bob dice que puede ser un jabalí."
                 b "También había marcas de colmillos en la corteza de un árbol."
+                show marina triste at left
+                with Dissolve(.5)
                 m "¡Qué miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
@@ -5847,33 +5894,66 @@ label retorno_refugio:
                 l "Trajimos agua. ¿Y ustedes?"
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
+                show marina preocupada at left
+                with Dissolve(.5)
                 m "Y algo más..."
+                show bob parado serio at center
+                with Dissolve(.5)
                 b "Encontramos grandes huellas de pezuñas."
                 m "Bob dice que puede ser un jabalí."
                 b "También había marcas de colmillos en la corteza de un árbol."
+                show marina triste at left
+                with Dissolve(.5)
                 m "¡Me da mucho miedo!"
                 b "Tranquila, Marina. Estaremos preparados."
+                show bob parado hablando at center
+                with Dissolve(.5)
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 l "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
             else:
                 l "Trajimos agua y unos cuantos frutos. ¿Y ustedes?"
+                show bob parado hablando at center
+                with Dissolve(.5)
                 b "Nosotros solamente encontramos grandes huellas de pezuñas."
+                show marina preocupada at left
+                with Dissolve(.5)
                 m "Bob dice que puede ser un jabalí."
                 b "También había marcas de colmillos en la corteza de un árbol."
+                show bob parado serio at center
+                with Dissolve(.5)
                 m "¡Me da mucho miedo!"
-                b "Tranquila, Marina. Estaremos preparados."
+                show marina triste at left
+                with Dissolve(.5)
+                b "Tranquila, Marina. Estaremos preparados."   
                 y "Llegado el caso, lo atraparemos. Suena mucho mas apetecible que unos frutos..."
                 l "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
+    hide bob
+    hide laura
+    with Dissolve(.5)
+    hide marina
+    with Dissolve(.5)
+    if refugio == "cueva":
+        scene bg inside cave
+    elif refugio == "cabaña":
+        scene bg inside cabin
+    elif refugio == "claro":
+        scene bg inside shelter
 
     "Dentro del refugio, Ingrid parece estar algo incómoda, pero está despierta."
     if bob_se_queda:
+        show bob parado serio at right
+        with Dissolve(.5)
         "Bob se encuentra a su lado, y los saluda con la cabeza al verles entrar."
     elif laura_se_queda:
+        show laura sonriendo at right
+        with Dissolve(.5)
         "Laura se encuentra a su lado, y sonríe cuando los ve."
     elif marina_se_queda:
+        show marina sonriendo at right
+        with Dissolve(.5)
         "Marina se encuentra a su lado, y deja escapar un pequeño grito de júbilo cuando se da cuenta de que volvieron."
     "Ingrid sigue recostada, y apenas le alcanza la voz para saludarlos."
     "Entre todos reparten el agua y la comida."
@@ -8740,7 +8820,7 @@ label cap8_proteccion_jugador_opcion2:
 
         t "Siempre y cuando tengamos suficiente material para hacerlo bien."
 
-    "{i}El jugador puede decidir cómo ejecutar la estrategia.{/i}"
+    "{i}Es momento de decidir cómo ejecutar la estrategia.{/i}"
 
     menu:
         "Tomar riesgos y avanzar rápido con lo disponible.":
