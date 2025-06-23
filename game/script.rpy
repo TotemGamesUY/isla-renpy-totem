@@ -121,6 +121,16 @@ image laura gr hablando = "Laura_hablando_gr.png"
 image laura sonriendo = "Laura_parada_sonriendo.png"
 image laura gr sonriendo = "Laura_parada_sonriendo_gr.png"
 
+image erika sonriendo = "Erika sonriendo.png"
+image erika enojada = "Erika enojada.png"
+image erika parada = "Erika parada.png"
+image erika sorprendida = "Erika sorprendida.png"
+image erika gr enojada = "Erika enojada gr.png"
+image erika gr parada = "Erika parada gr.png"
+image erika conversando = "Erika conversando.png"
+image erika gr conversando = "Erika conversando gr.png"
+image erika gr sonriendo = "Erika sonriendo gr.png"
+image erika gr sorprendida = "Erika sorprendida gr.png"
 
 image bote = "bote_icon.png"
 image caja = "caja_icon.png"
@@ -6735,7 +6745,7 @@ label cap6_espera_al_amanecer:
 
     l "No soporto no saber. Pero salir en medio de esta oscuridad solo haría todo peor."
 
-    show bob gr parado sucio at rightgr
+    show bob gr serio sucio at rightgr
     with Dissolve(0.5)
 
     b "Tal vez. O tal vez no hicimos lo suficiente."
@@ -7323,7 +7333,7 @@ label cap7_antes_de_encuentro_nuevos:
 
     l "Miren... eso..."
 
-    show bob gr parado sucio at rightgr
+    show bob gr parado hablando at rightgr
     with Dissolve(0.5)
 
     b "Esto es... ¿un campamento habitado?"
@@ -7336,7 +7346,7 @@ label cap7_antes_de_encuentro_nuevos:
 
     l "¡Entonces debe haber mas supervivientes!"
 
-    $ choice_position = "default" # default alta superior
+    $ choice_position = "alta" # default alta superior
     menu:
         "Me acerco con precaución. Puede haber alguien en problemas.":
             $ reporte_investiga_nuevo_grupo = True
@@ -7351,7 +7361,7 @@ label cap7_antes_de_encuentro_nuevos:
             $ reporte_defensa_nuevo_grupo = True
             y "Quien sea que montó este campamento puede significar problemas. Tengamos cuidado."
 
-    hide Laura
+    hide laura
     hide bob
     with Dissolve (0.5)
     jump cap7_encuentro_tomas_charles
@@ -7362,16 +7372,16 @@ label cap7_encuentro_tomas_charles:
     "{i}Miran en dirección al sonido y ven a un hombre junta ramas y las quiebra, apilándolas en un atado bajo su brazo.{/i}"
     "{i}Sus movimientos son precisos. No duda. No desperdicia energía.{/i}"
 
-    show laura hablando at right
+    show laura hablando at centerleft
     with Dissolve(.5)
 
     l "¡Ey! ¡Por aquí!"
 
-    show bob parado serio at center
+    show bob parado serio at left
     with Dissolve(0.5)
     b "¿Qué tal, amigo? Ellos son [nombre_personaje] y Laura. Mi nombre es Bob."
     
-    show tomas serio at left
+    show tomas serio at right
     with Dissolve(0.5)
     t "Ah si... ¿no eras tú el capitán del barco? Yo soy Tomás."
 
@@ -7418,16 +7428,16 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Se acercan al sujeto que está descansando. Tiene sus piernas cruzadas, curioseando y sin preocupación aparente.{/i}"
 
-    show charles hablando at left
+    show charles hablando at centerright
     with Dissolve(0.5)
 
     c "No se preocupen por Tomás. Es así con todo el mundo."
 
     c "Yo soy Charles. Bienvenidos a nuestro humilde refugio."
 
-    show bob parado serio at center
+    show bob parado serio at centerleft
     with Dissolve(0.5)
-    show laura hablando at right
+    show laura hablando at left
     with Dissolve(0.5)
 
     l "Tal vez tú sí puedas contarnos, ¿hace cuánto que están juntos?"
@@ -7463,7 +7473,9 @@ label cap7_conflicto_tomas_charles:
     with Dissolve(.5)
     hide laura
     with Dissolve(.5)
-    show tomas serio at right    
+    show charles serio at right    
+    with Dissolve(0.5)
+    show tomas serio at center    
     with Dissolve(0.5)
 
     "{i}Atrás de ustedes se deja de escuchar el crujir de la madera. Tomás mira a Charles con un atado de ramas bajo el brazo.{/i}"
@@ -7517,7 +7529,7 @@ label cap7_encuentro_nuevo_grupo:
 
     show screen combined_ui
 
-    show erika seria at center
+    show erika parada at right
     with Dissolve(0.5)
 
     k "¿Recién llegaron y ya están causando problemas?"
@@ -7525,8 +7537,8 @@ label cap7_encuentro_nuevo_grupo:
     "{i}Frente a ustedes aparece una mujer de postura firme y mirada penetrante.{/i}"
     "{i}No parece alterada por su presencia. Solo los observa, evalúandolos.{/i}"
 
-    show bob parado serio at left
-    show laura seria at right
+    show bob parado serio at center
+    show laura seria at left
     with Dissolve(0.5)
 
     b "No era nuestra intención causar ningún problema."
@@ -7541,6 +7553,8 @@ label cap7_encuentro_nuevo_grupo:
     else:
         "{i}Cuando vuelve a hablar, lo hace dirigiéndose a ti, como si te reconociera como el líder de tu grupo."        
 
+    show erika conversando at right
+    with Dissolve(0.5)
     k "Yo soy Erika."
     
     if reporte_respetuoso_tomas:
@@ -7563,7 +7577,8 @@ label cap7_encuentro_nuevo_grupo:
         k "Han causado más problemas de los que creen."
         k "Charles quería descansar y ahora está siendo fastidiado por Tomás."
         k "Y Tomás, que quería trabajar, está perdiendo el tiempo recriminándole a Charles que no hace nada."
-
+    show erika parada at right
+    with Dissolve(0.5)
     "{i}Erika cruza los brazos. Su postura no es hostil pero tampoco amigable.{/i}"
 
     $ choice_position = "alta" # default alta superior
@@ -7589,7 +7604,8 @@ label cap7_encuentro_nuevo_grupo:
             y "Estamos todos juntos en esto. Nos encantaría saber qué dificultades han tenido y en qué podemos ayudarnos."            
 
     "{i}Erika te observa por unos segundos. Luego da un leve asentimiento, como si estuviera procesando cada palabra.{/i}"
-
+    show erika conversando at right
+    with Dissolve(0.5)
     k "Nosotros llegamos todos juntos a la playa, aferrándonos a un único salvavidas."
     k "Desde entonces nos hemos manejado bastante bien entre los tres."
 
@@ -7614,7 +7630,7 @@ label cap7_encuentro_nuevo_grupo:
     else:
         k "Recuperamos un [objeto_faltante[0]] y un [objeto_faltante[1]]."
         if not stuff_caja_grande:
-             k "El cajón tenía unas cuantas cosas útiles dentro."  
+            k "El cajón tenía unas cuantas cosas útiles dentro."  
     
     l "Nosotros pasamos por algo parecido, pero tenemos una persona recuperándose de una herida."
 
@@ -7622,9 +7638,14 @@ label cap7_encuentro_nuevo_grupo:
     b "Ustedes están un poco mejor que nosotros, y sin duda nos vendrá bien su ayuda."
     b "Pero seguramente nosotros podamos ayudarles a organizarnos para que todo sea más fácil para todos."
 
+    show erika parada at right
+    with Dissolve(0.5)
     k "No lo se. Tener dos refugios conviviendo en la isla tampoco es una mala idea."
     k "Tomás, Charles, ¿ustedes qué piensan?"
-
+    hide laura 
+    with Dissolve(0.5)
+    show bob parado serio at left
+    with Dissolve(0.5)
     show tomas serio at centerleft
     with Dissolve(0.5)
     show charles hablando at centerright
@@ -7638,7 +7659,8 @@ label cap7_encuentro_nuevo_grupo:
     t "Deberías apoyar la idea de la unión, Charles. Cuanta más gente, más se disimulará tu pereza."
 
     "{i}Los grupos ahora se observan unos a otros. Unificar los refugios traería ventajas, pero también posbiles fricciones.{/i}"
-
+    hide bob
+    with Dissolve(0.5) 
     menu:
         "Apoyar la unión. Es lo mejor en términos de organización.":
             $ reporte_apoya_union = True
@@ -7656,6 +7678,8 @@ label cap7_encuentro_nuevo_grupo:
             $ desicion_intro += 1
             $ bob -= 1
             y "Más gente también significa más roces. No hay garantía de que funcione."
+    show laura hablando at left
+    with Dissolve(0.5)
 
     l "Decidan lo que decidan, todos lo entenderemos. No pretendemos imponerles nuestros problemas tampoco."
 
@@ -7682,8 +7706,17 @@ label cap7_encuentro_nuevo_grupo:
             $ bob += 1
             l "Bob, ¿qué pasa que no estás tan confiado con que vayamos a ser rescatados?"
             $ reporte_verdad_rescate = True
+    hide charles
+    hide tomas
+    show laura seria at left
+    with Dissolve(0.5)
+    show bob parado serio at center
+    with Dissolve(0.5)
+
             
     "{i}Todas las miradas se clavan en el.{/i}"
+    show erika enojada at right
+    with Dissolve(0.5)
 
     k "Señor capitán, será mejor que hable, si quiere que estas negociaciones de unidad prosperen."
 
@@ -7694,12 +7727,16 @@ label cap7_encuentro_nuevo_grupo:
     b "La tormenta nos alejó de cualquier ruta normal."
     b "Probablemente estamos muy lejos de los lugares en los que una misión de rescate buscaría primero."
     b "No significa que no hay esperanzas, pero si nos rescatan, será solo después de que expandan el área de búsqueda."
-            
+    show laura seria at left
+    with Dissolve(0.5)
     "{i}Las noticias. Provocan una serie de reacciones.{/i}"
     "{i}Laura mira a Bob con un atisbo de decepción, a la que el responde agachando la cabeza.{/i}"
     "{i}Tomás intenta evitar que la desesperación se apodere de el, y Charles comienza a entender que esto va para largo.{/i}"
     "{i}Erica es la única que, mirando al vacío, parece estar calculando su próximo movimiento con la nueva información.{/i}"
     "{i}Luego se pone a observar al resto, deteniéndose en Laura y en ti.{/i}"
+    
+    show erika parada at right
+    with Dissolve(0.5)
 
     k "Bob, parece que tendrás que dar algunas explicaciones a tus compañeros. Parecen sorprendidos con la noticia."
     k "Los dejaremos solos mientras nosotros debatimos sobre la idea de unificar los grupos."
@@ -7716,20 +7753,26 @@ label cap7_encuentro_nuevo_grupo:
     b "Nosotros también debemos tomar una decisión."
 
     if reporte_opone_union:
+
         b "Laura, [nombre_personaje] ya manifestó estar en contra de la idea. Tú decides."
+        show laura hablando at left
+        with Dissolve(0.5)
         l "Lo siento, [nombre_personaje], pero debemos darle una chance a mantenernos todos juntos."
     else:
         b "Pero ninguno de los dos ha dicho que esté en contra, así que asumiré que al menos están dispuestos a darle una chance."
 
     pause 1
-
+    show bob parado serio at centerleft
+    with Dissolve(0.5)
     "{i}Los otros tres regresan luego de unos minutos.{/i}"
+    show laura seria at left
+    with Dissolve(0.5)
 
-    show erika seria at center
+    show erika parada at center
     with Dissolve(0.5)
-    show tomas serio at centerleft
+    show tomas serio at centerright
     with Dissolve(0.5)
-    show charles hablando at centerright
+    show charles hablando at right
     with Dissolve(0.5)
 
     k "Hemos tomado una decisión."
@@ -7747,7 +7790,10 @@ label cap7_encuentro_nuevo_grupo:
     t "Más allá de la broma, lo cierto es que tendremos que decidir cuál será nuestro principal."
 
     b "¿Por qué no nos acompañan de vuelta a nuestro refugio, así pueden ver qué tal está?"
-
+    show bob parado serio at centerleft
+    with Dissolve(0.5)
+    show laura hablando at left
+    with Dissolve(0.5)
     l "Y de esa forma podremos saber qué opinan Ingrid y Marina antes de decidir."
 
     "{i}El resto asiente. Juntan algunas cosas básicas y emprenden el viaje.{/i}"
@@ -7783,7 +7829,7 @@ label cap7_evaluacion_refugio:
 
     "{i}Le presentan a Ingrid y Marina los nuevos integrantes del grupo, y las ponen al tanto de todo.{/i}"
 
-    show bob parado hablando at right
+    show bob parado serio at left
 
     b "Bueno, ahora que estamos todos juntos, y han tenido oportunidad de ver el lugar, es hora que discutamos a dónde queremos refugiarnos."
 
@@ -7794,25 +7840,25 @@ label cap7_evaluacion_refugio:
 
     if destino_exploracion_2 == "cabana":
         
-        show erika show erika seria at center
+        show erika parada at centerleft
         with Dissolve(0.5)
         k "Además de que, como vieron, ya está muy bien organizada."
 
-        show charles hablando at centerleft
+        show charles hablando at right
         with Dissolve(0.5)    
         c "Y nos ahorraría la mudanza."
 
-        show tomas serio at left
+        show tomas serio at centerright
         with Dissolve(0.5)
         t "De todas formas vamos a ayudarlos con sus cosas."
 
     elif refugio == "cabana":
         
-        show erika show erika seria at centerleft
+        show erika parada at centerleft
         with Dissolve(0.5)
         k "Se nota que le han puesto esfuerzo, y no puedo esperar a proponerles algunas mejoras."
 
-        show charles hablando at left
+        show charles hablando at right
         with Dissolve(0.5)
         c "¿Tendríamos que traer todo para aquí?"
 
@@ -7821,11 +7867,11 @@ label cap7_evaluacion_refugio:
         l "Por supuesto que los ayudaríamos."
        
     else:
-        show erika show erika seria at centerleft
+        show erika parada at centerleft
         with Dissolve(0.5)
         k "La cabaña es el único sitio al que ninguno de nosotros tres ha ido."
 
-        show tomas serio at left
+        show tomas serio at right
         with Dissolve(0.5)
         t "Este refugio no está mal. Si Bob dice que la cabaña puede estar aún mejor, opino que confiemos en el."
 
@@ -7876,7 +7922,7 @@ label cap7_evaluacion_refugio:
             $ bob += 1
             $ charles += 1
             $ marina -= 1
-            $ tomás -= 1
+            $ tomas -= 1
             $ laura -= 1
             $ refugio = "cabana"
             "La cabaña nos da las mejores opciones a futuro. Como dice Bob, es más fácil de mejorar."
@@ -7888,7 +7934,7 @@ label cap7_evaluacion_refugio:
             $ bob -= 1
             $ charles += 1
             $ marina += 1
-            $ tomás -= 1
+            $ tomas -= 1
             $ laura -= 1
             $ refugio = "cueva"
             "El clima es clave. Ya sufrimos los mosquitos durante el día. Si tampoco podemos descansar en paz, a largo plazo será un problema."
@@ -7944,11 +7990,11 @@ label cap7_formacion_alianzas:
     b "Ahora que sabemos dónde instalarnos, necesitamos encarar aquello que, al menos nostotros, hemos postergado."
     b "Debemos elegir alguien que lidere nuestros esfuerzos."
 
-    show erika seria at centerleft
+    show erika parada at centerleft
     with Dissolve(0.5)
     k "Estoy de acuerdo. No sirve tener un refugio si no vamos a tirar todos para una misma dirección."
 
-    show laura preocupada at right
+    show laura hablando at right
     with Dissolve(0.5)
     l "Designar roles, como el de líder, va a ser escencial para seguir mejorando nuestras chances."
 
