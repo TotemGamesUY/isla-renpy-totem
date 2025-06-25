@@ -7428,7 +7428,7 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Se acercan al sujeto que está descansando. Tiene sus piernas cruzadas, curioseando y sin preocupación aparente.{/i}"
 
-    show charles hablando at centerright
+    show charles hablando at right
     with Dissolve(0.5)
 
     c "No se preocupen por Tomás. Es así con todo el mundo."
@@ -7659,8 +7659,6 @@ label cap7_encuentro_nuevo_grupo:
     t "Deberías apoyar la idea de la unión, Charles. Cuanta más gente, más se disimulará tu pereza."
 
     "{i}Los grupos ahora se observan unos a otros. Unificar los refugios traería ventajas, pero también posbiles fricciones.{/i}"
-    hide bob
-    with Dissolve(0.5) 
     menu:
         "Apoyar la unión. Es lo mejor en términos de organización.":
             $ reporte_apoya_union = True
@@ -7678,6 +7676,8 @@ label cap7_encuentro_nuevo_grupo:
             $ desicion_intro += 1
             $ bob -= 1
             y "Más gente también significa más roces. No hay garantía de que funcione."
+    hide bob
+    with Dissolve(0.5) 
     show laura hablando at left
     with Dissolve(0.5)
 
@@ -7707,12 +7707,13 @@ label cap7_encuentro_nuevo_grupo:
             l "Bob, ¿qué pasa que no estás tan confiado con que vayamos a ser rescatados?"
             $ reporte_verdad_rescate = True
     hide charles
+    with Dissolve(0.5)
     hide tomas
+    with Dissolve(0.5)
     show laura seria at left
     with Dissolve(0.5)
     show bob parado serio at center
     with Dissolve(0.5)
-
             
     "{i}Todas las miradas se clavan en el.{/i}"
     show erika enojada at right
@@ -7745,11 +7746,7 @@ label cap7_encuentro_nuevo_grupo:
 
     hide erika
     with Dissolve(0.5)
-    hide tomas
-    with Dissolve(0.5)
-    hide charles
-    with Dissolve(0.5)
-
+    
     b "Nosotros también debemos tomar una decisión."
 
     if reporte_opone_union:
@@ -7764,9 +7761,7 @@ label cap7_encuentro_nuevo_grupo:
     pause 1
     show bob parado serio at centerleft
     with Dissolve(0.5)
-    "{i}Los otros tres regresan luego de unos minutos.{/i}"
-    show laura seria at left
-    with Dissolve(0.5)
+    "{i}Los otros tres regresan luego de unos minutos.{/i}"    
 
     show erika parada at center
     with Dissolve(0.5)
@@ -7829,7 +7824,8 @@ label cap7_evaluacion_refugio:
 
     "{i}Le presentan a Ingrid y Marina los nuevos integrantes del grupo, y las ponen al tanto de todo.{/i}"
 
-    show bob parado serio at left
+    show bob parado serio at right    
+    with Dissolve(0.5)
 
     b "Bueno, ahora que estamos todos juntos, y han tenido oportunidad de ver el lugar, es hora que discutamos a dónde queremos refugiarnos."
 
@@ -7840,21 +7836,21 @@ label cap7_evaluacion_refugio:
 
     if destino_exploracion_2 == "cabana":
         
-        show erika parada at centerleft
+        show erika parada at centerright
         with Dissolve(0.5)
         k "Además de que, como vieron, ya está muy bien organizada."
 
-        show charles hablando at right
+        show charles hablando at centerleft
         with Dissolve(0.5)    
         c "Y nos ahorraría la mudanza."
 
-        show tomas serio at centerright
+        show tomas serio at right
         with Dissolve(0.5)
         t "De todas formas vamos a ayudarlos con sus cosas."
 
     elif refugio == "cabana":
         
-        show erika parada at centerleft
+        show erika parada at centerright
         with Dissolve(0.5)
         k "Se nota que le han puesto esfuerzo, y no puedo esperar a proponerles algunas mejoras."
 
@@ -7862,9 +7858,9 @@ label cap7_evaluacion_refugio:
         with Dissolve(0.5)
         c "¿Tendríamos que traer todo para aquí?"
 
-        show laura hablando at centerright
+        show laura hablando at centerleft
         with Dissolve(0.5)
-        l "Por supuesto que los ayudaríamos."
+        l "PDe más está decir que los ayudaríamos."
        
     else:
         show erika parada at centerleft
@@ -7982,7 +7978,7 @@ label cap7_formacion_alianzas:
    
     show screen combined_ui
 
-    "{i}Las conversaciones sobre el refugio han dejado claro que el grupo se está dividiendo en posturas.{/i}"
+    "{i}Las conversaciones sobre el refugio han dejado claro que el grupo se está dividiendo en distintas posturas.{/i}"
     "{i}Pero una decisión aún más importante sigue pendiente.{/i}"
 
     show bob parado serio at centerright
@@ -7994,49 +7990,66 @@ label cap7_formacion_alianzas:
     with Dissolve(0.5)
     k "Estoy de acuerdo. No sirve tener un refugio si no vamos a tirar todos para una misma dirección."
 
-    show laura hablando at right
+    show laura hablando at left
     with Dissolve(0.5)
     l "Designar roles, como el de líder, va a ser escencial para seguir mejorando nuestras chances."
-
-   
-    show tomas serio at left
+    hide laura
+    with Dissolve(.5)
+    
+    show tomas serio at right
     with Dissolve(0.5)
     t "No tenemos por qué discutirlo demasiado. Nosotros trabajamos bien bajo el liderazgo de Erika."
+    hide tomas
+    with Dissolve(.5)
 
-    show charles hablando at center
+    show charles hablando at right
     with Dissolve(0.5)
-
     c "Es cierto. Pero cada uno tiene su forma de ver las cosas. Ellos por ejemplo, no tenían un líder definido."
+    hide charles 
+    with Dissolve(.5)
 
     if liderazgo >= 5:
-        l "Si bien no siempre hicimos lo que decían, tanto [nombre_personaje] como Bob han oficiado como líderes en diferentes momentos"
+        show laura hablando at left
+        with Dissolve(0.5)
+        l "Si bien no siempre hicimos lo que decían, tanto [nombre_personaje] como Bob han oficiado como líderes en diferentes momentos."
+        "{i}Bob claramente se sorprende un poco ante las palabras de Laura.{/i}"  
+        hide Laura
+        with Dissolve(.5)
 
-    "{i}Todos intercambian miradas. De a poco algunas van aterrizando sobre ti.{/i}"
+    "{i}Todos intercambian miradas. Algunas incluso aterrizan sobre ti.{/i}"
+    if liderazgo >= 5:
+        "{i}Especialmente luego de lo que dijo Laura.{/i}"
 
     menu:
         "Apoyar a Erika. Parece tener una personalidad idónea para el rol.":
             $ reporte_apoya_liderazgo_erika = True
             $ desicion_intro += 1
-            $ erika += 2
-            y "Estoy de acuerdo con Tomás. Claramente, bajo el mando de Erika, ellos han logrado optimizar sus esfuerzos."
-            b "La verdad es que [nombre_personaje] dice la verdad. Démosle una chance a Erika."
+            $ erika += 3
+            $ bob -= 1
+            y "Lo que dice Tomás es cierto, Erika sería una buena candidata. En su campamento todo parecía ir sobre ruedas."
+            if liderazgo >= 5:
+                y "Y gracias Laura, por tus palabres tan amables."
+            b "Estoy dispuesto a darle una oportunidad da cualquiera de l[e]s dos, si es lo que el grupo termina decidiendo."
 
         "Apoyar a Bob. Su adaptabilidad es clave en un entorno incierto.":
             $ reporte_apoya_liderazgo_bob = True
             $ desicion_intro += 1
-            $ bob += 2
-            y "No siempre podemos seguir un plan rígido. Bob sabe reaccionar mejor ante lo inesperado."
-            k "Estoy dispuesta a darle a Bob una oportunidad."
+            $ bob += 3
+            $ erika -=1
+            y "No siempre podemos seguir un plan rígido. Bob sabe reaccionar ante lo inesperado como nadie."
+            if liderazgo >= 5:
+                y "Y gracias Laura, por tus palabres tan amables."
+            k "Estoy dispuesta a darle a Bob una oportunidad, si es lo que el grupo termina decidiendo."
 
-        "Tomar el rol de liderazgo. Es hora de hacerme responsable del grupo." if liderazgo >= 5:
+        "Postularte para el rol de liderazgo. Es hora de hacerme responsable del grupo." if liderazgo >= 5:
             $ reporte_postula_liderazgo = True
             $ desicion_intro += 1
             $ bob -= 1
             $ erika -= 1
             $ liderazgo += 1
+            y "Gracias Laura, por tus palabres tan amables."
             y "He estado en cada decisión difícil que tomamos hasta ahora. Me gustaría que siga siendo así."
-            y "Quiero proponerles que sea yo quien ocupe el rol de líder."
-            "{i}Los demás esperan unos momentos para ver si Erika o Bob tienen alguna objeción, pero no.{/i}"
+            y "Quiero postularme yo también para el rol de líder."            
             "{i}Tu seguridad ha dejado su marca.{/i}"
 
         "Evitar tomar partido. No importa quién lidere si no trabajamos juntos.":
@@ -8045,8 +8058,12 @@ label cap7_formacion_alianzas:
             y "Lo que importa no es solo quién manda, sino que todos podamos funcionar como grupo."
             "{i}Tus palabras parecen resonar en los oídos de todos, que te miran bajo unos nuevos ojos.{/i}"
             b "Dicho como un verdadero líder, [nombre_personaje]."
-            k "Por más que me cueste admitirlo, es cierto. Tu humildad es sincera. Creo que debes ser tú quien ocupe el rol."
+            k "Por más que me cueste admitirlo, es cierto. Tu humildad es sincera. Creo que tú también deberías postularte para el rol."
             "{i}Los demás asienten, más o menos convencidos, pero todos te demuestran su apoyo.{/i}"
+
+    show laura hablando at left
+    with Dissolve(0.5)
+    l "De todas formas, no tenemos por qué elegir ya mismo. Terminar la mudanza antes de que anochezca es más importante."
 
     "{i}La decisión marca el rumbo del grupo.{/i}"
     "{i}Algunos aceptan el resultado. Otros, no tanto.{/i}"
