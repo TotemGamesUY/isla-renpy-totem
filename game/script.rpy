@@ -84,6 +84,7 @@ image bg inside shelter  = im.Scale("bg inside_shelter1.jpg", config.screen_widt
 image bg beach sunny = im.Scale("bg beach sunny.jpg", config.screen_width, config.screen_height)
 image bg jungle night explore1 = im.Scale("bg jungle night explore1.jpg", config.screen_width, config.screen_height)
 image bg jungle night explore2 = im.Scale("bg jungle night explore2.jpg", config.screen_width, config.screen_height)
+image bg jungle night explore3 = im.Scale("bg jungle night explore3.jpg", config.screen_width, config.screen_height)
 image bg jungle night search = im.Scale("bg jungle night search.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
@@ -2670,7 +2671,9 @@ label refugio_init_sed:
         menu:
             "Aún no encontramos otra fuente de agua, hay que racionarla.":
                 y "Todos podemos beber un poco, pero solo un trago."
-                y "hasta no encontrar agua potable, hay que cuidar la que nos queda."
+                y "Hasta no encontrar agua potable, hay que cuidar la que nos queda."
+                show bob parado hablando at left
+                with Dissolve(.5)
                 b "Tienes razón, si no la cuidamos, estaremos en problemas."
                 $ desicion_intro += 1
                 $ reporte_racionar_agua = True
@@ -2678,6 +2681,8 @@ label refugio_init_sed:
                 jump refugio_init_reparten_agua
             "El agua es mia y es valiosa. Ellos van a desperdiciarla.":
                 y "Yo me esforcé para conseguirla, yo decidiré cuando y cómo se usa."
+                show bob parado hablando at left
+                with Dissolve(.5)
                 b "Es realmente increíble que seas tan egoista."
                 $ desicion_intro += 1
                 $ reporte_acaparar_agua = True
@@ -2685,6 +2690,8 @@ label refugio_init_sed:
                 jump bob_discusion_agua
             "Bob no ha sido un gran compañero hasta ahora, no merece que lo ayude." if bob < 0:
                 y "Tú deberías buscar tu propia agua, Bob."
+                show bob parado hablando at left
+                with Dissolve(.5)
                 b "¿Tu propia agua? Ese bidón pertenecía a mi barco."
                 y "Tu barco, el que se hundió bajo tu mando."
                 b "¿Cuál es tu problema?"
@@ -2811,7 +2818,8 @@ label refugio_init_reparten_agua:
         b "Estoy de acuerdo, Ingrid lo necesita más que nosotros en este momento." 
         l "No me gusta decir esto pero hay que pensar que quizás ya no podamos ayudar más a Ingrid."
         l "Aún no despierta. Podemos darle agua cuando consigamos más."
-
+        show bob parado serio at left
+        with Dissolve(.5)
         $ choice_position = "alta" # default alta superior
         menu:
             "Debería apoyar a Marina y Bob, en estos casos es mejor mantenerse con la mayoría.":
@@ -2841,6 +2849,7 @@ label refugio_init_reparten_agua:
                                 y "¿Tú que has hecho hasta ahora?"
                                 $ desicion_intro += 1
                                 $ reporte_agua_ingrid_chicana_m = True
+                                $ marina -= 1
                                 jump marina_discusion
                             "Está claro que Marina no va a poder tomar decisiones duras.":
                                 y "Marina, esta es una situación desesperada. Debemos pensar en cómo sobrevivir."
@@ -2848,6 +2857,7 @@ label refugio_init_reparten_agua:
                                 m "Debí esperar esto de ti [nombre_personaje], pero no de ti, Laura."
                                 l "Yo solo dije lo que varios pensabamos, nada más."
                                 "Marina se aleja furiosa."
+                                $ marina -= 1
                                 $ desicion_intro += 1
                                 $ reporte_agua_ingrid_decepcion_m = True
                                 hide marina
@@ -2864,6 +2874,42 @@ label refugio_init_reparten_agua:
                                 $ desicion_intro += 1
                                 $ reporte_agua_ingrid_oportunidad = True
                                 jump init_buscar_comida
+                else: # si fue por gente
+                    m "Cuando estabamos los dos solos en la playa, pensaste primero en ayudar a la gente."
+                    m "¿Cómo puedes ahora decir algo asi a la ligera?"
+                        
+                    $ choice_position = "alta" # default alta superior
+                    menu:
+                        "No me gusta que me cuestione":
+                            y "No me hables en ese tono."
+                            y "¿Tú que has hecho hasta ahora?"
+                            $ marina -= 1
+                            $ desicion_intro += 1
+                            $ reporte_agua_ingrid_chicana_m = True
+                            jump marina_discusion    
+                        "Está claro que Marina no va a poder tomar decisiones duras.":
+                            y "Marina, esta es una situación desesperada. Debemos pensar en cómo sobrevivir."
+                            m "No es así como vamos a sobrevivir. Tenemos que recordar que somos personas."
+                            m "Debí esperar esto de ti [nombre_personaje], pero no de ti, Laura."
+                            l "Yo solo dije lo que varios pensabamos, nada más."
+                            "Marina se aleja furiosa."
+                            $ marina -= 1
+                            $ desicion_intro += 1
+                            $ reporte_agua_ingrid_decepcion_m = True
+                            hide marina
+                            with Dissolve(.5)
+                            l "¡Marina! Espera..."
+                            hide laura
+                            with Dissolve(.5)
+                            "Marina y Laura se meten en la selva. Se las escucha discutir mientras se alejan."
+                            jump bob_discusion       
+                        "Marina tiene razón, hay que darle una oportunidad a Ingrid.":
+                            y "Tranquila Marina, nadie la va a dejar morir."
+                            y "Solo pensaba que si los que estamos bien mantenemos las fuerzas, podremos ayudar a Ingrid."
+                            y "Pero tienes razón, lo mejor que le demos el agua que queda a Ingrid ahora."
+                            $ desicion_intro += 1
+                            $ reporte_agua_ingrid_oportunidad = True
+                            jump init_buscar_comida
     else:
         "Todos observan el bidón vacio, la sensación de desesperanza crece."
         y "Parece que debemos buscar agua de forma urgente."
@@ -5095,6 +5141,8 @@ label arroyo_frutos:
 
 label manantial_marina_laura:
     "Recorren la jungla a gran velocidad, atentos por si ven comida, pero tratando de llegar rápido para poder volver con luz."
+    show bg jungle river at truecenter
+    with Dissolve(.5)
 
     if va_con_marina:
         show marina sonriendo at left
@@ -5705,15 +5753,14 @@ label retorno_refugio:
     $ update_stat("cansancio", cansancio - 1)
     $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
 
-    if comida <=0 and (exploran_todos or exploran_tres):
+    if comida <=2 and (exploran_todos or exploran_tres):
         "En el camino de vuelta, encuentran unos pocos frutos de una especie que hasta ahora no habían visto, parecen sabrosos."
         $ comida += 5
-        if hambre <= 1:
-            "Comen algunos y llevan el resto para el campamento."
-            $ update_stat("hambre", hambre +1)
-            $ show_variable_changed_popup("El hambre ha disminuido", verde)
-            hide screen combined_ui
-            show screen combined_ui            
+        "Comen algunos y llevan el resto para el campamento."
+        $ update_stat("hambre", hambre +1)
+        $ show_variable_changed_popup("El hambre ha disminuido", verde)
+        hide screen combined_ui
+        show screen combined_ui            
         "También ven huellas de grandes pezuñas."
         "Se miran, pero nadie quiere decir lo obvio."
         "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
@@ -6035,7 +6082,7 @@ label cap6_inicio:
     "La noche cae lenta sobre la isla. El calor no cede, y la humedad parece espesa como el silencio que envuelve al refugio."
 
     show ingrid preocupada at left
-    with dissolve
+    with Dissolve (0.5)
 
     i "No me siento... {w=0.5} nada bien... Mi cabeza arde... y la vista se me nubla..."
     
@@ -6053,7 +6100,7 @@ label cap6_inicio:
     "{i}Ingrid intenta seguir explicando, pero su voz se apaga en un suspiro antes de desplomarse lentamente.{/i}"
 
     hide ingrid
-    with dissolve
+    with Dissolve (1.5)
 
     $ reporte_fiebre_ingrid = True
     $ ingrid -= 1  # tensión emocional
@@ -6178,7 +6225,7 @@ label cap6_1_formacion_grupos:
             $ bob -= 1
             y "Creo que es muy peligroso, yo no voy a ir."
             y "Si deciden arriesgarse, es responsabilidad de ustedes."
-            "{i}Bob frunce el ceñoy Laura abre las manos, agradeciendo que alguien le de la razón.{/i}"
+            "{i}Bob frunce el ceño y Laura abre las manos, agradeciendo que alguien le de la razón.{/i}"
             "{i}Marina simplemente asiente, en silencio.{/i}"        
             jump cap6_NPCs_buscan
 
@@ -6671,7 +6718,7 @@ label cap6_5_decision_final:
 
 label cap6_rescate_en_la_noche:
 
-    scene bg jungle night stars at truecenter
+    scene bg jungle night explore3 at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -6679,7 +6726,7 @@ label cap6_rescate_en_la_noche:
     "{i}De nuevo en la espesura. Esta vez, los pasos son más pesados.{/i}"
     "{i}El miedo les invade, y cada sombra parece un animal agazapado.{/i}"
 
-    show bob gr parado at rightgr
+    show bob gr parado hablando at rightgr
     with Dissolve(0.5)
 
     b "Debería haber vuelto por ella antes."
@@ -6687,10 +6734,13 @@ label cap6_rescate_en_la_noche:
     y "Bob, de nada sirve lamentarse ahora."
     y "Hagamos silencio, así podemos escuchar si nos llama, o si algo acecha."
 
-    $ sed -= 1
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
     hide screen combined_ui
     show screen combined_ui
 
+    hide bob
+    with Dissolve(0.5)
     "{i}Tras unos minutos de búsqueda en el claro donde se separaron, escuchás un leve quejido. Te asomas entre los arbustos y ahí está...{/i}"
 
     show marina gr triste at leftgr
@@ -6709,7 +6759,8 @@ label cap6_rescate_en_la_noche:
     $ reporte_rescate_exitoso = True
     $ marina += 2
     $ bob += 1
-    $ hambre -= 1
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
     hide screen combined_ui
     show screen combined_ui
     $ reporte_regreso_marina = True
@@ -6783,9 +6834,6 @@ label cap6_espera_al_amanecer:
 
     $ reporte_marina_vuelve_sola = True
     $ marina -= 1
-    $ hambre -= 1
-    $ sed -= 1
-    $ cansancio -= 1
 
     jump cap6_final
 
@@ -6795,6 +6843,9 @@ label cap6_3_salida_en_solitario_marina:
     with Dissolve(0.5)
 
     "{i}La oscuridad no es completa, pero sí suficiente para perderte si das un paso en falso.{/i}"
+
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
 
     "{i}Después de unos minutos de buscar con cuidado, una silueta encorvada aparece junto a un tronco caído.{/i}"
     "{i}Se mueve lentamente, como si ya no tuviera energías.{/i}"
@@ -6812,10 +6863,12 @@ label cap6_3_salida_en_solitario_marina:
 
     "{i}La ayudás a ponerse de pie. Está temblorosa pero parece estar bien. Tomas su brazo con firmeza y comienzan el regreso.{/i}"
 
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+
     $ reporte_encuentra_marina = True
     $ marina += 1
-    $ sed -= 1
-    $ hambre -= 1
+    
 
     jump cap6_final
 
@@ -6841,7 +6894,7 @@ label cap6_final:
     show laura hablando at left
     show bob parado serio at right
     with Dissolve(0.5)
-
+    $ ingrid += 1
     l "¿Esto funcionará?"
 
     b "Si Ingrid tenía razón y la preparación está bien hecha, deberíamos ver una mejoría pronto."
@@ -6941,19 +6994,19 @@ label chapter_7_start:
     jump cap7_inicio
 
 label cap7_inicio:
-    
-    $ capitulo_actual = 7
 
     if refugio == "cueva":
-        scene bg jungle cave
-    elif refugio == "cabana":
-        scene bg jungle hut
+        scene bg inside cave
+    elif refugio == "cabaña":
+        scene bg inside cabin
     elif refugio == "claro":
-        scene bg jungle clearing
-
+        scene bg inside shelter
     with Dissolve(0.5)
 
+    $ update_stat("cansancio", cansancio + 1)
+    $ show_variable_changed_popup("El cansancio ha disminuido", verde)
     show screen combined_ui
+
 
     "{i}El amanecer se filtra entre hojas amplias y húmedas. Nadie dice nada al despertar y es claro que el descanso no fue suficiente para nadie.{/i}"
 
@@ -6980,6 +7033,8 @@ label cap7_inicio:
         m "Si puedo ayudar a Ingrid a levantarse del todo, cuenten conmigo."
     else:
         m "Podría quedarme con Ingrid, si quieren."
+    
+    i "(débil) Si Marina me ayuda, puedo seguir buscando más plantas útiles. Todavía me cuesta mantenerme en pie por mi cuenta."
 
     "{i}Está claro que el refugio actual no será suficiente. Hay lugares que podrían tener lo que falta.{/i}"
 
@@ -7014,26 +7069,18 @@ label cap7_inicio:
      
 label cap7_decidir_quien_va:
 
+    hide ingrid
+    with Dissolve(0.5)
+
     if refugio == "cueva":
         scene bg jungle cave
     elif refugio == "cabana":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
-
     with Dissolve(0.5)
-
-    show screen combined_ui
-
-    show ingrid preocupada at right
-    with Dissolve(0.5)
-
-    i "(débil) Si Marina me ayuda, puedo seguir buscando más plantas útiles. Todavía me cuesta mantenerme en pie por mi cuenta."
 
     show bob parado hablando at center
-    with Dissolve(0.5)
-
-    hide ingrid
     with Dissolve(0.5)
 
     b "Uno debería quedarse con Ingrid. El resto puede ir al lugar que elegimos. Recolectar. Revisar. Lo que aparezca, será útil."
@@ -7074,11 +7121,6 @@ label cap7_decidir_quien_va:
             jump cap7_refugio_con_ingrid
 
 label cap7_formar_grupo_exploracion:
-
-    scene bg jungle_trail at truecenter
-    with Dissolve(0.5)
-
-    show screen combined_ui
 
     "{i}El grupo comienza a organizarse para la exploración. Ingrid queda en el refugio, confiando en que traerán algo útil.{/i}"
 
@@ -7260,6 +7302,9 @@ label explorar_primer_sitio:
         scene bg jungle hut
         "{i}La vieja cabaña se recorta entre los árboles como un esqueleto de madera.{/i}"
         "{i}Los escalones crujen mientras suben la escalera con cautela.{/i}"
+        scene bg inside cabin
+        with Dissolve(0.5)
+
         "{i}Atraviesan la puerta y comienzan a revolver entre restos de muebles viejos.{/i}"
         l "Uff... Aquí hay mucho polvo."
         b "Pero mira, ¡también hay cosas útiles!"
@@ -7290,7 +7335,7 @@ label explorar_primer_sitio:
 
 label cap7_antes_de_encuentro_nuevos:
 
-    scene bg jungle path at truecenter
+    scene bg jungle trail at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -7865,20 +7910,17 @@ label cap7_evaluacion_refugio:
     else:
         show erika parada at centerleft
         with Dissolve(0.5)
-        k "La cabaña es el único sitio al que ninguno de nosotros tres ha ido."
+        k "La cabaña es el único sitio donde no se ha armado ningún refugio."
 
-        show tomas serio at right
+        show tomas serio at centerright
         with Dissolve(0.5)
         t "Este refugio no está mal. Si Bob dice que la cabaña puede estar aún mejor, opino que confiemos en el."
 
     hide bob
     with Dissolve(0.5)
     hide laura
-    with Dissolve(0.5)
     hide erika
-    with Dissolve(0.5)
     hide charles
-    with Dissolve(0.5)
     hide tomas
     with Dissolve(0.5)
 
