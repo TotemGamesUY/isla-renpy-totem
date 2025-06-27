@@ -8321,7 +8321,7 @@ label cap8_prioridades_refugio:
         b "Quedar atrapados allí sin suministros podría ser peor que aguantar la tormenta sin reforzarlo."
 
     elif enfoque_preparacion == "equilibrado":
-        "{i}El grupo distribuye las tareas. Algunos van a ir a buscar suministros, y otros se quedarán a reforzar el refugio.
+        "{i}El grupo distribuye las tareas. Algunos van a ir a buscar suministros, y otros se quedarán a reforzar el refugio."
         "{i}La inseguridad se nota en los rostros de todos, que temen no alcanzar ninguna de las dos metas a tiempo.{/i}"
         
         show bob parado serio at centerright
@@ -8421,7 +8421,7 @@ label cap8_acercamiento_ingrid:
         "¿Cómo ves el tema pediente de decidir el liderazgo?":
             jump cap8_liderazgo_ingrid
 
-        "Mejor no molestarla, parece querer mantenerse al margen de todo."
+        "Mejor no molestarla, parece querer mantenerse al margen de todo.":
             jump cap8_separacion_grupo
 
 label cap8_liderazgo_ingrid:
@@ -8816,8 +8816,7 @@ label cap8_separacion_grupo:
         
         hide bob
         with Dissolve(0.5)
-
-       jump cap8_formacion_equipos
+        jump cap8_formacion_equipos
 
     elif liderazgo > 4:
         
