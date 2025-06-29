@@ -52,6 +52,9 @@ transform centerright:
     xalign 0.65
     yalign 1.25
 
+init python:
+    posiciones_grupo = [left, centerleft, centerright, right]
+
 # Variables de genero
 default genero = "Femenino"
 default e = "a"
@@ -148,6 +151,15 @@ image ingrid gr cintura = "ingrid.200.manos.cintura.png"
 image ingrid gr risita = "ingrid.200.risita.png"
 image ingrid gr seria = "ingrid.200.seria.png"
 image ingrid gr sonriente = "ingrid.200.sonriente.png"
+
+# Lista de imagenes "grupo" para cada personaje para la sepracion en grupos
+image marina grupo ="Marina_hablando.png"
+image bob grupo ="Bob_parado_serio.png"
+image laura grupo ="Laura_parada_seria.png"
+image erika grupo ="Erika parada.png"
+image ingrid grupo ="ingrid.100.manos.cintura.png"
+image charles grupo ="charles.png"
+image tomas grupo ="tomas.png"
 
 
 image bote = "bote_icon.png"
@@ -429,6 +441,11 @@ default reporte_apoya_liderazgo_bob = False
 default reporte_postula_liderazgo = False
 default reporte_evade_liderazgo = False
 default enfoque_preparacion = ""
+default equipo_bob = ""
+default equipo_erika = ""
+default equipo_jugador_opcion1 = ""
+default jugador_es_lider = False
+
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -470,6 +487,23 @@ default stuff_button_1 = "none"
 # Define la variable de la imagen
 default boton_imagen = "none_icon.png"
 
+# logica para que asigne el fondo interior/exterior dinamico 
+# scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+init python:
+    fondos_refugios = {
+        "cueva": {
+            "exterior": "bg jungle cave",
+            "interior": "bg inside cave"
+        },
+        "cabana": {
+            "exterior": "bg jungle hut",
+            "interior": "bg inside cabin"
+        },
+        "claro": {
+            "exterior": "bg jungle hill",
+            "interior": "bg inside shelter"
+        }
+    }
 
 # funcion para actualizar la imagen del bidon segun la cantidad de agua del jugador
 init python:
@@ -528,6 +562,12 @@ init python:
 init python:
     def show_variable_changed_popup(info, color="#FFFFFF"):
         renpy.show_screen("variable_changed_popup", info=info, color=color)
+
+# para resolver como reaccionan a las ordenes
+init python:
+    reactividad_directa = ["tomas", "ingrid"]
+    reactividad_gentil = ["marina", "laura"]
+    obstinado = "charles"
 
 init python:
     # Function to ensure the stat value is within the range 1 to 3 and apply the pulse effect
@@ -7055,13 +7095,15 @@ label cap7_inicio:
 
     $ update_stat("hambre", hambre + 1)
     show screen top_right_button(boton_imagen)
-    if refugio == "cueva":
-        scene bg inside cave
-    elif refugio == "cabaña":
-        scene bg inside cabin
-    elif refugio == "claro":
-        scene bg inside shelter
-    with Dissolve(0.5)
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    #if refugio == "cueva":
+    #    scene bg inside cave
+    #elif refugio == "cabaña":
+    #    scene bg inside cabin
+    #elif refugio == "claro":
+    #    scene bg inside shelter
+    #with Dissolve(0.5)
     $ update_stat("cansancio", cansancio + 1)
     $ show_variable_changed_popup("El cansancio ha disminuido", verde)
     show screen combined_ui
@@ -8272,13 +8314,14 @@ label cap8_avisar_tormenta:
     "{i}El cielo ha cambiado. Nubes oscuras se alzan en la distancia, avanzando lentamente, pero con determinación.{/i}"
     "{i}La tormenta está regresando.{/i}"
 
-    if refugio == "cueva":
-        scene bg jungle cave
-    elif refugio == "cabana":
-        scene bg jungle hut
-    elif refugio == "claro":
-        scene bg jungle clearing
-    with Dissolve(0.5)
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+    #if refugio == "cueva":
+    #    scene bg jungle cave
+    #elif refugio == "cabana":
+    #    scene bg jungle hut
+    #elif refugio == "claro":
+    #    scene bg jungle clearing
+    #with Dissolve(0.5)
 
     show bob parado serio at centerright
     with Dissolve(0.5)
@@ -9706,7 +9749,7 @@ label cap8_enfrentamiento_lideres:
     "{i}Las últimas gotas aún resbalan de las hojas tras la tormenta, pero la tensión es más fuerte que cualquier aguacero.{/i}"
     show bob parado hablando at right
     with Dissolve(0.5)
-    show erika tensa at centerleft
+    show erika enojada at centerleft
     with Dissolve(0.5)
     b "¡Esto fue un desastre! ¿Cuántas veces lo dije? Necesitábamos actuar rápido. En vez de eso, perdimos tiempo en tus planes eternos."
 
@@ -9778,8 +9821,8 @@ label cap8_eleccion_liderazgo:
 
     "{i}El grupo está fragmentado. Nadie quiere admitirlo, pero la separación es inevitable.{/i}"
 
-    show bob serio at left
-    show erika seria at right
+    show bob parado serio at left
+    show erika parada at right
     with Dissolve(0.5)
 
     "{i}Bob y Erika esperan. Alguien tiene que definir el rumbo.{/i}"
@@ -9797,6 +9840,7 @@ label cap8_eleccion_liderazgo:
 
         "Tomar el liderazgo":
             $ apoyo_lider_jugador += 3
+            $ jugador_es_lider = True
             "{i}Las miradas se centran en vos. Si tomás el control, todo depende de tu próximo movimiento.{/i}"
 
     "{i}Para fortalecer tu posición, intentás convencer a uno de los dos de unirse a tu bando.{/i}"
@@ -9815,7 +9859,10 @@ label cap8_eleccion_liderazgo:
                 $ grupo_jugador.append("erika")
             else:
                 "{i}Erika se cruza de brazos. No está dispuesta a seguirte.{/i}"
-
+    hide bob
+    with Dissolve (0.5)
+    hide erika
+    with Dissolve (0.5)
     "{i}Las decisiones están tomadas. Ahora cada personaje debe decidir con quién quedarse.{/i}"
 
     jump cap8_formacion_grupos_finales
@@ -9856,13 +9903,7 @@ label cap8_dialogo_lider_erika:
 
 label cap8_formacion_grupos_finales:
 
-    scene bg jungle_final_decision at truecenter
-    with Dissolve(0.5)
-
-    show screen combined_ui
-
-    show bob serio at left
-    show erika seria at right
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
     with Dissolve(0.5)
 
     "{i}Los grupos están definidos. Ahora cada personaje debe decidir su camino.{/i}"
@@ -9887,8 +9928,15 @@ label cap8_formacion_grupos_finales:
     "{i}Los personajes aparecen uno por uno.{/i}"
 
     python:
+        personaje_anterior = None
+
         for personaje in grupo_jugador + grupo_bob + grupo_erika:
-            personaje_img = f"{personaje} serio"
+
+            personaje_img = f"{personaje} grupo"
+
+            if personaje_anterior:
+                renpy.hide(f"{personaje_anterior} grupo", layer="master")
+                renpy.with_statement(Dissolve(0.5))
 
             renpy.show(personaje_img, at_list=[Position(xalign=0.5)], layer="master")
             renpy.pause(0.5)
@@ -9900,9 +9948,13 @@ label cap8_formacion_grupos_finales:
                 mensaje_decision = f"{personaje} decide irse con el otro grupo."
                 nueva_posicion = 0.8
 
+            renpy.pause(1.5)
             renpy.say("", mensaje_decision)
+
             renpy.show(personaje_img, at_list=[Position(xalign=nueva_posicion)], layer="master")
             renpy.pause(0.5)
+
+            personaje_anterior = personaje
 
     "{i}El último personaje, Ingrid, duda por un momento.{/i}"
 
@@ -9930,8 +9982,36 @@ label cap8_formacion_grupos_finales:
                 renpy.pause(0.5)
 
     "{i}Los grupos están formados. No hay vuelta atrás.{/i}"
+    jump mostrar_grupo_jugador
 
-    jump cap8_end
+label mostrar_grupo_jugador:
+
+    python:
+        posiciones_restantes = [centerleft, centerright, right]  # Tus transforms definidos
+        personaje_left = None
+
+        # Determinar si Bob o Erika están en el grupo del jugador
+        for posible_lider in ["bob", "erika"]:
+            if posible_lider in grupo_jugador:
+                personaje_left = posible_lider
+                break
+
+        # Ocultar todos por si ya estaban en pantalla
+        for p in grupo_jugador:
+            renpy.hide(f"{p} grupo", layer="master")
+
+        # Mostrar personaje principal en left
+        if personaje_left:
+            renpy.show(f"{personaje_left} grupo", at_list=[left], layer="master")
+
+        # Mostrar el resto en las posiciones restantes
+        otros = [p for p in grupo_jugador if p != personaje_left]
+        for idx, personaje in enumerate(otros):
+            if idx < len(posiciones_restantes):
+                transform_actual = posiciones_restantes[idx]
+                renpy.show(f"{personaje} grupo", at_list=[transform_actual], layer="master")
+
+    jump continuar
 
 label cap8_end:
         # Generar contenido para los pop-ups de relaciones
@@ -9959,12 +10039,17 @@ label cap8_end:
         # Ocultar los pop-ups con dissolve
         hide screen relaciones_popup with dissolve
         # hide screen decisiones_popup with dissolve
+        jump continuar
+
+label continuar:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                jump segment_2_end
+                #jump segment_2_end
+                jump chapter_9_start
             "VOLVER A VER EL RESÚMEN":
-                jump chapter_8_end
+                jump continuar
+                #jump chapter_8_end
 
 label segment_2_end:
     # prueba de enviar reporte
@@ -9987,3 +10072,1004 @@ return
 label chapter_9_start:
     "Aca comienza el segmento 3"
     $ persistent.cantidad_capitulos +=1
+    jump cap9_hallazgo_huerta
+
+label cap9_hallazgo_huerta:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    show screen combined_ui
+
+    $ actualizar_boton_imagen()
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}La vegetación se hace más densa a medida que avanzan. Las hojas crujen bajo las botas húmedas y las ramas crujen sobre sus cabezas.{/i}"
+    "{i}Las últimas lluvias han empapado el suelo y desplazado raíces viejas, dejando un aroma terroso en el aire.{/i}"
+
+    $ choice_position = "default"  # default alta superior
+    menu:
+        "Proponés separarse brevemente para cubrir más terreno.":
+            $ decision_busqueda = "separarse"
+            "Divididos en parejas, avanzan bordeando la maleza con cuidado. Cada rincón oculto se vuelve una promesa."
+
+        "Proponés buscar indicios de plantas comestibles, observando patrones de sombra y suelo.":
+            $ decision_busqueda = "planta_comestible"
+            "Con ojos atentos al suelo y la vegetación baja, buscás hojas que reconozcas. En un claro inesperado, algo te llama la atención."
+
+        "Te subís a un árbol para observar la zona desde la altura.":
+            $ decision_busqueda = "subir_arbol"
+            "Escalás con cuidado la corteza húmeda. Desde la copa distinguís un punto donde el follaje se abre: una silueta de platanales dorados en el centro."
+
+    "{i}Con diferentes trayectorias, pero con igual sorpresa, todos convergen en el mismo lugar: un claro amplio y fértil cubierto de árboles frutales y surcos cubiertos de vegetales silvestres.{/i}"
+
+    if "ingrid" in grupo_jugador:
+        show ingrid feliz at center
+        with Dissolve(0.5)
+
+        if ingrid > 2:
+            i "¡Esto parece un regalo... o un milagro. Si estás conmigo, todo parece posible."
+        elif ingrid < -2:
+            i "Hasta este lugar tiene mejor clima que vos últimamente. Pero sí, parece útil."
+        else:
+            i "Esto es lo mejor que vimos desde que llegamos. ¿Qué hacemos primero?"
+
+        hide ingrid with Dissolve(0.5)
+
+    elif "bob" in grupo_jugador:
+        show bob sorprendido at center
+        with Dissolve(0.5)
+        b "Nunca pensé que encontraríamos algo así. Es un milagro... o una trampa. Pero hay que moverse."
+        hide bob with Dissolve(0.5)
+
+    elif "erika" in grupo_jugador:
+        show erika seria at center
+        with Dissolve(0.5)
+        e "Este lugar fue trabajado. Alguien cultivó esto. No fue el viento."
+        hide erika with Dissolve(0.5)
+
+    "Mientras inspeccionan los márgenes, algunos del grupo encuentran piedras dispuestas en línea recta, maderas cortadas, herramientas oxidadas."
+    "Hay una pala sin mango, un barril inclinado contra un árbol, raíces que crecieron sobre antiguos surcos de cultivo."
+
+    "{i}No hay duda. Alguien vivió aquí hace tiempo. Plantó, cuidó... y lo abandonó.{/i}"
+
+    jump cap9_aparicion_jabali
+
+label cap9_aparicion_jabali:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    "{i}El grupo empieza a recolectar fruta con entusiasmo contenido. Algunos llenan mochilas, otros trepan ramas bajas para alcanzar los frutos más altos.{/i}"
+
+    if "charles" in grupo_jugador:
+        show charles alerta at center
+        with Dissolve(0.5)
+        c "Shhh… ¿Escucharon eso?"
+        hide charles with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika alerta at center
+        with Dissolve(0.5)
+        e "Silencio. Hay algo grande moviéndose entre los matorrales."
+        hide erika with Dissolve(0.5)
+    elif "bob" in grupo_jugador:
+        show bob alerta at center
+        with Dissolve(0.5)
+        b "Eso no es viento. ¡Cuidado!"
+        hide bob with Dissolve(0.5)
+
+    "{i}Un estruendo entre los arbustos. Ramas rotas. Una figura oscura emerge entre la sombra: un jabalí gigantesco, cubierto de barro, resoplando con furia.{/i}"
+    "{i}Embiste sin aviso. Una mochila sale volando. Todos corren en distintas direcciones entre gritos y frutas esparcidas por el suelo.{/i}"
+
+    $ actualizar_boton_imagen()
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Después de unos minutos de caos, logran reagruparse varios metros más allá, jadeando.{/i}"
+
+    if "ingrid" in grupo_jugador:
+        show ingrid alterada at center
+        with Dissolve(0.5)
+        i "No podemos dejar ese lugar así... ¿Viste lo que había ahí? Tenemos que encontrar la forma de volver."
+        hide ingrid with Dissolve(0.5)
+
+    $ choice_position = "default"  # default alta superior
+    menu:
+        "Proponés retroceder, reagruparse y armar un plan":
+            $ decision_inicial_jabali = "precaucion"
+            "La idea de volver sin pensar no convence a nadie. Deciden reagruparse, analizar el terreno... y pensar con estrategia."
+
+        "Proponés volver rápidamente a recuperar lo posible antes de que el animal regrese":
+            $ decision_inicial_jabali = "impulsivo"
+            "Algunos dudan, pero aceptan tu impulso. Avanzan... solo para ver al jabalí aún merodeando, rascando el suelo con sus colmillos."
+
+        "Proponés observar desde una distancia segura y estudiar el comportamiento del jabalí":
+            $ decision_inicial_jabali = "observacion"
+            "Desde un claro oculto tras ramas bajas, observan. El animal parece haberse apropiado del espacio como si fuera suyo."
+
+    "Sea cual sea el enfoque inicial, una conclusión se impone con urgencia: {i}si quieren esa comida, tendrán que sacar al jabalí de allí.{/i}"
+
+    jump cap9_discusion_planes
+
+label cap9_discusion_planes:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+    show screen combined_ui
+
+    "{i}Una vez alejados del claro, aún agitados por el susto, los miembros del grupo empiezan a discutir alternativas para recuperar el acceso al huerto.{/i}"
+    "El jabalí no parece dispuesto a ceder el terreno. Pero tampoco ustedes."
+
+    # Propuesta de plan conservador
+    if "laura" in grupo_jugador:
+        show laura pensativa at center
+        with Dissolve(0.5)
+        l "Podríamos colgar trapos con savia amarga o ceniza alrededor. Eso repele a muchos animales."
+        hide laura with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika pensativa at center
+        with Dissolve(0.5)
+        e "Podríamos improvisar una barrera de olores fuertes. Es poco confiable… pero quizás funcione."
+        hide erika with Dissolve(0.5)
+    elif "bob" in grupo_jugador:
+        show bob serio at center
+        with Dissolve(0.5)
+        b "Si marcamos el área con cenizas y orina, puede que el animal lo evite un tiempo. Puede funcionar."
+        hide bob with Dissolve(0.5)
+
+    # Propuesta de plan más complejo
+    if "charles" in grupo_jugador:
+        show charles serio at center
+        with Dissolve(0.5)
+        c "Podemos atraerlo con fruta hacia otro punto y bloquearle la vuelta con troncos inclinados. Pero va a ser riesgoso."
+        hide charles with Dissolve(0.5)
+    elif "bob" in grupo_jugador:
+        show bob decidido at center
+        with Dissolve(0.5)
+        b "Un desvío con recompensa. Si lo guiamos bien y trabajamos rápido, podríamos encerrarlo sin lastimarlo."
+        hide bob with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika concentrada at center
+        with Dissolve(0.5)
+        e "Diseñar un corredor natural con obstáculos. Suena ambicioso, pero si lo hacemos bien, sería definitivo."
+        hide erika with Dissolve(0.5)
+
+    "{i}Pero antes de decidir una estrategia concreta, surge la gran pregunta: ¿Deberían avisarle al otro grupo?{/i}"
+
+    $ choice_position = "default"  # default alta superior
+    menu:
+        "Proponés compartir el hallazgo con el otro grupo":
+            $ compartir_con_otro_grupo = True
+            "Murmullos. Algunas miradas cruzadas. Pero tu tono firme disipa la duda. Nadie quiere una guerra por frutas."
+
+        "Preferís resolverlo sin avisarles nada":
+            $ compartir_con_otro_grupo = False
+            "{i}El grupo te escucha en silencio. Es egoísta, quizás. Pero también práctico. Al menos por ahora... este problema es de ustedes.{/i}"
+
+    # Reacción de personajes al dilema ético
+    if "marina" in grupo_jugador:
+        show marina preocupada at center
+        with Dissolve(0.5)
+        if compartir_con_otro_grupo:
+            m "Tal vez esto nos ayude a recomponer un poco... No podemos vivir divididos para siempre, ¿no?"
+        else:
+            m "¿Y si lo descubren? No quiero que esto estalle más de lo que ya está."
+        hide marina with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika neutral at center
+        with Dissolve(0.5)
+        if compartir_con_otro_grupo:
+            e "Si los incluimos, tendremos que negociar cada paso. Pero quizás sea lo más inteligente."
+        else:
+            e "Mejor resolverlo primero. Luego vemos cómo compartir los frutos, no el lío."
+        hide erika with Dissolve(0.5)
+    elif "bob" in grupo_jugador:
+        show bob serio at center
+        with Dissolve(0.5)
+        if compartir_con_otro_grupo:
+            b "Tarde o temprano lo iban a saber. Mejor que sea ahora, con la voz tranquila."
+        else:
+            b "Bien. Por una vez, tenemos algo antes que ellos. Aprovechémoslo."
+        hide bob with Dissolve(0.5)
+
+    "Decisión tomada. Es hora de elegir cómo resolver el problema de los jabalíes."
+
+    jump cap9_eleccion_estrategia
+
+label cap9_eleccion_estrategia:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+    show screen combined_ui
+
+    "{i}Con el grupo atento, se presentan dos planes concretos para lidiar con el jabalí... o los jabalíes.{/i}"
+
+    "Plan A: preparar una cerca con troncos inclinados, crear un corredor con frutas y redirigir al animal a un sector alejado del huerto. Es ambicioso y peligroso, pero puede funcionar a largo plazo."
+
+    "Plan B: improvisar un perímetro con trapos, cenizas, plantas amargas y marcas olfativas que disuadan al animal. Más seguro, pero poco confiable con el tiempo."
+
+    if jugador_es_lider:
+
+        if "erika" in grupo_jugador:
+            show erika seria at center
+            with Dissolve(0.5)
+            e "Hay que decidir ya. Vos tenés la última palabra."
+            hide erika with Dissolve(0.5)
+        elif "bob" in grupo_jugador:
+            show bob serio at center
+            with Dissolve(0.5)
+            b "La gente te va a seguir, como sea. Así que asegurate de elegir bien."
+            hide bob with Dissolve(0.5)
+
+        $ choice_position = "default"
+        menu:
+            "Elegís el plan de desvío y bloqueo con trampa natural":
+                $ plan_elegido = "bloqueo"
+
+                "{i}Asentís con convicción. El grupo empieza a discutir cómo guiar al jabalí. Será riesgoso... pero puede funcionar.{/i}"
+
+            "Preferís la opción más conservadora: trapos y ceniza como repelente":
+                $ plan_elegido = "repelente"
+
+                if "erika" in grupo_jugador:
+                    show erika critica at center
+                    with Dissolve(0.5)
+                    e "Eso no va a durar. Ya lo intenté en el campo... y volvió con más hambre."
+                    hide erika with Dissolve(0.5)
+                elif "bob" in grupo_jugador:
+                    show bob molesto at center
+                    with Dissolve(0.5)
+                    b "¿En serio? ¿Esperás que un trapo asuste a una bola de músculo y colmillos?"
+                    hide bob with Dissolve(0.5)
+
+                "{i}A pesar de tu decisión, los demás insisten y terminan inclinándose por el plan de desvío. Tu liderazgo, por ahora, es puesto en duda sutilmente.{/i}"
+                $ plan_elegido = "bloqueo"
+
+    else:  # jugador no es líder
+
+        if "erika" in grupo_jugador:
+            show erika decidida at center
+            with Dissolve(0.5)
+            e "Yo voto por atraerlo. Si nos organizamos, no hay riesgo mayor."
+            hide erika with Dissolve(0.5)
+
+        if "bob" in grupo_jugador:
+            show bob crítico at center
+            with Dissolve(0.5)
+            b "Prefiero no ponerme a jugar con bestias. Con los trapos alcanza para ganar tiempo."
+            hide bob with Dissolve(0.5)
+
+        "{i}Los líderes del grupo no se ponen de acuerdo. Te miran. Tu voto será decisivo.{/i}"
+
+        $ choice_position = "default"
+        menu:
+            "Apoyás el plan más ambicioso de desvío y bloqueo":
+                $ voto_jugador = "bloqueo"
+                "{i}Tu voz inclina la balanza. Inmediatamente se organizan para ejecutar el desvío. Empieza la planificación.{/i}"
+                $ plan_elegido = "bloqueo"
+
+            "Te inclinás por la estrategia más conservadora con trapos y cenizas":
+                $ voto_jugador = "repelente"
+
+                if "erika" in grupo_jugador:
+                    show erika fastidiada at center
+                    with Dissolve(0.5)
+                    e "No puedo creer que tengan tanto miedo a pensar en grande."
+                    hide erika with Dissolve(0.5)
+
+                if "bob" in grupo_jugador:
+                    show bob satisfecho at center
+                    with Dissolve(0.5)
+                    b "Pensás en el grupo. Me gusta eso."
+                    hide bob with Dissolve(0.5)
+
+                "{i}Pero a medida que el grupo evalúa la viabilidad, las dudas aparecen... y terminan optando por el plan de desvío y bloqueo, que resulta más consistente.{/i}"
+                $ plan_elegido = "bloqueo"
+
+    "El plan está definido. Pero requiere precisión. Separarse. Actuar rápido. Cooperar."
+
+    jump cap9_formacion_equipos
+
+label cap9_formacion_equipos:
+
+    scene bg formacion_grupos with fade
+    show screen combined_ui
+
+    "Cada grupo requiere concentración total y trabajo coordinado. Las tareas se reparten, pero vos tenés la posibilidad de elegir en cuál querés estar."
+
+    $ choice_position = "default"
+    menu:
+        "Distraer al jabalí con señuelos y ruido (riesgo alto)":
+            $ grupo_jugador_elegido = 1
+            $ reporte_toma_iniciativa_jabali = True
+            "Elegís el riesgo. Te toca mover al jabalí y sobrevivir al intento."
+
+        "Recolectar fruta y trazar el recorrido del desvío (riesgo medio)":
+            $ grupo_jugador_elegido = 2
+            $ reporte_equilibrio_operativo = True
+            "Elegís el camino intermedio. Coordinación y agilidad serán clave."
+
+        "Construir la barrera con troncos y ramas (esfuerzo físico, bajo riesgo)":
+            $ grupo_jugador_elegido = 3
+            $ reporte_evita_riesgo_directo = True
+            "Elegís el trabajo físico. Menos exposición, pero más carga."
+
+    # Liderazgos asignados a los otros dos grupos
+    if grupo_jugador_elegido != 1:
+        show erika decidida at center
+        with Dissolve(0.5)
+        e "Yo me encargo de distraer a esa bestia. No necesito aplausos, necesito que funcione."
+        hide erika with Dissolve(0.5)
+
+    if grupo_jugador_elegido != 2:
+        show bob serio at center
+        with Dissolve(0.5)
+        b "Yo trazo el camino con la fruta. Si me siguen el ritmo, mejor. Si no... igual lo hago."
+        hide bob with Dissolve(0.5)
+
+    # Tomás se une automáticamente, con reacción según relación
+    if tomas > 1:
+        show tomas neutral at center
+        with Dissolve(0.5)
+        t "Sabía que ibas a elegir ese grupo. Contá conmigo, me sirve trabajar con alguien en quien confío."
+    elif tomas < -1:
+        show tomas molesto at center
+        with Dissolve(0.5)
+        t "No sé por qué te sigo... Pero no me quedo mirando desde afuera. Ya me equivoqué antes."
+    else:
+        show tomas neutral at center
+        with Dissolve(0.5)
+        t "Bueno... parece que el destino insiste en ponernos en el mismo equipo. Hagámoslo funcionar."
+    hide tomas with Dissolve(0.5)
+
+    $ grupo_jugador = []
+    $ grupo_jugador.append("tomas")
+
+    # Elección entre Marina y Charles como tercer miembro del grupo
+    $ choice_position = "default"
+    menu:
+        "Pedirle a Marina que se sume":
+            if marina >= 1:
+                show marina feliz at center
+                with Dissolve(0.5)
+                m "¡Claro! Vos sabés escuchar y eso siempre mejora el trabajo en equipo."
+            elif marina <= -1:
+                show marina molesta at center
+                with Dissolve(0.5)
+                m "¿Yo con vos? Genial... justo lo que necesitaba para complicarme el día."
+            else:
+                show marina neutral at center
+                with Dissolve(0.5)
+                m "Está bien. Si Tomás va, no pienso quedarme atrás. Solo no me des órdenes absurdas."
+            $ miembro_extra = "marina"
+            $ grupo_jugador.append("marina")
+
+        "Pedirle a Charles que se sume":
+            if charles >= 1:
+                show charles confiado at center
+                with Dissolve(0.5)
+                c "Eso esperaba. Entre los dos podemos mantener esto en orden... o al menos divertido."
+            elif charles <= -1:
+                show charles sarcástico at center
+                with Dissolve(0.5)
+                c "Perfecto. Un plan suicida con vos al mando. ¿Qué puede salir mal?"
+            else:
+                show charles serio at center
+                with Dissolve(0.5)
+                c "Bah... da igual. Al menos no estás respirándome encima todo el tiempo."
+            $ miembro_extra = "charles"
+            $ grupo_jugador.append("charles")
+
+    hide marina
+    hide charles
+    with Dissolve(0.5)
+
+    "{i}El grupo está formado. Tres personas. Una tarea. Y un animal enorme que no piensa ceder terreno.{/i}"
+
+    # Redirigir a la microescena correspondiente con condicional clásico
+    if grupo_jugador_elegido == 1:
+        jump cap9_mision_equipo_1
+    elif grupo_jugador_elegido == 2:
+        jump cap9_mision_equipo_2
+    elif grupo_jugador_elegido == 3:
+        jump cap9_mision_equipo_3
+
+
+label cap9_mision_equipo_1:
+
+    scene bg señuelo_senda with fade
+    show screen combined_ui
+
+    "Te alejás del claro con Tomás y [miembro_extra], cargando piedras, botellas y una bolsa con restos de fruta pasada."
+    "{i}El jabalí no está a la vista… pero sabés que acecha. Los tres avanzan entre maleza, marcando árboles con olor y dejando rastro.{/i}"
+
+    show tomas alerta at center
+    with Dissolve(0.5)
+    t "No hagamos ruido por ahora. Dejalo venir primero... cuando se acerque, lo mareamos."
+    hide tomas with Dissolve(0.5)
+
+    $ choice_position = "default"
+    menu:
+        "Proponés lanzar los señuelos ahora, desde los dos lados":
+            $ decision_señuelo = "anticipada"
+            $ reporte_toma_iniciativa_jabali = True
+            "{i}Coordinás con gestos y lanzás el primer objeto. El ruido rebota entre los árboles.{/i}"
+
+        "Esperás a ver una señal visual del animal antes de actuar":
+            $ decision_señuelo = "espera"
+            $ reporte_decision_analitica = True
+            "{i}Revisás el viento, el silencio… y ahí está: una sombra entre los arbustos. Ahora sí.{/i}"
+
+    if miembro_extra == "marina":
+        if marina > 1:
+            show marina sonriente at center
+            with Dissolve(0.5)
+            m "Bien pensado. Me gusta que pensemos como equipo."
+        elif marina < -1:
+            show marina molesta at center
+            with Dissolve(0.5)
+            m "¿Eso era el plan? Avisame cuando tenga sentido lo que hacés."
+        else:
+            show marina seria at center
+            with Dissolve(0.5)
+            m "Te sigo... Pero si se pone feo, me subo a un árbol."
+        hide marina with Dissolve(0.5)
+
+    elif miembro_extra == "charles":
+        if charles > 1:
+            show charles confiado at center
+            with Dissolve(0.5)
+            c "Te la jugaste, y salió bien. Ese bicho se va a marear en serio."
+        elif charles < -1:
+            show charles sarcástico at center
+            with Dissolve(0.5)
+            c "Wow, qué táctica. ¿La leíste en un manual de qué-no-hacer?"
+        else:
+            show charles serio at center
+            with Dissolve(0.5)
+            c "Mmm... mientras me mantenga lejos del centro del problema, me sirve."
+        hide charles with Dissolve(0.5)
+
+    "{i}El jabalí aparece. Cae en la trampa sonora y avanza rápido… pero no hacia ustedes. Está siguiendo el recorrido que trazaron.{/i}"
+
+    $ actualizar_boton_imagen()
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "Corren con sigilo por una zanja lateral. Desde ahí, ven al animal cruzar el sendero marcado hacia el punto de bloqueo."
+
+    "{i}No hay tiempo para celebrar: la emboscada tiene que cerrarse desde todos los frentes… y ustedes son la chispa inicial.{/i}"
+
+    jump cap9_union_grupos
+
+label cap9_mision_equipo_2:
+
+    scene bg huerta_recoleccion with fade
+    show screen combined_ui
+
+    "Caminan bordeando el claro con cestos y restos de cañas. Tu tarea: recolectar fruta suficiente y ubicarla formando un corredor visual y olfativo."
+
+    "Tomás va adelante, revisando que no queden ramas secas donde el jabalí pueda desviarse."
+
+    show tomas concentrado at center
+    with Dissolve(0.5)
+    t "Si seguimos esta línea de piedras naturales, debería guiarse solo. Pero hay que marcarlo bien. Si se pierde, vuelve atrás."
+    hide tomas with Dissolve(0.5)
+
+    "Cerca de la zona media, ves un problema: el terreno es más escarpado de lo que parecía. Las frutas pueden rodar o quedar en sombra."
+
+    $ choice_position = "default"
+    menu:
+        "Proponés desviar un poco el recorrido para ganar firmeza":
+            $ decision_recorrido_jabali = "adapta"
+            $ reporte_toma_iniciativa_ambiental = True
+            "{i}Ajustás la ruta 3 metros hacia el este, donde hay más luz y raíz firme. No es lo previsto… pero puede ser mejor.{/i}"
+
+        "Decidís mantener la línea, siguiendo lo acordado":
+            $ decision_recorrido_jabali = "mantiene_plan"
+            $ reporte_prioriza_consenso = True
+            "{i}Preferís no cambiar lo pactado. Aunque el terreno no sea ideal, confías en que el resto lo sostendrá.{/i}"
+
+    if miembro_extra == "marina":
+        if marina > 1:
+            show marina sonriente at center
+            with Dissolve(0.5)
+            m "Esa es la actitud. Resolver, no quejarse. ¡Vamos bien!"
+        elif marina < -1:
+            show marina molesta at center
+            with Dissolve(0.5)
+            m "¿Todo te parece dudoso o es que te gusta complicar las cosas?"
+        else:
+            show marina neutral at center
+            with Dissolve(0.5)
+            m "Mientras no perdamos tiempo... que el camino se entienda."
+        hide marina with Dissolve(0.5)
+
+    elif miembro_extra == "charles":
+        if charles > 1:
+            show charles divertido at center
+            with Dissolve(0.5)
+            c "Si esto funciona, voy a empezar a hacerte más caso. Solo _un poco_ más."
+        elif charles < -1:
+            show charles sarcástico at center
+            with Dissolve(0.5)
+            c "Hermoso. Un plan improvisado en medio de fruta podrida. Brillante."
+        else:
+            show charles serio at center
+            with Dissolve(0.5)
+            c "Ok. Lo sigo, pero no esperes entusiasmo de mi parte."
+        hide charles with Dissolve(0.5)
+
+    $ actualizar_boton_imagen()
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Con los últimos mangos colocados en curva, el camino queda listo. Si el animal lo sigue, llegará directo a la trampa.{/i}"
+
+    jump cap9_union_grupos
+
+label cap9_mision_equipo_3:
+
+    scene bg construccion_barrera with fade
+    show screen combined_ui
+
+    "Junto a Tomás y [miembro_extra] arrastrás ramas gruesas, organizándolas en V invertida para formar un pasillo con troncos inclinados."
+
+    "{i}La idea es que el jabalí entre... pero no pueda salir. El diseño depende de ángulos, espacio justo y algo de suerte.{/i}"
+
+    show tomas cansado at center
+    with Dissolve(0.5)
+    t "Si clavamos esta rama acá, lo forzamos a tomar el camino hacia la curva. Pero no va a quedar estable... va a vibrar con el primer golpe."
+    hide tomas with Dissolve(0.5)
+
+    $ choice_position = "default"
+    menu:
+        "Proponés reforzar la base con piedras y maleza antes de clavarla":
+            $ decision_estructura_segura = "refuerza"
+            $ reporte_soluciona_conflicto_tecnico = True
+            "{i}Recogés hojas secas, raíces gruesas y apoyás la rama con tres piedras laterales. Tarda más, pero queda firme.{/i}"
+
+        "Decidís seguir el plan original y confiar en que resistirá":
+            $ decision_estructura_segura = "apresura"
+            $ reporte_prioriza_velocidad = True
+            "{i}Ajustan la rama con fuerza entre dos puntos. No es elegante… pero queda lista a tiempo.{/i}"
+
+    if miembro_extra == "marina":
+        if marina > 1:
+            show marina sonriente at center
+            with Dissolve(0.5)
+            m "Esto te sale bien. Te vi dudando antes, pero sos más ingenioso de lo que pensás."
+        elif marina < -1:
+            show marina molesta at center
+            with Dissolve(0.5)
+            m "Qué raro… ¿te parece inteligente apurar estructuras cuando hay un bicho suelto?"
+        else:
+            show marina neutral at center
+            with Dissolve(0.5)
+            m "Tendríamos que probarla antes de que sea tarde."
+        hide marina with Dissolve(0.5)
+
+    elif miembro_extra == "charles":
+        if charles > 1:
+            show charles divertido at center
+            with Dissolve(0.5)
+            c "Esto tiene estilo... rústico, pero estilo. Casi que me dan ganas de quedarme."
+        elif charles < -1:
+            show charles molesto at center
+            with Dissolve(0.5)
+            c "Sí, genial. Otro curso express de arquitectura selvática. Todo bajo control, ¿no?"
+        else:
+            show charles neutral at center
+            with Dissolve(0.5)
+            c "Bueno, mientras aguante el primer empujón, estamos bien."
+        hide charles with Dissolve(0.5)
+
+    $ actualizar_boton_imagen()
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}La barrera está lista. Un pasillo de ramas tensas con el final cerrado. Si el animal entra, no saldrá por donde vino.{/i}"
+
+    jump cap9_union_grupos
+
+label cap9_union_grupos:
+
+    scene bg plano_de_trampa with fade
+    show screen combined_ui
+
+    "Los tres grupos convergen en torno a la trampa. El jabalí ha entrado en el pasillo... pero algo está mal."
+
+    "{i}Uno de los lados de la barrera no está listo. El animal empieza a retroceder. Si lo hace, puede escapar por el claro, o peor: atacarlos desde atrás.{/i}"
+
+    show tomas tenso at center with Dissolve(0.5)
+    t "¡Falta el cierre lateral! ¡No está bloqueado!"
+    hide tomas with Dissolve(0.5)
+
+    # Decisión crítica del jugador
+    $ choice_position = "default"
+    menu:
+        "Tomar el liderazgo y organizar una solución rápida":
+            jump cap9_reaccion_liderazgo
+
+        "Dejar que otro tome el control (Bob reacciona)":
+            jump cap9_reaccion_pasiva
+
+label elegir_tono(personaje):
+    "¿Cómo le hablás a [personaje]?"
+    menu:
+        "Con tono gentil y persuasivo":
+            $ tono = "gentil"
+        "Con tono directo y firme":
+            $ tono = "directa"
+    return
+
+label cap9_reaccion_liderazgo:
+
+    $ exito_total = 0
+    $ reactividad_directa = ["tomas", "ingrid"]
+    $ reactividad_gentil = ["marina", "laura"]
+    $ obstinado = "charles"
+
+    ########## PRIMERA INSTRUCCIÓN ##########
+
+    "¿A quién le das la primera orden?"
+
+    menu:
+        "Tomas":
+            $ elegido = "tomas"
+        "Marina":
+            $ elegido = "marina"
+
+    "¿Cómo le hablás a [elegido]?"
+
+    menu:
+        "Con tono gentil y persuasivo":
+            $ tono = "gentil"
+        "Con tono directo y firme":
+            $ tono = "directa"
+
+    $ rel = globals()[elegido]
+    $ impacto = 0
+
+    if elegido == obstinado:
+        $ impacto = -1
+    elif tono == "directa" and elegido in reactividad_directa:
+        $ impacto += 1
+    elif tono == "gentil" and elegido in reactividad_gentil:
+        $ impacto += 1
+    elif tono == "directa" and elegido in reactividad_gentil:
+        $ impacto -= 1
+    elif tono == "gentil" and elegido in reactividad_directa:
+        $ impacto -= 1
+
+    if rel > 0:
+        $ impacto += 1
+    elif rel < 0:
+        $ impacto -= 1
+
+    $ exito_total += impacto
+
+    if elegido == "tomas":
+        if impacto >= 2:
+            t "Hecho. No hace falta decirlo dos veces."
+        elif impacto >= 0:
+            t "Sí... lo hago. Solo decime si ves algo raro."
+        else:
+            t "¿Ahora te acordás de mí? Bueno... está bien. Pero no me pidas sonrisas."
+
+    elif elegido == "marina":
+        if impacto >= 2:
+            m "Gracias por pedírmelo así. Ahora sí: a trabajar."
+        elif impacto >= 0:
+            m "Lo hago, pero después hablamos de cómo das órdenes, ¿ok?"
+        else:
+            m "¿Y vos quién te creés para ordenarme así? Lo hago, pero no por vos."
+
+
+    ########## SEGUNDA INSTRUCCIÓN ##########
+
+    "¿A quién le das la segunda orden?"
+
+    menu:
+        "Ingrid":
+            $ elegido = "ingrid"
+        "Laura":
+            $ elegido = "laura"
+
+    "¿Cómo le hablás a [elegido]?"
+
+    menu:
+        "Con tono gentil y persuasivo":
+            $ tono = "gentil"
+        "Con tono directo y firme":
+            $ tono = "directa"
+
+    $ rel = globals()[elegido]
+    $ impacto = 0
+
+    if elegido == obstinado:
+        $ impacto = -1
+    elif tono == "directa" and elegido in reactividad_directa:
+        $ impacto += 1
+    elif tono == "gentil" and elegido in reactividad_gentil:
+        $ impacto += 1
+    elif tono == "directa" and elegido in reactividad_gentil:
+        $ impacto -= 1
+    elif tono == "gentil" and elegido in reactividad_directa:
+        $ impacto -= 1
+
+    if rel > 0:
+        $ impacto += 1
+    elif rel < 0:
+        $ impacto -= 1
+
+    $ exito_total += impacto
+
+    if elegido == "ingrid":
+        if impacto >= 2:
+            i "¡Ya voy! Me encanta que confíes en mí para esto."
+        elif impacto >= 0:
+            i "No hace falta tantas vueltas, lo hago. Pero apurémonos."
+        else:
+            i "¿Me das una orden justo ahora? Qué timing…"
+
+    elif elegido == "laura":
+        if impacto >= 2:
+            l "Así sí. Sabés pedir ayuda sin sonar como un sargento."
+        elif impacto >= 0:
+            l "Voy... pero no me hables así de nuevo, ¿sí?"
+        else:
+            l "Tu tono ayuda tan poco como esa rama mal clavada. Pero lo hago."
+
+
+    ########## TERCERA INSTRUCCIÓN ##########
+
+    "¿A quién le das la tercera orden?"
+
+    menu:
+        "Bob":
+            $ elegido = "bob"
+        "Charles":
+            $ elegido = "charles"
+
+    "¿Cómo le hablás a [elegido]?"
+
+    menu:
+        "Con tono gentil y persuasivo":
+            $ tono = "gentil"
+        "Con tono directo y firme":
+            $ tono = "directa"
+
+    $ rel = globals()[elegido]
+    $ impacto = 0
+
+    if elegido == obstinado:
+        $ impacto = -1
+    elif tono == "directa" and elegido in reactividad_directa:
+        $ impacto += 1
+    elif tono == "gentil" and elegido in reactividad_gentil:
+        $ impacto += 1
+    elif tono == "directa" and elegido in reactividad_gentil:
+        $ impacto -= 1
+    elif tono == "gentil" and elegido in reactividad_directa:
+        $ impacto -= 1
+
+    if rel > 0:
+        $ impacto += 1
+    elif rel < 0:
+        $ impacto -= 1
+
+    $ exito_total += impacto
+
+    if elegido == "bob":
+        if impacto >= 2:
+            b "Buena cabeza. Me gusta verte tomar control con claridad."
+        elif impacto >= 0:
+            b "Bueno, si no hay otra, lo hago. Pero apurate la próxima."
+        else:
+            b "Estás improvisando. Pero qué raro… igual lo hago."
+
+    elif elegido == "charles":
+        c "Ah, el show del mando. Qué emocionante. Voy a hacerlo... si no encuentro una excusa mejor."
+
+
+    ########## EVALUACIÓN FINAL ##########
+
+    if exito_total >= 4:
+        $ reporte_resuelve_crisis_con_liderazgo = "excelente"
+        show bob orgulloso at center with Dissolve(0.5)
+        b "No lo digo mucho… pero lo hiciste bien."
+        hide bob with Dissolve(0.5)
+
+        show erika leve_smile at center with Dissolve(0.5)
+        e "Eso fue precisión bajo presión. Bien jugado."
+        hide erika with Dissolve(0.5)
+
+    elif exito_total >= -1:
+        $ reporte_resuelve_crisis_con_liderazgo = "resuelto"
+        "{i}Funcionó. Justo a tiempo. Hay respiraciones pesadas, pero también miradas de alivio sincero.{/i}"
+
+    else:
+        $ reporte_resuelve_crisis_con_liderazgo = "marginal"
+        "{i}El jabalí quedó atrapado por pura casualidad. Todos lo saben. Nadie dice nada.{/i}"
+
+    jump cap9_resolucion_final_jabali
+
+label cap9_resolucion_final_jabali:
+
+    scene bg plano_de_trampa with fade
+    show screen combined_ui
+
+    "{i}El jabalí respira agitado, encerrado entre ramas, fruta pisoteada y tierra húmeda. El grupo observa en silencio, entre asombro y cansancio.{/i}"
+
+    show tomas aliviado at center with Dissolve(0.5)
+    t "Lo logramos. No puedo creerlo... pero lo logramos."
+    hide tomas with Dissolve(0.5)
+
+    show erika neutra at center with Dissolve(0.5)
+    e "Ahora hay que decidir qué hacer con esto. Pero primero... que alguien diga que estamos vivos."
+    hide erika with Dissolve(0.5)
+
+    show marina emocionada at center with Dissolve(0.5)
+    m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo posta!"
+    hide marina with Dissolve(0.5)
+
+    "{i}Por ahora, el animal queda bajo vigilancia. Pero el grupo siente que algo cambió: si lograron eso juntos, quizás haya esperanza más allá del miedo.{/i}"
+
+    jump cap9_recolecta_alimentos
+
+label cap9_recolecta_alimentos:
+
+    scene bg huerta_exterior with fade
+    show screen combined_ui
+
+    "Mientras algunos vigilan al jabalí desde la distancia, otros comienzan a llenar canastos con frutas y verduras recuperadas del huerto."
+
+    "Pero pronto, las miradas empiezan a pesar más que los tomates."
+
+    show bob serio at left
+    show marina molesta at right
+    with Dissolve(0.5)
+
+    b "Esto no se reparte solo. ¿Vamos a contar por cabeza o por mérito?"
+    m "¿Otra vez con eso? No quiero pelear por un boniato mugriento."
+
+    hide bob
+    hide marina
+    with Dissolve(0.5)
+
+    "{i}Erika respira hondo. Propone una solución clara: separar la recolección en dos montones proporcionales a la cantidad de integrantes de cada grupo.{/i}"
+
+    show erika lider at center with Dissolve(0.5)
+    e "Si somos más, nos toca más. Si somos menos, cuidamos mejor lo que tenemos. Justo es justo."
+    hide erika with Dissolve(0.5)
+
+    "{i}La tensión baja, aunque las miradas no se suavizan del todo. Pero el acuerdo se cumple.{/i}"
+
+    jump cap9_encuentro_caja
+
+label cap9_encuentro_caja:
+
+    scene bg huerta_exterior sunset with fade
+    show screen combined_ui
+
+    "El cielo ya se tiñe de naranja y violeta. Los insectos cantan. El esfuerzo del día se siente en la espalda, pero también en el pecho."
+
+    "{i}Se dividieron los alimentos. Se contuvo al jabalí. Y nadie resultó herido… al menos de gravedad.{/i}"
+
+    show erika neutral at left
+    show bob cansado at right
+    with Dissolve(0.5)
+
+    e "Que cada uno cargue algo. Si no nos comemos estos tubérculos hoy, van directo al abono."
+
+    b "Yo quiero verlos chisporrotear sobre el fuego. ¿Quién corta primero?"
+
+    hide erika
+    hide bob
+    with Dissolve(0.5)
+
+    "Mientras el otro grupo se despide y toma rumbo hacia su refugio, ustedes acomodan los bultos y repasan los momentos del día con sonrisas desarmadas."
+
+    "{i}Pero justo cuando te agachás para levantar una mochila húmeda... sentís un golpe seco contra la suela. Algo enterrado.{/i}"
+
+    $ choice_position = "default"
+    menu:
+        "Patear el borde del objeto y revisar con disimulo":
+            $ reporte_descubre_objeto = True
+            "{i}Removés hojas, raíces y algo de barro. Es una caja metálica, rectangular, carcomida por óxido y agua.{/i}"
+
+        "Ignorarlo, estás agotado y querés irte ya":
+            $ reporte_ignora_curiosidad = True
+            "{i}Te obligás a no mirar. El cansancio pesa más que la curiosidad. Quizás alguien más lo vea otro día.{/i}"
+            jump cap9_cierre_dia
+
+    "Llevan la caja hasta el refugio. Es pesada. Vieja. Y está cerrada."
+
+    scene bg refugio_interior with fade
+    stop music fadeout 1.5
+    play music "sfx_campamento_noche.ogg"
+
+    "{i}Ya es de noche. Las verduras chispean en la sartén de lata. El fuego calienta pies y ánimo. Y entre los tres rodean la caja como si fuera un tótem perdido.{/i}"
+
+    "Tomás fuerza una bisagra con la hoja del cuchillo. Tarda. Cruje. Pero finalmente… se abre."
+
+    ### Etapa 1: Dibujo de la cueva
+    "{i}En la parte superior, protegida por tela seca, hay una hoja con un dibujo a tinta: una cueva frente al mar, vista desde arriba.{/i}"
+
+    show tomas sorprendido at center
+    with Dissolve(0.5)
+    t "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
+
+    menu:
+        "Parece hecha por alguien que conocía bien la zona.":
+            pass
+        "¿Y si esto no es un dibujo? ¿Y si es un mapa?":
+            pass
+    hide tomas with Dissolve(0.5)
+
+    ### Etapa 2: Notas con símbolos
+    "{i}Debajo, una libreta pequeña, escrita a mano, con símbolos raros y coordenadas imprecisas. Marcas como 'línea rota', 'abertura oculta', 'marea alta'.{/i}"
+
+    if "marina" in grupo_jugador:
+        show marina intrigada at center with Dissolve(0.5)
+        m "¿Estos símbolos… no son los mismos que vimos tallados en el claro del sur?"
+        hide marina with Dissolve(0.5)
+    elif "charles" in grupo_jugador:
+        show charles curioso at center with Dissolve(0.5)
+        c "Mmm. Me encantan los mapas que no dicen nada hasta que alguien desaparece por seguirlos."
+        hide charles with Dissolve(0.5)
+
+    menu:
+        "Quizás esté describiendo cómo llegar a esa cueva en secreto.":
+            pass
+        "Podría ser solo el delirio de alguien que se perdió.":
+            pass
+
+    ### Etapa 3: Yodo + venda
+    "{i}Al costado, enrollada con cinta: una venda usada y un frasco cerrado de yodo. Hay barro entre las gasas, como si alguien lo hubiera enterrado de apuro.{/i}"
+
+    if "ingrid" in grupo_jugador:
+        show ingrid seria at center with Dissolve(0.5)
+        i "Esto se dejó acá como último recurso… o como advertencia."
+        hide ingrid with Dissolve(0.5)
+    elif "laura" in grupo_jugador:
+        show laura pensativa at center with Dissolve(0.5)
+        l "Tal vez alguien se lastimó de verdad. Y no quería que lo siguieran."
+        hide laura with Dissolve(0.5)
+
+    menu:
+        "Esto no es solo un hallazgo. Es una historia enterrada.":
+            pass
+        "Quizás todavía queda alguien ahí afuera..." :
+            pass
+
+    ### Etapa 4: Trozo de diario – joyas robadas
+    "{i}Y al fondo, arrugado pero visible: un recorte de diario plastificado. La noticia: 'Millonario robo de joyas. Misterio y desconcierto sobre su paradero.'{/i}"
+
+    show tomas asombrado at center with Dissolve(0.5)
+    t "¿Estás diciendo que… lo que sea que hay ahí… es real?"
+    hide tomas with Dissolve(0.5)
+
+    menu:
+        "No lo sé. Pero alguien lo creyó suficiente como para esconder esto.":
+            pass
+        "¿Y si seguimos las pistas mañana? Podríamos ser nosotros los que lo encuentren.":
+            pass
+
+    "{i}La caja queda abierta sobre una manta improvisada. Y vos, aunque el cuerpo pide dormir… no podés dejar de pensar en el dibujo, el símbolo, el mar oscuro.{/i}"
+
+    "{i}Cuando al fin cerrás los ojos, soñás con cúpulas cubiertas de lianas, pasadizos húmedos, joyas perdidas… y jabalíes que custodian secretos en la selva.{/i}"
+
+    jump cap10_inicio
+
+
+label cap10_inicio:
+    "hasta aca"
