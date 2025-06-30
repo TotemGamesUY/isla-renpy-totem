@@ -2153,8 +2153,8 @@ label final:
     $ choice_position = "default" # default alta superior
     menu:
         "CONTINUAR":
-            jump chapter_3_start
-            #jump final_cap3
+            #jump chapter_3_start
+            jump final_cap3
         "VOLVER A VER EL RESÚMEN":
             jump final
     
@@ -2619,7 +2619,7 @@ label setup_hut:
     scene bg jungle hut at truecenter
     with Dissolve(.5)
 
-    $ refugio = "cabaña"
+    $ refugio = "cabana"
 
     "Tú y el grupo establecen refugio en la cabaña. Necesita algunas reparaciones, pero servirá por ahora."
 
@@ -2681,7 +2681,7 @@ label chapter_4_start:
     $ capitulo_actual = 3
     $ persistent.cantidad_capitulos +=1
 
-    if refugio == "cabaña":
+    if refugio == "cabana":
         jump refugio_cabaña
     if refugio == "cueva":
         jump refugio_cueva
@@ -3565,7 +3565,7 @@ label sendero_fruta:
 
 
 label volver_campamento:
-    if refugio == "cabaña":
+    if refugio == "cabana":
         show bg jungle hut at truecenter
         with Dissolve(.5)
     if refugio == "cueva":
@@ -4025,8 +4025,8 @@ label chapter_4_end:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                jump chapter_5_start
-                #jump segment_1_end
+                #jump chapter_5_start
+                jump segment_1_end
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_4_end
     
@@ -4062,7 +4062,7 @@ label ingrid_despierta:
     # Mostrar imagen del refugio elegido
     if refugio == "cueva":
         scene bg inside cave
-    elif refugio == "cabaña":
+    elif refugio == "cabana":
         scene bg inside cabin
     elif refugio == "claro":
         scene bg inside shelter
@@ -4212,7 +4212,7 @@ label dejarla_descansar:
     with Dissolve(.5)
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabaña":
+    elif refugio == "cabana":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -5866,7 +5866,7 @@ label retorno_refugio:
         "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
         "Hay marcas en la madera, como si algo con grandes colmillos hubiera estado rascando la corteza."
         
-    if refugio == "cabaña":
+    if refugio == "cabana":
         show bg jungle hut at truecenter
         with Dissolve(.5)
     elif refugio == "cueva":
@@ -6095,7 +6095,7 @@ label retorno_refugio:
     with Dissolve(.5)
     if refugio == "cueva":
         scene bg inside cave
-    elif refugio == "cabaña":
+    elif refugio == "cabana":
         scene bg inside cabin
     elif refugio == "claro":
         scene bg inside shelter
@@ -7066,8 +7066,8 @@ label chapter_6_end:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                #jump final_cap6
-                jump chapter_7_start
+                jump final_cap6
+                #jump chapter_7_start
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_6_end
 
@@ -7099,7 +7099,7 @@ label cap7_inicio:
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
     #if refugio == "cueva":
     #    scene bg inside cave
-    #elif refugio == "cabaña":
+    #elif refugio == "cabana":
     #    scene bg inside cabin
     #elif refugio == "claro":
     #    scene bg inside shelter
@@ -8082,7 +8082,7 @@ label cap7_evaluacion_refugio:
 
     menu:
         "Quedarse en la cabaña. Es el lugar más consistente.":
-            $ preferencia_refugio = "cabaña"
+            $ preferencia_refugio = "cabana"
             $ desicion_intro += 1
             $ erika += 1
             $ bob += 1
@@ -8409,7 +8409,7 @@ label cap8_prioridades_refugio:
 
     if refugio == "cueva":
         scene bg inside cave at truecenter
-    elif refugio == "cabaña":
+    elif refugio == "cabana":
         scene bg inside cabin at truecenter
     elif refugio == "claro":
         scene bg inside shelter at truecenter
@@ -8501,7 +8501,7 @@ label cap8_acercamiento_personajes:
     if refugio == "cueva":
         "{i}Entras a la cueva para poder hablar con alguno de los demás supervivientes.{/i}"
         jump acercamiento_cueva
-    elif refugio == "cabaña":
+    elif refugio == "cabana":
         "{i}Entras a la cabaña para poder hablar con alguno de los demás supervivientes.{/i}"
         jump acercamiento_cabin
     elif refugio == "claro":
@@ -9251,7 +9251,7 @@ label cap8_proteccion_jugador_opcion1:
 
     "{i}El jugador plantea una alternativa propia para reforzar el refugio, basada en el entorno y los recursos disponibles.{/i}"
 
-    if refugio == "cabaña":
+    if refugio == "cabana":
         "{i}La cabaña es resistente, pero el techo podría ceder. Se necesita una estructura de soporte adicional.{/i}"
 
         show marina triste at left
@@ -9321,7 +9321,7 @@ label cap8_proteccion_jugador_opcion2:
 
     "{i}El jugador propone otra alternativa basada en los puntos críticos del refugio. Algunos dudan, pero otros apoyan la idea.{/i}"
 
-    if refugio == "cabaña":
+    if refugio == "cabana":
         "{i}La cabaña tiene buena estructura, pero los soportes pueden debilitarse.{/i}"
         "{i}Desarmando algunas secciones periféricas, podemos reforzar la habitación principal.{/i}"
 
@@ -10045,8 +10045,8 @@ label continuar:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                #jump segment_2_end
-                jump chapter_9_start
+                jump segment_2_end
+                #jump chapter_9_start
             "VOLVER A VER EL RESÚMEN":
                 jump continuar
                 #jump chapter_8_end
