@@ -96,6 +96,8 @@ image bg jungle_storm_aftermath = im.Scale("jungle_storm_aftermatch.jpg", config
 image bg timber pile = im.Scale("bg timber pile.jpg", config.screen_width, config.screen_height)
 image bg jungle resting_spot = im.Scale("bg_jungle_resting_spot.jpg", config.screen_width, config.screen_height)
 image bg jungle makeshift_camp = im.Scale("bg jungle makeshift_camp.jpg", config.screen_width, config.screen_height)
+image bg jungle dense = im.Scale("bg jungle dense.jpg", config.screen_width, config.screen_height)
+image bg jungle orchard = im.Scale("bg jungle_orchard3.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
 
@@ -477,6 +479,7 @@ default equipo_jugador_opcion1 = False
 default equipo_jugador_opcion2 = False
 default jugador_es_lider = False
 default bob_es_lider = False
+default erika_es_lider = False
 
 
 default relaciones_cap1_bob = 99
@@ -10357,8 +10360,10 @@ label cap9_hallazgo_huerta:
     scene bg jungle explore 1
     with Dissolve(.5)
 
-    "{i}Los cuatro recorren la selva, tratando de evitar aquellos lugares en los que ya buscaron sin éxito.{/i}"
+    "{i}Recorren la selva, tratando de evitar aquellos lugares en los que ya buscaron sin éxito.{/i}"
     "{i}A medida que se internan en territorios inexplorados, el terreno deja de ser familiar, y el paso se enlentece.{/i}"    
+    scene bg jungle dense
+    with Dissolve(.5)
     "{i}La vegetación se hace más densa a medida que avanzan. Las hojas crujen bajo las botas húmedas y las ramas crujen sobre sus cabezas.{/i}"
     "{i}Las últimas lluvias han empapado el suelo y desplazado raíces viejas, dejando un aroma a petricor en el aire.{/i}"
 
@@ -10384,10 +10389,12 @@ label cap9_hallazgo_huerta:
             "Escalas con cuidado la corteza húmeda. Desde la copa distingues un punto donde el follaje se abre: una silueta de platanales dorados en el centro."
 
     "{i}Con diferentes trayectorias, pero con igual sorpresa, todos convergen en el mismo lugar.{/i}"
-    "Frente a ustedes, un claro amplio y fértil cubierto de árboles frutales y surcos cubiertos de vegetales silvestres.{/i}"
+    scene bg jungle orchard
+    with Dissolve(.5)
+    "{i}Frente a ustedes, un claro amplio y fértil cubierto de árboles frutales y surcos cubiertos de vegetales silvestres.{/i}"
 
     if "ingrid" in grupo_jugador:
-        show ingrid feliz at center
+        show ingrid sonriendo at center
         with Dissolve(0.5)
 
         if ingrid > 2:
@@ -10400,15 +10407,15 @@ label cap9_hallazgo_huerta:
         hide ingrid with Dissolve(0.5)
 
     elif "bob" in grupo_jugador:
-        show bob sorprendido at center
+        show bob pensando at center
         with Dissolve(0.5)
         b "Nunca pensé que encontraríamos algo así. Casi parece demasiado bueno, así que tengan cuidado, pero movámonos."
         hide bob with Dissolve(0.5)
 
     elif "erika" in grupo_jugador:
-        show erika enojada at center
+        show erika conversando at center
         with Dissolve(0.5)
-        e "Este lugar fue trabajado. Alguien cultivó esto. Estos surcos no son producto de la erosión natural."
+        k "Este lugar fue trabajado. Alguien cultivó esto. Estos surcos no son producto de la erosión natural."
         hide erika with Dissolve(0.5)
 
     "{i}Mientras inspeccionan los márgenes, algunos del grupo encuentran piedras dispuestas en línea recta, maderas cortadas, herramientas oxidadas.{/i}"
@@ -10423,19 +10430,19 @@ label cap9_aparicion_jabali:
     "Algunos levantan frutos maduras del suelo mientras otros trepan ramas bajas para alcanzar otros que aún no han caído."
 
     if "charles" in grupo_jugador:
-        show charles alerta at center
+        show charles boca abierta at center
         with Dissolve(0.5)
         c "Shhh… ¿Escucharon eso?"
         hide charles with Dissolve(0.5)
 
     elif "erika" in grupo_jugador:
-        show erika alerta at center
+        show erika sorprendida at center
         with Dissolve(0.5)
-        e "Silencio. Hay algo grande moviéndose entre los matorrales."
+        k "Silencio. Hay algo grande moviéndose entre los matorrales."
         hide erika with Dissolve(0.5)
 
     elif "bob" in grupo_jugador:
-        show bob alerta at center
+        show bob parado serio at center
         with Dissolve(0.5)
         b "Eso no es el viento. ¡Cuidado!"
         hide bob with Dissolve(0.5)
