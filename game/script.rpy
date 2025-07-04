@@ -93,6 +93,9 @@ image bg cave fungi = im.Scale("cave fungi.jpg", config.screen_width, config.scr
 image bg horizon_storm_clouds = im.Scale("storm horizon.jpg", config.screen_width, config.screen_height)
 image bg jungle_storm_approaching = im.Scale("storm_horizon2.jpg", config.screen_width, config.screen_height)
 image bg jungle_storm_aftermath = im.Scale("jungle_storm_aftermatch.jpg", config.screen_width, config.screen_height)
+image bg timber pile = im.Scale("bg timber pile.jpg", config.screen_width, config.screen_height)
+image bg jungle resting_spot = im.Scale("bg_jungle_resting_spot.jpg", config.screen_width, config.screen_height)
+image bg jungle makeshift_camp = im.Scale("bg jungle makeshift_camp.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
 
@@ -146,11 +149,36 @@ image ingrid risita = "ingrid.100.risita.png"
 image ingrid seria = "ingrid.100.seria.png"
 image ingrid sonriente = "ingrid.100.sonriente.png"
 image ingrid triste = "ingrid.100.triste.png"
+image ingrid gr triste = "ingrid.200.triste.png"
 image ingrid gr enojada = "ingrid.200.enojada.png"
 image ingrid gr cintura = "ingrid.200.manos.cintura.png"
 image ingrid gr risita = "ingrid.200.risita.png"
 image ingrid gr seria = "ingrid.200.seria.png"
 image ingrid gr sonriente = "ingrid.200.sonriente.png"
+
+image charles boca abierta = "charles.100.boca.abierta.png"
+image charles brazos cruzados = "charles.100.brazos.cruzados.png"
+image charles dedos v = "charles.100.dedos.V.png"
+image charles enojado = "charles.100.enojado.png"
+image charles sonriente = "charles.100.sonriente.png"
+image charles triste = "charles.100.triste.png"
+image charles gr boca abierta = "charles.200.boca.abierta.png"
+image charles gr brazos cruzados = "charles.200.brazos.cruzados.png"
+image charles gr dedos v = "charles.200.dedos.V.png"
+image charles gr enojado = "charles.200.enojado.png"
+image charles gr sonriente = "charles.200.sonriente.png"
+image charles gr triste = "charles.200.triste.png"
+
+image tomas enojado = "tomas.100.enojado.png"
+image tomas hablando = "tomas.100.hablando.png"
+image tomas risa = "tomas.100.risa.png"
+image tomas serio = "tomas.100.serio.png"
+image tomas sonriendo = "tomas.100.sonriendo.png"
+image tomas gr enojado = "tomas.200.enojado.png"
+image tomas gr hablando = "tomas.200.hablando.png"
+image tomas gr risa = "tomas.200.risa.png"
+image tomas gr serio = "tomas.200.serio.png"
+image tomas gr sonriendo = "tomas.200.sonriendo.png"
 
 # Lista de imagenes "grupo" para cada personaje para la sepracion en grupos
 image marina grupo ="Marina_hablando.png"
@@ -158,8 +186,8 @@ image bob grupo ="Bob_parado_serio.png"
 image laura grupo ="Laura_parada_seria.png"
 image erika grupo ="Erika parada.png"
 image ingrid grupo ="ingrid.100.manos.cintura.png"
-image charles grupo ="charles.png"
-image tomas grupo ="tomas.png"
+image charles grupo ="charles.100.brazos.cruzados.png"
+image tomas grupo ="tomas.100.serio.png"
 
 
 image bote = "bote_icon.png"
@@ -382,6 +410,7 @@ default caja_abierta = False
 default reporte_no_buscar_de_noche = False
 default reporte_ocultar_marina = False
 default reporte_asustar_marina = True
+default reporte_buscar_quien_quiera = False
 default reporte_cuida_ingrid_cap7 = False
 default reporte_refugio_visitado_1 = ""
 default reporte_refugio_visitado_2 = ""
@@ -448,7 +477,6 @@ default equipo_jugador_opcion1 = False
 default equipo_jugador_opcion2 = False
 default jugador_es_lider = False
 default bob_es_lider = False
-default bob_es_lider = False
 
 
 default relaciones_cap1_bob = 99
@@ -499,7 +527,7 @@ init python:
             "exterior": "bg jungle cave",
             "interior": "bg inside cave"
         },
-        "cabana": {
+        "cabaña": {
             "exterior": "bg jungle hut",
             "interior": "bg inside cabin"
         },
@@ -6437,7 +6465,7 @@ label cap6_3_salida_en_solitario:
 
     $ choice_position = "default"
     menu:
-        "cansancio:[cansancio] Hacer un gran esfuerzo fisico para intentar agarrarte de algo" if cansancio >= 2:
+        "Hacer un gran esfuerzo fisico para intentar agarrarte de algo" if cansancio >= 2:
             "{i}Logras frenar la caída aferrándote a una raíz. El golpe en seco deja una punzada aguda en tu brazo.{/i}"           
             $ update_stat("sed", sed - 1)
             $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
@@ -6980,7 +7008,7 @@ label cap6_final:
     hide marina
     if refugio == "cueva":
         scene bg jungle cave at truecenter
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut at truecenter
     elif refugio == "claro":
         scene bg jungle clearing at truecenter
@@ -6991,8 +7019,8 @@ label cap6_final:
     "{i}Reavivan el fuego para preparar una infusión con las plantas recolectadas.{/i}"
     "{i}Una olla improvisada burbujea sobre las llamas mientras Marina descansa.{/i}"
 
-    show laura hablando at left
-    show bob parado serio at right
+    show laura hablando at center
+    show bob parado serio at left
     with Dissolve(0.5)
     $ ingrid += 1
     l "¿Esto funcionará?"
@@ -7000,19 +7028,30 @@ label cap6_final:
     b "Si Ingrid tenía razón y la preparación está bien hecha, deberíamos ver una mejoría pronto."
 
     "{i}Aplican con cuidado el líquido tibio sobre la herida de Ingrid en silencio.{/i}"
-    "{i}Solo se escucha el lento goteo del agua condensada entre las hojas y los quejidos soñolientos de Ingrid.{/i}"
+    "{i}Solo se escucha el lento goteo del agua condensada entre las hojas y los quejidos de Ingrid.{/i}"
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
     "{i}Esperan pacientemente hasta que, al rato, Ingid abre los ojos nuevamente.{/i}"
-
-    show ingrid gr triste at center
+    hide bob
+    show laura seria at center
+    with Dissolve(0.5)
+    show ingrid gr triste at rightgr
     with Dissolve(0.5)
 
     i "Se siente..."
-    "{i}Ingrid hace un gran esfuerzo para hablar.{/i}"
-    i "Se siente menos caliente."
-    show ingrid gr sonriente at center
+    show marina triste at left
     with Dissolve(0.5)
+    "{i}Ingrid hace un gran esfuerzo para hablar.{/i}"
+    show ingrid gr sonriente at rightgr
+    with Dissolve(0.5)
+    i "Se siente menos caliente."
+
 
     "{i}Todos sueltan un suspiro de alivio.{/i}"
+    show laura sonriendo at center
+    with Dissolve(0.5)
+    show marina sonriendo at left
+    with Dissolve(0.5)
     "{i}Visible en el rostro de todos, esta victoria es pequeña, pero real.{/i}"
     "{i}Esta noche tumultuosa ha dado sus frutos: el grupo ganó tiempo, confianza, y unidad en la incertidumbre.{/i}"
 
@@ -7170,8 +7209,8 @@ label cap7_sed:
         opciones_exploracion = []
         opciones_texto = []
 
-        if refugio != "cabana":
-            opciones_exploracion.append("cabana")
+        if refugio != "cabaña":
+            opciones_exploracion.append("cabaña")
             opciones_texto.append("Explorar la Cabaña")
 
         if refugio != "cueva":
@@ -7202,7 +7241,7 @@ label cap7_decidir_quien_va:
 
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -7301,7 +7340,7 @@ label cap7_refugio_con_ingrid:
 
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -7309,6 +7348,8 @@ label cap7_refugio_con_ingrid:
     with Dissolve(0.5)
 
     show screen combined_ui
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
     "{i}Mientras los demás se preparan para salir, tu te quedas junto a Ingrid, acomodando unas hojas secas para que se recueste mejor.{/i}"
 
@@ -7322,7 +7363,8 @@ label cap7_refugio_con_ingrid:
     i "Lo que necesitamos está allá afuera. Yo voy a estar bien. Iré buscando plantas por aqui cerca. Puedo arreglármelas."
 
     "{i}La mirás. Tiene ojeras, las manos temblorosas, pero hay determinación en su tono.{/i}"
-
+    show ingrid risita at center
+    with Dissolve(0.5)
     i "Es mejor que te sumes a la exploracion. Cuantos mas ojos haya en eso, mas posibilidades de encontrar algo util."
 
     $ choice_position = "alta" # default alta superior
@@ -7359,7 +7401,7 @@ label cap7_refugio_con_ingrid:
 
 label cap7_union_con_grupo_explorador:
 
-    scene bg jungle path at truecenter
+    scene bg jungle trail at truecenter
     with Dissolve(0.5)
 
     "{i}Te apresuras a tomar tus cosas, y sales en la dirección hacia la que partieron los demás.{/i}"
@@ -7370,7 +7412,7 @@ label cap7_union_con_grupo_explorador:
     show marina triste at left
     with Dissolve(0.5)
 
-    b "[nombre_personaje]… ¿te arrepentiste?"
+    b "[nombre_personaje]... ¿te arrepentiste?"
 
     y "Ingrid insistió. Dijo que era más útil yendo que quedándome."
 
@@ -7428,7 +7470,7 @@ label explorar_primer_sitio:
         $ comida == 10
         y "Vamos, hay que aprovechar la luz para seguir explorando."
 
-    elif destino_exploracion_1 == "cabana":
+    elif destino_exploracion_1 == "cabaña":
 
         scene bg jungle hut
         with Dissolve(0.5)
@@ -7478,8 +7520,8 @@ label cap7_antes_de_encuentro_nuevos:
         python:
             opciones_exploracion2 = []            
 
-            if refugio != "cabana" and destino_exploracion_1 != "cabana":
-                opciones_exploracion2.append("cabana")
+            if refugio != "cabaña" and destino_exploracion_1 != "cabaña":
+                opciones_exploracion2.append("cabaña")
 
             if refugio != "cueva" and destino_exploracion_1 != "cueva":
                 opciones_exploracion2.append("cueva")
@@ -7490,17 +7532,17 @@ label cap7_antes_de_encuentro_nuevos:
         $ destino_exploracion_2 = opciones_exploracion2[0]
 
     elif search_west:
-        "{i}Cuando estaban buscando el primer refugio, recorriste la parte oeste de la isla y fuiste a la playa, pero no subiste a la colina.{/i}"
-        "{i}Quizá desde allí puedan ver qué otros lugares quedan por explorar.{/i}"
+        y "Cuando estaba buscando el primer refugio, recorrí la parte oeste de la isla y fui hasta la playa, pero no subi a la colina.{/i}"
+        y "Quizá desde allí puedan ver qué otros lugares quedan por explorar."
         $ destino_exploracion_2 = "claro"
     else:
-        "{i}Cuando estaban en el claro, buscando refugio, nadie decidió explorar hacia el oeste.{/i}"
-        "{i}Quizá en esa dirección haya algo interesante.{/i}"
+        y "Cuando estabamos buscando refugio, nadie decidió explorar hacia el oeste."
+        y "Quizá en esa dirección haya algo interesante."
         $ destino_exploracion_2 = "claro"
 
     if destino_exploracion_2 == "cueva":
         scene bg jungle cave
-    elif destino_exploracion_2 == "cabana":
+    elif destino_exploracion_2 == "cabaña":
         scene bg jungle hut
     elif destino_exploracion_2 == "claro":
         scene bg jungle clearing
@@ -7517,11 +7559,14 @@ label cap7_antes_de_encuentro_nuevos:
 
     "{i}Bob se agacha y toca la tierra en un área despejada. Está nivelada. Ordenada. No es natural.{/i}"
     "{i}Más allá, hay señales claras: una lona improvisada, restos organizados de madera.{/i}"
-
+    hide bob 
+    with Dissolve(0.5)
     show laura gr hablando at leftgr
     with Dissolve(0.5)
 
     l "¡Entonces debe haber mas supervivientes!"
+    hide laura
+    with Dissolve(0.5)
 
     $ choice_position = "alta" # default alta superior
     menu:
@@ -7549,6 +7594,9 @@ label cap7_encuentro_tomas_charles:
     "{i}Miran en dirección al sonido y ven a un hombre junta ramas y las quiebra, apilándolas en un atado bajo su brazo.{/i}"
     "{i}Sus movimientos son precisos. No duda. No desperdicia energía.{/i}"
 
+    scene bg timber pile
+    with Dissolve(.5)
+
     show laura hablando at centerleft
     with Dissolve(.5)
 
@@ -7563,6 +7611,9 @@ label cap7_encuentro_tomas_charles:
     t "Ah si... ¿no eras tú el capitán del barco? Yo soy Tomás."
 
     b "Mucho gusto, Tomás. Y si, efectivamente, yo era el capitán."
+
+    show tomas hablando at right
+    with Dissolve(0.5)
 
     t "Imaginé que más personas habrían logrado salvarse."
 
@@ -7605,12 +7656,14 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Se acercan al sujeto que está descansando. Tiene sus piernas cruzadas, curioseando y sin preocupación aparente.{/i}"
 
-    show charles hablando at right
+    show charles boca abierta at right
     with Dissolve(0.5)
 
     c "No se preocupen por Tomás. Es así con todo el mundo."
 
     c "Yo soy Charles. Bienvenidos a nuestro humilde refugio."
+    show charles sonriente at right
+    with Dissolve(0.5)
 
     show bob parado serio at centerleft
     with Dissolve(0.5)
@@ -7622,6 +7675,8 @@ label cap7_encuentro_tomas_charles:
     "{i}Charles sonríe, relajado, sin mostrar el mismo fastidio que Tomás.{/i}"
 
     c "El tiempo suficiente para entender que es mejor dejar que otros hagan el trabajo duro."
+    show charles brazos cruzados at right
+    with Dissolve(0.5)
     $ choice_position = "alta" # default alta superior
     menu:
         "Mejor apelar al humor para romper el hielo.":
@@ -7650,13 +7705,15 @@ label cap7_conflicto_tomas_charles:
     with Dissolve(.5)
     hide laura
     with Dissolve(.5)
-    show charles serio at right    
+    show charles brazos cruzados at right    
     with Dissolve(0.5)
     show tomas serio at center    
     with Dissolve(0.5)
 
     "{i}Atrás de ustedes se deja de escuchar el crujir de la madera. Tomás mira a Charles con un atado de ramas bajo el brazo.{/i}"
     "{i}Su expresión esconde el enfado que el tono de su voz delata cuando habla.{/i}"
+    show tomas enojado at center    
+    with Dissolve(0.5)
 
     t "Algunos de nosotros trabajamos duro, mientras otros holgazanean descansando."
 
@@ -7664,6 +7721,8 @@ label cap7_conflicto_tomas_charles:
     c "A estos los escuché acercándose hace rato. Pero parecen inofensivos, ¿no?"
 
     t "¿Ah, sí? Dime, [nombre_personaje], ¿tú que piensas?"
+    show tomas hablando at center    
+    with Dissolve(0.5)
 
     "{i}Tomás cruza los brazos. Charles apenas se voltea, pero te mira atentamente.{/i}"
 
@@ -7675,6 +7734,8 @@ label cap7_conflicto_tomas_charles:
             y "Si lo que Charles hacía era útil, yo no lo noté. No lo vi ni moverse desde que llegamos."
 
             t "Exacto."
+            show charles enojado at right    
+            with Dissolve(0.5)
 
             c "Vaya, qué rápid[e] eres para sacar conclusiones."
 
@@ -7684,6 +7745,8 @@ label cap7_conflicto_tomas_charles:
             y "No podemos asumir que no estaba en realidad vigilando, por más relajado que pareciera."
 
             t "Espero que de verdad sea el caso."
+            show charles sonriente at right    
+            with Dissolve(0.5)
 
             c "Me alegra que alguien lo entienda."
 
@@ -7714,7 +7777,8 @@ label cap7_encuentro_nuevo_grupo:
     "{i}Frente a ustedes aparece una mujer de postura firme y mirada penetrante.{/i}"
     "{i}No parece alterada por su presencia. Solo los observa, evalúandolos.{/i}"
 
-    show bob parado serio at center
+    show bob parado serio at centerleft
+    with Dissolve(0.5)
     show laura seria at left
     with Dissolve(0.5)
 
@@ -7820,15 +7884,19 @@ label cap7_encuentro_nuevo_grupo:
     k "No lo se. Tener dos refugios conviviendo en la isla tampoco es una mala idea."
     k "Tomás, Charles, ¿ustedes qué piensan?"
     hide laura 
+    hide bob
     with Dissolve(0.5)
     show bob parado serio at left
     with Dissolve(0.5)
     show tomas serio at centerleft
     with Dissolve(0.5)
-    show charles hablando at centerright
+    show erika conversando at centerright
     with Dissolve(0.5)
 
     t "Separados, apenas hemos sobrevivido. Juntos, podremos estar mejor."
+
+    show charles brazos cruzados at right
+    with Dissolve(0.5)
 
     c "Creo que estamos lo suficientemente bien como para que ninguna de las dos opciones sea terrible para nadie."
 
@@ -7889,6 +7957,8 @@ label cap7_encuentro_nuevo_grupo:
     with Dissolve(0.5)
     show laura seria at left
     with Dissolve(0.5)
+    show erika parada at right
+    with Dissolve(0.5)
     show bob parado serio at center
     with Dissolve(0.5)
             
@@ -7923,6 +7993,9 @@ label cap7_encuentro_nuevo_grupo:
 
     hide erika
     with Dissolve(0.5)
+
+    show bob parado hablando at center
+    with Dissolve(0.5)
     
     b "Nosotros también debemos tomar una decisión."
 
@@ -7944,21 +8017,31 @@ label cap7_encuentro_nuevo_grupo:
     with Dissolve(0.5)
     show tomas serio at centerright
     with Dissolve(0.5)
-    show charles hablando at right
+    show charles sonriente at right
     with Dissolve(0.5)
 
     k "Hemos tomado una decisión."
     t "Nos uniremos a ustedes."    
-
+    show laura sonriendo
+    with Dissolve(0.5)
+    show tomas risa
+    with Dissolve(0.5)
     "{i}Todos intercambian sonrisas que se vuelven risas de júbilo a medida que comprenden dos cosas muy distintas.{/i}"
+    show bob saludando sucio
+    with Dissolve(0.5)
+    show erika sonriendo
+    with Dissolve(0.5)
     "{i}Han mejorado sus chances de supervivencia enormemente, y eso les devuelve la esperanza que las noticias de Bob les quitaron.{/i}"
     "{i}Van a tener que aprender a trabajar en equipo aún más que antes.{/i}"
     "{i}Un grupo más grande también significa más individualidades con las que convivir.{/i}"
 
     c "Dependiendo de cómo lo miremos, también podríamos decir que son ellos los que se unen a nosotros."
+    show charles dedos v at right
+    with Dissolve(0.5)
 
     "{i}Charles suelta una carcajada, dejando claro que se trata de una broma, y pronto todos están riendo junto a el.{/i}"
-    
+    show charles brazos cruzados at right
+    with Dissolve(0.5)
     t "Más allá de la broma, lo cierto es que tendremos que decidir cuál será nuestro principal."
 
     b "¿Por qué no nos acompañan de vuelta a nuestro refugio, así pueden ver qué tal está?"
@@ -7985,7 +8068,7 @@ label cap7_encuentro_nuevo_grupo:
 
 label cap7_evaluacion_refugio:
 
-    scene bg jungle1 at truecenter
+    scene bg jungle trail at truecenter
     with Dissolve(0.5)
 
     "{i}Charles, Erika y Tomás se sorprenden gratamente al ver qué fácil que han aprendido a moverse a través de la jungla.{/i}"
@@ -7994,7 +8077,7 @@ label cap7_evaluacion_refugio:
 
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -8011,13 +8094,13 @@ label cap7_evaluacion_refugio:
     b "A ver, a ver. Vamos a ordenarnos, de a uno. Comenzaré yo."       
     b "Creo que la cabaña es la mejor opción. Tiene una estructura sobre la que se puede expandir."
 
-    if destino_exploracion_2 == "cabana":
+    if destino_exploracion_2 == "cabaña":
         
         show erika parada at centerright
         with Dissolve(0.5)
         k "Además de que, como vieron, ya está muy bien organizada."
 
-        show charles hablando at centerleft
+        show charles boca abierta at centerleft
         with Dissolve(0.5)    
         c "Y nos ahorraría la mudanza."
 
@@ -8025,26 +8108,26 @@ label cap7_evaluacion_refugio:
         with Dissolve(0.5)
         t "De todas formas vamos a ayudarlos con sus cosas."
 
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         
         show erika parada at centerright
         with Dissolve(0.5)
         k "Se nota que le han puesto esfuerzo, y no puedo esperar a proponerles algunas mejoras."
 
-        show charles hablando at right
+        show charles boca abierta at centerleft
         with Dissolve(0.5)
         c "¿Tendríamos que traer todo para aquí?"
 
-        show laura hablando at centerleft
+        show laura hablando at center
         with Dissolve(0.5)
-        l "PDe más está decir que los ayudaríamos."
+        l "De más está decir que los ayudaríamos."
        
     else:
-        show erika parada at centerleft
+        show erika parada at centerright
         with Dissolve(0.5)
         k "La cabaña es el único sitio donde no se ha armado ningún refugio."
 
-        show tomas serio at centerright
+        show tomas serio at left
         with Dissolve(0.5)
         t "Este refugio no está mal. Si Bob dice que la cabaña puede estar aún mejor, opino que confiemos en el."
 
@@ -8065,13 +8148,14 @@ label cap7_evaluacion_refugio:
     with Dissolve(0.5)
     t "El claro en la colina nos da visión del mar. Si alguien nos busca, podríamos verlos primero."
 
-    show charles hablando at centerright
+    show charles boca abierta at centerright
     with Dissolve(0.5)
     c "¿Qué opinas tú, Ingrid?"
 
     show ingrid seria at left
     with Dissolve(0.5)
-
+    show charles brazos cruzados at centerright
+    with Dissolve(0.5)
     i "Yo no seré de mucha ayuda con la, o las, mudanzas, así que prefiero que decidan ustedes."
 
     hide ingrid
@@ -8094,7 +8178,7 @@ label cap7_evaluacion_refugio:
             $ marina -= 1
             $ tomas -= 1
             $ laura -= 1
-            $ refugio = "cabana"
+            $ refugio = "cabaña"
             "La cabaña nos da las mejores opciones a futuro. Como dice Bob, es más fácil de mejorar."
 
         "Elegir la cueva. Marina tiene razón sobre el calor.":
@@ -8124,6 +8208,8 @@ label cap7_evaluacion_refugio:
     "{i}Tu opinión termina de inclinar la balanza.{/i}"
     "{i}La decisión está tomada. Algunos la aceptan. Otros tienen dudas.{/i}"    
 
+    hide marina
+    with Dissolve(0.5)
     hide bob
     with Dissolve(0.5)
     hide laura
@@ -8145,7 +8231,7 @@ label cap7_formacion_alianzas:
 
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -8154,7 +8240,7 @@ label cap7_formacion_alianzas:
 
     if refugio == "claro":
         "{i}Todos se vuelven a encontar en el refugio del claro un rato después.{/i}"
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         "{i}Todos se vuelven a encontar en la cabaña un rato después.{/i}"
     elif refugio == "cueva":
         "{i}Todos se vuelven a encontar en la cueva un rato después.{/i}"        
@@ -8164,7 +8250,7 @@ label cap7_formacion_alianzas:
 
     show bob parado serio at centerright
     with Dissolve(0.5)
-    b "Ahora que estamos instalados, necesitamos encarar aquello que, al menos nostotros, hemos postergado."
+    b "Ahora que estamos instalados, necesitamos encarar aquello que, al menos nosotros, hemos postergado."
     b "Debemos elegir alguien que lidere nuestros esfuerzos."
 
     show erika parada at centerleft
@@ -8183,7 +8269,7 @@ label cap7_formacion_alianzas:
     hide tomas
     with Dissolve(.5)
 
-    show charles hablando at right
+    show charles brazos cruzados at right
     with Dissolve(0.5)
     c "Es cierto. Pero cada uno tiene su forma de ver las cosas. Ellos por ejemplo, no tenían un líder definido."
     hide charles 
@@ -8321,7 +8407,7 @@ label cap8_avisar_tormenta:
     scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
     #if refugio == "cueva":
     #    scene bg jungle cave
-    #elif refugio == "cabana":
+    #elif refugio == "cabaña":
     #    scene bg jungle hut
     #elif refugio == "claro":
     #    scene bg jungle clearing
@@ -8368,8 +8454,8 @@ label cap8_avisar_tormenta:
         hide marina
         with Dissolve(0.5)
 
-    elif refugio == "cabana":
-        show charles hablando at right
+    elif refugio == "cabaña":
+        show charles brazos cruzados at right
         with Dissolve(0.5)
 
         c "El interior de la cabaña será casi como estar a la intemperie cuando empiece a soplar el vendaval."
@@ -8424,7 +8510,7 @@ label cap8_prioridades_refugio:
     if enfoque_preparacion == "estructura":
         "{i}El grupo se reparte las tareas para asegurar la protección contra el viento y la lluvia.{/i}"
         
-        show erika seria at centerleft
+        show erika conversando at centerleft
         with Dissolve(0.5)
         show tomas serio at right
         with Dissolve(0.5)
@@ -8945,7 +9031,7 @@ label cap8_separacion_grupo:
 
     if refugio == "cueva":
         scene bg jungle cave
-    elif refugio == "cabana":
+    elif refugio == "cabaña":
         scene bg jungle hut
     elif refugio == "claro":
         scene bg jungle clearing
@@ -9106,7 +9192,7 @@ label cap8_preparacion_tormenta:
 
 label cap8_formacion_equipos:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -9115,7 +9201,7 @@ label cap8_formacion_equipos:
 
     show bob parado serio at centerright
     with Dissolve(0.5)
-    show erika seria at centerleft
+    show erika enojada at centerleft
     with Dissolve(0.5)
 
     b "Usemos lo que tenemos disponible. No podemos perder tiempo con medidas demasiado complejas."
@@ -9158,7 +9244,7 @@ label cap8_formacion_equipos:
 
 label cap8_proteccion_bob:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -9169,7 +9255,7 @@ label cap8_proteccion_bob:
     with Dissolve(0.5)
     show marina triste at left
     with Dissolve(0.5)
-    show charles hablando at right
+    show charles brazos cruzados at right
     with Dissolve(0.5)
 
     b "No podemos quedarnos quietos midiendo cada centímetro. Tomamos lo que sirva y lo aseguramos."
@@ -9216,14 +9302,14 @@ label cap8_proteccion_bob:
 
 label cap8_proteccion_erika:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
 
     "{i}Erika lidera su estrategia con precisión. Cada decisión es calculada para evitar errores que puedan costar caro.{/i}"
 
-    show erika seria at centerleft
+    show erika enojada at centerleft
     with Dissolve(0.5)
     show tomas serio at right
     with Dissolve(0.5)
@@ -9274,12 +9360,12 @@ label cap8_proteccion_erika:
 
 label cap8_proteccion_jugador_opcion1:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
 
-    "{i}El jugador plantea una alternativa propia para reforzar el refugio, basada en el entorno y los recursos disponibles.{/i}"
+    "{i}Tu planteas una alternativa propia para reforzar el refugio, basada en el entorno y los recursos disponibles.{/i}"
 
     if refugio == "cabaña":
         "{i}La cabaña es resistente, pero el techo podría ceder. Se necesita una estructura de soporte adicional.{/i}"
@@ -9299,7 +9385,7 @@ label cap8_proteccion_jugador_opcion1:
 
         show laura preocupada at left
         with Dissolve(0.5)
-        show charles hablando at right
+        show charles boca abierta at right
         with Dissolve(0.5)
 
         l "Podríamos construir canales para dirigir el agua fuera."
@@ -9319,7 +9405,7 @@ label cap8_proteccion_jugador_opcion1:
 
         t "Si logramos hacerlo bien, podríamos evitar que todo vuele."
 
-    "{i}El jugador puede decidir cómo abordar la ejecución.{/i}"
+    "{i}Puedes decidir cómo abordar la ejecución.{/i}"
 
     menu:
         "Tomar riesgos y avanzar rápido con lo disponible.":
@@ -9355,12 +9441,12 @@ label cap8_proteccion_jugador_opcion1:
 
 label cap8_proteccion_jugador_opcion2:
 
-    scene bg jungle_player_refuge at truecenter
+    scene bg jungle makeshift_camp at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
 
-    "{i}El jugador propone otra alternativa basada en los puntos críticos del refugio. Algunos dudan, pero otros apoyan la idea.{/i}"
+    "{i}Tú propones otra alternativa basada en los puntos críticos del refugio. Algunos dudan, pero otros apoyan la idea.{/i}"
 
     if refugio == "cabaña":
         "{i}La cabaña tiene buena estructura, pero los soportes pueden debilitarse.{/i}"
@@ -9368,7 +9454,7 @@ label cap8_proteccion_jugador_opcion2:
 
         show tomas serio at right
         with Dissolve(0.5)
-        show charles hablando at left
+        show charles boca abierta at left
         with Dissolve(0.5)
 
         t "Podemos tomar los troncos del deck y usarlos para distribuir mejor la carga en las columnas que sostienen el techo."
@@ -9450,7 +9536,7 @@ label cap8_finalizacion_proteccion:
     hide ingrid
     with Dissolve(0.5)
 
-    scene bg jungle_player_refuge at truecenter
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -9463,9 +9549,9 @@ label cap8_finalizacion_proteccion:
         
         show bob parado serio at centerright
         with Dissolve(0.5)
-        show erika seria at centerleft
+        show erika enojada at centerleft
         with Dissolve(0.5)
-        show charles hablando at left
+        show charles brazos cruzados at left
         with Dissolve(0.5)
 
         c "Bueno, al menos tenemos algo."
@@ -9477,7 +9563,7 @@ label cap8_finalizacion_proteccion:
     if equipo_erika:
         "{i}El plan de Erika siguió cada cálculo con precisión, pero la lentitud no permitió cubrir todas las áreas completamente.{/i}"
         
-        show erika seria at centerleft
+        show erika enojada at centerleft
         with Dissolve(0.5)
         show tomas serio at right
         with Dissolve(0.5)
@@ -9507,7 +9593,7 @@ label cap8_finalizacion_proteccion:
         
         show ingrid seria at left
         with Dissolve(0.5)
-        show charles hablando at right
+        show charles brazos cruzados at right
         with Dissolve(0.5)
 
         i "No era la opción más lógica, pero se llegó a algo."
@@ -9536,7 +9622,7 @@ label cap8_finalizacion_proteccion:
 
 label cap8_tormenta_golpea:
 
-    scene bg jungle_storm_aftermath
+    scene bg jungle_storm_aftermath 
     with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
 
     show screen combined_ui
@@ -9581,12 +9667,12 @@ label cap8_tormenta_golpea:
     hide erika
     with Dissolve(0.5)
     
-    show laura enojada at right
+    show laura gr enojada at rightgr
     with Dissolve(0.5)
 
     l "¡Tenemos que asegurar no perder nada de lo que hemos conseguido con tanto esfuerzo, será esencial cuando la tormenta amaine!"
 
-    show marina preocupada at left
+    show marina gr preocupada at leftgr
     with Dissolve(0.5)      
 
     m "¡Las personas importan más que los recursos! ¡No podemos poner a nadie en peligro!"
@@ -9624,16 +9710,16 @@ label cap8_tormenta_golpea:
 
 label cap8_crisis_personajes:
 
-    scene bg jungle_storm at truecenter
+    scene bg jungle_storm_aftermath  at truecenter
     with Fade(0.1, 0.4, 0.1)  # Simula un destello blanco
 
     show screen combined_ui
 
     "{i}La tormenta no da tregua. En medio del desastre, la tensión entre varios es como un barril de pólvora.{/i}"
 
-    show ingrid enojada at left
+    show ingrid gr enojada at leftgr
     with Dissolve(0.5)
-    show charles hablando at right
+    show charles gr brazos cruzados at rightgr
     with Dissolve(0.5)
 
     i "¡Si seguimos sin coordinación, esto será peor que el mismísimo naufragio!"
@@ -9668,12 +9754,12 @@ label cap8_crisis_personajes:
 
     "{i}Otro conflicto surge en el refugio.{/i}"
 
-    show tomas serio at centerleft
+    show tomas gr serio at leftgr
     with Dissolve(0.5)
 
     t "¡Si esto sigue así, no quedará nada del refugio! Se está inundando todo. ¡Tal vez sea mejor que nos vayamos antes de quedar atrapados aquí!"
 
-    show bob parado serio at centerright
+    show bob gr parado enojado at rightgr
     with Dissolve(0.5)
 
     b "Tomás, no dejes que el pánico se apodere de ti. Si salimos ahora, el viento nos va a destrozar. Quedarnos es la única opción."
@@ -9714,7 +9800,7 @@ label cap8_crisis_personajes:
 
 label cap8_punto_de_quiebre:
 
-    scene bg jungle_storm at truecenter
+    scene bg jungle_storm_aftermath at truecenter
     with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
 
     show screen combined_ui
@@ -9722,8 +9808,8 @@ label cap8_punto_de_quiebre:
     "{i}El viento ruge con fuerza, la lluvia golpea en todas direcciones. El refugio está parcialmente inundado.{/i}"
     "{i}Los restos de algunas de las mejoras construídas por ustedes ahora vuelan por los aires como peligrosos proyectiles.{/i}"
 
-    show bob parado serio at centerright
-    show erika seria at centerleft
+    show bob gr parado enojado at rightgr
+    show erika gr enojada at leftgr
     with Dissolve(0.5)
 
     b "¡Esto no hubiera pasado si no hubiésemos perdido tanto tiempo!"
@@ -9761,19 +9847,19 @@ label cap8_punto_de_quiebre:
 
     "{i}Mientras se esfuerzan por asegurar lo poco que les queda, alguien grita una advertencia.{/i}"
 
-    show ingrid triste at left
+    show ingrid gr triste at leftgr
     with Dissolve(0.5)
 
     i "¡Algo se mueve afuera! ¡No estamos solos!"
 
-    show charles hablando at right
+    show charles gr boca abierta at rightgr
     with Dissolve(0.5)
     c "¡Nada puede estar ahí afuera! ¡El viento es muy fuerte!"
 
     "{i}El viento y la lluvia apenas les permiten escuchar un trote pesado acercándose.{/i}"
     "{i}Escuchan un ronquido fuerte antes de divisar la silueta de un cuadrúpedo pesado en la entrada del refugio.{/i}"
 
-    show bg jungle_storm_jabali at truecenter
+    scene bg jungle_storm_aftermath at truecenter
     with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
 
     "{i}Un jabalí se ha acercado, desorientado y agresivo. Cualquier movimiento en falso podría ser un desastre.{/i}"
@@ -9797,11 +9883,11 @@ label cap8_punto_de_quiebre:
 
             "{i}Todos dejan lo que están haciendo y se agachan, tratándo de esconderse. La duda es visible en los rostros de algunos.{/i}"
     
-    show bg jungle_storm_jabali at truecenter
-    with Fade(0.1,0.4,0.1)  # Simula un destello blanco
+    scene bg jungle_storm_aftermath at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
     "{i}El destello de un relámpago cercano los enceguece de repente y segundos mas tarde llega un trueno ensordecedor.{/i}"
-    show bg jungle_storm_jabali at truecenter
-    with Fade(0.1, 0.4, 0.1)  # Simula un destello blanco
+    scene bg jungle_storm_aftermath at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
     "{i}Escuchan nuevamente el pesado trote, esta vez alejándose. El ruido lo asustó y salió corriendo jungla adentro.{/i}"
     hide ingrid
     hide charles
@@ -9809,8 +9895,8 @@ label cap8_punto_de_quiebre:
     "{i}La tormenta sigue intensificándose. Aquello que no vuela por los aires, está flotando en corrientes de agua que se van formando con la lluvia.{/i}"
     "{i}Llega un punto en el que lo único que pueden hacer es acurrucarse en un rincón de lo que queda del refugio para darse algo de calor entre todos.{/i}"
 
-    show bg jungle_storm_jabali at truecenter
-    with Fade(0.1, 0.4, 0.1)  # Simula un destello blanco
+    scene bg jungle_storm_aftermath at truecenter
+    with Fade(0.1, 1.0, 0.1)  # Simula un destello blanco
     pause 2.0
     "{i}Tras lo que parecen ser horas, la tormenta amaina y una extraña calma se apodera de la isla.{/i}"
 
@@ -9818,7 +9904,7 @@ label cap8_punto_de_quiebre:
 
 label cap8_enfrentamiento_lideres:
 
-    scene bg jungle_aftermath_storm at truecenter
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -9901,7 +9987,7 @@ label cap8_enfrentamiento_lideres:
 
 label cap8_eleccion_liderazgo:
 
-    scene bg jungle_division_decision at truecenter
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -10066,7 +10152,8 @@ label cap8_formacion_grupos_finales:
             personaje_anterior = personaje
 
     "{i}La última persona, Ingrid, duda por un momento.{/i}"
-
+    hide charles
+    with Dissolve(0.5)
     show ingrid seria at center
     with Dissolve(0.5)
 
@@ -10092,6 +10179,8 @@ label cap8_formacion_grupos_finales:
                 renpy.pause(0.5)
 
     "{i}Los grupos están formados. No hay vuelta atrás.{/i}"
+    hide ingrid
+    with Dissolve(0.5) 
     jump mostrar_grupo_jugador
 
 label mostrar_grupo_jugador:
@@ -10229,7 +10318,7 @@ label chapter_9_start:
 
         hide bob with Dissolve(.5)
 
-        k "¡Equipo! Vamos, tenemos mucho terreno por cubrir.""
+        k "¡Equipo! Vamos, tenemos mucho terreno por cubrir."
 
     elif "bob" in grupo_jugador:
         show bob parado serio at left with Dissolve(.5)
@@ -10317,7 +10406,7 @@ label cap9_hallazgo_huerta:
         hide bob with Dissolve(0.5)
 
     elif "erika" in grupo_jugador:
-        show erika seria at center
+        show erika enojada at center
         with Dissolve(0.5)
         e "Este lugar fue trabajado. Alguien cultivó esto. Estos surcos no son producto de la erosión natural."
         hide erika with Dissolve(0.5)
@@ -10330,7 +10419,7 @@ label cap9_hallazgo_huerta:
 
 label cap9_aparicion_jabali:
 
-    "{i}El grupo empieza a recolectar fruta con entusiasmo contenido{/i}.
+    "{i}El grupo empieza a recolectar fruta con entusiasmo contenido{/i}."
     "Algunos levantan frutos maduras del suelo mientras otros trepan ramas bajas para alcanzar otros que aún no han caído."
 
     if "charles" in grupo_jugador:
@@ -10599,7 +10688,7 @@ label cap9_eleccion_estrategia:
     if jugador_es_lider:
 
         if "erika" in grupo_jugador:
-            show erika seria at center
+            show erika enojada at center
             with Dissolve(0.5)
             e "Hay que decidir ya. ¿Qué hacemos, [nombre_personaje]?"
             hide erika with Dissolve(0.5)
@@ -10656,7 +10745,7 @@ label cap9_eleccion_estrategia:
                 "{i}Tu voz inclina la balanza. Inmediatamente se organizan para ejecutar el desvío. Empieza la planificación.{/i}"
                 $ plan_elegido = "bloqueo"
 
-            "Te inclinás por usar trapos y ceniza como repelente y correr menos riesgos."":
+            "Te inclinás por usar trapos y ceniza como repelente y correr menos riesgos.":
                 $ voto_jugador = "repelente"
 
                 if "erika" in grupo_jugador:
@@ -10896,7 +10985,7 @@ label cap9_mision_equipo_2:
         else:
             show marina neutral at center
             with Dissolve(0.5)
-            m "Nuestro trabajo es fácil. Espero que a los demás les esté yendo igual de bien.""
+            m "Nuestro trabajo es fácil. Espero que a los demás les esté yendo igual de bien."
         hide marina with Dissolve(0.5)
 
     elif miembro_extra == "charles":
