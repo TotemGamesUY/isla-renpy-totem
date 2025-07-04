@@ -98,6 +98,8 @@ image bg jungle resting_spot = im.Scale("bg_jungle_resting_spot.jpg", config.scr
 image bg jungle makeshift_camp = im.Scale("bg jungle makeshift_camp.jpg", config.screen_width, config.screen_height)
 image bg jungle dense = im.Scale("bg jungle dense.jpg", config.screen_width, config.screen_height)
 image bg jungle orchard = im.Scale("bg jungle_orchard3.jpg", config.screen_width, config.screen_height)
+image bg jungle board = im.Scale("bg jungle_boar.jpg", config.screen_width, config.screen_height)
+image bg plano_de_trampa = im.Scale("jungle trap.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
 
@@ -10448,7 +10450,11 @@ label cap9_aparicion_jabali:
         hide bob with Dissolve(0.5)
 
     "{i}Un estruendo de ramas rotas se escucha entre los arbustos. Una figura oscura emerge entre la sombra.{/i}"
+    show bg jungle_boar
+    with Dissolve(0.5)
     "{i}Un jabalí gigantesco, cubierto de barro, resopla con furia.{/i}"
+    show bg jungle dense
+    with Dissolve(0.5)
     "{i}Embiste sin aviso. La fruta sale volando por los aires. Todos corren en distintas direcciones entre gritos.{/i}"
 
     $ actualizar_boton_imagen()
@@ -10466,18 +10472,18 @@ label cap9_aparicion_jabali:
         hide ingrid with Dissolve(0.5)
 
     elif "erika" in grupo_jugador:
-        show erika alerta at center
+        show erika conversando at center
         with Dissolve(0.5)
-        e "Debemos asegurar ese plantío. Hay mucha comida allí."
+        k "Debemos asegurar ese plantío. Hay mucha comida allí."
         hide erika with Dissolve(0.5)
 
     elif "bob" in grupo_jugador:
-        show bob alerta at center
+        show bob pensando at center
         with Dissolve(0.5)
         b "No podemos dejar que ese jabalí nos acose a cada paso. Debemos asegurar esa comida."
         hide bob with Dissolve(0.5)
 
-    $ choice_position = "default"  # default alta superior
+    $ choice_position = "alta"  # default alta superior
     menu:
         "Propones retroceder, reagruparse y armar un plan":
             $ decision_inicial_jabali = "precaucion"
@@ -10502,17 +10508,17 @@ label cap9_discusion_planes:
 
     # Propuesta de plan conservador
     if "laura" in grupo_jugador:
-        show laura pensativa at center
+        show laura hablando at center
         with Dissolve(0.5)
         l "Podríamos colgar trapos con savia amarga o ceniza alrededor. Eso repele a muchos animales."
         hide laura with Dissolve(0.5)
     elif "erika" in grupo_jugador:
-        show erika pensativa at center
+        show erika parada at right
         with Dissolve(0.5)
-        e "Podríamos improvisar una barrera de olores fuertes. Es poco confiable... pero quizás funcione."
+        k "Podríamos improvisar una barrera de olores fuertes. Es poco confiable... pero quizás funcione."
         hide erika with Dissolve(0.5)
     elif "bob" in grupo_jugador:
-        show bob serio at center
+        show bob parado serio at left
         with Dissolve(0.5)
         b "Si marcamos el área con cenizas y savia, tal vez el animal lo evite un tiempo. Puede funcionar."
         hide bob with Dissolve(0.5)
@@ -10524,14 +10530,14 @@ label cap9_discusion_planes:
         c "Podemos atraerlo con fruta hacia otro punto y bloquearle el retorno con troncos inclinados. Pero va a ser riesgoso."
         hide charles with Dissolve(0.5)
     elif "bob" in grupo_jugador:
-        show bob decidido at center
+        show bob decidido at left
         with Dissolve(0.5)
         b "Si lo cebamos bien y trabajamos rápido, podríamos encerrarlo sin lastimarlo."
         hide bob with Dissolve(0.5)
     elif "erika" in grupo_jugador:
-        show erika concentrada at center
+        show erika conversando at right
         with Dissolve(0.5)
-        e "Podríamos diseñar un corredor natural con obstáculos para devolverlo a la selva. Eso al menos nos dará tiempo para juntar fruta."
+        k "Podríamos diseñar un corredor natural con obstáculos para devolverlo a la selva. Eso al menos nos dará tiempo para juntar fruta."
         hide erika with Dissolve(0.5)
 
     "{i}Pero antes de decidir una estrategia concreta, surge la gran pregunta: ¿Deberían avisarle al otro grupo?{/i}"
@@ -10543,13 +10549,13 @@ label cap9_discusion_planes:
             y "Deberíamos buscar al otro grupo y compartir el hallazgo, quizá puedan ayudarnos."
             "Los otros quedan pensativos. Cruzan miradas, dudan. Nadie objeta."
 
-        "Mejor asegurar esta comida para nosotros. Si sobra, podemos compartirla luego.":
+        "Mejor resolver el problema nosotros. Una vez que se obtenga la comida, podemos compartirla con ellos.":
             $ compartir_con_otro_grupo = False
             "{i}Todos se miran, pero por más que parece que varios piensan lo mismo, nadie dice nada.{/i}"
 
     # Reacción de personajes al dilema ético
     if "marina" in grupo_jugador:
-        show marina preocupada at center
+        show marina hablando at center
         with Dissolve(0.5)
 
         if compartir_con_otro_grupo:
@@ -10560,17 +10566,17 @@ label cap9_discusion_planes:
         hide marina with Dissolve(0.5)
 
     elif "erika" in grupo_jugador:
-        show erika neutral at center
+        show erika conversando at left
         with Dissolve(0.5)
 
         if compartir_con_otro_grupo:
-            e "Si los incluimos, tendremos que negociar cada fruto. Pero quizás sea lo más inteligente."
+            k "Si los incluimos, tendremos que negociar cada fruto. Pero quizás sea lo más inteligente."
         else:
-            e "Se que todos estamos pensando lo mismo, pero es mejor asegurar la fuente de comida antes de comunicar a los demás del hallazgo."
+            k "Se que todos estamos pensando lo mismo, pero es mejor resolver por nuestra cuenta antes de comunicar a los demás del hallazgo."
         hide erika with Dissolve(0.5)
 
     elif "bob" in grupo_jugador:
-        show bob serio at center
+        show bob parado hablando at right
         with Dissolve(0.5)
 
         if compartir_con_otro_grupo:
@@ -10594,15 +10600,15 @@ label cap9_discusion_planes:
             
             show erika sorprendida at centerright
             with Dissolve(0.5)
-            e "No me digan que vienen corriendo de un jabalí."
+            k "No me digan que vienen corriendo de un jabalí."
 
             b "Se puso... agresivo... apenas nos vió."
 
-            e "Por casualidad, ¿estaba cubierto de barro?"
+            k "Por casualidad, ¿estaba cubierto de barro?"
 
             b "No se... creo que no... Tenía... tenía el lomo moteado."
 
-            e "Esta isla debe estar infestada. Nosotros encontramos otro, que está impidiéndonos el acceso a una huerta abandonada." 
+            k "Quizás haya mas de uno. Nosotros encontramos otro, que está impidiéndonos el acceso a una huerta abandonada." 
                
             hide bob with Dissolve(.5)
             hide erika with Dissolve(.5)                      
@@ -10610,17 +10616,17 @@ label cap9_discusion_planes:
         if "bob" in grupo_jugador:
             show erika sorprendida at centerright
             with Dissolve(0.5)
-            e "(jadeando) Debemos... estar... suficientemente... lejos."
+            k "(jadeando) Debemos... estar... suficientemente... lejos."
 
             show bob parado serio at centerleft
             with Dissolve(0.5)
             b "¿De qué corrían?"
 
-            e "Jabalí... nos sorprendió... solo atinamos a correr."
+            k "Jabalí... nos sorprendió... solo atinamos a correr."
 
             b "Este jabalí, ¿tenía el lomo cubierto de barro?"
 
-            e "No, tenía... vi su lomo moteado."
+            k "No, tenía... vi su lomo moteado."
 
             b "No es el mismo que vimos nosotros entonces."
 
@@ -10642,15 +10648,15 @@ label cap9_discusion_planes:
             
             show erika sorprendida at centerright
             with Dissolve(0.5)
-            e "No me digan que vienen corriendo de un jabalí."
+            k "No me digan que vienen corriendo de un jabalí."
 
             b "Se puso... agresivo... apenas nos vió."
 
-            e "Por casualidad, ¿estaba cubierto de barro?"
+            k "Por casualidad, ¿estaba cubierto de barro?"
 
             b "No se... creo que no... Tenía... tenía el lomo moteado."
 
-            e "Esta isla debe estar infestada. Nosotros encontramos otro, que está impidiéndonos el acceso a una huerta abandonada." 
+            k "Nosotros encontramos otro, que está impidiéndonos el acceso a una huerta abandonada." 
                
             hide bob with Dissolve(.5)
             hide erika with Dissolve(.5)                      
@@ -10658,17 +10664,17 @@ label cap9_discusion_planes:
         if "bob" in grupo_jugador:
             show erika sorprendida at centerright
             with Dissolve(0.5)
-            e "(jadeando) Debemos... estar... suficientemente... lejos."
+            k "(jadeando) Debemos... estar... suficientemente... lejos."
 
             show bob parado serio at centerleft
             with Dissolve(0.5)
             b "¿De qué corrían?"
 
-            e "Jabalí... nos sorprendió... solo atinamos a correr."
+            k "Jabalí... nos sorprendió... solo atinamos a correr."
 
             b "Este jabalí, ¿tenía el lomo cubierto de barro?"
 
-            e "No, tenía... vi su lomo moteado."
+            k "No, tenía... vi su lomo moteado."
 
             b "No es el mismo que vimos nosotros entonces."
 
@@ -10679,12 +10685,16 @@ label cap9_discusion_planes:
 
     "{i}Mientras los demás recuperan el aliento, los actualizan sobre la situación, y sobre sus posibles planes para hacerse con la fruta.{/i}"           
     "{i}Es hora de elegir cómo resolver el problema del jabalí.{/i}"
+    "{i}Se alejan hasta encontrar un claro donde elaborar algún plan.{/i}"
 
     jump cap9_eleccion_estrategia
 
 label cap9_eleccion_estrategia:
+    scene bg jungle resting_spot at truecenter
+    with Dissolve(.5) 
 
-    "{i}Los planes propuestos son dos.{/i}"
+
+    "{i}Luego de muchas opiniones y un largo rato discutiendo, los planes propuestos son dos.{/i}"
 
     "{i}Plan A: preparar una cerca con troncos, crear un corredor con frutas y redirigir al animal lejos del huerto.{/i}"
     "{i}Es ambicioso y peligroso, pero es más seguro que funcione.{/i}"
@@ -10695,9 +10705,9 @@ label cap9_eleccion_estrategia:
     if jugador_es_lider:
 
         if "erika" in grupo_jugador:
-            show erika enojada at center
+            show erika conversando at center
             with Dissolve(0.5)
-            e "Hay que decidir ya. ¿Qué hacemos, [nombre_personaje]?"
+            k "Hay que decidir ya. ¿Qué hacemos, [nombre_personaje]?"
             hide erika with Dissolve(0.5)
         elif "bob" in grupo_jugador:
             show bob serio at center
@@ -10707,7 +10717,7 @@ label cap9_eleccion_estrategia:
 
         $ choice_position = "default"
         menu:
-            "Eliges el plan de usar cebos para devolver al animal a la jungla.":
+            "Eliges usar cebos para devolver al animal a la jungla y bloquear su acceso al huerto.":
                 $ plan_elegido = "bloqueo"
 
                 "{i}Asientes con convicción. El grupo empieza a discutir cómo implementar el plan.{/i}"
@@ -10715,18 +10725,18 @@ label cap9_eleccion_estrategia:
             "Prefieres usar trapos y ceniza como repelente y correr menos riesgos.":
                 $ plan_elegido = "repelente"
 
-                if "erika" in grupo_jugador:
-                    show erika critica at center
+                if "bob" in grupo_jugador:
+                    show erika enojada at center
                     with Dissolve(0.5)
-                    e "Eso no va a durar. Y volverá con más hambre."
+                    k "Eso no va a durar. Y volverá con más hambre."
                     hide erika with Dissolve(0.5)
-                elif "bob" in grupo_jugador:
-                    show bob molesto at center
+                elif "erika" in grupo_jugador:
+                    show bob parado enojado at center
                     with Dissolve(0.5)
                     b "¿En serio? ¿Esperás que un trapo asuste a una bola de músculo y colmillos?"
                     hide bob with Dissolve(0.5)
 
-                "{i}Si bien nadie quiere correr riesgos, los demás insisten y terminan inclinándose por el plan de desvío{/i}."
+                "{i}Si bien nadie quiere correr riesgos, los demás insisten y terminan inclinándose por el plan de bloqueo{/i}."
                 "{i}Tu liderazgo es puesto en duda por primera vez.{/i}"
                 $ liderazgo -= 1
                 $ plan_elegido = "bloqueo"
@@ -10776,17 +10786,14 @@ label cap9_eleccion_estrategia:
 
 label cap9_formacion_equipos:
 
-    scene bg formacion_grupos with fade
-    show screen combined_ui
-
     "Llega el momento de repartir las tareas. Es tu oportunidad para inclinarte por la que prefieras, antes de que alguien más lo haga."
 
-    $ choice_position = "default"
+    $ choice_position = "alta"
     menu:
         "Distraer al jabalí con señuelos y ruido (riesgo alto)":
             $ grupo_jugador_elegido = 1
             $ reporte_toma_iniciativa_jabali = True
-            "Eliges el riesgo. Te tocará encauzar al jabalí y estrás en la primera línea si se pone agresivo."
+            "Eliges el riesgo. Te tocará encauzar al jabalí y estarás en la primera línea si se pone agresivo."
 
         "Recolectar fruta y trazar el recorrido del desvío (riesgo medio)":
             $ grupo_jugador_elegido = 2
@@ -10802,26 +10809,26 @@ label cap9_formacion_equipos:
     if grupo_jugador_elegido != 1:
         show erika decidida at center
         with Dissolve(0.5)
-        e "Yo me encargaré de distraer a esa bestia. Solamente espero que funcione, por mi propio bien."
+        k "Yo me encargaré de distraer a esa bestia. Solamente espero que funcione, por mi propio bien."
         hide erika with Dissolve(0.5)
 
     if grupo_jugador_elegido != 2:
-        show bob serio at center
+        show bob parado serio at center
         with Dissolve(0.5)
         b "Yo trazaré el camino con la fruta. Si algo sale mal, me gustaría estar cerca para ayudar a que nadie termine lastimado."
         hide bob with Dissolve(0.5)
 
     # Tomás se une automáticamente, con reacción según relación
     if tomas > 1:
-        show tomas neutral at center
+        show tomas sonriendo at center
         with Dissolve(0.5)
         t "Sabía que elegirías esa tarea. Cuenta conmigo, siempre es mejor trabajar con alguien que me cae bien."
     elif tomas < -1:
-        show tomas molesto at center
+        show tomas enojado at center
         with Dissolve(0.5)
         t "Iré contigo [nombre_personaje]. Este plan debe funcionar. Me aseguraré de que no lo arruines."
     else:
-        show tomas neutral at center
+        show tomas serio at center
         with Dissolve(0.5)
         t "Yo iré con [nombre_personaje]. Hagámos lo mejor que podamos."
     hide tomas with Dissolve(0.5)
@@ -10850,15 +10857,15 @@ label cap9_formacion_equipos:
 
         "Pedirle a Charles que se sume":
             if charles >= 1:
-                show charles confiado at center
+                show charles risa at center
                 with Dissolve(0.5)
                 c "¡Claro! Alguien tiene que acompañarlos, o Tomás te matará del aburrimiento antes de que el jabalí haya olfateado el cebo."
             elif charles <= -1:
-                show charles sarcástico at center
+                show charles boca abierta at center
                 with Dissolve(0.5)
-                c "Por más aburrido que Tomás me parezca, no merece trabajar el doble para compensar tu torpeza. Voy con ustedes."
+                c "Por más aburrido que me parezcas, Tomas trabaja por dos... Voy con ustedes."
             else:
-                show charles serio at center
+                show charles triste at center
                 with Dissolve(0.5)
                 c "Supongo que todos tenemos que ayudar tarde o temprano."
             $ miembro_extra = "charles"
@@ -10881,14 +10888,14 @@ label cap9_formacion_equipos:
 
 label cap9_mision_equipo_1:
 
-    scene bg señuelo_senda with fade
+    scene bg jungle explore 1 with fade
     show screen combined_ui
 
     "{i}Te alejas del claro con Tomás y [miembro_extra], cargando piedras y una bolsa con restos de fruta pasada.{/i}"
     "{i}El jabalí no está a la vista, pero sabes que acecha.{/i}"
     "{i}Los tres avanzan entre maleza, marcando árboles con olor y dejando rastro.{/i}"
 
-    show tomas alerta at center
+    show tomas hablando at right
     with Dissolve(0.5)
     t "No hagamos ruido por ahora. Dejalo venir primero... cuando se acerque, lo mareamos."
     hide tomas with Dissolve(0.5)
@@ -10907,30 +10914,30 @@ label cap9_mision_equipo_1:
 
     if miembro_extra == "marina":
         if marina > 1:
-            show marina sonriente at center
+            show marina hablando at left
             with Dissolve(0.5)
             m "Bien pensado. Eso lo atraerá de inmediato."
         elif marina < -1:
-            show marina molesta at center
+            show marina preocupada at left
             with Dissolve(0.5)
             m "¿Ese era el plan? ¿En serio?"
         else:
-            show marina seria at center
+            show marina triste at left
             with Dissolve(0.5)
             m "Si esto se pone feo, yo me subo a un árbol."
         hide marina with Dissolve(0.5)
 
     elif miembro_extra == "charles":
         if charles > 1:
-            show charles confiado at center
+            show charles sonriente at left
             with Dissolve(0.5)
             c "Buen disparo, [nombre_personaje]. No hay chance de que no haya oído eso."
         elif charles < -1:
-            show charles sarcástico at center
+            show charles brazos cruzados at left
             with Dissolve(0.5)
             c "Si eso lo atrae, es solo suerte de principiante."
         else:
-            show charles serio at center
+            show charles boca abierta at left
             with Dissolve(0.5)
             c "Solo... asegúrate de que se mantenga lejos de mi."
         hide charles with Dissolve(0.5)
@@ -10940,12 +10947,12 @@ label cap9_mision_equipo_1:
     "{i}Está siguiendo el recorrido que trazaron.{/i}"
 
     $ actualizar_boton_imagen()
-    $ update_stat("cansancio", cansancio - 1)
-    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
     hide screen combined_ui
     show screen combined_ui
 
-    "{iCorren en sigilo por el costado del camino que construyeron. Desde ahí, ven al animal cruzar el sendero marcado hacia el punto de bloqueo.{/i}"
+    "{i}Corren en sigilo por el costado del camino que construyeron. Desde ahí, ven al animal cruzar el sendero marcado hacia el punto de bloqueo.{/i}"
     "{i}No hay tiempo para celebrar: la emboscada tiene que cerrarse desde todos los frentes y ustedes solo hicieron parte del trabajo.{/i}"
 
     jump cap9_union_grupos
@@ -11099,7 +11106,7 @@ label cap9_union_grupos:
 
     "{i}Uno de los lados de la barrera no está listo. El animal empieza a retroceder. Si lo hace, puede escapar por el claro, o peor, atacarlos desde atrás.{/i}"
 
-    show tomas tenso at center with Dissolve(0.5)
+    show tomas enojado at left with Dissolve(0.5)
     t "¡Falta el cierre lateral! ¡No está bloqueado!"
     hide tomas with Dissolve(0.5)
 
@@ -11109,7 +11116,7 @@ label cap9_union_grupos:
         "Tomar el liderazgo y organizar una solución rápida":
             jump cap9_reaccion_liderazgo
 
-        "Dejar que otro tome el control (Bob reacciona)":
+        "Dejar que otro tome el control":
             jump cap9_reaccion_pasiva
 
 label elegir_tono(personaje):
@@ -11318,48 +11325,59 @@ label cap9_resolucion_final_jabali:
     scene bg plano_de_trampa with fade
     show screen combined_ui
 
-    "{i}El jabalí respira agitado, encerrado entre ramas, fruta pisoteada y tierra húmeda. El grupo observa en silencio, entre asombro y cansancio.{/i}"
+    "{i}El jabalí respira agitado, del otro lado de las ramas. Se come un trozo de fruta pisoteada y se aleja al interior de la jungla.{/i}"
+    "{i}El grupo observa en silencio, entre asombro y cansancio.{/i}"
 
-    show tomas aliviado at center with Dissolve(0.5)
+    show ingrid sonriente at right with Dissolve(0.5)
     t "Lo logramos. No puedo creerlo... pero lo logramos."
-    hide tomas with Dissolve(0.5)
+  
 
-    show erika neutra at center with Dissolve(0.5)
-    e "Ahora hay que decidir qué hacer con esto. Pero primero... que alguien diga que estamos vivos."
+    show marina sonriendo at center with Dissolve(0.5)
+    k "Ahora hay que decidir qué hacer con esto. Pero primero... que alguien diga que estamos vivos."
     hide erika with Dissolve(0.5)
 
-    show marina emocionada at center with Dissolve(0.5)
-    m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo posta!"
+    show erika conversando at left with Dissolve(0.5)
+    m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo de los mejores!"
     hide marina with Dissolve(0.5)
 
-    "{i}Por ahora, el animal queda bajo vigilancia. Pero el grupo siente que algo cambió: si lograron eso juntos, quizás haya esperanza más allá del miedo.{/i}"
+    "{i}Por ahora, el animal queda en un area contenida. Pero el grupo siente que algo cambió: si lograron eso juntos, quizás haya esperanza más allá del miedo.{/i}"
+    hide ingrid
+    with Dissolve(0.5)
+    hide erika
+    with Dissolve(0.5)
+    hide marina
+    with Dissolve(0.5)
 
     jump cap9_recolecta_alimentos
 
 label cap9_recolecta_alimentos:
 
-    scene bg huerta_exterior with fade
-    show screen combined_ui
+    scene bg jungle orchard at truecenter 
+    with Dissolve(0.5)
 
     "Mientras algunos vigilan al jabalí desde la distancia, otros comienzan a llenar canastos con frutas y verduras recuperadas del huerto."
 
-    "Pero pronto, las miradas empiezan a pesar más que los tomates."
+    "Pero pronto, las miradas empiezan a pesar más que los zapallos."
 
-    show bob serio at left
-    show marina molesta at right
+    show laura seria at left
     with Dissolve(0.5)
 
-    b "Esto no se reparte solo. ¿Vamos a contar por cabeza o por mérito?"
+    l "Esto no se reparte solo. ¿Vamos a contar por cabeza o por mérito?"
+
+    show marina preocupada at right
+    with Dissolve(0.5)
     m "¿Otra vez con eso? No quiero pelear por un boniato mugriento."
 
-    hide bob
+    hide laura
+    with Dissolve(0.5)
     hide marina
     with Dissolve(0.5)
 
     "{i}Erika respira hondo. Propone una solución clara: separar la recolección en dos montones proporcionales a la cantidad de integrantes de cada grupo.{/i}"
 
-    show erika lider at center with Dissolve(0.5)
-    e "Si somos más, nos toca más. Si somos menos, cuidamos mejor lo que tenemos. Justo es justo."
+    show erika enojada at center 
+    with Dissolve(0.5)
+    k "Si somos más, nos toca más. Si somos menos, cuidamos mejor lo que tenemos. Justo es justo."
     hide erika with Dissolve(0.5)
 
     "{i}La tensión baja, aunque las miradas no se suavizan del todo. Pero el acuerdo se cumple.{/i}"
@@ -11375,11 +11393,12 @@ label cap9_encuentro_caja:
 
     "{i}Se dividieron los alimentos. Se contuvo al jabalí. Y nadie resultó herido… al menos de gravedad.{/i}"
 
-    show erika neutral at left
-    show bob cansado at right
+    show erika parada at left
+    with Dissolve(0.5)
+    show bob parado hablando at right
     with Dissolve(0.5)
 
-    e "Que cada uno cargue algo. Si no nos comemos estos tubérculos hoy, van directo al abono."
+    k "Que cada uno cargue algo. Si no nos comemos estos tubérculos hoy, van directo al abono."
 
     b "Yo quiero verlos chisporrotear sobre el fuego. ¿Quién corta primero?"
 
@@ -11400,16 +11419,16 @@ label cap9_encuentro_caja:
         "Ignorarlo, estás agotado y querés irte ya":
             $ reporte_ignora_curiosidad = True
             "{i}Te obligás a no mirar. El cansancio pesa más que la curiosidad. Quizás alguien más lo vea otro día.{/i}"
+            #aca hat que hacer un bucle pero que la caja la lleven al campamento de todas maneras
             jump cap9_cierre_dia
 
     "Llevan la caja hasta el refugio. Es pesada. Vieja. Y está cerrada."
 
-    scene bg refugio_interior with fade
-    stop music fadeout 1.5
-    play music "sfx_campamento_noche.ogg"
+    scene bg jungle night stars at truecenter
+    with Dissolve(0.5)
 
     "{i}Ya es de noche. Las verduras chispean en la sartén de lata. El fuego calienta pies y ánimo. Y entre los tres rodean la caja como si fuera un tótem perdido.{/i}"
-
+    #aca ver quienes estan y que sea uno de los del grupo del jugador
     "Tomás fuerza una bisagra con la hoja del cuchillo. Tarda. Cruje. Pero finalmente… se abre."
 
     ### Etapa 1: Dibujo de la cueva
@@ -11430,11 +11449,11 @@ label cap9_encuentro_caja:
     "{i}Debajo, una libreta pequeña, escrita a mano, con símbolos raros y coordenadas imprecisas. Marcas como 'línea rota', 'abertura oculta', 'marea alta'.{/i}"
 
     if "marina" in grupo_jugador:
-        show marina intrigada at center with Dissolve(0.5)
+        show marina preocupada at center with Dissolve(0.5)
         m "¿Estos símbolos… no son los mismos que vimos tallados en el claro del sur?"
         hide marina with Dissolve(0.5)
     elif "charles" in grupo_jugador:
-        show charles curioso at center with Dissolve(0.5)
+        show charles boca abierta at center with Dissolve(0.5)
         c "Mmm. Me encantan los mapas que no dicen nada hasta que alguien desaparece por seguirlos."
         hide charles with Dissolve(0.5)
 
