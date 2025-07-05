@@ -482,6 +482,7 @@ default equipo_jugador_opcion2 = False
 default jugador_es_lider = False
 default bob_es_lider = False
 default erika_es_lider = False
+default elegido = ""
 
 
 default relaciones_cap1_bob = 99
@@ -10685,6 +10686,7 @@ label cap9_discusion_planes:
 
     "{i}Mientras los demás recuperan el aliento, los actualizan sobre la situación, y sobre sus posibles planes para hacerse con la fruta.{/i}"           
     "{i}Es hora de elegir cómo resolver el problema del jabalí.{/i}"
+    "{i}Una vez más, todos los integrantes de ambos grupos trabajarán juntos.{/i}"
     "{i}Se alejan hasta encontrar un claro donde elaborar algún plan.{/i}"
 
     jump cap9_eleccion_estrategia
@@ -11092,11 +11094,6 @@ label cap9_mision_equipo_3:
 
     jump cap9_union_grupos
 
-
-    #######################################################
-    # MARTES 01/07 LLEGUÉ HASTA ACÁ
-    #######################################################
-
 label cap9_union_grupos:
 
     scene bg plano_de_trampa with fade
@@ -11104,10 +11101,11 @@ label cap9_union_grupos:
 
     "Los tres grupos convergen en torno a la trampa. El jabalí ha entrado en el pasillo, pero algo está mal."
 
-    "{i}Uno de los lados de la barrera no está listo. El animal empieza a retroceder. Si lo hace, puede escapar por el claro, o peor, atacarlos desde atrás.{/i}"
+    "{i}Uno de los lados de la barrera se cayó, y obstaculiza el camino.
+    "{i}El animal empieza a retroceder. Si regresa, puede escapar por el claro, o peor, atacarlos desde atrás.{/i}"
 
     show tomas enojado at left with Dissolve(0.5)
-    t "¡Falta el cierre lateral! ¡No está bloqueado!"
+    t "¡Tenemos que hacer algo, antes de que pueda regresar al claro!"
     hide tomas with Dissolve(0.5)
 
     # Decisión crítica del jugador
@@ -11137,20 +11135,20 @@ label cap9_reaccion_liderazgo:
 
     ########## PRIMERA INSTRUCCIÓN ##########
 
-    "¿A quién le das la primera orden?"
+    "{i}Alguien debe distraer al jabalí para que otra persona se encargue de despejar el camino.{/i}"
 
     menu:
-        "Tomas":
+        "Decirle a Tomás que lo haga.":
             $ elegido = "tomas"
-        "Marina":
+        "Decirle a Marina que lo haga.":
             $ elegido = "marina"
 
-    "¿Cómo le hablás a [elegido]?"
+    "{i}La claridad en las órdenes es imprescindible, pero en este momento es importante cuidar la comunicación.{/i}"
 
     menu:
-        "Con tono gentil y persuasivo":
+        "Pedir a [elegido] que se encargue de esta tarea, con tono gentil y persuasivo":
             $ tono = "gentil"
-        "Con tono directo y firme":
+        "Ordenarle a [elegido] que se ponga manos a la obra, con tono directo y firme":
             $ tono = "directa"
 
     $ rel = globals()[elegido]
@@ -11176,37 +11174,38 @@ label cap9_reaccion_liderazgo:
 
     if elegido == "tomas":
         if impacto >= 2:
-            t "Hecho. No hace falta decirlo dos veces."
+            t "Cuenta con eso."
         elif impacto >= 0:
-            t "Sí... lo hago. Solo decime si ves algo raro."
+            t "¿Distraer al jabalí? Bueno... está bien..."
         else:
-            t "¿Ahora te acordás de mí? Bueno... está bien. Pero no me pidas sonrisas."
+            t "¡Qué fácil es para ti pedirle a otros que corran el riesgo!"
 
     elif elegido == "marina":
         if impacto >= 2:
-            m "Gracias por pedírmelo así. Ahora sí: a trabajar."
+            m "Si me lo pides con esos modos, lo haré con gusto."
         elif impacto >= 0:
-            m "Lo hago, pero después hablamos de cómo das órdenes, ¿ok?"
+            m "Entiendo que estamos en apuros, pero no es necesario que me des órdenes de ese modo."
         else:
-            m "¿Y vos quién te creés para ordenarme así? Lo hago, pero no por vos."
+            m "Si no fuera porque no quiero defraudar al resto, ni lo haría, con la forma en la que me lo pides."
 
+    "{i}Luego de encontrar una posición elevada al costado del camino, [elegido] comienza a silbar, atrayendo la atención del jabalí.{/i}"
 
     ########## SEGUNDA INSTRUCCIÓN ##########
 
-    "¿A quién le das la segunda orden?"
+    "{i}Ahora alguien tiene que despejar el camino y restaurar la barrera.{/i}"
 
     menu:
-        "Ingrid":
+        "Decirle a Ingrid que se encargue.":
             $ elegido = "ingrid"
-        "Laura":
+        "Decirle a Laura que se encargue.":
             $ elegido = "laura"
 
-    "¿Cómo le hablás a [elegido]?"
+    "{i}Ya tenés claro que cada persona responde a distintos tonos y formas al pedirles ayuda.{/i}"
 
     menu:
-        "Con tono gentil y persuasivo":
+        "Decirle a [elegido] que se ocupe, con tono gentil y persuasivo.":
             $ tono = "gentil"
-        "Con tono directo y firme":
+        "Darle la orden a [elegido] de que vaya a restaurar la barrera, con tono directo y firme.":
             $ tono = "directa"
 
     $ rel = globals()[elegido]
@@ -11232,37 +11231,37 @@ label cap9_reaccion_liderazgo:
 
     if elegido == "ingrid":
         if impacto >= 2:
-            i "¡Ya voy! Me encanta que confíes en mí para esto."
+            i "¡Estoy en eso ya mismo!."
         elif impacto >= 0:
-            i "No hace falta tantas vueltas, lo hago. Pero apurémonos."
+            i "Alcanza con que sea claro con lo que hay que hacer."
         else:
-            i "¿Me das una orden justo ahora? Qué timing…"
+            i "¿Y a ti quién te nombró mariscal de campo? Yo me encargo solamente porque alguien tiene que hacerlo."
 
     elif elegido == "laura":
         if impacto >= 2:
-            l "Así sí. Sabés pedir ayuda sin sonar como un sargento."
+            l "Estaba por ofrecerme, de hecho. ¡Estamos sincronizados!"
         elif impacto >= 0:
-            l "Voy... pero no me hables así de nuevo, ¿sí?"
+            l "Ya voy... pero no me hables así de nuevo, ¿sí?"
         else:
-            l "Tu tono ayuda tan poco como esa rama mal clavada. Pero lo hago."
+            l "¿Con ese tono? Deberías estar agradecido de que no tengo opción."
 
 
     ########## TERCERA INSTRUCCIÓN ##########
 
-    "¿A quién le das la tercera orden?"
+     "{i}Luego de unos segundos, [elegido] logra restaurar la barrera. Alguien debe atraer al jabalí nuevamente hacia el camino.{/i}"
 
     menu:
-        "Bob":
+        "Decirle a Bob que lo haga.":
             $ elegido = "bob"
-        "Charles":
+        "Decirle a Charles que lo haga.":
             $ elegido = "charles"
 
-    "¿Cómo le hablás a [elegido]?"
+     "{i}Es importante que [elegido] entienda claramente lo que tiene que hacer.{/i}"
 
     menu:
-        "Con tono gentil y persuasivo":
+        "Sugerirle a [elegido] que es la persona más indicada, usando un tono gentil y persuasivo":
             $ tono = "gentil"
-        "Con tono directo y firme":
+        "Dirigirte a [elegido] con tono directo y firme, asegurándote de que tus órdenes sean claras.":
             $ tono = "directa"
 
     $ rel = globals()[elegido]
@@ -11288,35 +11287,42 @@ label cap9_reaccion_liderazgo:
 
     if elegido == "bob":
         if impacto >= 2:
-            b "Buena cabeza. Me gusta verte tomar control con claridad."
+            b "Ha aflorado un buen líder en ti. Cuenta conmigo."
         elif impacto >= 0:
-            b "Bueno, si no hay otra, lo hago. Pero apurate la próxima."
+            b "Supongo que no hay alternativa."
         else:
-            b "Estás improvisando. Pero qué raro… igual lo hago."
+            b "Está bien, pero después me critican a mi por improvisar en la marcha, ¿vieron?"
 
     elif elegido == "charles":
-        c "Ah, el show del mando. Qué emocionante. Voy a hacerlo... si no encuentro una excusa mejor."
+        if impacto >= 2:
+            c "Por supuesto, yo lo atraeré."
+        elif impacto >= 0:
+            c "¿Eso fue un pedido, o una orden? En fin, yo me encargo."
+        else:
+            c "¿Jugando a ser el mandamás? Ahí voy, pero no porque tu me lo ordenes."
 
-
+    "{i}El jabalí vuelve a encarar en la posición, siguiendo las últimas frutas.
+    "{i}Cuando ya está lejos, bajan la barrera, impidiéndole el retorno.{/i}"
     ########## EVALUACIÓN FINAL ##########
 
     if exito_total >= 4:
         $ reporte_resuelve_crisis_con_liderazgo = "excelente"
         show bob orgulloso at center with Dissolve(0.5)
-        b "No lo digo mucho… pero lo hiciste bien."
+        b "Lo hiciste muy bien, [nombre_personaje]."
         hide bob with Dissolve(0.5)
 
         show erika leve_smile at center with Dissolve(0.5)
-        e "Eso fue precisión bajo presión. Bien jugado."
+        e "Es impresionante lo bien que trabajas bajo presión."
         hide erika with Dissolve(0.5)
 
     elif exito_total >= -1:
         $ reporte_resuelve_crisis_con_liderazgo = "resuelto"
-        "{i}Funcionó. Justo a tiempo. Hay respiraciones pesadas, pero también miradas de alivio sincero.{/i}"
+        "{i}Funcionó justo a tiempo. Todavía están en shock, pero empiezan a asomar sonrisas de alivio.{/i}"
 
     else:
         $ reporte_resuelve_crisis_con_liderazgo = "marginal"
-        "{i}El jabalí quedó atrapado por pura casualidad. Todos lo saben. Nadie dice nada.{/i}"
+        "{i}El jabalí quedó atrapado por pura casualidad, y es una suerte que no tengan que lamentar heridos.{/i}"
+        "{i}Todos lo saben, pero nadie dice nada.{/i}"
 
     jump cap9_resolucion_final_jabali
 
@@ -11325,12 +11331,11 @@ label cap9_resolucion_final_jabali:
     scene bg plano_de_trampa with fade
     show screen combined_ui
 
-    "{i}El jabalí respira agitado, del otro lado de las ramas. Se come un trozo de fruta pisoteada y se aleja al interior de la jungla.{/i}"
-    "{i}El grupo observa en silencio, entre asombro y cansancio.{/i}"
+    "{i}El jabalí respira agitado, del otro lado de labarrera. Se come un trozo de fruta pisoteada y se aleja al interior de la jungla.{/i}"
+    "{i}El grupo observa en silencio, recuperando el aliento mientras contemplan el éxito de su trabajo en equipo.{/i}"
 
     show ingrid sonriente at right with Dissolve(0.5)
-    t "Lo logramos. No puedo creerlo... pero lo logramos."
-  
+    t "Lo logramos. No puedo creerlo... pero lo logramos."  
 
     show marina sonriendo at center with Dissolve(0.5)
     k "Ahora hay que decidir qué hacer con esto. Pero primero... que alguien diga que estamos vivos."
@@ -11340,13 +11345,16 @@ label cap9_resolucion_final_jabali:
     m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo de los mejores!"
     hide marina with Dissolve(0.5)
 
-    "{i}Por ahora, el animal queda en un area contenida. Pero el grupo siente que algo cambió: si lograron eso juntos, quizás haya esperanza más allá del miedo.{/i}"
-    hide ingrid
-    with Dissolve(0.5)
-    hide erika
-    with Dissolve(0.5)
-    hide marina
-    with Dissolve(0.5)
+    "{i}Por ahora, el animal queda en un area contenida, pero el grupo siente que algo cambió.{/i}"
+    "{i}Si lograron esto trabajando juntos, quizás haya esperanza más allá de las diferencias.{/i}"
+    
+    hide ingrid with Dissolve(0.5)
+    hide erika with Dissolve(0.5)
+    hide marina with Dissolve(0.5)
+    hide tomas with Dissolve(0.5)
+    hide charles with Dissolve(0.5)
+    hide laura with Dissolve(0.5)
+    hide bob with Dissolve(0.5)
 
     jump cap9_recolecta_alimentos
 
@@ -11355,32 +11363,33 @@ label cap9_recolecta_alimentos:
     scene bg jungle orchard at truecenter 
     with Dissolve(0.5)
 
-    "Mientras algunos vigilan al jabalí desde la distancia, otros comienzan a llenar canastos con frutas y verduras recuperadas del huerto."
+    "{i}Mientras algunos vigilan al jabalí desde la distancia, otros comienzan a llenar canastos con frutas y verduras recuperadas del huerto.{/i}"
 
-    "Pero pronto, las miradas empiezan a pesar más que los zapallos."
+    "{i}Pero pronto, las miradas empiezan a pesar más que los zapallos.{/i}"
 
     show laura seria at left
     with Dissolve(0.5)
 
-    l "Esto no se reparte solo. ¿Vamos a contar por cabeza o por mérito?"
+    l "Entonces... ¿Cómo vamos a repartir esta pequeña cosecha?"
 
     show marina preocupada at right
     with Dissolve(0.5)
-    m "¿Otra vez con eso? No quiero pelear por un boniato mugriento."
+    m "Les pido por favor que sean civilizados. No quiero pelear por un boniato mugriento, como cuando discutieron en las ruinas del refugio."
 
     hide laura
     with Dissolve(0.5)
     hide marina
     with Dissolve(0.5)
 
-    "{i}Erika respira hondo. Propone una solución clara: separar la recolección en dos montones proporcionales a la cantidad de integrantes de cada grupo.{/i}"
-
     show erika enojada at center 
     with Dissolve(0.5)
+
+    "{i}Erika respira hondo y propone separar la comida en de forma proporcional a la cantidad de integrantes de cada grupo.{/i}"
+
     k "Si somos más, nos toca más. Si somos menos, cuidamos mejor lo que tenemos. Justo es justo."
     hide erika with Dissolve(0.5)
 
-    "{i}La tensión baja, aunque las miradas no se suavizan del todo. Pero el acuerdo se cumple.{/i}"
+    "{i}No todos parecen estar del todo conformes, pero todos terminan aceptando esas condiciones.{/i}"
 
     jump cap9_encuentro_caja
 
@@ -11389,40 +11398,47 @@ label cap9_encuentro_caja:
     scene bg huerta_exterior sunset with fade
     show screen combined_ui
 
-    "El cielo ya se tiñe de naranja y violeta. Los insectos cantan. El esfuerzo del día se siente en la espalda, pero también en el pecho."
-
-    "{i}Se dividieron los alimentos. Se contuvo al jabalí. Y nadie resultó herido… al menos de gravedad.{/i}"
-
+    "{i}El cielo ya se tiñe de naranja y violeta. Los insectos cantan.{/i}"
+    "{i}El esfuerzo del día se siente en las espaldas cansadas, pero también en los pechos, hinchados de orgullo por el logro.{/i}"
+       
     show erika parada at left
     with Dissolve(0.5)
     show bob parado hablando at right
     with Dissolve(0.5)
 
-    k "Que cada uno cargue algo. Si no nos comemos estos tubérculos hoy, van directo al abono."
+    k "Les sugiero que no se demoren en comer estos vegetales. En este clima, se pondrán feos rápidamente."
 
-    b "Yo quiero verlos chisporrotear sobre el fuego. ¿Quién corta primero?"
+    b "Yo ya quiero verlos chisporrotear sobre el fuego."
 
     hide erika
     hide bob
     with Dissolve(0.5)
 
-    "Mientras el otro grupo se despide y toma rumbo hacia su refugio, ustedes acomodan los bultos y repasan los momentos del día con sonrisas desarmadas."
+    "{i}Mientras el otro grupo se despide y enfila rumbo hacia su refugio, recorres el lugar por si quedó algo por levantar.{/i}"
 
-    "{i}Pero justo cuando te agachás para levantar una mochila húmeda... sentís un golpe seco contra la suela. Algo enterrado.{/i}"
+    "{i}Al caminar por encima de un pequeño terraplén, sientes un golpe seco contra la suela.{/i}"
+    "{i}Debajo de una capa fina de tierra, hay algo hueco semienterrado.{/i}"
 
     $ choice_position = "default"
     menu:
-        "Patear el borde del objeto y revisar con disimulo":
+        "Patear el borde del objeto y revisar con cuidado.":
             $ reporte_descubre_objeto = True
-            "{i}Removés hojas, raíces y algo de barro. Es una caja metálica, rectangular, carcomida por óxido y agua.{/i}"
+            "{i}Remueves la tierra y quitas algunas raíces. Es una caja metálica, rectangular, carcomida por el óxido.{/i}"
+            "{i}Pides ayuda a los demás para cargarla.{/i}"
 
-        "Ignorarlo, estás agotado y querés irte ya":
+        "Ignorarlo, estás agotado y quieres irte ya.":
             $ reporte_ignora_curiosidad = True
-            "{i}Te obligás a no mirar. El cansancio pesa más que la curiosidad. Quizás alguien más lo vea otro día.{/i}"
-            #aca hat que hacer un bucle pero que la caja la lleven al campamento de todas maneras
-            jump cap9_cierre_dia
+            "{i}Tu curiosidad no es mas grande que tu cansancio, así que tras un rápido vistazo, decides marcharte.{/i}"
+            show charles brazos cruzados at right with Dissolve(.5)
+            c "¿Qué es? Vamos a fijarnos, no seas haragán."
+            "{i}Observas mientras Charles desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
+            "{i}Entre los dos, la cargan.{/i}" 
 
-    "Llevan la caja hasta el refugio. Es pesada. Vieja. Y está cerrada."
+    "Se van turnando de dos en dos para llevarla hasta el refugio, porque es algo pesada."
+
+    ##############################
+    # VIERNES 4 HASTA ACÁ
+    ##############################
 
     scene bg jungle night stars at truecenter
     with Dissolve(0.5)
