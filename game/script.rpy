@@ -11101,7 +11101,7 @@ label cap9_union_grupos:
 
     "Los tres grupos convergen en torno a la trampa. El jabalí ha entrado en el pasillo, pero algo está mal."
 
-    "{i}Uno de los lados de la barrera se cayó, y obstaculiza el camino.
+    "{i}Uno de los lados de la barrera se cayó, y obstaculiza el camino.{/i}"
     "{i}El animal empieza a retroceder. Si regresa, puede escapar por el claro, o peor, atacarlos desde atrás.{/i}"
 
     show tomas enojado at left with Dissolve(0.5)
@@ -11248,7 +11248,7 @@ label cap9_reaccion_liderazgo:
 
     ########## TERCERA INSTRUCCIÓN ##########
 
-     "{i}Luego de unos segundos, [elegido] logra restaurar la barrera. Alguien debe atraer al jabalí nuevamente hacia el camino.{/i}"
+    "{i}Luego de unos segundos, [elegido] logra restaurar la barrera. Alguien debe atraer al jabalí nuevamente hacia el camino.{/i}"
 
     menu:
         "Decirle a Bob que lo haga.":
@@ -11256,7 +11256,7 @@ label cap9_reaccion_liderazgo:
         "Decirle a Charles que lo haga.":
             $ elegido = "charles"
 
-     "{i}Es importante que [elegido] entienda claramente lo que tiene que hacer.{/i}"
+    "{i}Es importante que [elegido] entienda claramente lo que tiene que hacer.{/i}"
 
     menu:
         "Sugerirle a [elegido] que es la persona más indicada, usando un tono gentil y persuasivo":
@@ -11301,7 +11301,7 @@ label cap9_reaccion_liderazgo:
         else:
             c "¿Jugando a ser el mandamás? Ahí voy, pero no porque tu me lo ordenes."
 
-    "{i}El jabalí vuelve a encarar en la posición, siguiendo las últimas frutas.
+    "{i}El jabalí vuelve a encarar en la posición, siguiendo las últimas frutas.{/i}"
     "{i}Cuando ya está lejos, bajan la barrera, impidiéndole el retorno.{/i}"
     ########## EVALUACIÓN FINAL ##########
 
@@ -11434,6 +11434,8 @@ label cap9_encuentro_caja:
             "{i}Observas mientras Charles desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
             "{i}Entre los dos, la cargan.{/i}" 
 
+            hide charles with Dissolve(.5)
+
     "Se van turnando de dos en dos para llevarla hasta el refugio, porque es algo pesada."
 
     ##############################
@@ -11443,59 +11445,93 @@ label cap9_encuentro_caja:
     scene bg jungle night stars at truecenter
     with Dissolve(0.5)
 
-    "{i}Ya es de noche. Las verduras chispean en la sartén de lata. El fuego calienta pies y ánimo. Y entre los tres rodean la caja como si fuera un tótem perdido.{/i}"
-    #aca ver quienes estan y que sea uno de los del grupo del jugador
-    "Tomás fuerza una bisagra con la hoja del cuchillo. Tarda. Cruje. Pero finalmente… se abre."
+    "{i}Ya de noche, de vuelta en el refugio, las verduras chispean en la sartén de lata.{/i}"
+    "{i}El fuego y la comida caliente son la recompensa de un día lleno de acción.{/i}"
+    "{i}Luego de cenar, la atención empieza a desviarse hacia la caja.{/i}"
+    "{i}La rodean e intercambian miradas, esperando a ver quién será el primero que intente abrirla.{/i}"
+
+    if tomás in grupo_jugador:
+        "{i}Tomás fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+        "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
+    
+    elif charles in grupo_jugador:
+        "{i}Charles fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+        "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
+
+    elif bob in grupo_jugador:
+        "{i}Bob fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+        "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
+
+    elif erika in grupo_jugador:
+        "{i}Erika fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+        "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
 
     ### Etapa 1: Dibujo de la cueva
-    "{i}En la parte superior, protegida por tela seca, hay una hoja con un dibujo a tinta: una cueva frente al mar, vista desde arriba.{/i}"
+    "{i}En la parte superior, protegida por tela seca, hay una hoja de papel.{/i}"
+    "{i}Está deteriorada por el tiempo, pero se nota un dibujo hecho en tinta de una cueva frente al mar, vista desde arriba.{/i}"
 
-    show tomas sorprendido at center
-    with Dissolve(0.5)
-    t "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
+    if tomás in grupo_jugador:
+        show tomas sorprendido at center
+        with Dissolve(0.5)
+        t "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
+        hide tomas with Dissolve(0.5)
+
+    elif charles in grupo_jugador:
+        show charles boca abierta at center
+        with Dissolve(0.5)
+        ct "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
+        hide charles with Dissolve(0.5)
+
+    elif erika in grupo_jugador:
+        show erika sorprendida at center
+        with Dissolve(0.5)
+        e "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
+        hide erika with Dissolve(0.5)
 
     menu:
         "Parece hecha por alguien que conocía bien la zona.":
-            pass
+            pass    # REVISAR
         "¿Y si esto no es un dibujo? ¿Y si es un mapa?":
-            pass
-    hide tomas with Dissolve(0.5)
+            pass    # REVISAR
+    
 
     ### Etapa 2: Notas con símbolos
-    "{i}Debajo, una libreta pequeña, escrita a mano, con símbolos raros y coordenadas imprecisas. Marcas como 'línea rota', 'abertura oculta', 'marea alta'.{/i}"
+    "{i}Debajo de la tela hay una libreta pequeña, con escrituras, símbolos raros y coordenadas imprecisas.{/i}"
+    "{i}Hay marcas como 'línea rota', 'abertura oculta', o 'marea alta'.{/i}"
 
     if "marina" in grupo_jugador:
         show marina preocupada at center with Dissolve(0.5)
-        m "¿Estos símbolos… no son los mismos que vimos tallados en el claro del sur?"
+        m "¿Estos símbolos... no son los mismos que vimos tallados en el claro del sur?"     # REVISAR
         hide marina with Dissolve(0.5)
     elif "charles" in grupo_jugador:
         show charles boca abierta at center with Dissolve(0.5)
-        c "Mmm. Me encantan los mapas que no dicen nada hasta que alguien desaparece por seguirlos."
+        c "Mmm. Me encantan los mapas que no dicen nada hasta que alguien desaparece por seguirlos."     # REVISAR
         hide charles with Dissolve(0.5)
 
     menu:
         "Quizás esté describiendo cómo llegar a esa cueva en secreto.":
-            pass
+            pass    # REVISAR
         "Podría ser solo el delirio de alguien que se perdió.":
-            pass
+            pass    # REVISAR
 
     ### Etapa 3: Yodo + venda
-    "{i}Al costado, enrollada con cinta: una venda usada y un frasco cerrado de yodo. Hay barro entre las gasas, como si alguien lo hubiera enterrado de apuro.{/i}"
+    "{i}Por último, enrollada con cinta al fondo de la caja, hay una venda usada y un frasco cerrado de yodo.{/i}"
+    "{i}Hay barro entre las gasas, como si alguien lo hubiera enterrado en un apuro.{/i}"
 
     if "ingrid" in grupo_jugador:
         show ingrid seria at center with Dissolve(0.5)
-        i "Esto se dejó acá como último recurso… o como advertencia."
+        i "Esto se dejó acá como último recurso... o como advertencia." # REVISAR
         hide ingrid with Dissolve(0.5)
     elif "laura" in grupo_jugador:
         show laura pensativa at center with Dissolve(0.5)
-        l "Tal vez alguien se lastimó de verdad. Y no quería que lo siguieran."
+        l "Tal vez alguien se lastimó de verdad. Y no quería que lo siguieran." # REVISAR
         hide laura with Dissolve(0.5)
 
     menu:
         "Esto no es solo un hallazgo. Es una historia enterrada.":
-            pass
+            pass # REVISAR
         "Quizás todavía queda alguien ahí afuera..." :
-            pass
+            pass # REVISAR
 
     ### Etapa 4: Trozo de diario – joyas robadas
     "{i}Y al fondo, arrugado pero visible: un recorte de diario plastificado. La noticia: 'Millonario robo de joyas. Misterio y desconcierto sobre su paradero.'{/i}"
@@ -11506,9 +11542,9 @@ label cap9_encuentro_caja:
 
     menu:
         "No lo sé. Pero alguien lo creyó suficiente como para esconder esto.":
-            pass
+            pass # REVISAR
         "¿Y si seguimos las pistas mañana? Podríamos ser nosotros los que lo encuentren.":
-            pass
+            pass # REVISAR
 
     "{i}La caja queda abierta sobre una manta improvisada. Y vos, aunque el cuerpo pide dormir… no podés dejar de pensar en el dibujo, el símbolo, el mar oscuro.{/i}"
 
