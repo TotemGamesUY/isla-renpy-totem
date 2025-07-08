@@ -11512,15 +11512,16 @@ label cap9_encuentro_caja:
     elif "erika" in grupo_jugador:
         show erika sorprendida at center
         with Dissolve(0.5)
-        k "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
+        k "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
         hide erika with Dissolve(0.5)
 
     menu:
         "Parece hecha por alguien que conocía bien la zona.":
-            pass    # REVISAR
-        "¿Y si esto no es un dibujo? ¿Y si es un mapa?":
-            pass    # REVISAR
-    
+            y "El trazo parece ser preciso."
+            y "Si nos acercamos a la zona, reconoceremos la entrada a la cueva guiándonos con el dibujo."
+
+        "¿Y si esto no es solamente un dibujo?":
+            y "Fíjense como el dibujo está hecho visto desde arriba... ¡Esto es un mapa!"    
 
     ### Etapa 2: Notas con símbolos
     "{i}Debajo de la tela hay una libreta pequeña, con escrituras, símbolos raros y coordenadas imprecisas.{/i}"
@@ -11528,54 +11529,76 @@ label cap9_encuentro_caja:
 
     if "marina" in grupo_jugador:
         show marina preocupada at center with Dissolve(0.5)
-        m "¿Estos símbolos... no son los mismos que vimos tallados en el claro del sur?"     # REVISAR
+        m "Estos símbolos... ¿dónde los vi antes?"  
         hide marina with Dissolve(0.5)
     elif "charles" in grupo_jugador:
         show charles boca abierta at center with Dissolve(0.5)
-        c "Mmm. Me encantan los mapas que no dicen nada hasta que alguien desaparece por seguirlos."     # REVISAR
-        hide charles with Dissolve(0.5)
+        c "Mmmm... ¡que gran idea! Seguir notas crípticas de libretas mohosas... ¿acaso nunca vieron una película de terror?"
 
     menu:
-        "Quizás esté describiendo cómo llegar a esa cueva en secreto.":
-            pass    # REVISAR
-        "Podría ser solo el delirio de alguien que se perdió.":
-            pass    # REVISAR
+        "Quizás se trate de algún tipo de indicación.":
+            y "¿Qué tal si se trata de la ubicación de la cueva, o instrucciones de cómo entrar de forma segura?"
+        "Podría ser solo el delirio de otro náufrago.":
+            y "Alguien con peor suerte que la nuestra debe de haberlo hecho. El hambre y la sed le hacen trampas a la mente."
 
     ### Etapa 3: Yodo + venda
     "{i}Por último, enrollada con cinta al fondo de la caja, hay una venda usada y un frasco cerrado de yodo.{/i}"
-    "{i}Hay barro entre las gasas, como si alguien lo hubiera enterrado en un apuro.{/i}"
+    "{i}Hay tierra entre las gasas, como si alguien hubiese llenado la caja a medida que cavaba el pozo.{/i}"
 
     if "ingrid" in grupo_jugador:
         show ingrid manos cintura at center with Dissolve(0.5)
-        i "Esto se dejó acá como último recurso... o como advertencia." # REVISAR
+        i "Parece que alguien estaba en apuros cuando enterró esto."
         hide ingrid with Dissolve(0.5)
     elif "laura" in grupo_jugador:
         show laura hablando at center with Dissolve(0.5)
-        l "Tal vez alguien se lastimó de verdad. Y no quería que lo siguieran." # REVISAR
+        l "Tal vez alguien se lastimó y no quería que lo siguieran. El olor a sangre atrae depredadores."
         hide laura with Dissolve(0.5)
 
     menu:
-        "Esto no es solo un hallazgo. Es una historia enterrada.":
-            pass # REVISAR
-        "Quizás todavía queda alguien ahí afuera..." :
-            pass # REVISAR
+        "Aquí pasó algo. Algo importante.":
+            y "Esto no es solo un hallazgo. Es una historia enterrada."
+        "Quizás todavía quede alguien ahí afuera." :
+            y "¿Qué tal si esta persona sigue viva?"
+            y "Qué tal si no estamos solos en la isla?"
 
     ### Etapa 4: Trozo de diario – joyas robadas
-    "{i}Y al fondo, arrugado pero visible: un recorte de diario plastificado. La noticia: 'Millonario robo de joyas. Misterio y desconcierto sobre su paradero.'{/i}"
+    "{i}Por último, al fondo de la caja, arrugado pero visible, encuentran un recorte de diario plastificado.'{/i}"
+    "{i}La noticia lee: 'Millonario robo de joyas. Misterio y desconcierto sobre su paradero.'{/i}"
 
-    show tomas hablando at center with Dissolve(0.5)
-    t "¿Estás diciendo que… lo que sea que hay ahí… es real?"
-    hide tomas with Dissolve(0.5)
+    if "tomas" in grupo_jugador:
+
+        show tomas hablando at center with Dissolve(0.5)
+        t "¿Estás diciendo que... lo que sea que hay ahí... es real?"
+        hide tomas with Dissolve(0.5)
+
+    elif "marina" in grupo_jugador:
+
+        show marina hablando at center with Dissolve(0.5)
+        t "¿Estás diciendo que... lo que sea que hay ahí... es real?"
+        hide marina with Dissolve(0.5)
+
+    elif "charles" in grupo_jugador:
+
+        show charles boca abierta at center with Dissolve(0.5)
+        t "¿Estás diciendo que... lo que sea que hay ahí... es real?"
+        hide charles with Dissolve(0.5)
+
+    elif "laura" in grupo_jugador:
+
+        show laura hablando at center with Dissolve(0.5)
+        t "¿Estás diciendo que... lo que sea que hay ahí... es real?"
+        hide laura with Dissolve(0.5)
 
     menu:
-        "No lo sé. Pero alguien lo creyó suficiente como para esconder esto.":
-            pass # REVISAR
-        "¿Y si seguimos las pistas mañana? Podríamos ser nosotros los que lo encuentren.":
-            pass # REVISAR
+        "Alguien se tomó muchas molestias para esconder esto.":
+            y "No estoy seguro, pero tenemos que investigar más. Tal vez saquemos algo bueno de este naufragio después de todo."
+        "Hoy ya es muy tarde, pero mañana deben investigar todo esto.":
+            y "Descansemos, y mañana organizaremos una expedición... ¡a ver si las joyas están en esa cueva!"
 
-    "{i}La caja queda abierta sobre una manta improvisada. Y vos, aunque el cuerpo pide dormir… no podés dejar de pensar en el dibujo, el símbolo, el mar oscuro.{/i}"
-
-    "{i}Cuando al fin cerrás los ojos, soñás con cúpulas cubiertas de lianas, pasadizos húmedos, joyas perdidas… y jabalíes que custodian secretos en la selva.{/i}"
+    "{i}La caja queda abierta sobre una manta improvisada.{/i}"
+    "{i}Cada dibujo, símbolo, trazo y coordenada invade tu mente mientras tratas de conciliar el sueño.{/i}"
+    "{i}Cuando al fin cierras los ojos, sueñas con cúpulas cubiertas de lianas, pasadizos húmedos...{/i}"
+    "{i}Sueñas con joyas perdidas... y jabalíes que custodian los secretos de la selva...{/i}"
 
     jump cap_9_continuar
 
