@@ -447,6 +447,7 @@ default player = 0
 default apoyo_tomas = 0
 default apoyo_bob = 0
 default apoyo_erika = 0
+default apoyo_marina = 0
 default grupo_jugador = []
 default grupo_jabaporco = []
 default grupo_bob = []
@@ -483,6 +484,22 @@ default jugador_es_lider = False
 default bob_es_lider = False
 default erika_es_lider = False
 default elegido = ""
+default decision_cueva = ""
+default tarea_jugador1 = ""
+default tarea_jugador2 = ""
+default compartio_info = False
+default personajes_desaparecidos = []
+default compartio_info_caja = None  # Puede ser True o False
+default cruce_leña = ""  # Guarda a quién te cruzaste
+default invitar_marina = False
+default invitar_bob = False
+default invitar_erika = False
+default invitar_ingrid = False
+default invitar_laura = False
+default invitar_charles = False
+default invitar_tomas = False
+default equipo_exploracion = []
+default decision_rocas_tardia = ""
 
 
 default relaciones_cap1_bob = 99
@@ -6485,7 +6502,7 @@ label cap6_3_salida_en_solitario:
                     $ reporte_verifica_herida = True
                     "{i}Parece ser solo una raspadura, improvisas un vendaje que sirva hasta que puedas lavar la herida.{/i}"
         
-        "cansancio:[cansancio] Intentar agarrarte de algo pese al cansancio" if cansancio == 1:
+        "Intentar agarrarte de algo pese al cansancio" if cansancio == 1:
             "{i}Estás tan agotad[e] que al intentar agarrarte de una roca te golpeas en las costillas.{/i}" 
             "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
             scene bg jungle night fall at truecenter
@@ -6576,7 +6593,7 @@ label cap6_3_buscadores:
             y "No ha sido nada, Marina. Sigamos buscando."
             jump cep6_jabali_grupo
         
-        "cansancio:[cansancio] Intentar agarrarte de algo pese al cansancio" if cansancio == 1:
+        "Intentar agarrarte de algo pese al cansancio" if cansancio == 1:
             "{i}Estás tan agotad[e] que al intentar agarrarte de una roca te golpeas en las costillas.{/i}" 
             "{i}Ruedas por la pendiente, rebotando en algunos montones de hojas y ramas.{/i}"
             scene bg jungle night fall at truecenter
@@ -7044,13 +7061,13 @@ label cap6_final:
     show ingrid gr triste at rightgr
     with Dissolve(0.5)
 
-    i "Se siente..."
+    i "La fiebre..."
     show marina triste at left
     with Dissolve(0.5)
     "{i}Ingrid hace un gran esfuerzo para hablar.{/i}"
     show ingrid gr sonriente at rightgr
     with Dissolve(0.5)
-    i "Se siente menos caliente."
+    i "...la fiebre se ha ido."
 
 
     "{i}Todos sueltan un suspiro de alivio.{/i}"
@@ -7063,7 +7080,7 @@ label cap6_final:
 
     "{size=-10}Tus decisiones de esta noche no pasaron desapercibidas. Los tropiezos, el cansancio, las heridas... todo deja huella.{/size}"
 
-
+    $ ingrid +=2
     jump chapter_6_end  
 
     return
@@ -7264,7 +7281,7 @@ label cap7_decidir_quien_va:
     l "Yo también puedo quedarme. Aunque me gustaría ir, si hace falta."
 
     if marina <= -1:
-        show marina enojada at left
+        show marina triste at left
         with Dissolve(0.5)
         m "Hagan lo que quieran. Ya estoy acostumbrada a no tener voz en las decisiones."
     elif marina >= 2:
@@ -7272,7 +7289,7 @@ label cap7_decidir_quien_va:
         with Dissolve(0.5)
         m "Prefiero quedarme con Ingrid, si puedo ayudarla. Aun no estoy del todo repuesta."
     else:
-        show marina triste at left
+        show marina hablando at left
         with Dissolve(0.5)
         m "No me molesta quedarme o ir. Lo que sea más útil."
 
@@ -8720,7 +8737,7 @@ label cap8_liderazgo_ingrid:
 
 label cap8_acercamiento_charles:
 
-    show charles serio at right
+    show charles brazos cruzados at right
     with Dissolve(0.5)
 
     "{i}Charles observa la tormenta en la distancia, pensativo.{/i}"
@@ -8797,7 +8814,7 @@ label cap8_liderazgo_charles:
 
 label cap8_acercamiento_laura:
 
-    show laura preocupada at left
+    show laura seria at left
     with Dissolve(0.5)
     $ laura += 1
     "{i}Laura mira hacia el cielo y luego al suelo, como si en ambos pudiera encontrar una señal.{/i}"
@@ -9389,7 +9406,7 @@ label cap8_proteccion_jugador_opcion1:
         "{i}La cueva ofrece protección contra el viento, pero podría inundarse si la lluvia es intensa.{/i}"
         "{i}Se necesitan barreras para desviar el agua.{/i}"
 
-        show laura preocupada at left
+        show laura enojada at left
         with Dissolve(0.5)
         show charles boca abierta at right
         with Dissolve(0.5)
@@ -10531,7 +10548,7 @@ label cap9_discusion_planes:
         c "Podemos atraerlo con fruta hacia otro punto y bloquearle el retorno con troncos inclinados. Pero va a ser riesgoso."
         hide charles with Dissolve(0.5)
     elif "bob" in grupo_jugador:
-        show bob decidido at left
+        show bob parado hablando at left
         with Dissolve(0.5)
         b "Si lo cebamos bien y trabajamos rápido, podríamos encerrarlo sin lastimarlo."
         hide bob with Dissolve(0.5)
@@ -10712,7 +10729,7 @@ label cap9_eleccion_estrategia:
             k "Hay que decidir ya. ¿Qué hacemos, [nombre_personaje]?"
             hide erika with Dissolve(0.5)
         elif "bob" in grupo_jugador:
-            show bob serio at center
+            show bob parado serio at center
             with Dissolve(0.5)
             b "La gente te va a seguir, y hablo de todos. Así que asegurate de elegir bien."
             hide bob with Dissolve(0.5)
@@ -10809,7 +10826,7 @@ label cap9_formacion_equipos:
 
     # Liderazgos asignados a los otros dos grupos
     if grupo_jugador_elegido != 1:
-        show erika decidida at center
+        show erika parada at center
         with Dissolve(0.5)
         k "Yo me encargaré de distraer a esa bestia. Solamente espero que funcione, por mi propio bien."
         hide erika with Dissolve(0.5)
@@ -10843,15 +10860,15 @@ label cap9_formacion_equipos:
     menu:
         "Pedirle a Marina que se sume":
             if marina >= 1:
-                show marina feliz at center
+                show marina sonriendo at center
                 with Dissolve(0.5)
                 m "¡Claro! Tu sabes escuchar y eso siempre mejora el trabajo en equipo."
             elif marina <= -1:
-                show marina molesta at center
+                show marina hablando at center
                 with Dissolve(0.5)
                 m "¿Yo, contigo? ¿Otra vez? Justo lo que necesitaba..."
             else:
-                show marina neutral at center
+                show marina hablando at center
                 with Dissolve(0.5)
                 m "Está bien. Si Tomás va, no pienso quedarme atrás."
             $ miembro_extra = "marina"
@@ -10964,10 +10981,10 @@ label cap9_mision_equipo_2:
     scene bg huerta_recoleccion with fade
     show screen combined_ui
 
-    "{i} bordeando el claro con cestos y restos de cañas. Tu tarea es recolectar fruta suficiente y ubicarla formando un corredor visual y olfativo.{/i}"
+    "{i} Van bordeando el claro con unos cestos improvisados con hojas de palmera. La tarea es recolectar fruta suficiente y ubicarla formando un corredor visual y olfativo.{/i}"
     "{i}Tomás va adelante, asegurándose de que nada haga que el jabalí pueda desviarse.{/i}"
 
-    show tomas concentrado at center
+    show tomas hablando at center
     with Dissolve(0.5)
     t "Si seguimos esta línea de piedras naturales, debería guiarse solo."
     t " Pero hay que marcarlo bien. Si se pierde, volverá a la huerta, donde sabe que hay comida."
@@ -10981,7 +10998,7 @@ label cap9_mision_equipo_2:
         "Propones desviar un poco el recorrido para hacerlo menos empinado.":
             $ decision_recorrido_jabali = "adapta"
             $ reporte_toma_iniciativa_ambiental = True
-            "{i}Ajustas la ruta 3 metros hacia el este, donde hay más luz y la pendiente es menos pronunciada.{/i}"
+            "{i}Ajustas la ruta varios metros hacia el este, donde hay más luz y la pendiente es menos pronunciada.{/i}"
             "{i}No es una solución segura, pero sin duda aumenta las chances de éxito.{/i}"
 
         "Decides mantener la línea, siguiendo lo acordado":
@@ -10991,15 +11008,15 @@ label cap9_mision_equipo_2:
 
     if miembro_extra == "marina":
         if marina > 1:
-            show marina sonriente at center
+            show marina sonriendo at center
             with Dissolve(0.5)
             m "¡Vamos bien! Creo que funcionará."
         elif marina < -1:
-            show marina molesta at center
+            show marina preocupada at center
             with Dissolve(0.5)
             m "Cuando esto falle por tus malas decisiones, espero que el jabalí vaya tras de ti, y no de mi."
         else:
-            show marina neutral at center
+            show marina hablando at center
             with Dissolve(0.5)
             m "Nuestro trabajo es fácil. Espero que a los demás les esté yendo igual de bien."
         hide marina with Dissolve(0.5)
@@ -11429,12 +11446,22 @@ label cap9_encuentro_caja:
         "Ignorarlo, estás agotado y quieres irte ya.":
             $ reporte_ignora_curiosidad = True
             "{i}Tu curiosidad no es mas grande que tu cansancio, así que tras un rápido vistazo, decides marcharte.{/i}"
-            show charles brazos cruzados at right with Dissolve(.5)
-            c "¿Qué es? Vamos a fijarnos, no seas haragán."
-            "{i}Observas mientras Charles desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
+            if "bob" in grupo_jugador:
+                show bob pensando at right
+                with Dissolve (0.5)
+                b "¿Qué es? Quizás sea algo util."
+                "{i}Observas mientras Bob lo desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
+
+            elif "erika" in grupo_jugador:
+                show erika conversando at right
+                with Dissolve (0.5)
+                k "¿Qué es? Quizás sea algo util."
+                "{i}Observas mientras Erika lo desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
+
             "{i}Entre los dos, la cargan.{/i}" 
 
-            hide charles with Dissolve(.5)
+            hide bob with Dissolve(.5)
+            hide erika with Dissolve(.5)
 
     "Se van turnando de dos en dos para llevarla hasta el refugio, porque es algo pesada."
 
@@ -11450,42 +11477,42 @@ label cap9_encuentro_caja:
     "{i}Luego de cenar, la atención empieza a desviarse hacia la caja.{/i}"
     "{i}La rodean e intercambian miradas, esperando a ver quién será el primero que intente abrirla.{/i}"
 
-    if tomás in grupo_jugador:
-        "{i}Tomás fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+    if "tomas" in grupo_jugador:
+        "{i}Tomás fuerza una bisagra con una roca puntiaguda.. Tarda, cruje, pero finalmente se abre.{/i}"
         "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
     
-    elif charles in grupo_jugador:
-        "{i}Charles fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+    elif "charles" in grupo_jugador:
+        "{i}Charles fuerza una bisagra con una roca puntiaguda.. Tarda, cruje, pero finalmente se abre.{/i}"
         "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
 
-    elif bob in grupo_jugador:
-        "{i}Bob fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+    elif "bob" in grupo_jugador:
+        "{i}Bob fuerza una bisagra con una roca puntiaguda. Tarda, cruje, pero finalmente se abre.{/i}"
         "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
 
-    elif erika in grupo_jugador:
-        "{i}Erika fuerza una bisagra con la hoja del cuchillo. Tarda, cruje, pero finalmente se abre.{/i}"
+    elif "erika" in grupo_jugador:
+        "{i}Erika fuerza una bisagra con una roca puntiaguda.. Tarda, cruje, pero finalmente se abre.{/i}"
         "{i}Tus compañeros no dejan de sorprenderte. No conoces sus historias, y cada nueva habilidad que despliegan es inesperada.{/i}"
 
     ### Etapa 1: Dibujo de la cueva
     "{i}En la parte superior, protegida por tela seca, hay una hoja de papel.{/i}"
     "{i}Está deteriorada por el tiempo, pero se nota un dibujo hecho en tinta de una cueva frente al mar, vista desde arriba.{/i}"
 
-    if tomás in grupo_jugador:
+    if "tomas" in grupo_jugador:
         show tomas sorprendido at center
         with Dissolve(0.5)
         t "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
         hide tomas with Dissolve(0.5)
 
-    elif charles in grupo_jugador:
+    elif "charles" in grupo_jugador:
         show charles boca abierta at center
         with Dissolve(0.5)
-        ct "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
+        c "Esa debe ser la playa al este... la de los acantilados. Nunca bajamos hasta ahí."
         hide charles with Dissolve(0.5)
 
-    elif erika in grupo_jugador:
+    elif "erika" in grupo_jugador:
         show erika sorprendida at center
         with Dissolve(0.5)
-        e "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
+        k "Esa debe ser la playa al este… la de los acantilados. Nunca bajamos hasta ahí."
         hide erika with Dissolve(0.5)
 
     menu:
@@ -11519,11 +11546,11 @@ label cap9_encuentro_caja:
     "{i}Hay barro entre las gasas, como si alguien lo hubiera enterrado en un apuro.{/i}"
 
     if "ingrid" in grupo_jugador:
-        show ingrid seria at center with Dissolve(0.5)
+        show ingrid manos cintura at center with Dissolve(0.5)
         i "Esto se dejó acá como último recurso... o como advertencia." # REVISAR
         hide ingrid with Dissolve(0.5)
     elif "laura" in grupo_jugador:
-        show laura pensativa at center with Dissolve(0.5)
+        show laura hablando at center with Dissolve(0.5)
         l "Tal vez alguien se lastimó de verdad. Y no quería que lo siguieran." # REVISAR
         hide laura with Dissolve(0.5)
 
@@ -11536,7 +11563,7 @@ label cap9_encuentro_caja:
     ### Etapa 4: Trozo de diario – joyas robadas
     "{i}Y al fondo, arrugado pero visible: un recorte de diario plastificado. La noticia: 'Millonario robo de joyas. Misterio y desconcierto sobre su paradero.'{/i}"
 
-    show tomas asombrado at center with Dissolve(0.5)
+    show tomas hablando at center with Dissolve(0.5)
     t "¿Estás diciendo que… lo que sea que hay ahí… es real?"
     hide tomas with Dissolve(0.5)
 
@@ -11550,8 +11577,1080 @@ label cap9_encuentro_caja:
 
     "{i}Cuando al fin cerrás los ojos, soñás con cúpulas cubiertas de lianas, pasadizos húmedos, joyas perdidas… y jabalíes que custodian secretos en la selva.{/i}"
 
-    jump cap10_inicio
+    jump cap_9_continuar
+
+label cap9_end:
+        # Generar contenido para los pop-ups de relaciones
+        $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
+        $ relaciones_cap7_bob = bob
+        $ relaciones_cap7_marina = marina
+        $ relaciones_cap7_laura = laura
+        $ relaciones_cap7_ingrid = ingrid
+        $ relaciones_cap7_charles = charles
+        $ relaciones_cap7_erika = erika
+        $ relaciones_cap7_tomas = tomas
+                    
+        # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
+        $ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
+                    
+        # Generar contenido para los pop-ups de decisiones
+        $ decisiones_contenido = generar_lista_popup("DECISIONES", lista_decisiones_intro, desicion_intro)
+
+        # Mostrar los pop-ups
+        show screen relaciones_popup(contenido=relaciones_contenido)
+        # show screen decisiones_popup(contenido=decisiones_contenido)
+                    
+        "Aquí termina el segmento 2, el grupo ha pasada una dura prueba. La tormenta ha pasado pero la isla tiene peligros acechando en la jungla."
+        "Ha llegado el momento de considerar que quizás no haya ningún equipo de rescate aún buscando."
+        # Ocultar los pop-ups con dissolve
+        hide screen relaciones_popup with dissolve
+        # hide screen decisiones_popup with dissolve
+        jump continuar
+
+label cap_9_continuar:
+        $ choice_position = "default" # default alta superior
+        menu:
+            "CONTINUAR":
+                #jump segment_2_end
+                jump chapter_10_start
+            "VOLVER A VER EL RESÚMEN":
+                jump cap_9_continuar
+                #jump chapter_8_end
+ 
+return
+
+#######################################################################################   #####   ####################################################################
+##########################################################################################  ##  ######################################################################
+## Aca comienza la PARTE 10 ##############################################################  ##  ######################################################################
+########################################################################################   ####   ####################################################################
+
+label chapter_10_start:
+    "Aca comienza el segmento 3"
+    $ persistent.cantidad_capitulos +=1
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    jump cap10_inicio_discusion_cueva
+
+label cap10_inicio_discusion_cueva:
+
+    $ persistent.cantidad_capitulos += 1
+    $ decision_cueva = ""
+    $ primera_tarea_realizada = False
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    show screen combined_ui
+
+    "{i}El calor de la mañana ya se cuela por las rendijas del techo improvisado. Algunos aún remueven brasas. Otros miran la caja abierta, en silencio.{/i}"
+
+    if "marina" in grupo_jugador:
+        if marina > 1:
+            show marina hablando at left with Dissolve(0.5)
+            m "Después de todo lo que pasó ayer… ¿No sienten que esa caja nos está diciendo algo?"
+        elif marina < -1:
+            show marina preocupada at left with Dissolve(0.5)
+            m "Ayer casi morimos por un jabalí, y ahora quieren jugar al tesoro escondido. Genial."
+        else:
+            show marina hablando at left with Dissolve(0.5)
+            m "Alguien enterró eso por una razón. Quizás deberíamos prestarle atención."
+        hide marina with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika seria at center with Dissolve(0.5)
+        e "Esa caja no apareció sola. Lo que sea que señala… merece un análisis serio."
+        hide erika with Dissolve(0.5)
+    else:
+        show bob parado serio at center with Dissolve(0.5)
+        b "Prefiero que sigamos vivos antes de que alguien quiera explorar dibujitos y leyendas."
+        hide bob with Dissolve(0.5)
+
+    if "tomas" in grupo_jugador:
+        show tomas serio at right with Dissolve(0.5)
+        t "Sabés lo que creo. Si nos desviamos de lo importante ahora, la próxima caja nos va a encontrar muertos."
+        hide tomas with Dissolve(0.5)
+
+    if jugador_es_lider:
+        "{i}Las miradas se clavan en vos. Ya no por inercia… sino porque esperan algo concreto. Una decisión.{/i}"
+    else:
+        "{i}Aunque no sos líder, notás que esperan tu opinión. Quizás por lo que hiciste ayer. O porque el misterio también te incluye.{/i}"
+
+    $ choice_position = "default"
+    menu:
+        "Ignorar el tema. Lo más responsable es enfocarse en sobrevivir y esperar rescate.":
+            $ decision_cueva = "ignorar"
+            "No necesitás más misterios. Necesitás estabilidad. Y que cada persona conserve su energía."
+        "Explorarla sí... pero cuando hayamos fortalecido el refugio.":
+            $ decision_cueva = "restaurar_primero"
+            "Lo que viste te intriga. Pero sería un error arrastrar al grupo sin preparación. Primero, lo urgente."
+        "Investigarla lo antes posible. Lo que había ahí podría ser vital.":
+            $ decision_cueva = "priorizar_exploracion"
+            "Lo que encontraron no parece casual. Sentís que es una pieza de algo más… y no vas a ignorarla."
+
+    if "erika" in grupo_jugador:
+        if decision_cueva == "priorizar_exploracion":
+            show erika hablando at center with Dissolve(0.5)
+            k "Al menos alguien quiere avanzar. Yo te cubro."
+        elif decision_cueva == "ignorar":
+            show erika ceño_fruncido at center with Dissolve(0.5)
+            k "¿Entonces enterramos la caja y volvemos a contar ramas? Qué plan."
+        else:
+            show erika seria at center with Dissolve(0.5)
+            k "Está bien. Prepararse es sensato. Pero no te distraigas demasiado."
+        hide erika with Dissolve(0.5)
+    elif "bob" in grupo_jugador:
+        if decision_cueva == "priorizar_exploracion":
+            show bob parado hablando at center with Dissolve(0.5)
+            b "Sea lo que sea, más te vale tener razón. No me gustan las fábulas."
+        elif decision_cueva == "ignorar":
+            show bob parado hablando at center with Dissolve(0.5)
+            b "Bien. Alguien con los pies en la tierra."
+        else:
+            show bob parado hablando at center with Dissolve(0.5)
+            b "No es la peor idea. Pero espero que lo digas en serio. Nada de aventuras sueltas."
+        hide bob with Dissolve(0.5)
+
+    "{i}El desayuno termina en silencio. Algunos más tensos que otros. El día espera, y no va a ser fácil.{/i}"
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    jump cap10_asignacion_tareas
+
+label cap10_asignacion_tareas:
+
+    "{i}El día comienza. El refugio aún necesita reparaciones, y hay tareas por hacer. Nadie lo dice, pero todos esperan señales de organización.{/i}"
+
+    if jugador_es_lider:
+        if "marina" in grupo_jugador:
+            if marina > 1:
+                show marina sonriendo at left with Dissolve(0.4)
+                m "Adelante, [nombre_personaje]. Marcá el rumbo, como ayer."
+            elif marina < -1:
+                show marina hablando at left with Dissolve(0.4)
+                m "Perfecto. Otra jornada bajo tus órdenes. Qué emoción."
+            else:
+                show marina hablando at left with Dissolve(0.4)
+                m "Bueno. Sos líder. ¿Cómo querés organizarnos hoy?"
+            hide marina with Dissolve(0.4)
+        elif "erika" in grupo_jugador:
+            show erika parada at center with Dissolve(0.4)
+            k "La gente te sigue, [nombre_personaje]. Ahora usá eso para que este lugar aguante un día más."
+            hide erika with Dissolve(0.4)
+        else:
+            show bob parado serio at center with Dissolve(0.4)
+            b "Bueno. Estamos esperando. Repartí tareas y poné manos a la obra."
+            hide bob with Dissolve(0.4)
+
+        "Revisás mentalmente lo que hace falta y decidís qué tarea realizarás vos personalmente."
+
+        menu:
+            "Recolectar leña seca (zona de árboles pequeños)":
+                $ tarea_jugador1 = "leña"
+                jump cap10_tarea_leña
+            "Buscar troncos gruesos para reforzar el refugio (zona de barranco cercano)":
+                $ tarea_jugador1 = "troncos"
+                jump cap10_tarea_troncos
+            "Revisar los recipientes de agua pluvial (zona norte, terreno rocoso)":
+                $ tarea_jugador1 = "agua"
+                jump cap10_tarea_agua
+
+    else:  # Jugador no es líder
+        if erika_es_lider:
+            show erika firme at center with Dissolve(0.4)
+            k "Esto no es votación. Pero te doy la opción de elegir entre estas dos. Elegí bien."
+            hide erika with Dissolve(0.4)
+        elif bob_es_lider:
+            show bob hablando at center with Dissolve(0.4)
+            b "Hoy hay que moverse. Te doy a elegir entre estas dos tareas. Después no quiero quejas."
+            hide bob with Dissolve(0.4)
+
+        menu:
+            "Recolectar leña seca":
+                $ tarea_jugador1 = "leña"
+                jump cap10_tarea_leña
+            "Buscar troncos para reforzar el refugio":
+                $ tarea_jugador1 = "troncos"
+                jump cap10_tarea_troncos
+
+label cap10_tarea_leña:
+
+    scene bg jungle explore 1 with fade
+    show screen combined_ui
+
+    "{i}Te alejás hacia la zona este, donde los árboles caídos aún conservan ramas secas. El suelo está cubierto de hojas húmedas y ruido de insectos.{/i}"
+
+    "{i}Mientras levantás algunos trozos livianos, escuchás pasos en dirección opuesta. Alguien más vino por aquí.{/i}"
+
+    # Determinar quién del otro grupo aparece (según quién no esté en grupo_jugador)
+    if "charles" not in grupo_jugador:
+        $ cruce_leña = "charles"
+        show charles serio at center with Dissolve(0.5)
+        c "Qué casualidad encontrarte acá. ¿Buscando leña o huyendo de las preguntas difíciles?"
+    elif "ingrid" not in grupo_jugador:
+        $ cruce_leña = "ingrid"
+        show ingrid relajada at center with Dissolve(0.5)
+        i "Hola. ¿No es raro que justo hoy todos estén hablando de... esa caja?"
+    elif "laura" not in grupo_jugador:
+        $ cruce_leña = "laura"
+        show laura tranquila at center with Dissolve(0.5)
+        l "Hola. Supongo que no soy la única a la que mandaron lejos del refugio hoy, ¿no?"
+
+    "{i}Luego de un breve saludo, el personaje se te queda mirando… algo en su tono cambia.{/i}"
+
+    if cruce_leña == "charles":
+        c "Escuché algo. Unos dicen que encontraron papeles, mapas... ¿Te suena familiar?"
+
+    elif cruce_leña == "ingrid":
+        i "Me dijeron que había coordenadas. ¿Hay algo que deberíamos saber los demás?"
+
+    elif cruce_leña == "laura":
+        l "Parece que una caja dijo más que todo lo que nos contamos hasta ahora. ¿Es cierto lo que dicen?"
+
+    $ choice_position = "default"
+    menu:
+        "Le contás la verdad sobre lo que había en la caja.":
+            $ compartio_info_caja = True
+            if cruce_leña == "charles":
+                c "Sabía que algo estaban ocultando. Gracias por no seguir con eso."
+            elif cruce_leña == "ingrid":
+                if ingrid > 1:
+                    i "Gracias por confiar en mí. Te lo ganaste."
+                elif ingrid < -1:
+                    i "Raro que ahora sí quieras hablar. Pero me sirve."
+                else:
+                    i "Agradezco que no me mientas. No todos lo harían."
+            elif cruce_leña == "laura":
+                if laura > 1:
+                    l "Me imaginaba que era algo así. Pero escucharlo de vos me da más confianza."
+                elif laura < -1:
+                    l "Tarde, pero al menos no insistís en esconderlo."
+                else:
+                    l "Gracias. Mejor tener claridad antes que seguir con chismes."
+
+        "Decidís ocultarlo o minimizar lo hallado.":
+            $ compartio_info_caja = False
+            if cruce_leña == "charles":
+                c "Claro. Entonces hay un dibujo y anotaciones flotando en el aire por arte de magia."
+            elif cruce_leña == "ingrid":
+                if ingrid < -1:
+                    i "No me trago esa. Pero bien, seguí con tu historia."
+                elif ingrid > 1:
+                    i "No me convence, pero te creo por ahora."
+                else:
+                    i "Hmm. Curioso que no quieras hablar. Pero está bien. Cada uno con su estrategia."
+            elif cruce_leña == "laura":
+                if laura < -1:
+                    l "No me mientas. No te queda bien."
+                elif laura > 1:
+                    l "Si estás ocultando algo, lo sabré. Pero te doy el beneficio de la duda."
+                else:
+                    l "Esperaba un poco más de transparencia. Pero bueno."
+
+    hide charles
+    hide ingrid
+    hide laura
+    with Dissolve(0.5)
+
+    "{i}El silencio vuelve mientras siguen recogiendo ramas. El aire está tenso. Pero por ahora, cada uno carga lo que puede sin decir más.{/i}"
+
+    jump cap10_tareas_segunda_ronda
+
+label cap10_tarea_troncos:
+
+    scene bg barranco with fade
+    show screen combined_ui
+
+    "{i}El terreno aquí es más irregular. Los troncos caídos están cubiertos de líquenes, y el suelo resbala con cada paso entre raíces y barro.{/i}"
+
+    "{i}Mientras elegís uno de los menos pesados para arrastrar hacia el sendero, oís una voz que no esperabas.{/i}"
+
+    # Selección automática del personaje (que no haya sido el de leña ni esté en grupo_jugador)
+    if "ingrid" not in grupo_jugador and cruce_leña != "ingrid":
+        $ cruce_troncos = "ingrid"
+        show ingrid seria at center with Dissolve(0.5)
+        i "¿En serio pensaban que podían ocultar algo así? Ya todos sabemos que algo había en esa caja."
+
+    elif "charles" not in grupo_jugador and cruce_leña != "charles":
+        $ cruce_troncos = "charles"
+        show charles inquisitivo at center with Dissolve(0.5)
+        c "A esta altura, negarlo sería insultante. Alguien habló, [nombre_personaje]. ¿Qué encontraron?"
+
+    elif "laura" not in grupo_jugador and cruce_leña != "laura":
+        $ cruce_troncos = "laura"
+        show laura desconfiada at center with Dissolve(0.5)
+        l "No voy a jugar a los misterios. Quiero saber qué encontraron ayer antes de que esto se vuelva una guerra fría."
+
+    # Elección del jugador
+    $ choice_position = "default"
+    menu:
+        "Revelás todo lo que había en la caja: el dibujo, los símbolos, el recorte de diario.":
+            $ compartio_info_caja = True
+
+            if cruce_troncos == "ingrid":
+                if ingrid > 1:
+                    i "Gracias por ser directa. Eso… ayuda más de lo que imaginás."
+                elif ingrid < -1:
+                    i "Bueno. Al menos ahora no estás actuando como espía."
+                else:
+                    i "Te creo. Pero me gustaría haberlo sabido antes."
+
+            elif cruce_troncos == "charles":
+                if charles > 1:
+                    c "¿Joyas robadas? ¿Una cueva? Esto se pone cada vez más digno de novela."
+                elif charles < -1:
+                    c "Ajá. Y recién ahora nos decís. Qué considerados."
+                else:
+                    c "Lo sabía. No por vos, sino porque todo esto olía a secreto viejo."
+
+            elif cruce_troncos == "laura":
+                if laura > 1:
+                    l "Gracias. Te costó… pero me quedo con el gesto."
+                elif laura < -1:
+                    l "Tarde. Pero al menos no lo seguís escondiendo."
+                else:
+                    l "Está bien. A veces hace falta hablar, aunque incomode."
+
+        "Seguís negándolo, o decís que eran solo papeles sin sentido.":
+            $ compartio_info_caja = False
+
+            if cruce_troncos == "ingrid":
+                if ingrid > 1:
+                    i "Me cuesta creerte. Pero supongo que tenés tus motivos."
+                elif ingrid < -1:
+                    i "Sabés que esto empeora las cosas, ¿no?"
+                else:
+                    i "No tengo forma de comprobarlo… pero no me gusta cómo suena."
+
+            elif cruce_troncos == "charles":
+                if charles < -1:
+                    c "Listo. Seguimos jugando a los secretos. Después no esperes ayuda."
+                elif charles > 1:
+                    c "No te creo, pero lo respeto. Por ahora."
+                else:
+                    c "Te dejás muchas cosas bajo la lengua, [nombre_personaje]. Eso pesa más que un tronco."
+
+            elif cruce_troncos == "laura":
+                if laura < -1:
+                    l "No me jodas. Pero está bien. Ya hablaremos."
+                elif laura > 1:
+                    l "Te cubro, pero ojalá no te arrepientas después."
+                else:
+                    l "No me termina de convencer. Pero no voy a sacártelo a la fuerza."
+
+    hide ingrid
+    hide charles
+    hide laura
+    with Dissolve(0.5)
+
+    "{i}La carga del tronco parece más liviana que esa conversación. Pero al menos queda claro: el rumor ya no es rumor. Es certeza colectiva.{/i}"
+
+    jump cap10_tareas_segunda_ronda
+label cap10_tarea_agua:
+
+    scene bg jungle_pool with fade
+    show screen combined_ui
+
+    "{i}La caminata hacia las pendientes del norte es corta, pero empinada. Los recipientes improvisados de agua siguen en su sitio, llenos de hojas húmedas y barro filtrado.{/i}"
+    "{i}Mientras removés un madero para limpiarlos, sentís que no estás solo.{/i}"
+
+    # Seleccionamos un personaje del otro grupo que no haya aparecido aún
+    if "charles" not in grupo_jugador and cruce_leña != "charles" and cruce_troncos != "charles":
+        $ cruce_agua = "charles"
+        show charles serio at center with Dissolve(0.5)
+        c "No sé vos, pero a mí me gustan más los secretos cuando los contás antes de abrir cajas oxidadas frente al fuego."
+    elif "laura" not in grupo_jugador and cruce_leña != "laura" and cruce_troncos != "laura":
+        $ cruce_agua = "laura"
+        show laura seria at center with Dissolve(0.5)
+        l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso?"
+    elif "ingrid" not in grupo_jugador and cruce_leña != "ingrid" and cruce_troncos != "ingrid":
+        $ cruce_agua = "ingrid"
+        show ingrid tranquila at center with Dissolve(0.5)
+        i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie haya hablado antes."
+
+    "{i}El personaje no está ahí para discutir... sino para medirte. Quiere saber en qué punto estás parado con respecto al resto.{/i}"
+
+    $ choice_position = "default"
+    menu:
+        "Decís que no sabés qué pensar. Te desconcierta todo lo que encontraron.":
+            $ interpretacion_personal_caja = "confundido"
+
+            if cruce_agua == "charles":
+                c "Hmm. Sos de los que observan antes de moverse. Eso o no querés tomar partido."
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "Al menos no fingís tener todas las respuestas. Eso ya es algo."
+                elif laura < -1:
+                    l "Esperaba algo más claro de vos. Pero bueno."
+                else:
+                    l "No sos el único confundido, si sirve de consuelo."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Aprecio que no inventes. Esto es un rompecabezas gigante."
+                elif ingrid < -1:
+                    i "Podés decir que no sabés… pero actuás como si sí."
+                else:
+                    i "No te culpo. Esto parece salido de otra vida."
+
+        "Decís que todo es una trampa. No deberíamos seguir ese mapa.":
+            $ interpretacion_personal_caja = "temor"
+
+            if cruce_agua == "charles":
+                c "Ah, el miedo como brújula. Interesante estrategia."
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "¿En serio? Wow… no lo esperaba de vos. Pero lo respeto."
+                elif laura < -1:
+                    l "Eso es fácil de decir cuando uno ya tiene ventaja sobre el resto."
+                else:
+                    l "Puede ser… pero si lo es, la isla entera es una trampa."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Si es trampa, igual prefiero saber quién la puso."
+                elif ingrid < -1:
+                    i "Y si no lo es, estamos dejando pasar algo irrepetible."
+                else:
+                    i "No descarto nada. Pero quedarnos quietos también puede ser un error."
+
+        "Admitís que querés seguir las pistas. Que quizás haya algo importante ahí.":
+            $ interpretacion_personal_caja = "curioso"
+
+            if cruce_agua == "charles":
+                c "Ahí va el espíritu de aventura. O de ambición. O de locura."
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "Entonces vamos a necesitar gente con coraje. Y con memoria."
+                elif laura < -1:
+                    l "Qué predecible sos. Pero bueno, tenés iniciativa."
+                else:
+                    l "No me sorprende. Sólo tené cuidado con lo que despertás."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Entonces contá conmigo. Me aburren los que temen buscar."
+                elif ingrid < -1:
+                    i "Mejor no te emociones. Los mapas también mienten."
+                else:
+                    i "Bueno… espero que tengas razón."
+
+    hide charles
+    hide laura
+    hide ingrid
+    with Dissolve(0.5)
+
+    "{i}Mientras el recipiente se llena de agua clara, sentís que ya no hay marcha atrás. La información circula. Y las posturas, también.{/i}"
+
+    jump cap10_preparacion_reunion_general
+
+label cap10_tareas_segunda_ronda:
+    #esto falta
+    jump cap10_preparacion_reunion_general
+
+label cap10_preparacion_reunion_general:
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    show screen combined_ui
+
+    "{i}Ya de regreso, luego de las tareas, el refugio huele a humo y humedad. Pero algo se siente raro. ALgo falta.{/i}"
+
+    if "tomas" in grupo_jugador:
+        show tomas enojado at center with Dissolve(0.5)
+        t "¿Alguien movió el cuaderno? Lo dejé en la caja envuelto con la manta. Y ahora no está."
+        hide tomas with Dissolve(0.5)
+    elif "erika" in grupo_jugador:
+        show erika enojada at center with Dissolve(0.5)
+        e "Esperen… ¿y el cuaderno? Yo misma lo vi ahí esta mañana."
+        hide erika with Dissolve(0.5)
+    else:
+        show bob parado enojado at center with Dissolve(0.5)
+        b "No encuentro el cuaderno. Ni la manta que lo cubría. ¿Alguien lo movió sin avisar?"
+        hide bob with Dissolve(0.5)
+
+    "{i}Revisan cada rincón. Nada. Sólo cenizas de desayuno y ropa colgada. El cuaderno desapareció.{/i}"
+
+    show marina hablando at right with Dissolve(0.4)
+    m "Tenemos que llamar al otro grupo. Si alguien lo agarró, más vale que lo diga ahora mismo."
+    hide marina with Dissolve(0.5)
+
+    "{i}La urgencia flota en el aire. Uno a uno, los pasos se hacen escuchar sobre las hojas secas. La tensión se nota hasta en cómo se respira.{/i}"
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    "{i}No tardan en llegar los del otro grupo... o al menos, algunos de ellos.{/i}"
+    "{i}Rápidamente notan lo que falta. No en la caja. En las caras.{/i}"
+
+    jump cap10_reunion_doble_grupo
+
+label cap10_reunion_doble_grupo:
+
+    # Determinar ausencias en base a composición
+    if "charles" in grupo_jugador and "laura" not in grupo_jugador:
+        $ personaje_desaparecido_1 = "charles"
+        $ personaje_desaparecido_2 = "laura"
+    elif "laura" in grupo_jugador and "charles" not in grupo_jugador:
+        $ personaje_desaparecido_1 = "laura"
+        $ personaje_desaparecido_2 = "charles"
+    else:
+        $ personaje_desaparecido_1 = "charles"
+        if "marina" not in grupo_jugador:
+            $ personaje_desaparecido_2 = "marina"
+        elif "ingrid" not in grupo_jugador:
+            $ personaje_desaparecido_2 = "ingrid"
+        else:
+            $ personaje_desaparecido_2 = "tomas"
+    
+
+    y "Faltan dos. ¿Dónde están [personaje_desaparecido_1] y [personaje_desaparecido_2]?"
+
+    show bob parado serio at right with Dissolve(0.5)
+    b "Nadie los vio desde hace rato. ¿Y ustedes no tienen el cuaderno...?"
+
+    "{i}Se miran. Y lo entienden todos al mismo tiempo. No es solo que alguien robó. Es que dos personas pueden haberse ido por su cuenta.{/i}"
+    "{i}Y saben hacia dónde.{/i}"
+    "{i}La ausencia confirmada de [personaje_desaparecido_1] y [personaje_desaparecido_2] transforma el enojo en algo más frío: sospecha.{/i}"
+    #GERVA: aca estan planteados dialogos de distintos personajes, hay que agregar la logica de quien esta en que grupo y quien es lider para que esta parte tenga la potencia y la logica que necesita
+    show erika enojada at left with Dissolve(0.5)
+    k "¿Qué es lo que está pasando acá? Alguien tenía que haber hablado del contenido de la caja para que hagan algo así."
+
+    show bob parado enojado at right with Dissolve(0.5)
+    b "No me vengan con eso. Nosotros no escondimos nada. Y si alguien desapareció, tal vez estaban cansados de secretos."
 
 
-label cap10_inicio:
-    "hasta aca"
+    show marina preocupada at centerleft with Dissolve(0.5)
+    m "Sabemos que uno de ustedes lo contó. Ya todos lo sabían. ¡No sale de la nada esa historia!"
+    hide marina with Dissolve(0.5)
+
+    # Culminación: Laura fue quien habló
+    show ingrid cintura at centerright with Dissolve(0.5)
+    i "No es misterio, ya ni hace falta especular. Fue Laura. Yo la escuché. Le contó a Charles primero. Después, los rumores volaron."
+    hide ingrid with Dissolve(0.5)
+
+    "{i}El silencio es incómodo. Todos lo sabían. Pero nadie esperaba que Laura desapareciera justo después de contarlo todo.{/i}"
+
+    # Participación del jugador: cómo enfrenta el conflicto
+    menu:
+        "Intentás calmar la situación con argumentos prácticos.":
+            $ enfoque_jugador = "practico"
+            y "No importa quién lo dijo. Lo que importa es que ahora dos personas no están, y puede ser peligroso."
+
+        "Intentás negociar para que se retome la calma y se piense en conjunto.":
+            $ enfoque_jugador = "negociador"
+            y "Si queremos encontrar a alguien, tenemos que confiar en lo poco que nos queda. Ahora no es momento de romper más vínculos."
+
+        "Acusás directamente al otro grupo de haber robado el cuaderno o facilitado la huida.":
+            $ enfoque_jugador = "acusador"
+            y "Esto no fue casualidad. Alguien del otro grupo ayudó. Y quiero saber quién fue."
+
+    "{i}Las caras se tensan. Pero lo inevitable ya está dicho: no pueden quedarse esperando.{/i}"
+    "{i}Dos personas salieron en dirección al mar. Tal vez hacia esa playa con acantilados.{/i}"
+    "{i}Hay que salir a buscarlas... no creo que podamos hacer de cuenta que aca no ha pasado nada.{/i}"
+
+    hide bob 
+    with Dissolve(0.5)
+    hide erika
+    with Dissolve(0.5)
+    "{i}Deciden dividirse en dos equipos. Uno quedará en el refugio y el otro buscará respuestas en la playa.{/i}"
+
+    jump cap10_formacion_equipo_exploracion
+
+label cap10_formacion_equipo_exploracion:
+
+    if not equipo_exploracion:
+        $ equipo_exploracion = []
+
+
+    "{i}Tenés que elegir con quién te vas a aventurar. Solo aceptarán si confían en vos... o si son parte de tu grupo.{/i}"
+    $ choice_position = "superior"
+    menu:
+        "Invitar a Marina" if personaje_desaparecido_1 != "marina" and personaje_desaparecido_2 != "marina" and not invitar_marina:
+            jump cap10_invitar_marina
+        "Invitar a Bob" if personaje_desaparecido_1 != "bob" and personaje_desaparecido_2 != "bob" and not invitar_bob:
+            jump cap10_invitar_bob
+        "Invitar a Erika" if personaje_desaparecido_1 != "erika" and personaje_desaparecido_2 != "erika" and not invitar_erika:
+            jump cap10_invitar_erika
+        "Invitar a Ingrid" if personaje_desaparecido_1 != "ingrid" and personaje_desaparecido_2 != "ingrid" and not invitar_ingrid:
+            jump cap10_invitar_ingrid
+        "Invitar a Laura" if personaje_desaparecido_1 != "laura" and personaje_desaparecido_2 != "laura" and not invitar_laura:
+            jump cap10_invitar_laura
+        "Invitar a Charles" if personaje_desaparecido_1 != "charles" and personaje_desaparecido_2 != "charles" and not invitar_charles:
+            jump cap10_invitar_charles
+        "Invitar a Tomás" if personaje_desaparecido_1 != "tomas" and personaje_desaparecido_2 != "tomas" and not invitar_tomas:
+            jump cap10_invitar_tomas
+
+    return
+
+label cap10_invitar_marina:
+
+    $ invitar_marina = True
+
+    if ("marina" in grupo_jugador and marina >= 0) or ("marina" not in grupo_jugador and marina > 0):
+        show marina sonriente at center with Dissolve(0.4)
+        m "¿Con vos? Claro. Si algo raro aparece, quiero estar ahí."
+        $ equipo_exploracion.append("marina")
+    else:
+        show marina preocupada at center with Dissolve(0.4)
+        m "No. No contigo. No confío en vos para algo así."
+
+    hide marina with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_bob:
+
+    $ invitar_bob = True
+
+    if ("bob" in grupo_jugador and bob >= 0) or ("bob" not in grupo_jugador and bob > 0):
+        show bob parado hablando at center with Dissolve(0.4)
+        b "Bien. Pero vamos rápido, y con los ojos abiertos."
+        $ equipo_exploracion.append("bob")
+    else:
+        show bob parado serio at center with Dissolve(0.4)
+        b "No. Ya no confío tanto como antes. Elegí a alguien más."
+
+    hide bob with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_erika:
+
+    $ invitar_erika = True
+
+    if ("erika" in grupo_jugador and erika >= 0) or ("erika" not in grupo_jugador and erika > 0):
+        show erika parada at center with Dissolve(0.4)
+        k "Acepto. Alguien tiene que empujar las decisiones con lógica."
+        $ equipo_exploracion.append("erika")
+    else:
+        show erika enojada at center with Dissolve(0.4)
+        k "No estamos en el mismo equipo. Y no me convencés."
+        hide erika with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_ingrid:
+
+    $ invitar_ingrid = True
+
+    if ("ingrid" in grupo_jugador and ingrid >= 0) or ("ingrid" not in grupo_jugador and ingrid > 0):
+        show ingrid sonriente at center with Dissolve(0.4)
+        i "¡Por supuesto! Necesito saber qué está pasando allá abajo."
+        $ equipo_exploracion.append("ingrid")
+    else:
+        show ingrid cintura at center with Dissolve(0.4)
+        i "Paso. Vos decidí lo que quieras, yo no me uno."
+        hide ingrid with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_laura:
+
+    $ invitar_laura = True
+
+    if ("laura" in grupo_jugador and laura >= 0) or ("laura" not in grupo_jugador and laura > 0):
+        show laura determinada at center with Dissolve(0.4)
+        l "Vamos. No puedo quedarme sin saber cómo termina esto."
+        $ equipo_exploracion.append("laura")
+    else:
+        show laura molesta at center with Dissolve(0.4)
+        l "Con vos, no. No después de todo lo que hiciste."
+        hide laura with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_charles:
+
+    $ invitar_charles = True
+
+    if ("charles" in grupo_jugador and charles >= 0) or ("charles" not in grupo_jugador and charles > 0):
+        show charles risa at center with Dissolve(0.4)
+        c "Perfecto. Finalmente una caminata con misterio incluido."
+        $ equipo_exploracion.append("charles")
+    else:
+        show charles serio at center with Dissolve(0.4)
+        c "Tentador... pero prefiero quedarme donde no me maten de aburrimiento."
+        hide charles with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+label cap10_invitar_tomas:
+
+    $ invitar_tomas = True
+
+    if ("tomas" in grupo_jugador and tomas >= 0) or ("tomas" not in grupo_jugador and tomas > 0):
+        show tomas hablando at center with Dissolve(0.4)
+        t "Cuenten conmigo. Quiero respuestas."
+        $ equipo_exploracion.append("tomas")
+    else:
+        show tomas enojado at center with Dissolve(0.4)
+        t "Prefiero no arriesgarme a quedarme atrapado con vos."
+        hide tomas with Dissolve(0.4)
+
+    if len(equipo_exploracion) == 2:
+        jump cap10_exploracion_inicio
+    else:
+        jump cap10_formacion_equipo_exploracion
+
+
+
+
+
+label cap10_soledad_post_fallo:
+
+    scene bg refugio_exterior with fade
+    show screen combined_ui
+
+    "{i}El murmullo de las hojas secas y el viento cruzando entre lianas son los únicos sonidos que responden cuando proponés salir en busca de los desaparecidos.{/i}"
+
+    "{i}No hubo gritos. No hubo burlas. Pero tampoco hubo manos extendidas.{/i}"
+
+    if jugador_es_lider:
+        "{i}Sos líder. Pero a veces el liderazgo no arrastra voluntades… si la confianza ya está rota.{/i}"
+    else:
+        "{i}Quizás no seas líder… pero sentís el peso de haber querido hacer algo y no haber podido contar con nadie.{/i}"
+
+    "{i}Te sentás en una raíz gruesa, mirando al sur, donde la costa se desdibuja entre la niebla salada.{/i}"
+    "{i}¿Habrás hecho algo mal? ¿O simplemente tus decisiones dejaron marcas más hondas de lo que imaginabas?{/i}"
+
+    "{i}No todo está perdido… pero esta vez, lo que se perdió no se fue con vos.{/i}"
+
+    jump cap10_ruta_alternativa_sin_equipo  # Podés redirigir a un segmento alternativo, o cerrar el capítulo aquí
+
+label cap10_exploracion_inicio:
+
+    scene bg beach sunny at truecenter
+    with Dissolve(0.5)
+
+    "{i}El grupo camina bordeando la costa. La arena está húmeda, firme, marcada por huellas frescas que no parecen de animales.{/i}"
+    "{i}El mar está en calma. Demasiada. La línea donde suelen romper las olas quedó varios metros más atrás. Es claro: la marea está inusualmente baja.{/i}"
+
+    # Uno del grupo señala las huellas
+    if equipo_exploracion[0] == "ingrid":
+        show ingrid seria at center with Dissolve(0.4)
+        i "Estas huellas no son viejas. Están poco deformadas. Alguien pasó por acá hace muy poco."
+        hide ingrid with Dissolve(0.4)
+    elif equipo_exploracion[0] == "bob":
+        show bob parado hablando at center with Dissolve(0.4)
+        b "¿Ven eso? Si la marea sube, esas marcas desaparecen. Así que quien pasó, lo hizo hoy."
+        hide bob with Dissolve(0.4)
+    else:
+        show marina alerta at center with Dissolve(0.4)
+        m "Nos están llevando ventaja. Y no sabemos con qué intención."
+        hide marina with Dissolve(0.4)
+
+    "{i}Mientras siguen la línea de huellas, alguien rompe el silencio.{/i}"
+
+    if equipo_exploracion[1] == "tomas":
+        show tomas cruzado at left with Dissolve(0.4)
+        t "No me gusta esto. Si se fueron sin decir nada, ¿cómo podemos confiar en ellos?"
+    elif equipo_exploracion[1] == "erika":
+        show erika preocupada at left with Dissolve(0.4)
+        e "¿Y si fue decisión de uno solo? ¿Y el otro fue arrastrado?"
+    elif equipo_exploracion[1] == "charles":
+        show charles serio at left with Dissolve(0.4)
+        c "Puedo entender la necesidad de descubrir cosas. Pero irse sin avisar... eso no lo justifica."
+    hide tomas
+    hide erika
+    hide charles
+    with Dissolve(0.4)
+
+    $ choice_position = "alta"
+    menu:
+        "Decís que probablemente se fueron por egoísmo o falta de criterio. No se los puede justificar.":
+            $ postura_jugador_desaparecidos = "critico"
+            y "Quisieron jugar a los secretos y ahora estamos acá, buscándolos."
+
+        "Sugerís que tal vez tenían razones válidas. No es justo juzgar sin saber.":
+            $ postura_jugador_desaparecidos = "comprensivo"
+            y "No sabemos lo que pensaban. Tal vez solo querían hacer lo correcto de una forma torpe."
+
+        "Admitís que vos también hubieras sentido la tentación de ir antes que nadie.":
+            $ postura_jugador_desaparecidos = "autocritico"
+            y "Yo también sentí que había que moverse. No lo apruebo, pero los entiendo."
+
+    "{i}No hay respuestas. Solo pasos. Y tensión acumulada entre los árboles que asoman del costado más salvaje de la costa.{/i}"
+
+    scene bg costa_bifurcacion with fade
+
+    "{i}Llegan al punto donde el paisaje cambia.{/i}"
+    "{i}Una zona de rocas antes ocultas por el mar se abre como una lengua gris entre espuma y mejillones.{/i}"
+    "{i}A un lado, la jungla se adensa entre raíces trenzadas y ramas como garfios.{/i}"
+
+    #GERVA: aca hay que hacer condicionales segun quienes estan en el grupo de exploracion
+    show ingrid enojada at right with Dissolve(0.4)
+    i "Si vamos por las rocas, avanzamos rápido… pero si la marea sube antes de que volvamos, quedamos atrapados."
+    hide ingrid with Dissolve(0.4)
+
+    show bob pensando at left with Dissolve(0.4)
+    b "Por la selva es más lento, más segur...en teoría. Si es que no nos perdemos."
+    hide bob with Dissolve(0.4)
+    "{i}Es momento de decidir que camino tomar.{/i}"
+    menu:
+        "Avanzar por las rocas. Más rápido, pero potencialmente peligroso si sube el agua.":
+            $ ruta_elegida = "rocas"
+            jump cap10_exploracion_rocas
+
+        "Dar un rodeo por la selva. Más seguro, pero más lento y cansador.":
+            $ ruta_elegida = "jungla"
+            jump cap10_exploracion_jungla
+
+label cap10_exploracion_jungla:
+
+    scene bg selva_densa with fade
+    show screen combined_ui
+
+    "{i}El follaje se cierra sobre sus cabezas. El sol queda atrapado entre ramas trenzadas. Avanzar se vuelve una lucha contra raíces, humedad y caminos invisibles.{/i}"
+
+    if "marina" in equipo_exploracion:
+        show marina molesta at center with Dissolve(0.4)
+        m "¿Estamos seguros de que esto no es una trampa vegetal que nunca se termina?"
+        hide marina with Dissolve(0.4)
+
+    "{i}Las ramas raspan la piel, los pies se hunden en zonas blandas. La orientación empieza a confundirse.{/i}"
+
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Una curva inesperada los lleva a un claro... que ya habían cruzado antes. Un bucle invisible.{/i}"
+
+    if "tomas" in equipo_exploracion:
+        show tomas frustrado at left with Dissolve(0.4)
+        t "Esto es ridículo. Vamos en círculos. No estamos explorando, estamos transpirando sin rumbo."
+        hide tomas with Dissolve(0.4)
+
+    "{i}Media hora más tarde, tras varias correciones y marcas en troncos, llegan a una zona menos arbolada… pero mucho más inquietante.{/i}"
+
+    scene bg manglar_inicial with fade
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}Frente a ustedes se abre un manglar: ramas saliendo del barro negro, agua estancada, sombras difíciles de descifrar.{/i}"
+
+    if "erika" in equipo_exploracion:
+        show erika preocupada at right with Dissolve(0.4)
+        e "No me encanta esto. Si nos hundimos ahí adentro, no hay vuelta."
+        hide erika with Dissolve(0.4)
+
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
+    hide screen combined_ui
+    show screen combined_ui
+
+    "{i}El manglar es mas dificil de lo esperado. En el grupo surje la duda: seguir adelante o volver sobre sus pasos.{/i}"
+    menu:
+        "Volver a la costa y tomar el camino de las rocas (si es que todavía es viable)":
+            $ decision_tras_manglar = "retroceder"
+            jump cap10_transicion_rocas_tardia
+
+        "Seguir por el manglar, avanzando con extrema precaución":
+            $ decision_tras_manglar = "seguir_manglar"
+            jump cap10_manglar_decisiones
+
+label cap10_transicion_rocas_tardia:
+
+    scene bg costa_bifurcacion with fade
+    show screen combined_ui
+
+    "{i}Retroceden desde el manglar, entre hojas goteantes y barro pegado a los tobillos.{/i}"
+    "{i}Cuando por fin emergen hacia la costa, la vista los detiene en seco.{/i}"
+
+    "{i}Las rocas que antes parecían abiertas como un sendero ya están parcialmente cubiertas. El mar ruge con una cadencia nueva.{/i}"
+
+    if "marina" in equipo_exploracion:
+        show marina seria at left with Dissolve(0.4)
+        m "No me gusta esto. En una hora, esa línea va a estar bajo un metro de agua."
+        hide marina with Dissolve(0.4)
+
+    if "bob" in equipo_exploracion:
+        show bob tenso at center with Dissolve(0.4)
+        b "Tenemos dos opciones: cruzar ya y arriesgarnos a resbalar… o esperar y jugárnosla a que no suba demasiado rápido."
+        hide bob with Dissolve(0.4)
+
+    menu:
+        "Intentar cruzar ahora las rocas, antes de que la marea suba más.":
+            $ decision_rocas_tardia = "cruzar"
+            jump cap10_exploracion_rocas
+
+        "Esperar unos minutos y observar el comportamiento de la marea antes de decidir.":
+            $ decision_rocas_tardia = "esperar"
+            jump cap10_espera_en_rocas
+
+label cap10_exploracion_rocas:
+
+    scene bg zona_rocas with fade
+    show screen combined_ui
+
+    if decision_rocas_tardia == "cruzar":
+        "{i}El mar se escucha distinto: más cerca, más violento.{/i}"
+        "{i}Las rocas que hace un rato eran secas ahora están salpicadas por olas ocasionales. No hay margen para titubear.{/i}"
+    else:
+        "{i}El camino por las rocas es irregular, pero viable. Algas secas crujen bajo los pasos. La marea aún no ha empezado a subir en serio.{/i}"
+
+    if "ingrid" in equipo_exploracion:
+        show ingrid risita at left with Dissolve(0.4)
+        i "No te resbales. Esa zona verde no es pintura, es caída segura."
+        hide ingrid with Dissolve(0.4)
+
+    if decision_rocas_tardia == "cruzar":
+        "{i}Una ola fuerte golpea la base. El grupo se detiene. Uno resbala, cae de rodillas.{/i}"
+        $ update_stat("cansancio", cansancio - 1)
+        $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+        hide screen combined_ui
+        show screen combined_ui
+
+        "{i}El dolor es leve… pero el mensaje del mar fue claro: no hay tiempo que perder.{/i}"
+
+    else:
+        "{i}A mitad del trayecto, divisan cangrejos corriendo entre grietas. Una bandada de gaviotas se alza desde más adelante. Algo se mueve cerca.{/i}"
+
+    scene bg playa_gruta_entrada with fade
+
+    "{i}Finalmente, tras atravesar una curva rocosa, llegan a una pequeña playa escondida.{/i}"
+    "{i}La entrada a la gruta es visible entre dos paredes de piedra, cubierta parcialmente de algas húmedas.{/i}"
+
+    "{i}Marcas de agua a la altura del pecho indican que, en marea alta, todo esto quedará sumergido.{/i}"
+    "{i}Pero por ahora la entrada sigue libre. Y hay huellas.{/i}"
+
+    if personaje_desaparecido_1:
+        "{i}Dos pares de huellas, aún visibles, ingresan en la oscuridad. Sin duda son de [personaje_desaparecido_1] y de [personaje_desaparecido_2].{/i}"
+
+    if decision_rocas_tardia == "esperar":
+        "{i}Justo cuando están por decidir si entrar o no, una silueta aparece trepando desde el extremo norte de las rocas…{/i}"
+        show tomas jadeando at center with Dissolve(0.4)
+        t "(jadeando) ¡Por fin los encuentro! Los otros se dividieron… ¡encontré esta cueva, pero necesitaba ayuda!"
+        hide tomas with Dissolve(0.4)
+
+    menu:
+        "Entrar en la cueva antes de que el agua bloquee la entrada.":
+            $ decision_final_entrada = "entrar"
+            jump cap10_inicio_cueva
+
+        "Esperar a ver si la marea sube o si los desaparecidos regresan por su cuenta.":
+            $ decision_final_entrada = "esperar"
+            jump cap10_espera_afuera
+
+label cap10_manglar_decisiones:
+
+    scene bg manglar_interior with fade
+    show screen combined_ui
+
+    "{i}Avanzan entre raíces retorcidas y agua estancada. El aire es espeso, y los mosquitos no dan tregua.{/i}"
+
+    "{i}Frente a ustedes, un tronco húmedo atraviesa el pantano. No es ancho, pero un mal paso puede significar barro hasta el pecho. Todos dudan un instante.{/i}"
+
+    menu:
+        "Apurarse y cruzar en equilibrio antes de pensarlo demasiado":
+            $ decision_tronco = "rapido"
+            "{i}Te lanzás con agilidad, resbalás un poco, pero mantenés el equilibrio. Lo lográs.{/i}"
+        "Tantear cada paso y cruzar lento, asegurando el agarre con las ramas":
+            $ decision_tronco = "precavido"
+            "{i}Avanzás despacio. Las botas crujen, pero la travesía es segura. Todos llegan sin problemas.{/i}"
+        "Buscar otro punto donde el barro sea menos profundo, aunque implique retroceder":
+            $ decision_tronco = "evita"
+            $ update_stat("cansancio", cansancio - 1)
+            $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+            hide screen combined_ui
+            show screen combined_ui
+            "{i}Dan un rodeo que agota más de lo esperado, pero evitan el tronco resbaladizo.{/i}"
+
+    "{i}Más adelante, algo parece moverse sobre la superficie del pantano. Una sombra alargada, inmóvil, apenas sumergida entre ramas. No hay certeza de lo que es.{/i}"
+
+    menu:
+        "Acercarse lentamente para observar mejor":
+            $ decision_sombra = "observar"
+            "{i}Te acercás despacio, sin hacer ruido. Al final, resulta ser un grupo de hojas podridas y un hongo amarillo flotando.{/i}"
+        "Lanzar algo hacia la sombra para medir su reacción":
+            $ decision_sombra = "provocar"
+            "{i}Una piedra cae a su lado, levantando agua turbia. Nada se mueve. Eran hojas podridas y un hongo amarillo flotando.{/i}"
+        "Retroceder sin hacer ruido y rodear la zona":
+            $ decision_sombra = "retroceder"
+            $ update_stat("hambre", hambre - 1)
+            $ show_variable_changed_popup("El hambre ha aumentado", rojo)
+            hide screen combined_ui
+            show screen combined_ui
+            "{i}El desvío es largo y denso. Pierden tiempo y energía... pero al menos nadie se arriesga.{/i}"
+
+    "{i}A punto de salir del manglar, una vibración mínima alerta tus sentidos. Entre dos troncos caídos, enroscada como un ramal, una serpiente se camufla perfectamente. Respirás hondo.{/i}"
+
+    menu:
+        "Retroceder con calma y trazar un rodeo, sin sobresaltos":
+            $ decision_serpiente = "evita"
+            "{i}La dejan atrás sin alertarla. Caminan despacio hasta perderla de vista.{/i}"
+        "Hacer ruido para espantarla y abrir el paso":
+            $ decision_serpiente = "ruido"
+            "{i}La serpiente se alza, sisea… y se escurre hacia el pantano. El corazón tarda en calmarse.{/i}"
+        "Avanzar ignorándola, con cuidado de no pisarla":
+            $ decision_serpiente = "ignorar"
+            $ update_stat("cansancio", cansancio - 1)
+            $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+            hide screen combined_ui
+            show screen combined_ui
+            "{i}Pasan a centímetros. Nadie respira. Nadie tropieza. Pero estuvieron a un pelo de tentarla.{/i}"
+
+    scene bg playa_gruta_entrada with fade
+
+    "{i}Finalmente, el follaje se abre y emerge una pequeña playa oculta, acorralada por roca y espuma. Frente a ustedes, la entrada a una gruta: oscura, húmeda, invadida por algas.{/i}"
+    "{i}En las piedras hay marcas recientes de marea. Y también, dos pares de huellas que se pierden dentro.{/i}"
+
+    jump cap10_encuentro_en_gruta
+
+label cap10_espera_en_rocas:
+
+    scene bg playa_gruta_entrada with fade
+    show screen combined_ui
+
+    "{i}Se quedan cerca de la entrada, observando el movimiento del agua, como si la respuesta estuviera escrita entre olas y espuma.{/i}"
+    "{i}El sol está más bajo. La línea húmeda en la roca ahora toca el límite de sus botas.{/i}"
+
+    if "erika" in equipo_exploracion:
+        show erika observando at left with Dissolve(0.4)
+        e "Si sube veinte centímetros más, nos quedamos afuera… y ellos adentro. Para siempre."
+        hide erika with Dissolve(0.4)
+    elif "bob" in equipo_exploracion:
+        show bob ceño_fruncido at left with Dissolve(0.4)
+        b "Esperar demasiado nunca fue buena idea. Pero cruzar sin saber qué hay tampoco lo es."
+        hide bob with Dissolve(0.4)
+
+    "{i}Un silbido. Bajo, cortado. Alguien viene corriendo desde el lado opuesto, trepando las rocas como si el agua no existiera.{/i}"
+
+    show ingrid jadeando at center with Dissolve(0.4)
+    i "(jadeando) ¡Los encontré! ¡No están en el refugio! Pero vi huellas… por esta zona."
+    i "Dividieron el otro grupo. Me adelanté, seguí la costa, y vi la entrada justo cuando iba a darse vuelta la marea."
+
+    hide ingrid with Dissolve(0.4)
+
+    "{i}No hay más tiempo. Si van a entrar, tiene que ser ya. Esperar más significa arriesgar la única oportunidad que tienen de averiguar qué hay dentro.{/i}"
+
+    menu:
+        "Avanzar ahora mismo y entrar a la cueva":
+            $ decision_post_espera = "entra_igual"
+            jump cap10_inicio_cueva
+
+        "Quedarse a discutir si vale la pena entrar sin saber más":
+            $ decision_post_espera = "duda"
+            "{i}Pero el agua responde por ustedes. Una ola salta como un recordatorio: no hay más margen.{/i}"
+            jump cap10_inicio_cueva
+
+        
+label cap10_inicio_cueva:
+# pendiente para continuar
+
+label cap10_espera_afuera:
+# pendiente para continuar
