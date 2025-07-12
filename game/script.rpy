@@ -88,7 +88,10 @@ image bg beach sunny = im.Scale("bg beach sunny.jpg", config.screen_width, confi
 image bg jungle night explore1 = im.Scale("bg jungle night explore1.jpg", config.screen_width, config.screen_height)
 image bg jungle night explore2 = im.Scale("bg jungle night explore2.jpg", config.screen_width, config.screen_height)
 image bg jungle night explore3 = im.Scale("bg jungle night explore3.jpg", config.screen_width, config.screen_height)
+image bg jungle night fall = im.Scale("bg jungle night fall.jpg", config.screen_width, config.screen_height)
+image bg jungle night rescue = im.Scale("bg jungle night rescue.jpg", config.screen_width, config.screen_height)
 image bg jungle night search = im.Scale("bg jungle night search.jpg", config.screen_width, config.screen_height)
+image bg campfire = im.Scale("campfire.jpg", config.screen_width, config.screen_height)
 image bg cave fungi = im.Scale("cave fungi.jpg", config.screen_width, config.screen_height)
 image bg horizon_storm_clouds = im.Scale("storm horizon.jpg", config.screen_width, config.screen_height)
 image bg jungle_storm_approaching = im.Scale("storm_horizon2.jpg", config.screen_width, config.screen_height)
@@ -5571,7 +5574,7 @@ label p5playa:
                     y "Bob, acompáñame, no estamos muy lejos de donde resguardé el bote que recuperé."
                     $ desicion_intro += 1
                     $ reporte_comparte_bote = True
-                    show bob pensando at center
+                    show bob pensando at left
                     with Dissolve(.5)
                     b "¡Excelente! Veamos como está."
                     show laura hablando at right
@@ -6892,6 +6895,10 @@ label cap6_rescate_en_la_noche:
 
     hide bob
     with Dissolve(0.5)
+
+    scene bg jungle night rescue at truecenter
+    with Dissolve(0.5)
+    
     "{i}Tras unos minutos de búsqueda en el claro donde se separaron, escuchás un leve quejido. Te asomas entre los arbustos y ahí está...{/i}"
 
     show marina gr triste at leftgr
@@ -6990,13 +6997,16 @@ label cap6_espera_al_amanecer:
 
 label cap6_3_salida_en_solitario_marina:
 
-    scene bg jungle clearing at truecenter
+    scene bg jungle night explore at truecenter
     with Dissolve(0.5)
 
     "{i}La oscuridad no es completa, pero sí suficiente para perderte si das un paso en falso.{/i}"
 
     $ update_stat("sed", sed - 1)
     $ show_variable_changed_popup("La sed ha aumentado", rojo)
+
+    scene bg jungle night rescue at truecenter
+    with Dissolve(0.5)
 
     "{i}Después de unos minutos de buscar con cuidado, una silueta encorvada aparece junto a un tronco caído.{/i}"
     "{i}Se mueve lentamente, como si ya no tuviera energías.{/i}"
@@ -7029,12 +7039,8 @@ label cap6_final:
     # Se curan heridas de Ingrid con las plantas
     # Se muestran consecuencias → se cierra el capítulo
     hide marina
-    if refugio == "cueva":
-        scene bg jungle cave at truecenter
-    elif refugio == "cabaña":
-        scene bg jungle hut at truecenter
-    elif refugio == "claro":
-        scene bg jungle clearing at truecenter
+
+    scene bg campfire at truecenter
     with Dissolve(0.5)
 
     show screen combined_ui
@@ -7056,7 +7062,7 @@ label cap6_final:
     $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
     "{i}Esperan pacientemente hasta que, al rato, Ingid abre los ojos nuevamente.{/i}"
     hide bob
-    show laura seria at center
+    show laura seria at centerleft
     with Dissolve(0.5)
     show ingrid gr triste at rightgr
     with Dissolve(0.5)
@@ -7071,7 +7077,7 @@ label cap6_final:
 
 
     "{i}Todos sueltan un suspiro de alivio.{/i}"
-    show laura sonriendo at center
+    show laura sonriendo
     with Dissolve(0.5)
     show marina sonriendo at left
     with Dissolve(0.5)
@@ -7716,20 +7722,18 @@ label cap7_encuentro_tomas_charles:
 
     "{i}Charles tan solo sonríe. Parece menos interesado en ustedes que en el hecho de que estén aquí.{/i}"    
 
+
     jump cap7_conflicto_tomas_charles
 
 label cap7_conflicto_tomas_charles:
 
     scene bg jungle resting_spot at truecenter
     with Dissolve(0.5)
-
-    show screen combined_ui
+    show charles brazos cruzados at right
     hide Bob
     with Dissolve(.5)
     hide laura
     with Dissolve(.5)
-    show charles brazos cruzados at right    
-    with Dissolve(0.5)
     show tomas serio at center    
     with Dissolve(0.5)
 
@@ -10320,7 +10324,7 @@ label chapter_9_start:
         b "Deberíamos priorizar reabastecernos de alimento."
 
         show erika parada at right with Dissolve(0.5)
-        e "¿Esa es tu manera de liderar, Bob? ¿Diciendo lo obvio?"
+        k "¿Esa es tu manera de liderar, Bob? ¿Diciendo lo obvio?"
 
         "{i}Bob decide ignorarla y comienza a caminar hacia la entrada del refugio.{/i}"
 
@@ -10333,11 +10337,11 @@ label chapter_9_start:
         show erika parada at right with Dissolve(0.5)
         k "Debemos recorrer aquellos lugares de la isla que no hemos explorado, para encontrar comida pronto."
 
-        show bob parado serio at left with Dissolve(.5)
-        b "¿Esa es la gran estrategia de la que tanto nos hablaste?"
-        b "Explorar por descarte. Brillante."
+        show laura seria at left with Dissolve(.5)
+        l "¿Esa es la gran estrategia de la que tanto nos hablaste?"
+        l "Explorar por descarte. Brillante."
 
-        "{i}La ironía no pasa desapercibida para Erika, pero decide ignorar a Bob y salir afuera.{/i}"
+        "{i}La ironía no pasa desapercibida para Erika, pero decide ignorarlo y salir afuera.{/i}"
 
         hide bob with Dissolve(.5)
 
@@ -10520,6 +10524,7 @@ label cap9_aparicion_jabali:
     jump cap9_discusion_planes
 
 label cap9_discusion_planes:    
+    scene bg jungle parte1_herida_cargar with Dissolve(0.5)
 
     "{i}Aún agitados por el susto, los miembros del grupo empiezan a discutir alternativas para recuperar el acceso al huerto.{/i}"
     "{i}El jabalí no parece dispuesto a ceder el terreno. Pero tampoco ustedes.{/i}"
@@ -10876,7 +10881,7 @@ label cap9_formacion_equipos:
 
         "Pedirle a Charles que se sume":
             if charles >= 1:
-                show charles risa at center
+                show charles sonriente at center
                 with Dissolve(0.5)
                 c "¡Claro! Alguien tiene que acompañarlos, o Tomás te matará del aburrimiento antes de que el jabalí haya olfateado el cebo."
             elif charles <= -1:
@@ -11054,9 +11059,9 @@ label cap9_mision_equipo_3:
     "{i}Junto a Tomás y [miembro_extra] arrastran ramas gruesas, organizándolas para formar un embudo que conduzca al camino de frutas.{/i}"
     "{i}La idea es que el jabalí entre pero no pueda salir. El diseño depende de ángulos, espacio justo y algo de suerte.{/i}"
 
-    show tomas cansado at center
+    show tomas hablando at center
     with Dissolve(0.5)
-    t "Si clavamos esta rama acá, lo forzamos a tomar el camino hacia la curva. Pero no va a quedar estable... va a vibrar con el primer golpe."
+    t "Si clavamos esta rama acá, lo forzamos a tomar el camino hacia la curva. Pero no va a quedar estable... va a moverse con el primer golpe."
     hide tomas with Dissolve(0.5)
 
     $ choice_position = "default"
@@ -11069,7 +11074,7 @@ label cap9_mision_equipo_3:
         "Decides seguir el plan original y confiar en que resistirá":
             $ decision_estructura_segura = "apresura"
             $ reporte_prioriza_velocidad = True
-            "{i}Tratan de clavar la rama lo más profundo que pueden. No es elegante, pero queda lista a tiempo para seguir con las suguientes.{/i}"
+            "{i}Tratan de clavar la rama lo más profundo que pueden. No es elegante, pero queda lista a tiempo para seguir con las siguientes.{/i}"
 
     if miembro_extra == "marina":
         if marina > 1:
@@ -11077,26 +11082,26 @@ label cap9_mision_equipo_3:
             with Dissolve(0.5)
             m "Creo que elegiste una tarea acorde a tus habilidades. Eres muy ingenioso."
         elif marina < -1:
-            show marina molesta at center
+            show marina enojada at center
             with Dissolve(0.5)
             m "Juro que parecen simios. No es tan difícil. Lo importante es que el jabalí crea que el paso està obstruído, no que realmente lo esté."
         else:
-            show marina neutral at center
+            show marina hablando at center
             with Dissolve(0.5)
             m "Si me resiste a mi, resistirá al jabalí."
         hide marina with Dissolve(0.5)
 
     elif miembro_extra == "charles":
         if charles > 1:
-            show charles divertido at center
+            show charles sonriendo at center
             with Dissolve(0.5)
             c "Una solución rápida y una ejecución eficaz. Felicitaciones, [nombre_personaje]."
         elif charles < -1:
-            show charles molesto at center
+            show charles enojado at center
             with Dissolve(0.5)
             c "Si el arquitecto se apura, tal vez lo terminemos a tiempo..."
         else:
-            show charles neutral at center
+            show charles brazos cruzados at center
             with Dissolve(0.5)
             c "Bueno, mientras aguante el primer empujón, estamos bien."
         hide charles with Dissolve(0.5)
@@ -11648,8 +11653,6 @@ return
 ########################################################################################   ####   ####################################################################
 
 label chapter_10_start:
-    "Aca comienza el segmento 3"
-    $ persistent.cantidad_capitulos +=1
 
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
     jump cap10_inicio_discusion_cueva
@@ -11775,11 +11778,11 @@ label cap10_asignacion_tareas:
 
     else:  # Jugador no es líder
         if erika_es_lider:
-            show erika firme at center with Dissolve(0.4)
+            show erika conversando at center with Dissolve(0.4)
             k "Esto no es votación. Pero te doy la opción de elegir entre estas dos. Elegí bien."
             hide erika with Dissolve(0.4)
         elif bob_es_lider:
-            show bob hablando at center with Dissolve(0.4)
+            show bob parado hablando at center with Dissolve(0.4)
             b "Hoy hay que moverse. Te doy a elegir entre estas dos tareas. Después no quiero quejas."
             hide bob with Dissolve(0.4)
 
@@ -11803,7 +11806,7 @@ label cap10_tarea_leña:
     # Determinar quién del otro grupo aparece (según quién no esté en grupo_jugador)
     if "charles" not in grupo_jugador:
         $ cruce_leña = "charles"
-        show charles serio at center with Dissolve(0.5)
+        show charles brazos cruzados at center with Dissolve(0.5)
         c "Qué casualidad encontrarte acá. ¿Buscando leña o huyendo de las preguntas difíciles?"
     elif "ingrid" not in grupo_jugador:
         $ cruce_leña = "ingrid"
@@ -11814,7 +11817,7 @@ label cap10_tarea_leña:
         show laura tranquila at center with Dissolve(0.5)
         l "Hola. Supongo que no soy la única a la que mandaron lejos del refugio hoy, ¿no?"
 
-    "{i}Luego de un breve saludo, el personaje se te queda mirando… algo en su tono cambia.{/i}"
+    "{i}Luego de un breve saludo, se te queda mirando... algo en su tono cambia.{/i}"
 
     if cruce_leña == "charles":
         c "Escuché algo. Unos dicen que encontraron papeles, mapas... ¿Te suena familiar?"
@@ -12163,7 +12166,7 @@ label cap10_reunion_doble_grupo:
 
     "{i}Las caras se tensan. Pero lo inevitable ya está dicho: no pueden quedarse esperando.{/i}"
     "{i}Dos personas salieron en dirección al mar. Tal vez hacia esa playa con acantilados.{/i}"
-    "{i}Hay que salir a buscarlas... no creo que podamos hacer de cuenta que aca no ha pasado nada.{/i}"
+    y "Hay que salir a buscarlas... no creo que podamos hacer de cuenta que aca no ha pasado nada."
 
     hide bob 
     with Dissolve(0.5)
@@ -12296,7 +12299,7 @@ label cap10_invitar_charles:
     $ invitar_charles = True
 
     if ("charles" in grupo_jugador and charles >= 0) or ("charles" not in grupo_jugador and charles > 0):
-        show charles risa at center with Dissolve(0.4)
+        show charles sonriente at center with Dissolve(0.4)
         c "Perfecto. Finalmente una caminata con misterio incluido."
         $ equipo_exploracion.append("charles")
     else:
