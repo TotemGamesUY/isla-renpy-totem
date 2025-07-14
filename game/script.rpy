@@ -7561,7 +7561,7 @@ label cap7_antes_de_encuentro_nuevos:
         $ destino_exploracion_2 = opciones_exploracion2[0]
 
     elif search_west:
-        y "Cuando estaba buscando el primer refugio, recorrí la parte oeste de la isla y fui hasta la playa, pero no subi a la colina.{/i}"
+        y "Cuando estaba buscando el primer refugio, recorrí la parte oeste de la isla y fui hasta la playa, pero no subi a la colina."
         y "Quizá desde allí puedan ver qué otros lugares quedan por explorar."
         $ destino_exploracion_2 = "claro"
     else:
@@ -10743,8 +10743,8 @@ label cap9_eleccion_estrategia:
         menu:
             "Eliges usar cebos para devolver al animal a la jungla y bloquear su acceso al huerto.":
                 $ plan_elegido = "bloqueo"
-
-                "{i}Asientes con convicción. El grupo empieza a discutir cómo implementar el plan.{/i}"
+                "{i}Algunos no parecen contentos, pero la gran mayoría apoya tu decisión y te lo hace saber.{/i}"
+                "{i}Inmediatamente se organizan para ejecutar el desvío. Empieza la planificación.{/i}"
 
             "Prefieres usar trapos y ceniza como repelente y correr menos riesgos.":
                 $ plan_elegido = "repelente"
@@ -10760,7 +10760,7 @@ label cap9_eleccion_estrategia:
                     b "¿En serio? ¿Esperás que un trapo asuste a una bola de músculo y colmillos?"
                     hide bob with Dissolve(0.5)
 
-                "{i}Si bien nadie quiere correr riesgos, los demás insisten y terminan inclinándose por el plan de bloqueo{/i}."
+                "{i}Si bien nadie quiere correr riesgos, los demás ignoran tu propuesta y terminan inclinándose por el plan de bloqueo{/i}."
                 "{i}Tu liderazgo es puesto en duda por primera vez.{/i}"
                 $ liderazgo -= 1
                 $ plan_elegido = "bloqueo"
@@ -10776,14 +10776,15 @@ label cap9_eleccion_estrategia:
         if "bob" in grupo_jugador:
             show bob crítico at center
             with Dissolve(0.5)
-            b "Mandemos a esa bestia de vuelta a la jungla. Si actuamos con rapidez, nadie correrá peligro."
+            b "Hagamos que se aleje con repelentes. Podemos organizarnos para reponerlos a tiempo para mantener el huerto seguro."
             hide bob with Dissolve(0.5)        
 
         $ choice_position = "default"
         menu:
             "Apoyás el plan de usar cebos para devolver al animal a la jungla.":
                 $ voto_jugador = "bloqueo"
-                "{i}Tu voz inclina la balanza. Inmediatamente se organizan para ejecutar el desvío. Empieza la planificación.{/i}"
+                "{i}Algunos no parecen contentos, pero la gran mayoría también apoya esa idea, y te lo hacen saber.{/i}"
+                "{i}Inmediatamente se organizan para ejecutar el desvío. Empieza la planificación.{/i}"
                 $ plan_elegido = "bloqueo"
 
             "Te inclinás por usar trapos y ceniza como repelente y correr menos riesgos.":
@@ -10793,15 +10794,9 @@ label cap9_eleccion_estrategia:
                     show erika fastidiada at center
                     with Dissolve(0.5)
                     e "Eso no va a durar. Y volverá con más hambre."
-                    hide erika with Dissolve(0.5)
+                    hide erika with Dissolve(0.5)                
 
-                if "bob" in grupo_jugador:
-                    show bob satisfecho at center
-                    with Dissolve(0.5)
-                    b "¿En serio? ¿Esperás que un trapo asuste a una bola de músculo y colmillos?"
-                    hide bob with Dissolve(0.5)
-
-                "{i}Si bien nadie quiere correr riesgos, los demás insisten y terminan inclinándose por el plan de desvío{/i}."
+                "{i}Si bien nadie quiere correr riesgos, los demás ignoran tu propuesta y terminan inclinándose por el plan de desvío{/i}."
                 $ plan_elegido = "bloqueo"
 
     "El éxito requiere precisión así como rapidez, pero sobre todo, requiere trabajo en equipo."
@@ -10983,7 +10978,7 @@ label cap9_mision_equipo_1:
 
 label cap9_mision_equipo_2:
 
-    scene bg huerta_recoleccion with fade
+    scene bg huerta_exterior with fade
     show screen combined_ui
 
     "{i} Van bordeando el claro con unos cestos improvisados con hojas de palmera. La tarea es recolectar fruta suficiente y ubicarla formando un corredor visual y olfativo.{/i}"
@@ -10992,7 +10987,7 @@ label cap9_mision_equipo_2:
     show tomas hablando at center
     with Dissolve(0.5)
     t "Si seguimos esta línea de piedras naturales, debería guiarse solo."
-    t " Pero hay que marcarlo bien. Si se pierde, volverá a la huerta, donde sabe que hay comida."
+    t "Pero hay que marcarlo bien. Si se pierde, volverá a la huerta, donde sabe que hay comida."
     hide tomas with Dissolve(0.5)
 
     "{i}Aproximadamente a la mitad del recorrido ves un problema. El terreno es más escarpado de lo que parecía.{/i}"
@@ -11139,7 +11134,122 @@ label cap9_union_grupos:
         "Dejar que otro tome el control":
             jump cap9_reaccion_pasiva
 
+label cap9_reaccion_pasiva:
+    $ exito_total = 0
+
+    if "erika" in grupo_jugador or erika_es_lider:
+        show erika sorprendida at center with Dissolve(.5)
+        e "¡Tomás, con cautela! ¡Distráelo para que se de vuelta!"
+        e "Ingrid, Laura, ¡cuando no esté mirando, restauren la barrera lo más rápido que puedan."
+        e "Y tu, [nombre_personaje], asegúrate de atraerlo de nuevo al camino apenas lo hayan hecho."
+
+        menu:
+            "Seguir las instrucciones de Erika al pie de la letra.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando terminan de restaurar la barrera, comienzas a atraer al jabalí.{/i}"
+                $ exito_total += 1                
+                "{i}El jabalí se da vuelta en seguida, y de pronto carga. Ingrid y Laura apenas logran saltar a tiempo.{/i}"
+                "{i}La bestia redirecciona al carga hacia ti, y tu reaccionas dando unos pasos hacia atrás, tropezando.{/i}"
+                "{i}El jabalí roza la barrera, que resiste, y termina yéndose hacia la jungla, acorde al plan original.{/i}"
+                pause .5
+                "{i}Tratas de levantarte y te das cuenta de que te torciste el tobillo.{/i}"
+                "{i}Esperas unos instantes y el dolor baja, no parece ser grave. Logras incorporarte{/i}"
+                "{i}Tal vez no era necesario complacer a Erika con tanto entusiasmo...{/i}"
+            "Priorizar la seguridad de Ingrid y Laura.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando ellas terminan, esperas a que te confirmen que están a salvo antes de comenzar a atraer al jabalí.{/i}"
+                $ exito_total += 4                
+                "{i}El jabalí se da vuelta y comienza a seguir el rastro de frutas que le vas dejando.{/i}"
+                pause .5
+                "{i}Termina yéndose hacia la jungla, acorde al plan original.{/i}"
+                
+            "Priorizar tu seguridad.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando ellas terminan, y saltan la barrera, comienzas a atraer al jabalí.{/i}"
+                $ exito_total -= 2                 
+                "{i}Te cuesta mucho que te escuche o vea, porque estás muy lejos, pero acercarte más sería peligroso.{/i}"
+                "{i}Comienza a deambular. Claramente ya no te está prestando atención.{/i}"
+                "{i}Por suerte es atraído por los trozos de fruta que colocaron al principio.{/i}"
+                pause .5
+                "{i}Termina yéndose hacia la jungla, acorde al plan original.{/i}"
+
+    elif "bob" in grupo_jugador or bob_es_lider:
+        show bob pensando at center with Dissolve(.5)
+        b "¡Tomás, rápido! ¡Has que vuelva tras sus pasos para darnos algo de tiempo!"
+        b "Cuando se alla alejado, Ingrid y Laura corran a levantar las ramas que cayeron de la barrera."
+        b "Por último, [nombre_personaje], tu deberás asegurarte de atraerlo de vuelta cuando hayan terminado."
+
+        menu:
+            "Seguir las instrucciones de Erika al pie de la letra.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando terminan de restaurar la barrera, comienzas a atraer al jabalí.{/i}"
+                $ exito_total += 1                
+                "{i}El jabalí se da vuelta en seguida, y de pronto carga. Ingrid y Laura apenas logran saltar a tiempo.{/i}"
+                "{i}La bestia redirecciona al carga hacia ti, y tu reaccionas dando unos pasos hacia atrás, tropezando.{/i}"
+                "{i}El jabalí roza la barrera, que resiste, y termina yéndose hacia la jungla, acorde al plan original.{/i}"
+                pause .5
+                "{i}Tratas de levantarte y te das cuenta de que te torciste el tobillo.{/i}"
+                "{i}Esperas unos instantes y el dolor baja, no parece ser grave. Logras incorporarte{/i}"
+                "{i}Tal vez no era necesario complacer a Bob con tanto entusiasmo...{/i}"
+
+            "Priorizar la seguridad de Ingrid y Laura.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando ellas terminan, esperas a que te confirmen que están a salvo antes de comenzar a atraer al jabalí.{/i}"
+                $ exito_total += 4                
+                "{i}El jabalí se da vuelta y comienza a seguir el rastro de frutas que le vas dejando.{/i}"
+                pause .5
+                "{i}Termina yéndose hacia la jungla, acorde al plan original.{/i}"
+                
+            "Priorizar tu seguridad.":
+                "{i}Esperas atento a que los demás hagan su parte del plan.{/i}"
+                "{i}Primero, Tomás lo distrae. Luego Ingrid y Laura corren a levantar las ramas caídas.{/i}"
+                pause .5
+                "{i}Cuando ellas terminan, y saltan la barrera, comienzas a atraer al jabalí.{/i}"
+                $ exito_total -= 2                 
+                "{i}Te cuesta mucho que te escuche o vea, porque estás muy lejos, pero acercarte más sería peligroso.{/i}"
+                "{i}Comienza a deambular. Claramente ya no te está prestando atención.{/i}"
+                "{i}Por suerte es atraído por los trozos de fruta que colocaron al principio.{/i}"
+                pause .5
+                "{i}Termina yéndose hacia la jungla, acorde al plan original.{/i}"
+
+    hide erika with Dissolve(.5)
+    hide bob with Dissolve(.5)
+
+    ########## EVALUACIÓN FINAL ##########
+
+    if exito_total >= 4:
+        $ reporte_resuelve_crisis_con_liderazgo = "excelente"
+        show bob orgulloso at center with Dissolve(0.5)
+        b "Lo hiciste muy bien, [nombre_personaje]."
+        hide bob with Dissolve(0.5)
+
+        show erika leve_smile at center with Dissolve(0.5)
+        e "Es impresionante lo bien que trabajas bajo presión."
+        hide erika with Dissolve(0.5)
+
+    elif exito_total >= -1:
+        $ reporte_resuelve_crisis_con_liderazgo = "resuelto"
+        "{i}Funcionó justo a tiempo. Todavía están en shock, pero empiezan a asomar sonrisas de alivio.{/i}"
+
+    else:
+        $ reporte_resuelve_crisis_con_liderazgo = "marginal"
+        "{i}El jabalí quedó atrapado por pura casualidad, y es una suerte que no tengan que lamentar heridos.{/i}"
+        "{i}Todos lo saben, pero nadie dice nada.{/i}"
+
+    jump cap9_resolucion_final_jabali
+
 label elegir_tono(personaje):
+    # ESTO AL FINAL NO SE USA
     "¿Cómo le hablás a [personaje]?"
     menu:
         "Con tono gentil y persuasivo":
@@ -11261,7 +11371,7 @@ label cap9_reaccion_liderazgo:
 
     elif elegido == "laura":
         if impacto >= 2:
-            l "Estaba por ofrecerme, de hecho. ¡Estamos sincronizados!"
+            l "Estaba por ofrecerme, de hecho. ¡Yo me encargo!"
         elif impacto >= 0:
             l "Ya voy... pero no me hables así de nuevo, ¿sí?"
         else:
@@ -11353,21 +11463,15 @@ label cap9_resolucion_final_jabali:
     scene bg plano_de_trampa with fade
     show screen combined_ui
 
-    "{i}El jabalí respira agitado, del otro lado de labarrera. Se come un trozo de fruta pisoteada y se aleja al interior de la jungla.{/i}"
+    "{i}El jabalí respira agitado a lo lejos mientras come un trozo de fruta pisoteada y se sigue alejando al interior de la jungla.{/i}"
     "{i}El grupo observa en silencio, recuperando el aliento mientras contemplan el éxito de su trabajo en equipo.{/i}"
 
     show ingrid sonriente at right with Dissolve(0.5)
     t "Lo logramos. No puedo creerlo... pero lo logramos."  
 
-    show marina sonriendo at center with Dissolve(0.5)
-    k "Ahora hay que decidir qué hacer con esto. Pero primero... que alguien diga que estamos vivos."
-    hide erika with Dissolve(0.5)
+    show marina sonriendo at center with Dissolve(0.5)    
+    m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo de los mejores!"    
 
-    show erika conversando at left with Dissolve(0.5)
-    m "¿¡Lo vieron!? ¡Eso fue trabajo en equipo de los mejores!"
-    hide marina with Dissolve(0.5)
-
-    "{i}Por ahora, el animal queda en un area contenida, pero el grupo siente que algo cambió.{/i}"
     "{i}Si lograron esto trabajando juntos, quizás haya esperanza más allá de las diferencias.{/i}"
     
     hide ingrid with Dissolve(0.5)
@@ -11451,13 +11555,13 @@ label cap9_encuentro_caja:
         "Ignorarlo, estás agotado y quieres irte ya.":
             $ reporte_ignora_curiosidad = True
             "{i}Tu curiosidad no es mas grande que tu cansancio, así que tras un rápido vistazo, decides marcharte.{/i}"
-            if "bob" in grupo_jugador:
+            if "bob" in grupo_jugador or bob_es_lider:
                 show bob pensando at right
                 with Dissolve (0.5)
                 b "¿Qué es? Quizás sea algo util."
                 "{i}Observas mientras Bob lo desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
 
-            elif "erika" in grupo_jugador:
+            elif "erika" in grupo_jugador or erika_es_lider:
                 show erika conversando at right
                 with Dissolve (0.5)
                 k "¿Qué es? Quizás sea algo util."
@@ -11721,6 +11825,7 @@ label cap10_inicio_discusion_cueva:
             show erika seria at center with Dissolve(0.5)
             k "Está bien. Prepararse es sensato. Pero no te distraigas demasiado."
         hide erika with Dissolve(0.5)
+
     elif "bob" in grupo_jugador:
         if decision_cueva == "priorizar_exploracion":
             show bob parado hablando at center with Dissolve(0.5)
