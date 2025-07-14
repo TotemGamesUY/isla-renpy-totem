@@ -12353,7 +12353,8 @@ label cap10_soledad_post_fallo:
 
     "{i}No todo está perdido… pero esta vez, lo que se perdió no se fue con vos.{/i}"
 
-    jump cap10_ruta_alternativa_sin_equipo  # Podés redirigir a un segmento alternativo, o cerrar el capítulo aquí
+    jump cap10_ruta_alternativa_sin_equipo  # Gerva: hay que darle opciones al jugador de como interpreta lo que paso, para que no sean un monton de lineas donde solo lees como te fue mal. Quizas alguna manera de hacer una vuelta de tuerca, pedir disculpas y ahi un par van contigo.
+    #Tambien hay que ver que pasa si uno solo se suma y los demas no, noe stoy seguro si el loop como esta ahora contempla eso
 
 label cap10_exploracion_inicio:
 
