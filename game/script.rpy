@@ -11813,7 +11813,7 @@ label cap10_inicio_discusion_cueva:
         "Lo que viste te intriga. Pero sería un error arrastrar al grupo sin preparación. Primero, lo urgente.":
             $ decision_cueva = "restaurar_primero"
             y "Una vez que hayamos fortalecido el refugio, podremos explorar."
-        "Lo que encontraron no parece casual. Sentís que es una pieza de algo más.":
+        "Lo que encontraron no parece casual. Sientes que es una pieza de algo más.":
             $ decision_cueva = "priorizar_exploracion"
             y "Investiguemos lo antes posible. Lo que haya ahí también podría ser vital para nuestra supervivencia."   
 
@@ -12220,7 +12220,7 @@ label cap10_tarea_leña_2:
 
     elif "marina" not in grupo_jugador:
         $ cruce2 = "marina"
-        show charles inquisitivo at center with Dissolve(0.5)
+        show marina preocupada at center with Dissolve(0.5)
         m "¿En serio pensaban que podían ocultar algo así? Ya todos sabemos que algo había en esa caja."
 
     elif "laura" not in grupo_jugador and cruce1 != "laura":
@@ -12352,7 +12352,7 @@ label cap10_tarea_agua_2:
 
     elif "marina" not in grupo_jugador:
         $ cruce2 = "marina"
-        show charles inquisitivo at center with Dissolve(0.5)
+        show marina preocupada at center with Dissolve(0.5)
         m "¿En serio pensaban que podían ocultar algo así? Ya todos sabemos que algo había en esa caja."
 
     elif "laura" not in grupo_jugador and cruce1 != "laura":
@@ -12482,7 +12482,7 @@ label cap10_tarea_troncos_2:
 
     elif "marina" not in grupo_jugador:
         $ cruce2 = "marina"
-        show charles inquisitivo at center with Dissolve(0.5)
+        show marina preocupada at center with Dissolve(0.5)
         m "¿En serio pensaban que podían ocultar algo así? Ya todos sabemos que algo había en esa caja."
 
     elif "laura" not in grupo_jugador and cruce1 != "laura":
@@ -12629,14 +12629,294 @@ label cap10_tarea_troncos_3:
 
     scene bg barranco with fade
     show screen combined_ui
-    pass
+
+    "{i}El terreno aquí es más irregular. Los troncos caídos están cubiertos de líquenes, y el suelo de barro es muy resbaloso.{/i}"
+    "{i}Mientras eliges uno de los troncos menos pesados para arrastrar hacia el sendero, oyes una voz que no esperabas.{/i}"
+
+    # Seleccionamos un personaje del otro grupo que no haya aparecido aún
+    if "charles" not in grupo_jugador and cruce1 != "charles" and cruce2 != "charles":
+        $ cruce3 = "charles"
+        show charles serio at center with Dissolve(0.5)
+        c "No sé tu, [nombre_personaje], pero a mí me gustan más los secretos cuando salen a la luz, que escondidos en cajas oxidadas."
+    elif "laura" not in grupo_jugador and cruce1 != "laura" and cruce2 != "laura":
+        $ cruce3 = "laura"
+        show laura seria at center with Dissolve(0.5)
+        l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
+    elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
+        $ cruce3 = "ingrid"
+        show ingrid tranquila at center with Dissolve(0.5)
+        i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
+    elif "marina" not in grupo_jugador and cruce 2 != "marina":
+        $ cruce3 = "marina"
+        show marina preocupada at center with Dissolve(.5)
+        m "Esto se está poniendo realmente incómodo, [nombre_personaje]. Quiero que te sinceres conmigo sobre esa caja."
+    elif "tomas" not in grupo_jugador and cruce 2 != "tomas":
+        $ cruce3 = "tomas"
+        show tomas serio at center with Dissolve(0.5)
+        t "No te andes con rodeos conmigo, [nombre_personaje]."
+        t "Ya es hora que me cuentes lo que sabes sobre la caja. Se que la abrieron."
+        
+
+    "{i}Percibes que no vino aquí para discutir... sino para medirte. Quiere saber en qué punto estás parado con respecto al resto.{/i}"
+
+    $ choice_position = "default"
+    menu:
+        "Decir que no sabes qué pensar y que te desconcierta todo lo que encontraron.":
+            $ interpretacion_personal_caja = "confundido"
+
+            if cruce3 == "charles":
+                c "¿No será que simplemente no te atreves tomar partido?"
+
+            elif cruce3 == "laura":
+                if laura > 1:
+                    l "Al menos admites que encontraron algo. Eso ya es algo."
+                elif laura < -1:
+                    l "Hmm... ¿Esperaba algo más de ti?"
+                else:
+                    l "No sos el único que está confundido, si sirve de consuelo."
+
+            elif cruce3 == "ingrid":
+                if ingrid > 1:
+                    i "Aprecio que no me inventes algo para conformarme. Esto es un rompecabezas gigante."
+                elif ingrid < -1:
+                    i "Al menos intenta actuar como si dijeras la verdad..."
+                else:
+                    i "No te culpo. Esto parece salido de otra vida."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Gracias, entiendo, si. Primero el jabalí, luego esto. Puede ser abrumador para cualquiera."
+                elif marina < -1:
+                    m "Después de todo lo que hemos pasado desde que nos encontramos en la playa, ¿me ocultas esto?"
+                else:
+                    m "No es sencillo, eso está claro."
+
+            elif cruce3 == "tomas":
+                t "Hmm... ya veo. ¿Pensaron que quizá sería útil que uno de nosotros le eche un vistazo?"                
+
+        "Decir que todo es una trampa y que no deberíamos seguir ese mapa.":
+            $ interpretacion_personal_caja = "temor"
+
+            if cruce_agua == "charles":
+                c "Yo, la verdad, pierdo el miedo cada vez más con cada día que pasamos aquí."
+
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "¿En serio? No esperaba esta cautela de ti. Es prudente, después de todo."
+                elif laura < -1:
+                    l "Eso es fácil de decir cuando manejas toda la información y la repartes a cuentagotas."
+                else:
+                    l "La isla entera es una trampa, pero puedes tener razón."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Si es una trampa, prefiero saber quién la puso y porqué."
+                elif ingrid < -1:
+                    i "Y si no lo es, estamos dejando pasar algo que bien podría significar nuestra salvación."
+                else:
+                    i "No descarto nada. Pero quedarnos quietos también puede ser un error."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Bueno, ahora que lo pones así... No lo había pensado, pero tienes razón."
+                elif marina < -1:
+                    m "Y a ti desde cuándo te detienen los riesgos? Me había hecho otra imagen de ti."
+                else:
+                    m "Puede ser, pero sin duda es algo que deberíamos decidir entre todos."
+
+            elif cruce3 == "tomas":
+                t "Tal vez, pero... ¿no te da nada de curiosidad?"
+
+        "Admitir que quieres seguir las pistas y que quizás haya algo importante ahí.":
+            $ interpretacion_personal_caja = "curioso"
+
+            if cruce_agua == "charles":
+                c "¿Es ese el famoso espíritu de aventura? O tal vez sea solo ambición."
+
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "Estoy segura de que todos en mi grupo opinarían lo mismo si les dieras la oportunidad de escucharte."
+                elif laura < -1:
+                    l "Apareció el detective... Estoy segura de que no puede ser tan complicado."
+                else:
+                    l "No me sorprende. Sólo ten cuidado con lo que puedas encontrar."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Entonces cuenta conmigo. Me empiezo a aburrir en esta isla."
+                elif ingrid < -1:
+                    i "Sería mejor que manejes tus expectativas de una forma un poco más madura."
+                else:
+                    i "De todo corazón: espero que tengas razón."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Ya sabes que te apoyaremos si eso es lo que quieres hacer."
+                elif marina < -1:
+                    m "Esto debe ser otro juego para ti. Hagamos lo que hagamos, lo haremos para sobrevivir."
+                else:
+                    m "Esa curiosidad nos ha dado buenos frutos en el pasado."
+
+            elif cruce3 == "tomas":
+                t "Bueno, si no regresas, ya sabremos que efectivamente... era una trampa."
+
+    hide charles
+    hide laura
+    hide ingrid
+    hide marina
+    hide tomas
+    with Dissolve(0.5) 
+
+    "{i}Mientras haces rodar un tronco hacia el camino, te das cuenta de que ya no hay marcha atrás.{/i}"
+    "{i}La información circula en ambos grupos. Y las posturas, serán variadas.{/i}"
+
     jump cap10_preparacion_reunion_general
 
 label cap10_tarea_lena_3:
 
     scene bg jungle explore 1 with fade
     show screen combined_ui
-    pass
+
+    "{i}La caminata hacia las pendientes del norte es corta, pero empinada. Los recipientes improvisados de agua siguen en su sitio, llenos de hojas húmedas y barro filtrado.{/i}"
+    "{i}Mientras removés un madero para limpiarlos, sientes que no estás solo.{/i}"
+
+    # Seleccionamos un personaje del otro grupo que no haya aparecido aún
+    if "charles" not in grupo_jugador and cruce1 != "charles" and cruce2 != "charles":
+        $ cruce3 = "charles"
+        show charles serio at center with Dissolve(0.5)
+        c "No sé tu, [nombre_personaje], pero a mí me gustan más los secretos cuando salen a la luz, que escondidos en cajas oxidadas."
+    elif "laura" not in grupo_jugador and cruce1 != "laura" and cruce2 != "laura":
+        $ cruce3 = "laura"
+        show laura seria at center with Dissolve(0.5)
+        l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
+    elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
+        $ cruce3 = "ingrid"
+        show ingrid tranquila at center with Dissolve(0.5)
+        i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
+    elif "marina" not in grupo_jugador and cruce 2 != "marina":
+        $ cruce3 = "marina"
+        show marina preocupada at center with Dissolve(.5)
+        m "Esto se está poniendo realmente incómodo, [nombre_personaje]. Quiero que te sinceres conmigo sobre esa caja."
+    elif "tomas" not in grupo_jugador and cruce 2 != "tomas":
+        $ cruce3 = "tomas"
+        show tomas serio at center with Dissolve(0.5)
+        t "No te andes con rodeos conmigo, [nombre_personaje]."
+        t "Ya es hora que me cuentes lo que sabes sobre la caja. Se que la abrieron."
+        
+
+    "{i}Percibes que no vino aquí para discutir... sino para medirte. Quiere saber en qué punto estás parado con respecto al resto.{/i}"
+
+    $ choice_position = "default"
+    menu:
+        "Decir que no sabes qué pensar y que te desconcierta todo lo que encontraron.":
+            $ interpretacion_personal_caja = "confundido"
+
+            if cruce3 == "charles":
+                c "¿No será que simplemente no te atreves tomar partido?"
+
+            elif cruce3 == "laura":
+                if laura > 1:
+                    l "Al menos admites que encontraron algo. Eso ya es algo."
+                elif laura < -1:
+                    l "Hmm... ¿Esperaba algo más de ti?"
+                else:
+                    l "No sos el único que está confundido, si sirve de consuelo."
+
+            elif cruce3 == "ingrid":
+                if ingrid > 1:
+                    i "Aprecio que no me inventes algo para conformarme. Esto es un rompecabezas gigante."
+                elif ingrid < -1:
+                    i "Al menos intenta actuar como si dijeras la verdad..."
+                else:
+                    i "No te culpo. Esto parece salido de otra vida."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Gracias, entiendo, si. Primero el jabalí, luego esto. Puede ser abrumador para cualquiera."
+                elif marina < -1:
+                    m "Después de todo lo que hemos pasado desde que nos encontramos en la playa, ¿me ocultas esto?"
+                else:
+                    m "No es sencillo, eso está claro."
+
+            elif cruce3 == "tomas":
+                t "Hmm... ya veo. ¿Pensaron que quizá sería útil que uno de nosotros le eche un vistazo?"                
+
+        "Decir que todo es una trampa y que no deberíamos seguir ese mapa.":
+            $ interpretacion_personal_caja = "temor"
+
+            if cruce_agua == "charles":
+                c "Yo, la verdad, pierdo el miedo cada vez más con cada día que pasamos aquí."
+
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "¿En serio? No esperaba esta cautela de ti. Es prudente, después de todo."
+                elif laura < -1:
+                    l "Eso es fácil de decir cuando manejas toda la información y la repartes a cuentagotas."
+                else:
+                    l "La isla entera es una trampa, pero puedes tener razón."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Si es una trampa, prefiero saber quién la puso y porqué."
+                elif ingrid < -1:
+                    i "Y si no lo es, estamos dejando pasar algo que bien podría significar nuestra salvación."
+                else:
+                    i "No descarto nada. Pero quedarnos quietos también puede ser un error."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Bueno, ahora que lo pones así... No lo había pensado, pero tienes razón."
+                elif marina < -1:
+                    m "Y a ti desde cuándo te detienen los riesgos? Me había hecho otra imagen de ti."
+                else:
+                    m "Puede ser, pero sin duda es algo que deberíamos decidir entre todos."
+
+            elif cruce3 == "tomas":
+                t "Tal vez, pero... ¿no te da nada de curiosidad?"
+
+        "Admitir que quieres seguir las pistas y que quizás haya algo importante ahí.":
+            $ interpretacion_personal_caja = "curioso"
+
+            if cruce_agua == "charles":
+                c "¿Es ese el famoso espíritu de aventura? O tal vez sea solo ambición."
+
+            elif cruce_agua == "laura":
+                if laura > 1:
+                    l "Estoy segura de que todos en mi grupo opinarían lo mismo si les dieras la oportunidad de escucharte."
+                elif laura < -1:
+                    l "Apareció el detective... Estoy segura de que no puede ser tan complicado."
+                else:
+                    l "No me sorprende. Sólo ten cuidado con lo que puedas encontrar."
+
+            elif cruce_agua == "ingrid":
+                if ingrid > 1:
+                    i "Entonces cuenta conmigo. Me empiezo a aburrir en esta isla."
+                elif ingrid < -1:
+                    i "Sería mejor que manejes tus expectativas de una forma un poco más madura."
+                else:
+                    i "De todo corazón: espero que tengas razón."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Ya sabes que te apoyaremos si eso es lo que quieres hacer."
+                elif marina < -1:
+                    m "Esto debe ser otro juego para ti. Hagamos lo que hagamos, lo haremos para sobrevivir."
+                else:
+                    m "Esa curiosidad nos ha dado buenos frutos en el pasado."
+
+            elif cruce3 == "tomas":
+                t "Bueno, si no regresas, ya sabremos que efectivamente... era una trampa."
+
+    hide charles
+    hide laura
+    hide ingrid
+    hide marina
+    hide tomas
+    with Dissolve(0.5)    
+
+    "{i}Mientras recoges las últimas ramas, te das cuenta de que ya no hay marcha atrás.{/i}"
+    "{i}La información circula en ambos grupos. Y las posturas, serán variadas.{/i}"
+
     jump cap10_preparacion_reunion_general
 
 label cap10_tarea_agua_3:
@@ -12645,95 +12925,143 @@ label cap10_tarea_agua_3:
     show screen combined_ui
 
     "{i}La caminata hacia las pendientes del norte es corta, pero empinada. Los recipientes improvisados de agua siguen en su sitio, llenos de hojas húmedas y barro filtrado.{/i}"
-    "{i}Mientras removés un madero para limpiarlos, sentís que no estás solo.{/i}"
+    "{i}Mientras removés un madero para limpiarlos, sientes que no estás solo.{/i}"
 
     # Seleccionamos un personaje del otro grupo que no haya aparecido aún
-    if "charles" not in grupo_jugador and cruce_leña != "charles" and cruce_troncos != "charles":
-        $ cruce_agua = "charles"
+    if "charles" not in grupo_jugador and cruce1 != "charles" and cruce2 != "charles":
+        $ cruce3 = "charles"
         show charles serio at center with Dissolve(0.5)
-        c "No sé vos, pero a mí me gustan más los secretos cuando los contás antes de abrir cajas oxidadas frente al fuego."
-    elif "laura" not in grupo_jugador and cruce_leña != "laura" and cruce_troncos != "laura":
-        $ cruce_agua = "laura"
+        c "No sé tu, [nombre_personaje], pero a mí me gustan más los secretos cuando salen a la luz, que escondidos en cajas oxidadas."
+    elif "laura" not in grupo_jugador and cruce1 != "laura" and cruce2 != "laura":
+        $ cruce3 = "laura"
         show laura seria at center with Dissolve(0.5)
-        l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso?"
-    elif "ingrid" not in grupo_jugador and cruce_leña != "ingrid" and cruce_troncos != "ingrid":
-        $ cruce_agua = "ingrid"
+        l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
+    elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
+        $ cruce3 = "ingrid"
         show ingrid tranquila at center with Dissolve(0.5)
-        i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie haya hablado antes."
+        i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
+    elif "marina" not in grupo_jugador and cruce 2 != "marina":
+        $ cruce3 = "marina"
+        show marina preocupada at center with Dissolve(.5)
+        m "Esto se está poniendo realmente incómodo, [nombre_personaje]. Quiero que te sinceres conmigo sobre esa caja."
+    elif "tomas" not in grupo_jugador and cruce 2 != "tomas":
+        $ cruce3 = "tomas"
+        show tomas serio at center with Dissolve(0.5)
+        t "No te andes con rodeos conmigo, [nombre_personaje]."
+        t "Ya es hora que me cuentes lo que sabes sobre la caja. Se que la abrieron."        
 
-    "{i}El personaje no está ahí para discutir... sino para medirte. Quiere saber en qué punto estás parado con respecto al resto.{/i}"
+    "{i}Percibes que no vino aquí para discutir... sino para medirte. Quiere saber en qué punto estás parado con respecto al resto.{/i}"
 
     $ choice_position = "default"
     menu:
-        "Decís que no sabés qué pensar. Te desconcierta todo lo que encontraron.":
+        "Decir que no sabes qué pensar y que te desconcierta todo lo que encontraron.":
             $ interpretacion_personal_caja = "confundido"
 
-            if cruce_agua == "charles":
-                c "Hmm. Sos de los que observan antes de moverse. Eso o no querés tomar partido."
-            elif cruce_agua == "laura":
-                if laura > 1:
-                    l "Al menos no fingís tener todas las respuestas. Eso ya es algo."
-                elif laura < -1:
-                    l "Esperaba algo más claro de vos. Pero bueno."
-                else:
-                    l "No sos el único confundido, si sirve de consuelo."
+            if cruce3 == "charles":
+                c "¿No será que simplemente no te atreves tomar partido?"
 
-            elif cruce_agua == "ingrid":
+            elif cruce3 == "laura":
+                if laura > 1:
+                    l "Al menos admites que encontraron algo. Eso ya es algo."
+                elif laura < -1:
+                    l "Hmm... ¿Esperaba algo más de ti?"
+                else:
+                    l "No sos el único que está confundido, si sirve de consuelo."
+
+            elif cruce3 == "ingrid":
                 if ingrid > 1:
-                    i "Aprecio que no inventes. Esto es un rompecabezas gigante."
+                    i "Aprecio que no me inventes algo para conformarme. Esto es un rompecabezas gigante."
                 elif ingrid < -1:
-                    i "Podés decir que no sabés… pero actuás como si sí."
+                    i "Al menos intenta actuar como si dijeras la verdad..."
                 else:
                     i "No te culpo. Esto parece salido de otra vida."
 
-        "Decís que todo es una trampa. No deberíamos seguir ese mapa.":
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Gracias, entiendo, si. Primero el jabalí, luego esto. Puede ser abrumador para cualquiera."
+                elif marina < -1:
+                    m "Después de todo lo que hemos pasado desde que nos encontramos en la playa, ¿me ocultas esto?"
+                else:
+                    m "No es sencillo, eso está claro."
+
+            elif cruce3 == "tomas":
+                t "Hmm... ya veo. ¿Pensaron que quizá sería útil que uno de nosotros le eche un vistazo?"                
+
+        "Decir que todo es una trampa y que no deberíamos seguir ese mapa.":
             $ interpretacion_personal_caja = "temor"
 
             if cruce_agua == "charles":
-                c "Ah, el miedo como brújula. Interesante estrategia."
+                c "Yo, la verdad, pierdo el miedo cada vez más con cada día que pasamos aquí."
+
             elif cruce_agua == "laura":
                 if laura > 1:
-                    l "¿En serio? Wow… no lo esperaba de vos. Pero lo respeto."
+                    l "¿En serio? No esperaba esta cautela de ti. Es prudente, después de todo."
                 elif laura < -1:
-                    l "Eso es fácil de decir cuando uno ya tiene ventaja sobre el resto."
+                    l "Eso es fácil de decir cuando manejas toda la información y la repartes a cuentagotas."
                 else:
-                    l "Puede ser… pero si lo es, la isla entera es una trampa."
+                    l "La isla entera es una trampa, pero puedes tener razón."
 
             elif cruce_agua == "ingrid":
                 if ingrid > 1:
-                    i "Si es trampa, igual prefiero saber quién la puso."
+                    i "Si es una trampa, prefiero saber quién la puso y porqué."
                 elif ingrid < -1:
-                    i "Y si no lo es, estamos dejando pasar algo irrepetible."
+                    i "Y si no lo es, estamos dejando pasar algo que bien podría significar nuestra salvación."
                 else:
                     i "No descarto nada. Pero quedarnos quietos también puede ser un error."
 
-        "Admitís que querés seguir las pistas. Que quizás haya algo importante ahí.":
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Bueno, ahora que lo pones así... No lo había pensado, pero tienes razón."
+                elif marina < -1:
+                    m "Y a ti desde cuándo te detienen los riesgos? Me había hecho otra imagen de ti."
+                else:
+                    m "Puede ser, pero sin duda es algo que deberíamos decidir entre todos."
+
+            elif cruce3 == "tomas":
+                t "Tal vez, pero... ¿no te da nada de curiosidad?"
+
+        "Admitir que quieres seguir las pistas y que quizás haya algo importante ahí.":
             $ interpretacion_personal_caja = "curioso"
 
             if cruce_agua == "charles":
-                c "Ahí va el espíritu de aventura. O de ambición. O de locura."
+                c "¿Es ese el famoso espíritu de aventura? O tal vez sea solo ambición."
+
             elif cruce_agua == "laura":
                 if laura > 1:
-                    l "Entonces vamos a necesitar gente con coraje. Y con memoria."
+                    l "Estoy segura de que todos en mi grupo opinarían lo mismo si les dieras la oportunidad de escucharte."
                 elif laura < -1:
-                    l "Qué predecible sos. Pero bueno, tenés iniciativa."
+                    l "Apareció el detective... Estoy segura de que no puede ser tan complicado."
                 else:
-                    l "No me sorprende. Sólo tené cuidado con lo que despertás."
+                    l "No me sorprende. Sólo ten cuidado con lo que puedas encontrar."
 
             elif cruce_agua == "ingrid":
                 if ingrid > 1:
-                    i "Entonces contá conmigo. Me aburren los que temen buscar."
+                    i "Entonces cuenta conmigo. Me empiezo a aburrir en esta isla."
                 elif ingrid < -1:
-                    i "Mejor no te emociones. Los mapas también mienten."
+                    i "Sería mejor que manejes tus expectativas de una forma un poco más madura."
                 else:
-                    i "Bueno… espero que tengas razón."
+                    i "De todo corazón: espero que tengas razón."
+
+            elif cruce3 == "marina":
+                if marina > 1:
+                    m "Ya sabes que te apoyaremos si eso es lo que quieres hacer."
+                elif marina < -1:
+                    m "Esto debe ser otro juego para ti. Hagamos lo que hagamos, lo haremos para sobrevivir."
+                else:
+                    m "Esa curiosidad nos ha dado buenos frutos en el pasado."
+
+            elif cruce3 == "tomas":
+                t "Bueno, si no regresas, ya sabremos que efectivamente... era una trampa."
 
     hide charles
     hide laura
     hide ingrid
+    hide marina
+    hide tomas
     with Dissolve(0.5)
 
-    "{i}Mientras el recipiente se llena de agua clara, sentís que ya no hay marcha atrás. La información circula. Y las posturas, también.{/i}"
+    "{i}Mientras limpias los recipientes, te das cuenta de que ya no hay marcha atrás.{/i}"
+    "{i}La información circula en ambos grupos. Y las posturas, serán variadas.{/i}"
 
     jump cap10_preparacion_reunion_general
 
@@ -12742,7 +13070,8 @@ label cap10_preparacion_reunion_general:
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
     show screen combined_ui
 
-    "{i}Ya de regreso, luego de las tareas, el refugio huele a humo y humedad. Pero algo se siente raro. ALgo falta.{/i}"
+    "{i}Ya de regreso, luego de las tareas, el refugio huele a humo y humedad.{/i}"
+    "{i}Pero algo se siente raro. ALgo está fuera de lugar.{/i}"
 
     if "tomas" in grupo_jugador:
         show tomas enojado at center with Dissolve(0.5)
@@ -12750,26 +13079,25 @@ label cap10_preparacion_reunion_general:
         hide tomas with Dissolve(0.5)
     elif "erika" in grupo_jugador:
         show erika enojada at center with Dissolve(0.5)
-        e "Esperen… ¿y el cuaderno? Yo misma lo vi ahí esta mañana."
+        e "Esperen... ¿y el cuaderno? Yo misma lo vi ahí esta mañana."
         hide erika with Dissolve(0.5)
     else:
         show bob parado enojado at center with Dissolve(0.5)
         b "No encuentro el cuaderno. Ni la manta que lo cubría. ¿Alguien lo movió sin avisar?"
         hide bob with Dissolve(0.5)
 
-    "{i}Revisan cada rincón. Nada. Sólo cenizas de desayuno y ropa colgada. El cuaderno desapareció.{/i}"
-
-    show marina hablando at right with Dissolve(0.4)
-    m "Tenemos que llamar al otro grupo. Si alguien lo agarró, más vale que lo diga ahora mismo."
-    hide marina with Dissolve(0.5)
-
-    "{i}La urgencia flota en el aire. Uno a uno, los pasos se hacen escuchar sobre las hojas secas. La tensión se nota hasta en cómo se respira.{/i}"
+    "{i}Revisan cada rincón. Nada. Sólo cenizas del fuego de la noche, y ropa colgada. El cuaderno desapareció.{/i}"
+    
+    y "Tenemos que llamar a los del otro grupo. Si alguien lo agarró, más vale que lo diga ahora mismo."
+    
+    pause 1    
 
     scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
-    "{i}No tardan en llegar los del otro grupo... o al menos, algunos de ellos.{/i}"
-    "{i}Rápidamente notan lo que falta. No en la caja. En las caras.{/i}"
-
+    "{i}Un rato después, la persona que fue a buscarlos vuelve con ellos.{/i}"
+    "{i}Sus rostros son serios, como juzgándolos a ustedes por ocultar información.{/i}"
+    "{i}Sin embargo, falta gente.{/i}"
+   
     jump cap10_reunion_doble_grupo
 
 label cap10_reunion_doble_grupo:
@@ -12791,14 +13119,16 @@ label cap10_reunion_doble_grupo:
             $ personaje_desaparecido_2 = "tomas"
     
 
-    y "Faltan dos. ¿Dónde están [personaje_desaparecido_1] y [personaje_desaparecido_2]?"
+    y "Faltan dos personas. ¿Dónde están [personaje_desaparecido_1] y [personaje_desaparecido_2]?"
+    y "¿Y ustedes... alguno tomó el cuaderno que estaba en esta caja?"
 
-    show bob parado serio at right with Dissolve(0.5)
-    b "Nadie los vio desde hace rato. ¿Y ustedes no tienen el cuaderno...?"
+    "{i}Ninguno de ellos parece saber de qué hablas. En cuestión de segundos, todos llegan a la misma conclusión.{/i}"
+    "{i}La explicación más lógica es que [personaje_desaparecido_1] y [personaje_desaparecido_2] se hayan ido solos a seguir las pistas.{/i}"
+    "{i}Todos se sienten traicionados. Ellos, y ustedes. Al menos esto los distrae del enojo con el que llegaron.{/i}"
+    #########################################
+    #### MIERCOLES 16 LLEGUE HASTA ACA
+    #########################################
 
-    "{i}Se miran. Y lo entienden todos al mismo tiempo. No es solo que alguien robó. Es que dos personas pueden haberse ido por su cuenta.{/i}"
-    "{i}Y saben hacia dónde.{/i}"
-    "{i}La ausencia confirmada de [personaje_desaparecido_1] y [personaje_desaparecido_2] transforma el enojo en algo más frío: sospecha.{/i}"
     #GERVA: aca estan planteados dialogos de distintos personajes, hay que agregar la logica de quien esta en que grupo y quien es lider para que esta parte tenga la potencia y la logica que necesita
     show erika enojada at left with Dissolve(0.5)
     k "¿Qué es lo que está pasando acá? Alguien tenía que haber hablado del contenido de la caja para que hagan algo así."
@@ -13014,7 +13344,7 @@ label cap10_soledad_post_fallo:
     if jugador_es_lider:
         "{i}Sos líder. Pero a veces el liderazgo no arrastra voluntades… si la confianza ya está rota.{/i}"
     else:
-        "{i}Quizás no seas líder… pero sentís el peso de haber querido hacer algo y no haber podido contar con nadie.{/i}"
+        "{i}Quizás no seas líder… pero sientes el peso de haber querido hacer algo y no haber podido contar con nadie.{/i}"
 
     "{i}Te sentás en una raíz gruesa, mirando al sur, donde la costa se desdibuja entre la niebla salada.{/i}"
     "{i}¿Habrás hecho algo mal? ¿O simplemente tus decisiones dejaron marcas más hondas de lo que imaginabas?{/i}"
