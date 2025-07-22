@@ -505,6 +505,11 @@ default invitar_charles = False
 default invitar_tomas = False
 default equipo_exploracion = []
 default decision_rocas_tardia = ""
+default decision_seguir = ""           # ¿Explorar más o no?
+default reaccion_charles = ""          # Postura ante lo que hizo Charles
+default relacion_subida = []           # Personajes con los que se mejora vínculo
+default relacion_bajada = []           # Personajes que se sienten defraudados
+default reloj_marea = 0                # Tiempo narrativo antes del cierre de la cueva
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -2212,7 +2217,7 @@ label final:
     $ choice_position = "default" # default alta superior
     menu:
         "CONTINUAR":
-            jump chapter_3_start
+            jump final_cap3
             #jump final_cap3
         "VOLVER A VER EL RESÚMEN":
             jump final
@@ -2221,7 +2226,7 @@ label final_cap3:
     if renpy.android:
         jump chapter_3_start
     else:
-        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo
+        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo2
 
 ############################################   #######   ########   ################################################################################################
 ############################################   #######   ########   ################################################################################################
@@ -2728,6 +2733,7 @@ label chapter_3_end:
             jump chapter_4_start
         "VOLVER A VER EL RESÚMEN":
             jump chapter_3_end
+    
 
     return
 ############################################   #######   #######   #######   ##########################################################################################
@@ -4084,7 +4090,7 @@ label chapter_4_end:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                jump chapter_5_start
+                jump segment_1_end
                 #jump segment_1_end
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_4_end
@@ -4094,10 +4100,8 @@ label segment_1_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
-    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_1
-    jump chapter_5_start
+    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo4
 
-return
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 # ACA TERMINA SEGMENTO 1                                         |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -6621,7 +6625,7 @@ label cap6_3_buscadores:
             jump cap6_volver_solo    
 
 label cep6_jabali_grupo:
-    scene bg jungle night crisis at truecenter
+    scene bg jungle night explore1 at truecenter
     with Dissolve(0.5)
 
     "{i}Avanzan un poco más, pero algo cruje entre los árboles. Un gruñido ronco corta el silencio de la noche.{/i}"
@@ -6963,13 +6967,12 @@ label cap6_espera_al_amanecer:
     "{i}El fuego se consume hasta que solo quedan unas brasas.{/i}"
     "{i}La selva murmura con viento leve a medida que comienza a amanecer.{/i}"
 
-    scene bg jungle clearing at truecenter
-    with Dissolve(0.5)
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
     "{i}Poco después una figura aparece en la entrada del refugio.{/i}"
     "{i}Cojeando, con el rostro pálido y el brazo rasguñado, la silueta de Marina es recortada por los primeros rayos de luz.{/i}"
 
-    show marina gr triste at center
+    show marina triste at left
     with Dissolve(0.5)
 
     m "Pensé... que no volvía."
@@ -6977,7 +6980,7 @@ label cap6_espera_al_amanecer:
     m "Esperé hasta que hubo algo luz."
 
     show bob parado hablando at right
-    show laura gr sorprendida at leftgr
+    show laura hablando at center
     with Dissolve(0.5)
 
     b "Marina..."
@@ -6994,7 +6997,7 @@ label cap6_espera_al_amanecer:
     $ reporte_marina_vuelve_sola = True
     $ marina -= 1
 
-    jump cap6_final
+    jump cap6_final_dia
 
 label cap6_3_salida_en_solitario_marina:
 
@@ -7085,7 +7088,62 @@ label cap6_final:
     "{i}Visible en el rostro de todos, esta victoria es pequeña, pero real.{/i}"
     "{i}Esta noche tumultuosa ha dado sus frutos: el grupo ganó tiempo, confianza, y unidad en la incertidumbre.{/i}"
 
-    "{size=-10}Tus decisiones de esta noche no pasaron desapercibidas. Los tropiezos, el cansancio, las heridas... todo deja huella.{/size}"
+    "{i}Tus decisiones de esta noche no pasaron desapercibidas. Los tropiezos, el cansancio, las heridas... todo deja huella.{/i}"
+
+    $ ingrid +=2
+    jump chapter_6_end  
+
+label cap6_final_dia:
+    # Si hubo misión de rescate, se encuentran las plantas y al personaje
+    # Si se esperó: la persona llega al amanecer extenuada
+    # Se curan heridas de Ingrid con las plantas
+    # Se muestran consecuencias → se cierra el capítulo
+    hide marina
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+
+    show screen combined_ui
+
+    "{i}Reavivan el fuego para preparar una infusión con las plantas recolectadas.{/i}"
+    "{i}Una olla improvisada burbujea sobre las llamas mientras Marina descansa.{/i}"
+
+    show laura hablando at center
+    show bob parado serio at left
+    with Dissolve(0.5)
+    $ ingrid += 1
+    l "¿Esto funcionará?"
+
+    b "Si Ingrid tenía razón y la preparación está bien hecha, deberíamos ver una mejoría pronto."
+
+    "{i}Aplican con cuidado el líquido tibio sobre la herida de Ingrid en silencio.{/i}"
+    "{i}Solo se escucha el lento goteo del agua condensada entre las hojas y los quejidos de Ingrid.{/i}"
+    $ update_stat("cansancio", cansancio - 1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
+    "{i}Esperan pacientemente hasta que, al rato, Ingid abre los ojos nuevamente.{/i}"
+    hide bob
+    show laura seria at centerleft
+    with Dissolve(0.5)
+    show ingrid gr triste at rightgr
+    with Dissolve(0.5)
+
+    i "La fiebre..."
+    show marina triste at left
+    with Dissolve(0.5)
+    "{i}Ingrid hace un gran esfuerzo para hablar.{/i}"
+    show ingrid gr sonriente at rightgr
+    with Dissolve(0.5)
+    i "...la fiebre se ha ido."
+
+
+    "{i}Todos sueltan un suspiro de alivio.{/i}"
+    show laura sonriendo
+    with Dissolve(0.5)
+    show marina sonriendo at left
+    with Dissolve(0.5)
+    "{i}Visible en el rostro de todos, esta victoria es pequeña, pero real.{/i}"
+    "{i}Esta noche tumultuosa ha dado sus frutos: el grupo ganó tiempo, confianza, y unidad en la incertidumbre.{/i}"
+
+    "{i}Tus decisiones de esta noche no pasaron desapercibidas. Los tropiezos, el cansancio, las heridas... todo deja huella.{/i}"
 
     $ ingrid +=2
     jump chapter_6_end  
@@ -7131,7 +7189,7 @@ label chapter_6_end:
         show screen relaciones_popup(contenido=relaciones_contenido)
         # show screen decisiones_popup(contenido=decisiones_contenido)
                     
-        "Aquí termina el capítulo 6, pese a todo el esfuerzo Ingrid se debate entre la vida y la muerte. La proxima mañana se verá si la fiebre remite. Es una noche tensa y de poco descanso."
+        "Aquí termina el capítulo 6, pese a todo el esfuerzo Ingrid aún no está recuperada del todo. Es una noche tensa y de poco descanso."
                     
         # Ocultar los pop-ups con dissolve
         hide screen relaciones_popup with dissolve
@@ -7148,7 +7206,7 @@ label final_cap6:
     if renpy.android:
         jump chapter_7_start
     else:
-        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_2
+        call pedir_codigo_capitulo from _call_pedir_codigo_capitulo6
 
 #################################################################################################  ########  #####  ####  ######################################
 ##################################################################################################  ######  ######  ####  ####################################################
@@ -8399,6 +8457,7 @@ label chapter_7_end:
             "VOLVER A VER EL RESÚMEN":
                 jump chapter_7_end
 
+
 #################################################################################################  ########  #####  ####  ####  ##################################
 ##################################################################################################  ######  ######  ####  ####  ################################################
 ## Aca comienza la PARTE 8 ########################################################################  ###  ########  ####  ####  ################################################
@@ -9123,7 +9182,7 @@ label cap8_separacion_grupo:
     elif liderazgo > 4:
         
         if laura >= 1:
-            show laura preocupada at left
+            show laura enojada at left
             with Dissolve(0.5)
 
             l "Si no hubiésemos perdido el tiempo, podríamos haber recolectado recursos y reforzado el refugio, como propuso [nombre_personaje]!"
@@ -9341,7 +9400,7 @@ label cap8_proteccion_erika:
     with Dissolve(0.5)
     show tomas serio at right
     with Dissolve(0.5)
-    show laura preocupada at left
+    show laura enojada at left
     with Dissolve(0.5)
 
     k "Si aseguramos cada punto crítico, podemos reducir el impacto de la tormenta."
@@ -9494,7 +9553,7 @@ label cap8_proteccion_jugador_opcion2:
 
         show marina triste at left
         with Dissolve(0.5)
-        show laura preocupada at right
+        show laura enojada at right
         with Dissolve(0.5)
 
         m "Si ponemos piedras grandes en las áreas críticas, podríamos prevenir el deslizamiento."
@@ -9595,7 +9654,7 @@ label cap8_finalizacion_proteccion:
         with Dissolve(0.5)
         show tomas serio at right
         with Dissolve(0.5)
-        show laura preocupada at left
+        show laura enojada at left
         with Dissolve(0.5)
 
         k "Sabía que lo lograríamos."
@@ -10272,8 +10331,8 @@ label continuar:
         $ choice_position = "default" # default alta superior
         menu:
             "CONTINUAR":
-                #jump segment_2_end
-                jump chapter_9_start
+                jump segment_2_end
+                #jump chapter_9_start
             "VOLVER A VER EL RESÚMEN":
                 jump continuar
                 #jump chapter_8_end
@@ -10281,10 +10340,12 @@ label continuar:
 label segment_2_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
-    "El reporte fue enviado con exito!"
-    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo_3
+    "El segundo reporte fue enviado con exito!"
+    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo8
     jump chapter_9_start
- 
+
+label final_segundo_segmento:
+    "Aquí termina el segundo segmento, pronto estará disponible el ultimo segmento donde las desiciones serán clave no solo para sobrevivir sino para resolver el misterio de la isla."
 return
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -11139,10 +11200,10 @@ label cap9_reaccion_pasiva:
     $ exito_total = 0
 
     if "erika" in grupo_jugador or erika_es_lider:
-        show erika sorprendida at center with Dissolve(.5)
-        e "¡Tomás, con cautela! ¡Distráelo para que se de vuelta!"
-        e "Ingrid, Laura, ¡cuando no esté mirando, restauren la barrera lo más rápido que puedan."
-        e "Y tu, [nombre_personaje], asegúrate de atraerlo de nuevo al camino apenas lo hayan hecho."
+        show erika conversando at center with Dissolve(.5)
+        k "¡Tomás, con cautela! ¡Distráelo para que se de vuelta!"
+        k "Ingrid, Laura, ¡cuando no esté mirando, restauren la barrera lo más rápido que puedan."
+        k "Y tu, [nombre_personaje], asegúrate de atraerlo de nuevo al camino apenas lo hayan hecho."
 
         menu:
             "Seguir las instrucciones de Erika al pie de la letra.":
@@ -11230,12 +11291,12 @@ label cap9_reaccion_pasiva:
 
     if exito_total >= 4:
         $ reporte_resuelve_crisis_con_liderazgo = "excelente"
-        show bob orgulloso at center with Dissolve(0.5)
+        show bob saludando sucio at center with Dissolve(0.5)
         b "Lo hiciste muy bien, [nombre_personaje]."
         hide bob with Dissolve(0.5)
 
-        show erika leve_smile at center with Dissolve(0.5)
-        e "Es impresionante lo bien que trabajas bajo presión."
+        show erika sonriendo at center with Dissolve(0.5)
+        k "Es impresionante lo bien que trabajas bajo presión."
         hide erika with Dissolve(0.5)
 
     elif exito_total >= -1:
@@ -12644,7 +12705,7 @@ label cap10_tarea_troncos_3:
         l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
     elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
         $ cruce3 = "ingrid"
-        show ingrid tranquila at center with Dissolve(0.5)
+        show ingrid cintura at center with Dissolve(0.5)
         i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
     elif "marina" not in grupo_jugador and cruce 2 != "marina":
         $ cruce3 = "marina"
@@ -12791,7 +12852,7 @@ label cap10_tarea_lena_3:
         l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
     elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
         $ cruce3 = "ingrid"
-        show ingrid tranquila at center with Dissolve(0.5)
+        show ingrid cintura at center with Dissolve(0.5)
         i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
     elif "marina" not in grupo_jugador and cruce 2 != "marina":
         $ cruce3 = "marina"
@@ -12938,7 +12999,7 @@ label cap10_tarea_agua_3:
         l "Ya todos sabemos que había algo valioso en esa caja. La pregunta es: ¿qué vamos a hacer con eso, todos?"
     elif "ingrid" not in grupo_jugador and cruce1 != "ingrid" and cruce2 != "ingrid":
         $ cruce3 = "ingrid"
-        show ingrid tranquila at center with Dissolve(0.5)
+        show ingrid cintura at center with Dissolve(0.5)
         i "Lo de la caja no me sorprende. Lo que me sorprende es que nadie de ustedes haya hablado antes."
     elif "marina" not in grupo_jugador and cruce 2 != "marina":
         $ cruce3 = "marina"
@@ -13676,6 +13737,846 @@ label cap10_espera_en_rocas:
         
 label cap10_inicio_cueva:
 # pendiente para continuar
+    jump cap10_end
 
 label cap10_espera_afuera:
 # pendiente para continuar
+    jump cap10_end
+
+label cap10_end:
+        # Generar contenido para los pop-ups de relaciones
+        $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
+        $ relaciones_cap7_bob = bob
+        $ relaciones_cap7_marina = marina
+        $ relaciones_cap7_laura = laura
+        $ relaciones_cap7_ingrid = ingrid
+        $ relaciones_cap7_charles = charles
+        $ relaciones_cap7_erika = erika
+        $ relaciones_cap7_tomas = tomas
+                    
+        # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
+        #$ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
+                    
+        # Generar contenido para los pop-ups de decisiones
+        #$ decisiones_contenido = generar_lista_popup("DECISIONES", lista_decisiones_intro, desicion_intro)
+
+        # Mostrar los pop-ups
+        show screen relaciones_popup(contenido=relaciones_contenido)
+        # show screen decisiones_popup(contenido=decisiones_contenido)
+                    
+        "Aquí termina el capitulo 10, con dos sobrevivientes dentro de la cueva y la marea subiendo."
+        "¿Podrá el grupo rescatar a sus compañeros a tiempo o los dejará a su suerte por haberse ido en secreto?"
+        # Ocultar los pop-ups con dissolve
+        hide screen relaciones_popup with dissolve
+        # hide screen decisiones_popup with dissolve
+        jump continuar10
+
+label continuar10:
+        $ choice_position = "default" # default alta superior
+        menu:
+            "CONTINUAR":
+                jump final_cap10
+                #jump chapter_9_start
+            "VOLVER A VER EL RESÚMEN":
+                jump cap10_end
+                #jump chapter_8_end
+
+label final_cap10:
+    if renpy.android:
+        jump chapter_11_start
+    else:
+        # call pedir_codigo_capitulo from _call_pedir_codigo_capitulo10
+        jump chapter_11_start
+
+
+#######################################################################################   #####   ######  ##############################################################
+##########################################################################################  ##  ########  ##############################################################
+## Aca comienza la PARTE 11 ##############################################################  ##  ########  ##############################################################
+########################################################################################   ####   ######  ##############################################################
+
+label chapter_11_start:
+    
+    $ persistent.cantidad_capitulos +=1
+
+    scene bg gruta_entrada with fade
+    show screen combined_ui
+
+    "{i}El eco se extingue rápido. El sonido parece tragarlo la piedra húmeda. La cueva es enorme y profunda. Algunos haces de luz llegan desde grietas por las que se cuelan algunas raices barrosas.{/i}"
+    "{i}El aire está cargado de sal, y algo más: una mezcla agria entre algas podridas y humedad.{/i}"
+
+    "{i}Las paredes están cubiertas de moho oscuro, con vetas verdosas que parecen latir bajo la luz difusa. A lo lejos, se escuchan goteos irregulares.{/i}"
+
+    "{i}Raíces del manglar bajan por las grietas del techo. Gotean sobre charcos azulados. Hay insectos diminutos arrastrándose por la superficie del agua.{/i}"
+
+    if jugador_es_lider:
+        if marina > 0:
+            show marina at left with Dissolve(0.4)
+            m "Bien. Estamos acá por tu decisión. Si algo sale mal… que sea aprendiendo."
+            hide marina with Dissolve(0.4)
+        elif marina < 0:
+            show marina molesta at left with Dissolve(0.4)
+            m "No sé por qué te seguimos. Pero ya estamos adentro. A ver qué tan bien funciona tu liderazgo acá abajo."
+            hide marina with Dissolve(0.4)
+
+        if tomas > 0:
+            show tomas firme at center with Dissolve(0.4)
+            t "Lo dijiste bien afuera: no podíamos quedarnos esperando. Con vos en el frente, al menos se decide algo."
+            hide tomas with Dissolve(0.4)
+        elif tomas < 0:
+            show tomas cruzado at center with Dissolve(0.4)
+            t "Otra excursión que depende de tu criterio... espero que esta no acabe peor que la anterior."
+            hide tomas with Dissolve(0.4)
+    else:
+        if marina > 0:
+            show marina seria at left with Dissolve(0.4)
+            m "No sos líder... pero elegiste venir. Eso dice algo. Todavía no sé qué, pero dice algo."
+            hide marina with Dissolve(0.4)
+
+        if tomas > 0:
+            show tomas analizando at center with Dissolve(0.4)
+            t "No importa quién toma las decisiones ahora. Estamos juntos, y eso... no es poco."
+            hide tomas with Dissolve(0.4)
+
+
+    "{i}Marcas de pisadas borrosas reaparecen en un tramo angosto. Algunas se arrastran, como si alguien hubiese caminado herido.{/i}"
+
+    if bob > 0:
+        show bob parado hablando at right with Dissolve(0.4)
+        b "Si seguimos por ese pasillo… el agua puede llegar a cubrirnos. ¿Estamos dispuestos a arriesgarnos?"
+        hide bob with Dissolve(0.4)
+    elif bob < 0:
+        show bob parado enojado at right with Dissolve(0.4)
+        b "Esto requiere que nos movamos rapido, y algunos van paseando."
+        hide bob with Dissolve(0.4)
+
+    "{i}En uno de los charcos, hay algo flotando. No es piedra ni planta. Es una prenda rasgada, tal vez parte de una camisa. Temblando como si recordara quién la perdió.{/i}"
+    "El grupo se detiene unos segundos a observar."
+    menu:
+        "Recordás que todo esto empezó con la caja. Algo nos llevó hasta acá.":
+            $ marina += 1
+            "{i}Marina te mira de reojo, como reconociendo que tu memoria tiene propósito.{/i}"
+        "Decís que el objetivo es encontrar a Laura y Charles. Lo demás puede esperar.":
+            $ tomas += 1
+            "{i}Tomas asiente. Su respiración se calma apenas.{/i}"
+        "Preguntás si alguno cree que deberíamos volver. El silencio pesa.":
+            $ bob -= 1
+            "{i}Bob se encoge de hombros. No le gusta el titubeo, ni dentro ni fuera de la cueva.{/i}"
+
+    "{i}Siguen avanzando. A la derecha, una grieta deja pasar luz azulada. El techo tiene una fisura vertical por donde caen gotas con aroma a hierro viejo. El piso, en ese tramo, huele a sal y a promesas rotas.{/i}"
+    "{i}Ya no hay vuelta atrás.{/i}"
+
+    jump cap11_dialogos_en_marcha
+
+label cap11_dialogos_en_marcha:
+
+    scene bg gruta_pasillo with fade
+    show screen combined_ui
+
+    "{i}La gruta serpentea como si no quisiera que nadie salga fácil. Las paredes tienen relieves irregulares, como si manos enormes las hubieran moldeado a la fuerza.{/i}"
+    "{i}El piso cambia: de piedra firme a parches blandos. Uno de los charcos tiene burbujas de algun animal enterrado de buen tamaño.{/i}"
+
+
+    m "Laura siempre tuvo ideas raras… pero jugársela así, con la marea subiendo, parece más que impulsivo."
+    m "¿Sentís ese olor? Como sal y tierra mezclados... como si la cueva respirara desde abajo."
+
+    t "Charles nunca fue de consultar antes de moverse. Pero esto parece más que ego. Hay propósito detrás."
+    t "Estas piedras están calientes. Por dentro… como si escondieran algo viejo."
+
+    "{i}El grupo avanza detrás, midiendo cada paso. No se confía, ni en la marea ni en la gruta.{/i}"
+
+    b "Puede que ellos se hayan ido por las joyas. Pero tal vez no quieran volver."
+    b "Esto no es una cueva. Es un filtro. Mira esa grieta… si el agua entra por ahí, nos quedamos atrapados."
+
+    k "No confío en que sea un accidente. Laura contó lo de la caja. Charles desapareció. Lo pensaron."
+
+    "{i}Tu intervención cambia el ritmo de la caminata. No estás solo en esto, pero tu voz puede reorientar los pasos.{/i}"
+
+    menu:
+        "Defendés a Laura. Quizás se equivocó, pero no fue por egoísmo.":
+            $ laura += 1
+            $ marina += 1
+            "{i}Marina te mira de reojo, como reconociendo que tu memoria tiene propósito.{/i}"
+        "Criticás a Charles. Siempre actúa solo. Esto era esperable.":
+            $ charles -= 1
+            $ tomas += 1
+            "{i}Tomas murmura un 'sí' mientras aparta raíces con más fuerza. Como si confirmaras algo que ya sentía.{/i}"
+        "Decís que no importa por qué lo hicieron. Hay que sacarlos de acá. Y rápido.":
+            $ bob += 1
+            $ erika += 1
+            "{i}La respuesta es seca. Pero el ritmo del grupo se acelera. A veces, la urgencia es la única brújula que funciona.{/i}"
+
+    hide marina
+    hide tomas
+    hide bob
+    hide erika
+    with Dissolve(0.4)
+
+    "{i}El pasillo se angosta. La piedra huele a sal vieja. El sonido del mar, al fondo, parece más cerca… y cada vez el agua esta mas alta.{/i}"
+
+    jump cap11_marca_de_la_marea
+
+label cap11_marca_de_la_marea:
+
+    scene bg gruta_marca_agua with fade
+    show screen combined_ui
+
+    "{i}El corredor se ensancha, pero algo cambia: el suelo baja, en unos escalones naturales. A la izquierda, una línea salina cubre media roca. Y en la pared, marcas irregulares de humedad creciente.{/i}"
+
+    if erika >= 0:
+        show erika seria at left with Dissolve(0.4)
+        k "Estas señales no estaban hace un rato. La marea está entrando más rápido de lo que creímos."
+        hide erika with Dissolve(0.4)
+
+    if bob > 0:
+        show bob parado serio at center with Dissolve(0.4)
+        b "Esto no se va a detener. Si seguimos, lo hacemos con el riesgo de quedarnos encerrados."
+        hide bob with Dissolve(0.4)
+
+    if marina <= 0:
+        show marina preocupada at right with Dissolve(0.4)
+        m "¿Y si entramos y después no encontramos salida? Esto no es un rescate es una ruleta."
+        hide marina with Dissolve(0.4)
+
+    "{i}Una ola lejana resuena como un suspiro grave. No se ve, pero ya ese sienten pequeñas ondas golpeando a la altura de los tobillos.{/i}"
+
+    "{i}Podés elegir cómo reaccionar. Tu tono puede afectar cómo se siente el grupo… y lo que decidan más adelante.{/i}"
+
+    menu:
+        "Afirmás que hay tiempo suficiente. La exploración es prioritaria.":
+            $ marina += 1
+            $ bob -= 1
+            "{i}Marina parece calmarse un poco. Bob no lo dice, pero se nota que no comparte tu confianza.{/i}"
+        "Decís que hay que tener mucho cuidado. La cueva cambia demasiado rápido.":
+            $ bob += 1
+            $ erika += 1
+            "{i}Erika te observa con respeto. Bob asiente casi imperceptiblemente.{/i}"
+        "Preguntás si alguno cree que ya deberíamos volver.":
+            $ marina -= 1
+            "{i}Marina frunce el ceño. Para ella, esa duda puede poner en riesgo la unidad del grupo.{/i}"
+
+    "{i}El grupo se detiene un momento. El sonido del agua subiendo no es continuo… pero sí cada vez más presente.{/i}"
+
+    jump cap11_entrada_cueva
+
+label cap11_entrada_cueva:
+
+    scene bg cueva_humedad_profunda with fade
+    show screen combined_ui
+
+    "{i}Más adentro, otro giro y otra enorme gruta. La piedra está lisa, húmeda. El olor se vuelve metálico, como hierro oxidado y sal envejecida.{/i}"
+
+    show tomas serio at left with Dissolve(0.4)
+    t "Estas piedras no estaban así. Alguien removió algo. Fijate las marcas… Charles pasó por acá. Y no hace mucho."
+    hide tomas with Dissolve(0.4)
+
+    "{i}Al girar un recodo, una figura familiar. Acurrucada detrás de una roca caída, con el pie vendado precariamente… Laura.{/i}"
+
+    show laura dolorida at center with Dissolve(0.4)
+    l "Me torcí el pie. Charles me ayudó… pero siguió solo. Dijo que había una cámara más profunda, con algo importante."
+    hide laura with Dissolve(0.4)
+
+    show marina triste at right with Dissolve(0.4)
+    m "Si lo que encontró era real, no va a salir sin probar suerte. Pero el nivel del agua está subiendo. Esta cueva no va a esperar."
+    hide marina with Dissolve(0.4)
+
+    "{i}Laura apenas puede apoyar el pie. El pasillo por el que se fue Charles huele a humedad sellada… y se escucha un gorgoteo subterráneo que no se repite, pero tampoco se olvida.{/i}"
+
+    menu:
+        "Vas solo tras Charles. Marina y Tomás ayudarán a Laura a regresar.":
+            $ charles += 1
+            $ laura += 1
+            $ marina += 1
+            $ tomas += 1
+            "{i}Tomás y Marina hacen un vendaje improvisado. Laura te observa sin decir nada. Sabés que tenés poco tiempo... y que si Charles escava más, puede perder todo, incluso la salida.{/i}"
+            jump cap11_busqueda_charles
+
+        "Te quedás con Marina a ayudar a Laura. Tomás se ofrece a ir tras Charles.":
+            $ laura += 2
+            $ marina += 2
+            $ tomas += 1
+            "{i}Entre vos y Marina ayudan a Laura a levantarse. Tomás no duda: agarra la antorcha y se mete en la oscuridad.{/i}"
+            jump cap11_regreso_con_laura
+
+label cap11_regreso_con_laura:
+
+    scene bg cueva_retorno_con_laura with fade
+    show screen combined_ui
+
+    "{i}El aire está más denso. Laura respira con dificultad. Marina la sostiene del hombro. Vos avanzás primero, guiando entre piedras resbaladizas.{/i}"
+
+    show marina hablando at left with Dissolve(0.4)
+    m "Esto sube. Fijate esa raíz… estaba seca cuando pasamos. Ahora gotea."
+    hide marina with Dissolve(0.4)
+
+    show laura dolorida at center with Dissolve(0.4)
+    l "(jadeando) No puedo apoyar el pie, y me arde la herida cuando toca el agua."
+    hide laura with Dissolve(0.4)
+
+    "{i}Laura claramente esta haciendo un gran esfuerzo para avanzar.{/i}"
+
+    menu:
+        "Cargar a Laura en brazos":
+            $ laura += 1
+            "{i}La levantás con cuidado. Marina indica cada tramo firme. Laura se apoya en tu cuello sin emitir sonido.{/i}"
+
+        "Turnarse con Marina para sostenerla":
+            $ marina += 1
+            "{i}Marina no dice nada, pero te cede el brazo en el momento justo. Coordinan el ritmo como si lo hubieran ensayado.{/i}"
+
+        "Proponer buscar un atajo más seco por arriba":
+            $ marina -= 1
+            "{i}Marina te mira con desaprobación. No contradice, pero se adelanta por el camino original sin seguir tu sugerencia.{/i}"
+
+    "{i}Se escuchan pasos chapoteando llegando por detrás. Una voz conocida. Tomás aparece." 
+
+    show tomas serio at center with Dissolve(0.4)
+    t "¡Pensé que los perdíamos! Charles está atrás. Lo encontré justo a tiempo."
+    hide tomas with Dissolve(0.4)
+
+    show charles triste at right with Dissolve(0.4)
+    c "Lo que buscamos está ahí. No todo… pero algo importante. Por ahora quiero salir. Lo demás puede esperar."
+    hide charles with Dissolve(0.4)
+
+    "{i}Los cinco se reúnen. El agua en la cueva ya llega a las rodillas, hay pequeñas ondas que indican que el flujo de agua es cada vez mayor.{/i}"
+
+    jump cap11_salida_media_abertura
+
+label cap11_salida_media_abertura:
+
+    scene bg pasillo_agua_altura_pecho with fade
+    show screen combined_ui
+
+    "{i}Llegan a la abertura, los demás les gritan que se apuren. Está cayendo mucha agua formando una pequeña cascada.{/i}"
+
+    show marina triste at left with Dissolve(0.4)
+    m "La abertura está cerca. Pero el agua cae fuerte, hay que tener cuidado."
+
+    hide marina with Dissolve(0.4)
+
+    show laura triste at center with Dissolve(0.4)
+    l "(susurrando) Estoy agotada. Pero si alguien me guía… creo que puedo llegar."
+
+    hide laura with Dissolve(0.4)
+
+    show tomas hablando at right with Dissolve(0.4)
+    t "Esa piedra sobresale. Podemos usarla como escalón. Pero hay que moverse ya..."
+
+    hide tomas with Dissolve(0.4)
+
+    menu:
+        "Subís primero por la roca y abrís paso desde arriba":
+            $ tomas += 1
+            "{i}Tomás te impulsa con fuerza. Desde la piedra seca extendés la mano a Marina. La cadena se forma sin palabras, pero firme.{/i}"
+
+        "Sostenés a Laura mientras Marina se adelanta por la pendiente":
+            $ laura += 1
+            $ marina += 1
+            "{i}El agua golpea los muslos. Marina trepa con precisión. Laura se apoya contra vos, temblando. Entre los tres logran que avance.{/i}"
+
+        "Te quedás al final y vigilás que nadie se quede atrás":
+            $ bob += 1
+            "{i}Esperás, mirando cada sombra. Bob te extiende la mano, con gesto grave. Haces fuerza para trepar poco a poco con el agua cayendo y empujando hacia abajo. El último escalón cede.{/i}"
+            "{i}Quedas un instante colgado del brazo de Bob pero con un ultimo impulso logras llegar arriba.{/i}"
+
+    "{i}Una corriente más fuerte se filtra entre los pies. La salida no parece más cercana… hay que darse prisa.{/i}"
+
+    jump cap11_salida_media_tension
+
+label cap11_busqueda_charles:
+
+    scene bg gruta_excavacion_inicio with fade
+    show screen combined_ui
+
+    "{i}El pasadizo baja entre piedras resbaladizas Un rastro semi oculto entre charcos de barro y arena.{/i}"
+
+    "{i}Al fondo, una silueta agachada. Las manos cubiertas de arena húmeda. Charles.{/i}"
+
+    show charles boca abierta at center with Dissolve(0.4)
+    c "Sabía que estaban acá. Mira el símbolo tallado… es el mismo del dibujo. Las joyas fueron escondidas aqui mismo."
+
+    "{i}En el pozo hecho por Charles, una gran roca chata cubre una pequeña abertura. Charles la retira con gran esfuerzo, debajo hay trozos de un envoltorio de cuero y maderas podridas. Brillan unas pocas joyas entre la arena.{/i}"
+
+    c "El resto debe estar enterrado mas profundo."
+
+    hide charles with Dissolve(0.4)
+
+    "{i}Charles empieza a escarbar con una vara improvisada. Lenguas de agua llegan al pozo con fuerza.{/i}"
+    "{i}Las joyas pueden ser llevadas por la marea. Están tan cerca y tan lejos a la vez...{/i}"
+    menu:
+        "Ayudar a Charles a escarbar. Lo que encuentren puede valer el riesgo.":
+            $ charles += 1
+            $ reloj_marea +=1
+            "{i}Juntos remueven la segunda capa. Un hueco se abre. Dentro, más brillos. Pero también más agua. El nivel ya cubre parte del pasillo. Volver será más difícil.{/i}"
+            jump cap11_joyas_rescate_dificil
+
+        "Decidir que hay que irse. Lo encontrado debe bastar. La marea no perdona.":
+            $ charles -= 1
+            "{i}Charles te mira como si renunciar fuera imposible. Pero no discute. Guarda lo que ya sacó. El agua sigue subiendo. Es momento de salir… o quedar atrapado.{/i}"
+            jump cap11_regreso_desde_excavacion
+
+
+label cap11_joyas_rescate_dificil:
+
+    scene bg cueva_desborde with fade
+    show screen combined_ui
+
+    "{i}El hueco se abre como una boca. Las joyas brillan, atrapadas entre piedras negras y restos de madera.{/i}"
+    "{i}Charles te va pasando las que encuentra y las vas juntando en un trapo. Pero al sacar la última, una roca se desploma y le cae en la mano.{/i}"
+
+    show charles triste at center with Dissolve(0.4)
+    c "(jadeando) ¡Tenemos que salir ya! No hay tiempo de revisar nada más."
+
+    hide charles with Dissolve(0.4)
+
+    "{i}Una corriente inesperada empuja desde atrás. El agua subió casi al nivel de la rodilla.{/i}"
+
+    "{i}Al llegar al cruce, ves a Marina levantando a Laura junto a Tomás.{/i}"
+
+    show marina preocupada at left with Dissolve(0.4)
+    m "¡Pensamos que no salían! ¿Por qué demoraste tanto?"
+
+    menu:
+        "Mostrar las joyas, son un gran montón reluciente":
+            $ marina -= 1
+            $ tomas -= 1
+            "{i}Marina te mira con una mezcla de respeto y duda. Tomás baja la cabeza. Nadie dice nada más.{/i}"
+            jump cap11_salida_final
+        "No decir nada por ahora. Lo importante era sobrevivir":
+            $ charles += 1
+            y "Ya tendramos tiempo de hablar de eso, ahora hay que salir de aqui...¡y rápido!"
+            jump cap11_salida_final
+
+
+label cap11_regreso_desde_excavacion:
+
+    scene bg cueva_tension_retorno with fade
+    show screen combined_ui
+
+    "{i}Charles camina detrás tuyo, con un trapo con las pocas joyas recogidas ajustado entre sus dedos. No dice mucho. Pero se nota que le pesa la desición.{/i}"
+    "{i}El camino se ha vuelto más dificil, hay mas agua y es dificil ver donde pisar.{/i}"
+
+    show charles frustrado at center with Dissolve(0.4)
+    c "Podríamos haber sacado el resto. Pero entiendo… era arriesgado. Tal vez podamos vuelver cuando baje la marea."
+
+    hide charles with Dissolve(0.4)
+
+    "{i}Las voces del grupo llegan desde la bifurcación. Laura se apoya en Marina. Tomás les hace señal con la antorcha.{/i}"
+
+    show tomas aliviado at left with Dissolve(0.4)
+    t "Menos mal. Pensamos que podian haberse internado tanto en la cueva que no pudieran regresar a tiempo."
+
+    "{i}El nivel del agua toca ya los tobillos. No hay tiempo para deliberar. Solo para moverse lo mas rapido posible a la salida.{/i}"
+
+    jump cap11_salida_final
+
+label cap11_salida_final:
+
+    if reloj_marea == 0:
+        jump cap11_salida_rapida_abertura
+    elif reloj_marea == 1:
+        jump cap11_salida_media_abertura
+    else:
+        jump cap11_salida_tardia_abertura
+
+label cap11_salida_rapida_abertura:
+
+    scene bg gruta_entrada_encharcada with fade
+    show screen combined_ui
+
+    "{i}La abertura por la que habían entrado esta inundada. Olas pequeñas se filtran con cada embate, cubriendo las piedras con espuma y algas frescas.{/i}"
+    "{i}Las rocas están húmedas y la pendiente ahora requiere usar manos y piernas. Laura se queda atrás. Su pie no responde como antes.{/i}"
+
+    show bob nervioso at left with Dissolve(0.4)
+    b "Se me resbaló. Dos veces. No me da para levantarla solo. Y el agua ya no es charco… es corriente."
+
+    if bob < 0:
+        b "¿Esto te parece buen liderazgo? Porque desde acá... parece una sucesion de malas decisiones."
+
+    hide bob with Dissolve(0.4)
+
+    show ingrid parada  at center with Dissolve(0.4)
+    m "Acá se decide todo. Si nos hundimos, no va a ser sólo por el agua."
+
+    hide marina with Dissolve(0.4)
+
+    "{i}Laura se apoya contra una roca que parece firme. Pero un fragmento se desprende y cae al agua. El sonido es corto, pero afilado. No hay más estabilidad que la que el grupo pueda generar ahora.{/i}"
+    "Laura extiende la mano, sin hablar. Hay más miedo que dolor en su gesto."
+    menu:
+        "La sujetás con fuerza, ayudándola a trepar":
+            $ laura += 1
+            "{i}El musgo se desprende, pero tu agarre no. Laura logra subir al primer escalón rocoso. El resto viene detrás.{/i}"
+        "Le hacés seña a Marina para que la asista, mientras vos abrís espacio arriba":
+            $ marina += 1
+            "{i}Marina se agacha y la impulsa hacia tu posición. El trío funciona como engranaje improvisado.{/i}"
+        "Vigilás desde arriba mientras Bob se ocupa. La coordinación es clave":
+            $ bob += 1
+            "{i}Bob gruñe, pero sostiene a Laura como puede. Cuando llega arriba, la mira y se limita a asentir.{/i}"
+
+    jump cap11_salida_rapida_tension
+
+label cap11_salida_rapida_tension:
+
+    scene bg gruta_corriente_azul with fade
+    show screen combined_ui 
+
+    "{i}Una corriente más fuerte se filtra por la abertura. El agua sube hasta los muslos. Laura se desliza y golpea el hombro. Marina se arrodilla de inmediato.{/i}"
+
+    show marina preocupada at left with Dissolve(0.4)
+    m "No puede caminar así. Necesita apoyo. No podemos seguir sin reorganizarnos."
+
+    hide marina with Dissolve(0.4)
+
+    show erika conversando at right with Dissolve(0.4)
+    k "Perdí el agarre. Me quedé atrás. Estas algas son como aceite... maldita cueva."
+
+    if erika > 1:
+        k "Pero estoy acá. No pienso dejarlos ahora. Sólo decidamos rápido."
+
+    hide erika with Dissolve(0.4)
+
+    "{i}El grupo tiene una pendiente angosta por delante. Si se sube bien, pueden evitar el siguiente golpe de marea. Pero alguien debe marcar el ritmo.{/i}"
+
+    menu:
+        "Tomás toma la iniciativa y organiza la subida en parejas":
+            $ tomas += 1
+            "{i}Distribuye posiciones con voz firme. Cada paso está sincronizado. Laura sube entre vos y Marina.{/i}"
+        "Vos indicás los turnos, con Bob cubriendo la retaguardia":
+            $ bob += 1
+            "{i}La instrucción es clara. Nadie duda. Bob se queda atrás para revisar si alguien tropieza.{/i}"
+        "Marina decide avanzar sola primero y explorar una subida menos empinada":
+            $ marina += 1
+            "{i}Desaparece entre rocas, y regresa segundos después señalando un escalón más estable. El grupo gira hacia su ruta.{/i}"
+
+    jump cap11_salida_rapida_salida
+
+
+label cap11_salida_rapida_salida:
+
+    scene bg manglar_luz_gris with fade
+    show screen combined_ui
+
+    "{i}La salida los recibe con luz ceniza. Las raíces del manglar parecen celebrar el regreso, pero el aire está pesado. La cueva lanza una última ola que golpea el último escalón.{/i}"
+
+    show erika exhausta at left with Dissolve(0.4)
+    k "Están todos… temía que alguno fuera a quedarse atrás. Cada vez entra mas agua."
+
+    hide erika with Dissolve(0.4)
+
+    show charles triste at center with Dissolve(0.4)
+    c "Me pregunto cuantas joyas abrán quedado enterradas en el fondo de la cueva."
+
+    if charles >= 2:
+        c "Lo lamento, no queria ponerlos a todos en peligro."
+
+    hide charles with Dissolve(0.4)
+
+    "{i}El grupo se reencuentra. Algunos se sientan en la arena mojada. Laura se revisa el vendaje. Bob se aparta, sin hablar.{/i}"
+
+    menu:
+        "Pese a todo, logramos salir. Y que eso es lo único que importa.":
+            $ laura += 1
+            $ tomas += 1
+            "{i}Asienten. Nadie contradice. La noche cae más liviana con ese pensamiento.{/i}"
+        "Finalmente se encontró algo importante... pero no fue fácil de conseguir.":
+            $ charles += 1
+            $ marina -= 1
+            "{i}Charles cruza mirada contigo El silencio dice más que las palabras.{/i}"
+        "No decís nada. Te sentás a mirar la entrada ya sumergida.":
+            $ bob += 1
+            "{i}Bob se acerca sin hablar. El gesto es raro... está claro que Bob esta muy molesto con Laura y Charles.{/i}"
+
+    jump cap11_post_salida_rapida
+
+label cap11_salida_media_tension:
+
+    scene bg cueva_corriente_alta with fade
+    show screen combined_ui
+
+    "{i}El agua les llega al pecho. Cada paso requiere fuerza en los brazos. Las piernas se hunden. No hay suelo visible, sólo el roce de rocas resbalozas debajo.{/i}"
+
+    show erika sorprendida at center with Dissolve(0.4)
+    k "¡Me quedé! ¡El pie… entre dos piedras! ¡No lo puedo mover!"
+
+    "{i}Se gira hacia vos. El agua ya le cubre el estómago. El siguiente oleaje podría cubrirla si no se libera pronto.{/i}"
+    "{i}El grupo se organiza alrededor de Erika, pero hay tensión en cómo actuar.{/i}"
+    menu:
+        "Te quedás dudando, una mala desicion puede causar mas problemas":
+            $ tomas += 1
+            $ erika += 1
+            "{i}Tomas actua de prisa. Logra meter las manos entre las piedras y liberar el pie. Erika se cae al agua, pero Marina la sostiene justo a tiempo.{/i}"
+        "Das instrucciones rápidas, señalando qué roca levantar primero":
+            $ erika += 1
+            $ marina += 1
+            "{i}La piedra más chica se mueve. Erika se libera justo cuando una corriente arrastra una rama contra su pierna.{/i}"
+        "Esperás a que Bob evalúe el ángulo antes de intervenir":
+            $ bob += 1
+            "{i}Bob toma posición, empuja desde abajo. Erika cae al agua pero queda libre y logra levantarse, mojada hasta el cuello.{/i}"
+
+    hide erika with Dissolve(0.4)
+
+    "{i}El grupo sigue avanzando. Se siente la corriente bajo los pies. Ya no hay zonas estables. Sólo avanzar como sea posible hacia la salida.{/i}"
+
+    jump cap11_salida_media_salida
+
+label cap11_salida_media_salida:
+
+    scene bg manglar_claro_turquesa with fade
+    show screen combined_ui
+
+    "{i}La luz del manglar aparece entre sombras líquidas. La corriente empuja desde atrás. Todos están empapados, heridos, y cansados.{/i}"
+
+    show ingrid triste at left with Dissolve(0.4)
+    i "¡Pensamos que no salían más! ¿Están bien?"
+
+    show tomas enojado at center with Dissolve(0.4)
+    t "AUnque esto fue una pésima idea . Lo que importa es que salimos... todos."
+    show charles brazos cruzados at right with Dissolve(0.4)
+    if charles <= 0:
+        c "Yo no le pedi a nadie que viniera."
+
+    hide ingrid
+    hide charles
+    hide tomas
+    with Dissolve(0.4)
+
+    "{i}Laura se recuesta en una raíz baja. Marina le revisa el vendaje. Erika se sienta sola, mirando su pie como si no fuera suyo. Bob respira con la cabeza baja.{/i}"
+
+    menu:
+        "Agradecés que estén juntos. Que eso haya sido posible.":
+            $ marina += 1
+            $ tomas += 1
+            "{i}Marina asiente sin mirar. Tomás se cruza de brazos. Nadie contradice.{/i}"
+        "Decís que no todos querían salir. Pero que el grupo eligió bien.":
+            $ charles += 1
+            $ erika -= 1
+            "{i}Erika desvía la vista. Charles te mira como si le hubieras devuelto algo perdido.{/i}"
+        "No hablás. Caminás hacia el refugio sin decir nada.":
+            $ bob += 1
+            "{i}Bob te sigue sin decir palabra. El resto los alcanza después. A veces, el silencio organiza mejor.{/i}"
+
+    jump cap11_post_salida_media
+
+label cap11_salida_tardia_tension:
+
+    scene bg cueva_tiburon_alerta with fade
+    show screen combined_ui
+
+    "{i}Una sombra corta el agua. La superficie se parte como una herida. Una aleta aparece. Gira. Observa. Mide.{/i}"
+
+    show marina triste at left with Dissolve(0.4)
+    m "No puede llegar hasta aca... todavía. Pero está probando la marea. Y nosotros estamos en medio."
+
+    hide marina with Dissolve(0.4)
+
+    "{i}La única zona seca visible es una saliente en altura. Pequeña. Apenas suficiente. Hay que subir por raíces y piedras húmedas. Ràpido. Sin error.{/i}"
+
+    menu:
+        "Coordinás el grupo en cadena: Charles, Marina, Bob y vos":
+            $ marina += 1
+            $ bob += 1
+            $ charles += 1
+            "{i}Suben uno a uno. El tiburón golpea una raíz con la aleta. Abre la boca… pero ustedes ya están fuera de alcance.{/i}"
+        "Empujás a Charles primero, luego trepás tú. Marina y Bob quedan atrás unos segundos":
+            $ charles += 2
+            $ marina -= 1
+            $ bob -= 1
+            "{i}Charles se salva. Marina y Bob llegan con el tiburón cerca. Ser los últimos es correr el mayor riesgo.{/i}"
+        "Dejás que Bob suba primero con Charles, vos y Marina los cubren desde el agua":
+            $ bob += 2
+            $ marina += 1
+            "{i}Vos y Marina reman hacia el saliente final mientras Bob sostiene a Charles arriba. El tiburón roza tu pierna. Pero llegás.{/i}"
+
+    jump cap11_salida_tardia_salida
+
+label cap11_salida_tardia_salida:
+
+    scene bg saliente_aislada_noche with fade
+    show screen combined_ui
+
+    "{i}La saliente está húmeda, estrecha. Nadie puede acostarse del todo. Charles respira como si le faltara el aire. Marina mira con miedo el agua. El tiburón da vueltas abajo. No se va. Espera que la marea suba.{/i}"
+
+    show bob agotado at left with Dissolve(0.4)
+    b "No hubo decisión fácil. Pero vos… hiciste que pasara. Este lugar no parece inundarse."
+
+    hide bob with Dissolve(0.4)
+
+    show charles triste at center with Dissolve(0.4)
+    c "Estas joyas...valen menos que la visa de ustedes, lamento haberlos traido a esta situación."
+
+    hide charles with Dissolve(0.4)
+
+    show marina triste at right with Dissolve(0.4)
+    m "Solo espero que el agua no llegue hasta acá."
+
+    hide marina with Dissolve(0.4)
+
+    "{i}Pasarán la noche apretados. Escuchando el tiburón moverse, y el mar golpear la entrada de la cueva. Sólo pueden esperar en la oscuridad.{/i}"
+
+    jump cap11_post_salida_tardia
+
+label cap11_post_salida_tardia:
+
+    scene bg rocas_marea_baja_amanece with fade
+    show screen combined_ui
+
+    "{i}El mar retrocedió, rápidamente. El grupo desciende de la saliente. Nadie celebra. Nadie habla. El cuerpo duele. La cabeza más.{/i}"
+
+    "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol nace como una promesa hueca. El cansancio arrastra los pies como cadenas invisibles.{/i}"
+
+    $ hambre += 2
+    $ sed += 2
+    $ cansancio += 3
+
+    show bob parado enojado at left with Dissolve(0.4)
+    b "¿Valió la pena? Lo pregunto en serio. ¿Todo ese riesgo por unas piedras mojadas?"
+
+    show marina triste at center with Dissolve(0.4)
+    m "La cueva casi nos ahoga… porque alguien quiso ir más profundo. Esto no fue grupo… fue egoismo."
+
+    show charles triste at right with Dissolve(0.4)
+    c "Tomé una decisión. Pero no empujé a nadie. Cada uno eligió seguir."
+
+    hide bob
+    hide marina
+    hide charles
+    with Dissolve(0.4)
+
+    "{i}El tono sube. Las palabras cortan. Las culpas flotan como si buscaran a quién pegarse.{/i}"
+
+    menu:
+        "Recriminás a Charles por haber puesto en riesgo a todos":
+            $ charles -= 1
+            $ marina += 1
+            "{i}Charles baja la vista. Marina asiente. Nadie contradice.{/i}"
+        "Defendés que las decisiones fueron compartidas, no impuestas":
+            $ bob += 1
+            $ charles += 1
+            "{i}Bob se cruza de brazos. No acepta del todo, pero no discute. Charles te mira con cierto alivio.{/i}"
+        "Pedís que dejen de culparse. Lo importante es que todos están vivos":
+            $ marina -= 1
+            $ tomas += 1
+            "{i}Marina resopla con fastidio. Tomás te da una palmada muda en el hombro.{/i}"
+
+    "{i}El sonido interrumpe. Lejano. Agudo. Un motor en el aire. Un punto metálico cruza el cielo. Un avión. El grupo grita. Agitan los brazos. Saltan.{/i}"
+
+    "{i}El avión gira... pero no baja. Se aleja entre nubes bajas, tragado por la bruma costera. El silencio que deja atrás es distinto. Es la esperanza rota.{/i}"
+
+    "{i}¿Esperar el rescate? ¿O tratar de saloir de la isla? Esas preguntas están en la mente de todos.{/i}"
+
+    jump cap11_end
+
+label cap11_post_salida_media:
+
+    scene bg costa_bote_oleaje with fade
+    show screen combined_ui
+
+    "{i}El bote golpea contra la arena. Los cuerpos duelen, los brazos tiemblan. El mar ruge detrás, la marea y las olas cada mes mas grandes.{/i}"
+
+    $ hambre += 1
+    $ sed += 2
+    $ cansancio += 2
+
+    show erika enojada at center with Dissolve(0.4)
+    k "Los traje. Pero esto no fue un rescate. Fue un parche. No se puede repetir."
+
+    show tomas enojado at left with Dissolve(0.4)
+    t "Si no se hubiera escarbado más, no hubiéramos corrido tanto riesgo."
+
+    show charles brazos abiertos at right with Dissolve(0.4)
+    c "No fue por codicia. Era una oportunidad. Y ustedes decidieron venir detras mio."
+
+    hide erika
+    hide tomas
+    hide charles
+    with Dissolve(0.4)
+
+    "{i}Las voces se cruzan. Cada uno defiende su pedazo de razón. El grupo eleva el tono, aún bajo el impacto de lo vivido.{/i}"
+
+    menu:
+        "Defendés a Erika por haber actuado cuando otros dudaban":
+            $ erika += 1
+            $ tomas -= 1
+            "{i}Erika te mira sin decir nada. Tomás aprieta los dientes.{/i}"
+        "Culpás a Charles por haber insistido más allá de lo prudente":
+            $ charles -= 1
+            "{i}Charles te observa sin emoción. La herida va más allá del orgullo.{/i}"
+        "Proponés enfocarse en cómo seguir, no en quién falló":
+            $ marina += 1
+            "{i}Marina asiente. Ingrid murmura algo que suena como ‘por fin’.{/i}"
+
+    "{i}Un zumbido en el cielo. El grupo gira la cabeza. Un avión. Bajo. Gris. Se acerca… hace un giro. Las voces explotan. Gritos. Brazos al aire. Un silbido de esperanza.{/i}"
+
+    "{i}Pero no baja. No gira hacia ellos. Lo ven alejarse como un recuerdo que nunca fue suyo.{/i}"
+
+    "{i}¿Y ahora qué? Esperar sentados. O buscar una alternativa. La isla no da certezas. Sólo opciones duras.{/i}"
+
+    jump cap11_end
+
+label cap11_post_salida_rapida:
+
+    scene bg costa_orilla_clara with fade
+    show screen combined_ui
+
+    "{i}La arena está húmeda. Las rocas escupen espuma. El grupo llega justo a tiempo. El mar ya lame la entrada con fuerza. Si hubieran tardado más, estarían encerrados.{/i}"
+
+    $ hambre += 1
+    $ sed += 1
+    $ cansancio += 2
+
+    show marina preocupada at left with Dissolve(0.4)
+    m "Fue suerte. No decisión. Y la suerte... no se recicla."
+
+    show bob parado enojado at center with Dissolve(0.4)
+    b "La imprudencia va a terminar con uno de nosotros muerto... o varios."
+
+    show laura triste at right with Dissolve(0.4)
+    l "Lo siento, me tento la aventura. No pretendía ponerlos en riesgo"
+
+    hide marina
+    hide bob
+    hide laura
+    with Dissolve(0.4)
+
+    "{i}La discusión es suave, pero punzante. Nadie grita. Pero se dicen las cosas con claridad.{/i}"
+
+    menu:
+        "Ya no podemos actuar sin plan. Hay que decidir juntos.":
+            $ tomas += 1
+            $ marina += 1
+            "{i}Tomas asiente. Marina murmura: ‘Era hora’.{/i}"
+        "El problema fue la falta de liderazgo claro.":
+            $ bob += 1
+            $ marina -= 1
+            "{i}Bob no habla, pero se mantiene más cerca que antes. Marina se aleja hacia una roca.{/i}"
+        "Lo importante es haber llegado. El resto se verá después.":
+            $ laura += 1
+            "{i}Laura sonríe, muy apenas. Nadie contradice… por ahora.{/i}"
+
+    "{i}El cielo cruje. Un ruido. Una línea metálica en el horizonte. Un avión. Las manos se alzan. Los gritos rompen el aire.{/i}"
+
+    "{i}Pero no desciende. Da media vuelta. Se va. Como si nunca los hubiera visto. El silencio pesa sobre todos.{/i}"
+
+    "{i}¿Esperar otro día? ¿O buscar otras opciones? Hay que decidir que hacer.{/i}"
+
+    jump cap11_end
+
+
+label cap11_end:
+        $ choice_position = "default" # default alta superior
+        menu:
+            "CONTINUAR":
+                jump chapter_12_start
+                #jump chapter_9_start
+            "VOLVER A VER EL RESÚMEN":
+                jump cap11_end
+                #jump chapter_8_end
+
+
+
+#######################################################################################   #####   ######  #####  #########################################################
+##########################################################################################  ##  ########  #####  #########################################################
+## Aca comienza la PARTE 11 ##############################################################  ##  ########  #####  #########################################################
+########################################################################################   ####   ######  #####  #########################################################
+
+label chapter_12_start:
+    "ACA EMPIEZA EL CAP 12"
