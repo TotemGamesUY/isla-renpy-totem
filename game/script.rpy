@@ -13124,47 +13124,85 @@ label cap10_reunion_doble_grupo:
 
     "{i}Ninguno de ellos parece saber de qué hablas. En cuestión de segundos, todos llegan a la misma conclusión.{/i}"
     "{i}La explicación más lógica es que [personaje_desaparecido_1] y [personaje_desaparecido_2] se hayan ido solos a seguir las pistas.{/i}"
-    "{i}Todos se sienten traicionados. Ellos, y ustedes. Al menos esto los distrae del enojo con el que llegaron.{/i}"
-    #########################################
-    #### MIERCOLES 16 LLEGUE HASTA ACA
-    #########################################
+    "{i}Todos se sienten traicionados. Ellos, y ustedes. Al menos esto distrae a los demás del enojo con el que llegaron.{/i}"
+    
+    if "erika" in grupo_jugador:
+        show erika enojada at left with Dissolve(0.5)
+        k "¿Quién me va a explicar qué es lo que está pasando aquí?"
+        "{i}Erika se voltea hacia ti y el resto de los de tu grupo.{/i}"
+        k "Si uno de ellos tomó el cuaderno, es porque uno de nosotros abrió la boca. Y yo se que no fui yo."
 
-    #GERVA: aca estan planteados dialogos de distintos personajes, hay que agregar la logica de quien esta en que grupo y quien es lider para que esta parte tenga la potencia y la logica que necesita
-    show erika enojada at left with Dissolve(0.5)
-    k "¿Qué es lo que está pasando acá? Alguien tenía que haber hablado del contenido de la caja para que hagan algo así."
+        show bob parado enojado at right with Dissolve(0.5)
+        b "¿De qué sirve eso ahora? Si alguien desapareció, tal vez tenga que ver con que entre ustedes hubiesen tantos secretos."
+        b "Claramente decidió contactar a alguien de nuestro grupo. Solo lamento que hayan decidido ir solos."
 
-    show bob parado enojado at right with Dissolve(0.5)
-    b "No me vengan con eso. Nosotros no escondimos nada. Y si alguien desapareció, tal vez estaban cansados de secretos."
+    elif "bob" in grupo_jugador:
+        show bob parado enojado at right with Dissolve(0.5)
+        b "Bueno, si no saben nada sobre la desaparición del cuaderno, tal vez nos puedan decir cómo fue que se enteraron de su existencia."
+        b "A esta altura está claro que toda la información sobre la caja se filtró y desparramó muy rápidamente."
 
+        show erika enojada at left with Dissolve(0.5)
+        k "¿Y nosotros qué culpa tenemos?"
+        k "Aunque estemos separados, todos hemos forjado vínculos que no se romperán de un día para el otro."
+        k "Alguien en tu grupo decidió compartir la información, [nombre_personaje]. Yo celebro que lo haya hecho."
 
-    show marina preocupada at centerleft with Dissolve(0.5)
-    m "Sabemos que uno de ustedes lo contó. Ya todos lo sabían. ¡No sale de la nada esa historia!"
-    hide marina with Dissolve(0.5)
+    if personaje_desaparecido_2 != "marina":
+        show marina preocupada at centerleft with Dissolve(0.5)
+        m "Lo sabíamos y no les dijimos nada."
+        m "Eso probablemente sea lo más doloroso para ustedes."
+        m "Fue una mala idea. Ojalá puedan perdonarnos."
+        hide marina with Dissolve(0.5)
 
-    # Culminación: Laura fue quien habló
-    show ingrid cintura at centerright with Dissolve(0.5)
-    i "No es misterio, ya ni hace falta especular. Fue Laura. Yo la escuché. Le contó a Charles primero. Después, los rumores volaron."
-    hide ingrid with Dissolve(0.5)
+    else:
+        show ingrid cintura at centerright with Dissolve(0.5)
+        i "Si alguien decidió filtrarlo, ya se habrán dado cuenta de que los demás lo sabíamos y eligimos ocultarlo."
+        i "Eso quizá sea más problemático, pero espero que decidan perdonarnos por eso. No debimos hacerlo."
+        hide ingrid with Dissolve(0.5)
 
-    "{i}El silencio es incómodo. Todos lo sabían. Pero nadie esperaba que Laura desapareciera justo después de contarlo todo.{/i}"
+    if personaje_desaparecido_2 != "tomas":
+        show tomas serio at center with Dissolve(0.5)        
+        t "Yo vi a [personaje_desaparecido_1] y a [personaje_desaparecido_2] hablando con disimulo esta mañana."
+        t "Ahora solo puedo imaginar que se trataba de algo relacionado a la caja."
+        t "No se cuál de los dos le contó al otro, pero no puede haber pasado mucho tiempo antes de que los rumores comenzaran a volar."
+        hide tomas with Dissolve(0.5)
+
+    else:
+        show ingrid cintura at centerright with Dissolve(0.5)
+        i "Yo vi a [personaje_desaparecido_1] y a [personaje_desaparecido_2] hablando con disimulo esta mañana."
+        i "Ahora solo puedo imaginar que se trataba de algo relacionado a la caja."
+        i "No se cuál de los dos le contó al otro, pero no puede haber pasado mucho tiempo antes de que los rumores comenzaran a volar."
+        hide ingrid with Dissolve(0.5)
+
+    "{i}El silencio es incómodo. Todos lo sabían.{/i}"
+    
+    if personaje_desaparecido_1 != "laura" or personaje_desaparecido_2 != "laura":
+        
+        "{i}Mientras todos se juzgan los unos a los otros con miradas cortantes, se dan cuenta de que ahora falta alguien más.{/i}"
+        "{i}Laura debe de haberse escabullido mientras Bob y Erika intercambiaban acusasiones. No hay rastro de ella.{/i}"
+
+    #######################################################################################
+    # Con esta lógica, si Laura no estaba entre los desaparecidos originales, se les suma.
+    #######################################################################################
+
 
     # Participación del jugador: cómo enfrenta el conflicto
     menu:
-        "Intentás calmar la situación con argumentos prácticos.":
+        "Intentas calmar la situación con argumentos prácticos.":
             $ enfoque_jugador = "practico"
-            y "No importa quién lo dijo. Lo que importa es que ahora dos personas no están, y puede ser peligroso."
+            y "No importa quién filtró la información. Lo que importa ahora es que los que se fueron pueden estar en peligro."
 
-        "Intentás negociar para que se retome la calma y se piense en conjunto.":
+        "Intentas negociar para que se retome la calma y se piense en conjunto.":
             $ enfoque_jugador = "negociador"
-            y "Si queremos encontrar a alguien, tenemos que confiar en lo poco que nos queda. Ahora no es momento de romper más vínculos."
+            y "Si queremos encontrarlos, tenemos que restaurar la confianza."
+            y "Tal vez no sea justo pedírselos luego de lo que pasó, pero ellos dependen de que trabajemos juntos."
 
-        "Acusás directamente al otro grupo de haber robado el cuaderno o facilitado la huida.":
+        "Acusas al otro grupo de haber robado el cuaderno y/o facilitado la huida.":
             $ enfoque_jugador = "acusador"
-            y "Esto no fue casualidad. Alguien del otro grupo ayudó. Y quiero saber quién fue."
+            y "Me pregunto cuánta ayuda habrán tenido desde dentro. Tal vez no todos ustedes estén libres de culpa."
 
-    "{i}Las caras se tensan. Pero lo inevitable ya está dicho: no pueden quedarse esperando.{/i}"
-    "{i}Dos personas salieron en dirección al mar. Tal vez hacia esa playa con acantilados.{/i}"
-    y "Hay que salir a buscarlas... no creo que podamos hacer de cuenta que aca no ha pasado nada."
+    "{i}El clima de la conversación es nefasto, pero lo inevitable ya está dicho y no pueden quedarse esperando.{/i}"
+    y "Dos personas salieron en dirección al mar. Tal vez hacia esa playa con los acantilados."
+    y "Hay que salir a buscarles... aunque no podamos hacer de cuenta que aca no ha pasado nada."
 
     hide bob 
     with Dissolve(0.5)
@@ -13173,6 +13211,10 @@ label cap10_reunion_doble_grupo:
     "{i}Deciden dividirse en dos equipos. Uno quedará en el refugio y el otro buscará respuestas en la playa.{/i}"
 
     jump cap10_formacion_equipo_exploracion
+
+###################################
+##LUNES 21 LLEGUÉ HASTA ACÁ
+#####################################
 
 label cap10_formacion_equipo_exploracion:
 
@@ -13327,9 +13369,6 @@ label cap10_invitar_tomas:
         jump cap10_exploracion_inicio
     else:
         jump cap10_formacion_equipo_exploracion
-
-
-
 
 
 label cap10_soledad_post_fallo:
