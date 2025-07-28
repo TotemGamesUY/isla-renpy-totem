@@ -13650,87 +13650,160 @@ label cap10_invitar_tomas:
     else:
         jump cap10_formacion_equipo_exploracion
 
-#########################
-### MARTES 22 LLEGUÉ HASTA ACÁ
-########################
-
 label cap10_exploracion_inicio:
 
     scene bg beach sunny at truecenter
     with Dissolve(0.5)
 
-    "{i}El grupo camina bordeando la costa. La arena está húmeda, firme, marcada por huellas frescas que no parecen de animales.{/i}"
-    "{i}El mar está en calma. Demasiada. La línea donde suelen romper las olas quedó varios metros más atrás. Es claro: la marea está inusualmente baja.{/i}"
+    "{i}El grupo camina bordeando la costa. La arena está húmeda.{/i}"
+    "{i}En ella hay huellas frescas, tres pares.{/i}"
+    "{i}El mar está en calma. Demasiada. La línea donde suelen romper las olas quedó varios metros más atrás.{/i}"
+    "{i}Es claro: la marea está inusualmente baja.{/i}"
 
     # Uno del grupo señala las huellas
-    if equipo_exploracion[0] == "ingrid":
+    if "ingrid" in equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
-        i "Estas huellas no son viejas. Están poco deformadas. Alguien pasó por acá hace muy poco."
+        i "¿Ya sabes lo que significa eso, verdad [nombre_personaje]?"
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
         hide ingrid with Dissolve(0.4)
-    elif equipo_exploracion[0] == "bob":
+
+    elif "bob" in equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
-        b "¿Ven eso? Si la marea sube, esas marcas desaparecen. Así que quien pasó, lo hizo hoy."
+        b "Mira eso, [nombre_personaje]."
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
         hide bob with Dissolve(0.4)
-    else:
+
+    elif "tomas" in equipo_exploracion:
+        show tomas cruzado at left with Dissolve(0.4)
+        t "Tres huellas. ¡Seguro son [personaje_desaparecido_1], [personaje_desaparecido_2] y Laura!"
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
+        hide tomas with Dissolve(0.4)
+
+    elif "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "Las huellas van en una dirección clara. Tienen que ser ellos."
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
+        hide erika with Dissolve(0.4)
+
+    elif "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "Vaya que están determinados en encontrar ese tesoro."
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
+        hide charles with Dissolve(0.4)
+
+    elif "marina" in equipo_exploracion:
         show marina alerta at center with Dissolve(0.4)
-        m "Nos están llevando ventaja. Y no sabemos con qué intención."
+        m "Uff... miren lo profundas que son esas huellas. Caminar en esta arena si que es duro."
+        y "Estas huellas fueron hechas luego de que la marea bajara."
+        y "No pueden llevarnos mucha ventaja."
         hide marina with Dissolve(0.4)
 
-    "{i}Mientras siguen la línea de huellas, alguien rompe el silencio.{/i}"
+    "{i}Mientras siguen la línea de huellas, alguien más en el equipo rompe el silencio.{/i}"
 
-    if equipo_exploracion[1] == "tomas":
+    if "marina" in equipo_exploracion:
+        show marina alerta at center with Dissolve(0.4)
+        m "Cuidemos nuestras energías, ¿si? No sabemos qué nos espera cuando los encontremos."
+        hide marina with Dissolve(0.4)
+
+    elif "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "Puedo entender la curiosidad. Pero irse sin avisar... no lo justifica."
+        c "Ojalá los encontremos a salvo y pronto."
+        hide charles with Dissolve(0.4)
+
+    elif "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "¿Y si fue uno de ellos quien convenció a los otros dos?"
+        hide erika with Dissolve(0.4)
+
+    elif "tomas"in equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "No me gusta esto. Si se fueron sin decir nada, ¿cómo podemos confiar en ellos?"
-    elif equipo_exploracion[1] == "erika":
-        show erika preocupada at left with Dissolve(0.4)
-        e "¿Y si fue decisión de uno solo? ¿Y el otro fue arrastrado?"
-    elif equipo_exploracion[1] == "charles":
-        show charles serio at left with Dissolve(0.4)
-        c "Puedo entender la necesidad de descubrir cosas. Pero irse sin avisar... eso no lo justifica."
-    hide tomas
-    hide erika
-    hide charles
-    with Dissolve(0.4)
+        hide tomas with Dissolve(0.4)
 
+    elif "bob" in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "Espero que los encontremos antes de que hagan alguna locura."       
+        hide bob with Dissolve(0.4)
+
+    elif "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "No tenemos cómo perder este rastro, siempre y cuando no perdamos el tiempo."        
+        hide ingrid with Dissolve(0.4)
+    
     $ choice_position = "alta"
     menu:
-        "Decís que probablemente se fueron por egoísmo o falta de criterio. No se los puede justificar.":
+        "Sentenciar que probablemente se fueron por puro egoísmo o falta de criterio. No se los puede justificar.":
             $ postura_jugador_desaparecidos = "critico"
-            y "Quisieron jugar a los secretos y ahora estamos acá, buscándolos."
+            y "Quisieron ser los únicos en encontrar el secreto y ahora nosotros estamos aquí de todas formas, buscándolos."
 
-        "Sugerís que tal vez tenían razones válidas. No es justo juzgar sin saber.":
+        "Sugerir que tal vez tenían razones válidas. No es justo juzgar sin saber.":
             $ postura_jugador_desaparecidos = "comprensivo"
-            y "No sabemos lo que pensaban. Tal vez solo querían hacer lo correcto de una forma torpe."
+            y "No sabemos lo que pensaban. Tal vez solo querían hacer lo correcto y solamente fueron impulsivos."
 
-        "Admitís que vos también hubieras sentido la tentación de ir antes que nadie.":
+        "Admitir que tu también hubieras sentido la tentación de ser el primero en ir a descubrir el misterio.":
             $ postura_jugador_desaparecidos = "autocritico"
-            y "Yo también sentí que había que moverse. No lo apruebo, pero los entiendo."
+            y "Yo también sentí que había que moverse rápido. No lo apruebo, pero los entiendo."
 
-    "{i}No hay respuestas. Solo pasos. Y tensión acumulada entre los árboles que asoman del costado más salvaje de la costa.{/i}"
+    "{i}No hay respuestas. Caminan entre la tensión del silencio{/i}"
+    "{i}La jungla, a un lado, forma un muro que enfrenta el viento salado.
+    "{i}El mar, del otro lado, se impone como una frontera insondable.{/i}" #GOTY
 
     scene bg costa_bifurcacion with fade
 
     "{i}Llegan al punto donde el paisaje cambia.{/i}"
-    "{i}Una zona de rocas antes ocultas por el mar se abre como una lengua gris entre espuma y mejillones.{/i}"
-    "{i}A un lado, la jungla se adensa entre raíces trenzadas y ramas como garfios.{/i}"
+    "{i}Una zona de rocas antes ocultas por el mar se abre como una lengua gris entre espuma y mejillones.{/i}"    
 
-    #GERVA: aca hay que hacer condicionales segun quienes estan en el grupo de exploracion
-    show ingrid enojada at right with Dissolve(0.4)
-    i "Si vamos por las rocas, avanzamos rápido… pero si la marea sube antes de que volvamos, quedamos atrapados."
-    hide ingrid with Dissolve(0.4)
+    #condicionales segun quienes estan en el grupo de exploracion
 
-    show bob pensando at left with Dissolve(0.4)
-    b "Por la selva es más lento, más segur...en teoría. Si es que no nos perdemos."
-    hide bob with Dissolve(0.4)
-    "{i}Es momento de decidir que camino tomar.{/i}"
+    if "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "Si vamos por las rocas, avanzaremos más rápido, pero si la marea sube antes de que volvamos, quedaremos atrapados."
+        hide ingrid with Dissolve(0.4)
+
+    if "bob" in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "Por la selva es más seguro... en teoría."
+        hide bob with Dissolve(0.4)
+
+    if "tomas" in equipo_exploracion:
+        show tomas cruzado at left with Dissolve(0.4)
+        t "En la selva avanzaremos más lento, y además corremos el riesgo de perdernos. La vegetación está muy densa."        
+        hide tomas with Dissolve(0.4)
+
+    if "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "No sabemos exactamente qué tan larga es la ventana de tiempo que nos permite la marea."
+        hide erika with Dissolve(0.4)
+
+    if "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "Atravesar la espesura nos dejará agotados."
+        hide charles with Dissolve(0.4)
+
+    if "marina" in equipo_exploracion:
+        show marina alerta at center with Dissolve(0.4)
+        m "También hay que pensar que por las rocas terminaremos ensopados, con las olas estrellándose frente a nosotros"
+        m "Eso hará todo un poco más difícil..."
+        hide marina with Dissolve(0.4)  
+    
     menu:
-        "Avanzar por las rocas. Más rápido, pero potencialmente peligroso si sube el agua.":
+        "Avanzar por las rocas. El camino es más rápido, pero potencialmente peligroso si sube la marea.":
             $ ruta_elegida = "rocas"
             jump cap10_exploracion_rocas
 
-        "Dar un rodeo por la selva. Más seguro, pero más lento y cansador.":
+        "Dar un rodeo por la selva. Es más seguro, pero más lento y cansador.":
             $ ruta_elegida = "jungla"
             jump cap10_exploracion_jungla
+
+#####################
+# Domingo 28
+#####################
 
 label cap10_exploracion_jungla:
 
