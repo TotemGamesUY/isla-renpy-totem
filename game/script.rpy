@@ -13750,8 +13750,8 @@ label cap10_exploracion_inicio:
             $ postura_jugador_desaparecidos = "autocritico"
             y "Yo también sentí que había que moverse rápido. No lo apruebo, pero los entiendo."
 
-    "{i}No hay respuestas. Caminan entre la tensión del silencio{/i}"
-    "{i}La jungla, a un lado, forma un muro que enfrenta el viento salado.
+    "{i}No hay respuestas. Caminan entre la tensión del silencio.{/i}"
+    "{i}La jungla, a un lado, forma un muro que enfrenta el viento salado.{/i}"
     "{i}El mar, del otro lado, se impone como una frontera insondable.{/i}" #GOTY
 
     scene bg costa_bifurcacion with fade
