@@ -13657,7 +13657,7 @@ label cap10_exploracion_inicio:
 
     "{i}El grupo camina bordeando la costa. La arena está húmeda.{/i}"
     "{i}En ella hay huellas frescas, tres pares.{/i}"
-    "{i}El mar está en calma. Demasiada. La línea donde suelen romper las olas quedó varios metros más atrás.{/i}"
+    "{i}El mar está en calma. Demasiada. La línea donde suelen romper las olas quedó varios metros retirada.{/i}"
     "{i}Es claro: la marea está inusualmente baja.{/i}"
 
     # Uno del grupo señala las huellas
@@ -13757,7 +13757,8 @@ label cap10_exploracion_inicio:
     scene bg costa_bifurcacion with fade
 
     "{i}Llegan al punto donde el paisaje cambia.{/i}"
-    "{i}Una zona de rocas antes ocultas por el mar se abre como una lengua gris entre espuma y mejillones.{/i}"    
+    "{i}Una zona de rocas antes ocultas por el mar se abre como una lengua gris entre espuma y mejillones.{/i}"
+    "{i}Atrás, un complejo de grutas que podría esconder una cueva o algo similar.{/i}"
 
     #condicionales segun quienes estan en el grupo de exploracion
 
@@ -13801,37 +13802,90 @@ label cap10_exploracion_inicio:
             $ ruta_elegida = "jungla"
             jump cap10_exploracion_jungla
 
-#####################
-# Domingo 28
-#####################
-
 label cap10_exploracion_jungla:
 
     scene bg selva_densa with fade
     show screen combined_ui
 
-    "{i}El follaje se cierra sobre sus cabezas. El sol queda atrapado entre ramas trenzadas. Avanzar se vuelve una lucha contra raíces, humedad y caminos invisibles.{/i}"
+    "{i}El follaje se cierra sobre sus cabezas. El sol queda atrapado entre ramas trenzadas.{/i}"
+    "{i}Avanzar se vuelve una lucha contra raíces, humedad y caminos casi impenetrables.{/i}"
 
     if "marina" in equipo_exploracion:
         show marina molesta at center with Dissolve(0.4)
-        m "¿Estamos seguros de que esto no es una trampa vegetal que nunca se termina?"
+        m "Creo que después de todo hubiese preferido mojarme..."
         hide marina with Dissolve(0.4)
 
-    "{i}Las ramas raspan la piel, los pies se hunden en zonas blandas. La orientación empieza a confundirse.{/i}"
+    elif "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "¿Estamos seguros de que esto no es un laberinto vegetal que nunca se termina?"
+        hide ingrid with Dissolve(0.4)
+
+    elif "bob" in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "No dejemos que la espesura nos desanime. ¡A redoblar fuerzas!"
+        hide bob with Dissolve(0.4)
+
+    elif "tomas" in equipo_exploracion:
+        show tomas cruzado at left with Dissolve(0.4)
+        t "La única razón por la que no nos hemos perdido es que es tan densa la espesura que vamos dejando un zurco en la vegetación."        
+        hide tomas with Dissolve(0.4)
+
+    elif "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "Me quedó la espina en el ojo con lo de la marea. ¿Nos habría dado el tiempo, después de todo?"
+        hide erika with Dissolve(0.4)
+
+    elif "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "No se ustedes, pero si no llegamos pronto, juro que me desmayaré."
+        hide charles with Dissolve(0.4)
+
+    "{i}Las ramas les raspan la piel, los pies se les hunden en el barro."
+    "{i}No poder ver el sol entre las ramas no ayuda nada a su orientación, pero siguen marchando.{/i}"
 
     $ update_stat("hambre", hambre - 1)
     $ show_variable_changed_popup("El hambre ha aumentado", rojo)
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}Una curva inesperada los lleva a un claro... que ya habían cruzado antes. Un bucle invisible.{/i}"
+    "{i}En determinado momento llegan a un zurco en la vegetación muy parecido al que vienen dejando ustedes.{/i}"
+    "{i}Lo examinan, esperanzados por encontrar un rastro de [personaje_desaparecido_1], [personaje_desaparecido_2] o Laura.{/i}"
+    "{i}Pero rápidamente se dan cuenta de algo terrible. Este es su propio rastro. Han estado caminando en círculos.{/i}"
 
     if "tomas" in equipo_exploracion:
         show tomas frustrado at left with Dissolve(0.4)
-        t "Esto es ridículo. Vamos en círculos. No estamos explorando, estamos transpirando sin rumbo."
+        t "Esto es ridículo. No estamos explorando, estamos transpirando... ¡y sin rumbo!"
         hide tomas with Dissolve(0.4)
 
-    "{i}Media hora más tarde, tras varias correciones y marcas en troncos, llegan a una zona menos arbolada… pero mucho más inquietante.{/i}"
+    elif "marina" in equipo_exploracion:
+        show marina molesta at center with Dissolve(0.4)
+        m "Creo... Creo que ya pasamos por aquí..."
+        hide marina with Dissolve(0.4)
+
+    elif "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "Lo que temíamos. Nos perdimos y nos fuimos desviando."
+        hide ingrid with Dissolve(0.4)
+
+    elif "bob" in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "A este paso nunca los encontraremos. Asegurémonos de dejar marcas para que esto no vuelva a pasar."
+        hide bob with Dissolve(0.4)
+
+    elif "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "Después de todo, la que nos atrapó fue la marea verde. Esta espesura es realmente un laberinto."
+        hide erika with Dissolve(0.4)
+
+    elif "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "No... no. ¿Me están diciendo que toda esa caminata fue un desperdicio?"
+        hide charles with Dissolve(0.4)
+
+    "{i}Luego de tomar medidas para no desviarse, llegan a una zona donde la luz del sol sí atraviesa las copas de los árboles.{/i}"
+    "{i}Esta área es mucho menos densa y con árboles más altos, alzándose como columnas.{/i}"
+    "{i}Transformando el bosque en una catedral natural, con rayos de sol colándose entre el manto vegetal, como vitrales.{/i}"
+    "{i}El silencio de todos evidencia lo impactados que quedan.{/i}"
 
     scene bg manglar_inicial with fade
     $ update_stat("sed", sed - 1)
@@ -13839,21 +13893,48 @@ label cap10_exploracion_jungla:
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}Frente a ustedes se abre un manglar: ramas saliendo del barro negro, agua estancada, sombras difíciles de descifrar.{/i}"
+    "{i}Pasando la alta arbolada encuentran un manglar.{/i}"
+    "{i}Con ramas saliendo del barro negro, las sombras dibujan figuras siniestras en la superficie del agua estancada.{/i}" # GOTY
 
     if "erika" in equipo_exploracion:
         show erika preocupada at right with Dissolve(0.4)
         e "No me encanta esto. Si nos hundimos ahí adentro, no hay vuelta."
         hide erika with Dissolve(0.4)
 
+    elif "tomas" in equipo_exploracion:
+        show tomas frustrado at left with Dissolve(0.4)
+        t "Esto se está poniendo cada vez más peligroso. Espero que los demás no hayan venido por aquí también."
+        hide tomas with Dissolve(0.4)
+
+    elif "marina" in equipo_exploracion:
+        show marina molesta at center with Dissolve(0.4)
+        m "En este tipo de pantanos tropicales... ¿no hay serpientes?"
+        hide marina with Dissolve(0.4)
+
+    elif "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "Encontrar un camino seguro a través de la ciénaga será todo un desafío."
+        hide ingrid with Dissolve(0.4)
+
+    elif "bob" in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "Debo admitir que la selva quizá no era la opción más segura después de todo."
+        hide bob with Dissolve(0.4)
+
+    elif "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "A esta altura... Al menos podré hundir mis pies hinchados en el barro fresco."
+        hide charles with Dissolve(0.4)
+
     $ update_stat("hambre", hambre - 1)
     $ show_variable_changed_popup("El hambre ha aumentado", rojo)
     hide screen combined_ui
     show screen combined_ui
 
-    "{i}El manglar es mas dificil de lo esperado. En el grupo surje la duda: seguir adelante o volver sobre sus pasos.{/i}"
+    "{i}Avanzar por el manglar les resulta mas dificil de lo esperado.{/i}"
+    "{i}Alguien propone decidir si seguir adelante o volver sobre sus pasos.{/i}"
     menu:
-        "Volver a la costa y tomar el camino de las rocas (si es que todavía es viable)":
+        "Volver a la costa y tomar el camino de las rocas, si todavía es viable.":
             $ decision_tras_manglar = "retroceder"
             jump cap10_transicion_rocas_tardia
 
@@ -13866,23 +13947,48 @@ label cap10_transicion_rocas_tardia:
     scene bg costa_bifurcacion with fade
     show screen combined_ui
 
-    "{i}Retroceden desde el manglar, entre hojas goteantes y barro pegado a los tobillos.{/i}"
-    "{i}Cuando por fin emergen hacia la costa, la vista los detiene en seco.{/i}"
+    "{i}Retroceden desde el manglar, pasando por los altos árboles y volviendo por el camino que dejaron entre la maleza.{/i}"
+    "{i}Cuando por fin emergen nuevamente a la costa, la vista los detiene en seco.{/i}"
 
-    "{i}Las rocas que antes parecían abiertas como un sendero ya están parcialmente cubiertas. El mar ruge con una cadencia nueva.{/i}"
+    pause .5
+
+    "{i}Las rocas que antes parecían abiertas como un sendero ya están parcialmente cubiertas.{/i}"
+    "{i}El mar ruge con una nueva cadencia y las olas son bastante más altas.{/i}"
 
     if "marina" in equipo_exploracion:
         show marina seria at left with Dissolve(0.4)
-        m "No me gusta esto. En una hora, esa línea va a estar bajo un metro de agua."
+        m "Tendríamos que haber ido por las rocas desde un principio."
         hide marina with Dissolve(0.4)
 
     if "bob" in equipo_exploracion:
         show bob tenso at center with Dissolve(0.4)
-        b "Tenemos dos opciones: cruzar ya y arriesgarnos a resbalar… o esperar y jugárnosla a que no suba demasiado rápido."
+        b "Tenemos dos opciones: cruzar ya y arriesgarnos a resbalar... o esperar y ver qué tan rápido está subiendo."
+        b "Corremos el riesgo de perder la última chance de atravesar al otro lado."
         hide bob with Dissolve(0.4)
 
+    if "ingrid" in equipo_exploracion:
+        show ingrid seria at center with Dissolve(0.4)
+        i "Si nos hubiésemos detenido a ver qué tan rápido subía la marea, nos habríamos dado cuenta de que había tiempo de sobra."
+        i "Ahora puede que ya sea demasiado tarde."
+        hide ingrid with Dissolve(0.4)   
+
+    if "tomas" in equipo_exploracion:
+        show tomas cruzado at left with Dissolve(0.4)
+        t "Perdimos demasiado tiempo dando vueltas en esa condenada selva."        
+        hide tomas with Dissolve(0.4)
+
+    if "erika" in equipo_exploracion:
+        show erika preocupada at left with Dissolve(0.4)
+        e "No me gusta esto. En una hora ese sendero, que ahora apenas vemos, va a estar bajo un metro de agua."
+        hide erika with Dissolve(0.4)
+
+    if "charles" in equipo_exploracion:
+        show charles serio at left with Dissolve(0.4)
+        c "Excelente. Ahora no solo el agua está más alta, si no que también estamos casi sin energías."
+        hide charles with Dissolve(0.4)
+
     menu:
-        "Intentar cruzar ahora las rocas, antes de que la marea suba más.":
+        "Intentar atravesar las rocas ahora, antes de que la marea suba más.":
             $ decision_rocas_tardia = "cruzar"
             jump cap10_exploracion_rocas
 
@@ -13895,45 +14001,20 @@ label cap10_exploracion_rocas:
     scene bg zona_rocas with fade
     show screen combined_ui
 
-    if decision_rocas_tardia == "cruzar":
+    if decision_rocas_tardia == "cruzar" or decision_post_espera = "entra_igual":
         "{i}El mar se escucha distinto: más cerca, más violento.{/i}"
-        "{i}Las rocas que hace un rato eran secas ahora están salpicadas por olas ocasionales. No hay margen para titubear.{/i}"
+        "{i}Las rocas, que mas temprano estaban secas, ahora son salpicadas por las olas. No hay margen para titubear.{/i}"
     else:
-        "{i}El camino por las rocas es irregular, pero viable. Algas secas crujen bajo los pasos. La marea aún no ha empezado a subir en serio.{/i}"
+        "Percebes rotos crujen bajo sus pasos. La marea aún no ha empezado a subir del todo.{/i}"
 
-    if "ingrid" in equipo_exploracion:
-        show ingrid risita at left with Dissolve(0.4)
-        i "No te resbales. Esa zona verde no es pintura, es caída segura."
-        hide ingrid with Dissolve(0.4)
-
-    if decision_rocas_tardia == "cruzar":
-        "{i}Una ola fuerte golpea la base. El grupo se detiene. Uno resbala, cae de rodillas.{/i}"
-        $ update_stat("cansancio", cansancio - 1)
-        $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
-        hide screen combined_ui
-        show screen combined_ui
-
-        "{i}El dolor es leve… pero el mensaje del mar fue claro: no hay tiempo que perder.{/i}"
-
-    else:
-        "{i}A mitad del trayecto, divisan cangrejos corriendo entre grietas. Una bandada de gaviotas se alza desde más adelante. Algo se mueve cerca.{/i}"
-
+    "{i}Avanzan con cuidado por las rocas y finalmente llegan a una pequeña playa escondida.{/i}"
+ 
     scene bg playa_gruta_entrada with fade
-
-    "{i}Finalmente, tras atravesar una curva rocosa, llegan a una pequeña playa escondida.{/i}"
-    "{i}La entrada a la gruta es visible entre dos paredes de piedra, cubierta parcialmente de algas húmedas.{/i}"
-
-    "{i}Marcas de agua a la altura del pecho indican que, en marea alta, todo esto quedará sumergido.{/i}"
-    "{i}Pero por ahora la entrada sigue libre. Y hay huellas.{/i}"
-
-    if personaje_desaparecido_1:
-        "{i}Dos pares de huellas, aún visibles, ingresan en la oscuridad. Sin duda son de [personaje_desaparecido_1] y de [personaje_desaparecido_2].{/i}"
-
-    if decision_rocas_tardia == "esperar":
-        "{i}Justo cuando están por decidir si entrar o no, una silueta aparece trepando desde el extremo norte de las rocas…{/i}"
-        show tomas jadeando at center with Dissolve(0.4)
-        t "(jadeando) ¡Por fin los encuentro! Los otros se dividieron… ¡encontré esta cueva, pero necesitaba ayuda!"
-        hide tomas with Dissolve(0.4)
+    
+    "{i}La entrada a una cueva es visible entre dos riscos de piedra cubierta cubierta de musgo.{/i}"
+    "{i}Las marcas de agua llegan a la altura de tu pecho.{/i}"
+    "{i}En marea alta, todo esto quedará sumergido.{/i}"
+    "{i}Pero por ahora la entrada sigue libre. Y hay tres pares de huellas en la arena que se dirigen hacia allí.{/i}"    
 
     menu:
         "Entrar en la cueva antes de que el agua bloquee la entrada.":
@@ -13944,48 +14025,89 @@ label cap10_exploracion_rocas:
             $ decision_final_entrada = "esperar"
             jump cap10_espera_afuera
 
+label cap10_espera_en_rocas:
+
+    scene bg playa_gruta_entrada with fade
+    show screen combined_ui
+
+    "{i}Se quedan junto a las rocas, observando el movimiento del agua, como si la respuesta fuera un suspiro entre olas.{/i}"
+    "{i}El sol está más bajo. La línea húmeda en la roca no llega al medio metro.{/i}"
+
+    if "erika" in equipo_exploracion:
+        show erika observando at left with Dissolve(0.4)
+        e "Si medio metro más, nos quedamos afuera..."
+        e "[personaje_desaparecido_1], [personaje_desaparecido_2] y Laura estarán atrapados allí un día entero."
+        hide erika with Dissolve(0.4)
+
+    elif "bob" in equipo_exploracion:
+        show bob ceño_fruncido at left with Dissolve(0.4)
+        b "Esperar demasiado no es buena idea. Pero cruzar sin saber qué hay tampoco lo es."
+        hide bob with Dissolve(0.4)
+
+    "{i}No hay más tiempo que perder. Si van a entrar, tiene que ser ya.{/i}"
+    "{i}Esperar más significa arriesgar la única oportunidad que tienen de cruzar.{/i}"
+
+    menu:
+        "Avanzar ahora mismo y buscar la entrada a la cueva":
+            $ decision_post_espera = "entra_igual"
+            jump cap10_exploracion_roca
+
+        "Cuestionar que sea buena idea.":
+            $ decision_post_espera = "duda"
+            "{i}Antes de poder decir nada, una ola los empuja hacia las rocas.{/i}"
+            "{iLa marea los revuelca y terminan en una playa resguardada.{/i}"
+            "{i}Se incorporan como pueden, pero ya no hay marcha atrás. Frente a ustedes se encuentra la entrada a una cueva.{/i}"
+            "{i}Y hacia ella se dirigen tres pares de huellas en la arena.{/i}"
+            jump cap10_inicio_cueva
+
 label cap10_manglar_decisiones:
 
     scene bg manglar_interior with fade
     show screen combined_ui
 
-    "{i}Avanzan entre raíces retorcidas y agua estancada. El aire es espeso, y los mosquitos no dan tregua.{/i}"
+    "{i}Avanzan entre raíces retorcidas y el agua estancada. El aire es espeso, y los mosquitos no dan tregua.{/i}"
 
-    "{i}Frente a ustedes, un tronco húmedo atraviesa el pantano. No es ancho, pero un mal paso puede significar barro hasta el pecho. Todos dudan un instante.{/i}"
+    "{i}Frente a ustedes, un arbol caído, cubierto de líquenes, atraviesa la parte más angosta de una pequeña laguna.{/i}"
+    "{i}Evitar cruzar la laguna significaría un gran rodeo.{/i}"
+    "{i}El tronco es bastante ancho, pero un mal paso puede significar caer al agua.{/i}"
 
     menu:
         "Apurarse y cruzar en equilibrio antes de pensarlo demasiado":
             $ decision_tronco = "rapido"
-            "{i}Te lanzás con agilidad, resbalás un poco, pero mantenés el equilibrio. Lo lográs.{/i}"
-        "Tantear cada paso y cruzar lento, asegurando el agarre con las ramas":
+            "{i}Se lanzan hacia el tronco con agilidad{/i}"
+            "{i}Resbalan un poco, pero mantienen el equilibrio y logran atravesar con éxito.{/i}"
+        "Tantear cada paso y cruzar lento, asegurando el equilibrio agarrándose de las ramas":
             $ decision_tronco = "precavido"
-            "{i}Avanzás despacio. Las botas crujen, pero la travesía es segura. Todos llegan sin problemas.{/i}"
-        "Buscar otro punto donde el barro sea menos profundo, aunque implique retroceder":
+            "{i}Avanzan despacio. Las botas crujen, pero la travesía es segura. Todos llegan sin problemas.{/i}"
+        "Rodear la laguna y no correr riesgos.":
             $ decision_tronco = "evita"
             $ update_stat("cansancio", cansancio - 1)
             $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
             hide screen combined_ui
             show screen combined_ui
-            "{i}Dan un rodeo que agota más de lo esperado, pero evitan el tronco resbaladizo.{/i}"
+            "{i}Dan un rodeo que los agota más de lo esperado, pero evitan el tronco resbaladizo.{/i}"
 
-    "{i}Más adelante, algo parece moverse sobre la superficie del pantano. Una sombra alargada, inmóvil, apenas sumergida entre ramas. No hay certeza de lo que es.{/i}"
+    "{i}Más adelante, algo parece moverse sobre la superficie del pantano.{/i}"
+    "{i}Una sombra alargada, inmóvil, apenas sumergida entre juncos. No hay certeza de lo que es.{/i}"
 
     menu:
         "Acercarse lentamente para observar mejor":
             $ decision_sombra = "observar"
-            "{i}Te acercás despacio, sin hacer ruido. Al final, resulta ser un grupo de hojas podridas y un hongo amarillo flotando.{/i}"
+            "{i}Te acercas despacio, sin hacer ruido. Resulta no ser más que un tronco podrido y cubierto de hongos..{/i}"
         "Lanzar algo hacia la sombra para medir su reacción":
             $ decision_sombra = "provocar"
-            "{i}Una piedra cae a su lado, levantando agua turbia. Nada se mueve. Eran hojas podridas y un hongo amarillo flotando.{/i}"
+            "{i}Una piedra cae al lado de la figura, levantando agua turbia.{/i}"
+            "{i}Las ondas sacuden la figura, hasta que ven que solo se trata de un tronco podrido y cubierto de hongos.{/i}"
         "Retroceder sin hacer ruido y rodear la zona":
             $ decision_sombra = "retroceder"
             $ update_stat("hambre", hambre - 1)
             $ show_variable_changed_popup("El hambre ha aumentado", rojo)
             hide screen combined_ui
             show screen combined_ui
-            "{i}El desvío es largo y denso. Pierden tiempo y energía... pero al menos nadie se arriesga.{/i}"
+            "{i}El desvío es largo y cansador. Pierden tiempo y energía... pero al menos nadie corre riesgos.{/i}"
 
-    "{i}A punto de salir del manglar, una vibración mínima alerta tus sentidos. Entre dos troncos caídos, enroscada como un ramal, una serpiente se camufla perfectamente. Respirás hondo.{/i}"
+    "{i}Cuando ya divisan el fin del manglar, una vibración mínima alerta tus sentidos.{/i}"
+    "{i}Entre dos troncos caídos, enroscada como un ramal, una serpiente se camufla perfectamente. Respiras profundamente.{/i}"
 
     menu:
         "Retroceder con calma y trazar un rodeo, sin sobresaltos":
@@ -13993,66 +14115,28 @@ label cap10_manglar_decisiones:
             "{i}La dejan atrás sin alertarla. Caminan despacio hasta perderla de vista.{/i}"
         "Hacer ruido para espantarla y abrir el paso":
             $ decision_serpiente = "ruido"
-            "{i}La serpiente se alza, sisea… y se escurre hacia el pantano. El corazón tarda en calmarse.{/i}"
+            "{i}La serpiente se alza, sisea... y se escurre hacia el pantano.{/i}"
+            "{i}Sus corazones tardan en calmarse.{/i}"
         "Avanzar ignorándola, con cuidado de no pisarla":
             $ decision_serpiente = "ignorar"
             $ update_stat("cansancio", cansancio - 1)
             $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
             hide screen combined_ui
             show screen combined_ui
-            "{i}Pasan a centímetros. Nadie respira. Nadie tropieza. Pero estuvieron a un pelo de tentarla.{/i}"
+            "{i}Pasan cerca de ella, conteniendo la respiración.{/i}"
+            "{i}La serpiente se mantiene alerta, pero no se mueve.{/i}"
 
     scene bg playa_gruta_entrada with fade
 
-    "{i}Finalmente, el follaje se abre y emerge una pequeña playa oculta, acorralada por roca y espuma. Frente a ustedes, la entrada a una gruta: oscura, húmeda, invadida por algas.{/i}"
-    "{i}En las piedras hay marcas recientes de marea. Y también, dos pares de huellas que se pierden dentro.{/i}"
+    "{i}Finalmente, el follaje se abre y emergen a una pequeña playa oculta, acorralada por rocas y la espuma de las olas.{/i}"
+    "{i}Frente a ustedes, la entrada a una gruta: oscura, húmeda, e invadida por algas.{/i}"
+    "{i}En las piedras hay marcas recientes de la subida de la marea. Y también...{/i}"
+    "{i}Tres pares de huellas en la arena que se pierden dentro de la cueva.{/i}"
 
-    jump cap10_encuentro_en_gruta
-
-label cap10_espera_en_rocas:
-
-    scene bg playa_gruta_entrada with fade
-    show screen combined_ui
-
-    "{i}Se quedan cerca de la entrada, observando el movimiento del agua, como si la respuesta estuviera escrita entre olas y espuma.{/i}"
-    "{i}El sol está más bajo. La línea húmeda en la roca ahora toca el límite de sus botas.{/i}"
-
-    if "erika" in equipo_exploracion:
-        show erika observando at left with Dissolve(0.4)
-        e "Si sube veinte centímetros más, nos quedamos afuera… y ellos adentro. Para siempre."
-        hide erika with Dissolve(0.4)
-    elif "bob" in equipo_exploracion:
-        show bob ceño_fruncido at left with Dissolve(0.4)
-        b "Esperar demasiado nunca fue buena idea. Pero cruzar sin saber qué hay tampoco lo es."
-        hide bob with Dissolve(0.4)
-
-    "{i}Un silbido. Bajo, cortado. Alguien viene corriendo desde el lado opuesto, trepando las rocas como si el agua no existiera.{/i}"
-
-    show ingrid jadeando at center with Dissolve(0.4)
-    i "(jadeando) ¡Los encontré! ¡No están en el refugio! Pero vi huellas… por esta zona."
-    i "Dividieron el otro grupo. Me adelanté, seguí la costa, y vi la entrada justo cuando iba a darse vuelta la marea."
-
-    hide ingrid with Dissolve(0.4)
-
-    "{i}No hay más tiempo. Si van a entrar, tiene que ser ya. Esperar más significa arriesgar la única oportunidad que tienen de averiguar qué hay dentro.{/i}"
-
-    menu:
-        "Avanzar ahora mismo y entrar a la cueva":
-            $ decision_post_espera = "entra_igual"
-            jump cap10_inicio_cueva
-
-        "Quedarse a discutir si vale la pena entrar sin saber más":
-            $ decision_post_espera = "duda"
-            "{i}Pero el agua responde por ustedes. Una ola salta como un recordatorio: no hay más margen.{/i}"
-            jump cap10_inicio_cueva
-
+    jump cap10_inicio_cueva
         
 label cap10_inicio_cueva:
-# pendiente para continuar
-    jump cap10_end
-
-label cap10_espera_afuera:
-# pendiente para continuar
+    "{i}Todos intercambian miradas, buscando coraje en los demás. Suspiran al unísono y se adentran hacia la profundidad.{/i}"
     jump cap10_end
 
 label cap10_end:
