@@ -10831,7 +10831,7 @@ label cap9_eleccion_estrategia:
         if "erika" in grupo_jugador:
             show erika decidida at center
             with Dissolve(0.5)
-            e "Yo propongo atraerlo fuera del huerto. Si nos organizamos, no hay riesgo mayor."
+            k "Yo propongo atraerlo fuera del huerto. Si nos organizamos, no hay riesgo mayor."
             hide erika with Dissolve(0.5)
 
         if "bob" in grupo_jugador:
@@ -10854,7 +10854,7 @@ label cap9_eleccion_estrategia:
                 if "erika" in grupo_jugador:
                     show erika fastidiada at center
                     with Dissolve(0.5)
-                    e "Eso no va a durar. Y volverá con más hambre."
+                    k "Eso no va a durar. Y volverá con más hambre."
                     hide erika with Dissolve(0.5)                
 
                 "{i}Si bien nadie quiere correr riesgos, los demás ignoran tu propuesta y terminan inclinándose por el plan de desvío{/i}."
@@ -11505,7 +11505,7 @@ label cap9_reaccion_liderazgo:
         hide bob with Dissolve(0.5)
 
         show erika leve_smile at center with Dissolve(0.5)
-        e "Es impresionante lo bien que trabajas bajo presión."
+        k "Es impresionante lo bien que trabajas bajo presión."
         hide erika with Dissolve(0.5)
 
     elif exito_total >= -1:
@@ -11847,7 +11847,7 @@ label cap10_inicio_discusion_cueva:
         hide marina with Dissolve(0.5)
     elif "erika" in grupo_jugador:
         show erika seria at center with Dissolve(0.5)
-        e "Sea cual sea el misterio detrás de esa caja, merece ser investigado."
+        k "Sea cual sea el misterio detrás de esa caja, merece ser investigado."
         hide erika with Dissolve(0.5)
     else:
         show bob parado serio at center with Dissolve(0.5)
@@ -13134,7 +13134,7 @@ label cap10_preparacion_reunion_general:
         hide tomas with Dissolve(0.5)
     elif "erika" in grupo_jugador:
         show erika enojada at center with Dissolve(0.5)
-        e "Esperen... ¿y el cuaderno? Yo misma lo vi ahí esta mañana."
+        k "Esperen... ¿y el cuaderno? Yo misma lo vi ahí esta mañana."
         hide erika with Dissolve(0.5)
     else:
         show bob parado enojado at center with Dissolve(0.5)
@@ -13339,7 +13339,7 @@ label cap10_soledad_post_fallo:
 
             show erika parada at center with Dissolve(.5)
 
-            e "Iré a ver si puedo convencer a alguien más."
+            k "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Erika vuelve a los pocos minutos.{/i}"
             if personaje_desaparecido_1 != "marina" and personaje_desaparecido_2 != "marina":
@@ -13684,7 +13684,7 @@ label cap10_exploracion_inicio:
 
     elif "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "Las huellas van en una dirección clara. Tienen que ser ellos."
+        k "Las huellas van en una dirección clara. Tienen que ser ellos."
         y "Estas huellas fueron hechas luego de que la marea bajara."
         y "No pueden llevarnos mucha ventaja."
         hide erika with Dissolve(0.4)
@@ -13718,7 +13718,7 @@ label cap10_exploracion_inicio:
 
     elif "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "¿Y si fue uno de ellos quien convenció a los otros dos?"
+        k "¿Y si fue uno de ellos quien convenció a los otros dos?"
         hide erika with Dissolve(0.4)
 
     elif "tomas"in equipo_exploracion:
@@ -13779,7 +13779,7 @@ label cap10_exploracion_inicio:
 
     if "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "No sabemos exactamente qué tan larga es la ventana de tiempo que nos permite la marea."
+        k "No sabemos exactamente qué tan larga es la ventana de tiempo que nos permite la marea."
         hide erika with Dissolve(0.4)
 
     if "charles" in equipo_exploracion:
@@ -13832,7 +13832,7 @@ label cap10_exploracion_jungla:
 
     elif "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "Me quedó la espina en el ojo con lo de la marea. ¿Nos habría dado el tiempo, después de todo?"
+        k "Me quedó la espina en el ojo con lo de la marea. ¿Nos habría dado el tiempo, después de todo?"
         hide erika with Dissolve(0.4)
 
     elif "charles" in equipo_exploracion:
@@ -13874,7 +13874,7 @@ label cap10_exploracion_jungla:
 
     elif "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "Después de todo, la que nos atrapó fue la marea verde. Esta espesura es realmente un laberinto."
+        k "Después de todo, la que nos atrapó fue la marea verde. Esta espesura es realmente un laberinto."
         hide erika with Dissolve(0.4)
 
     elif "charles" in equipo_exploracion:
@@ -13898,7 +13898,7 @@ label cap10_exploracion_jungla:
 
     if "erika" in equipo_exploracion:
         show erika preocupada at right with Dissolve(0.4)
-        e "No me encanta esto. Si nos hundimos ahí adentro, no hay vuelta."
+        k "No me encanta esto. Si nos hundimos ahí adentro, no hay vuelta."
         hide erika with Dissolve(0.4)
 
     elif "tomas" in equipo_exploracion:
@@ -13979,7 +13979,7 @@ label cap10_transicion_rocas_tardia:
 
     if "erika" in equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
-        e "No me gusta esto. En una hora ese sendero, que ahora apenas vemos, va a estar bajo un metro de agua."
+        k "No me gusta esto. En una hora ese sendero, que ahora apenas vemos, va a estar bajo un metro de agua."
         hide erika with Dissolve(0.4)
 
     if "charles" in equipo_exploracion:
@@ -14035,8 +14035,8 @@ label cap10_espera_en_rocas:
 
     if "erika" in equipo_exploracion:
         show erika observando at left with Dissolve(0.4)
-        e "Si medio metro más, nos quedamos afuera..."
-        e "[personaje_desaparecido_1], [personaje_desaparecido_2] y Laura estarán atrapados allí un día entero."
+        k "Si medio metro más, nos quedamos afuera..."
+        k "[personaje_desaparecido_1], [personaje_desaparecido_2] y Laura estarán atrapados allí un día entero."
         hide erika with Dissolve(0.4)
 
     elif "bob" in equipo_exploracion:
