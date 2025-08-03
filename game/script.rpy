@@ -509,6 +509,7 @@ default reaccion_charles = ""          # Postura ante lo que hizo Charles
 default relacion_subida = []           # Personajes con los que se mejora vínculo
 default relacion_bajada = []           # Personajes que se sienten defraudados
 default reloj_marea = 0                # Tiempo narrativo antes del cierre de la cueva
+default decision_post_espera = ""
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -14001,11 +14002,11 @@ label cap10_exploracion_rocas:
     scene bg zona_rocas with fade
     show screen combined_ui
 
-    if decision_rocas_tardia == "cruzar" or decision_post_espera = "entra_igual":
+    if decision_rocas_tardia == "cruzar" or decision_post_espera == "entra_igual":
         "{i}El mar se escucha distinto: más cerca, más violento.{/i}"
         "{i}Las rocas, que mas temprano estaban secas, ahora son salpicadas por las olas. No hay margen para titubear.{/i}"
     else:
-        "Percebes rotos crujen bajo sus pasos. La marea aún no ha empezado a subir del todo.{/i}"
+        "{i}Percebes rotos crujen bajo sus pasos. La marea aún no ha empezado a subir del todo.{/i}"
 
     "{i}Avanzan con cuidado por las rocas y finalmente llegan a una pequeña playa escondida.{/i}"
  
