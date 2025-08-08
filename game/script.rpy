@@ -8827,12 +8827,12 @@ label cap8_acercamiento_charles:
 
         menu:
             "Charles, me interesa saber qúe piensas de este dilema.":
-                $ tomas += 1
+                $ charles += 1
                 y "Quiero escuchar más ideas. Vendrán bien si tenemos que improvisar."
 
                 c "No vamos a tener demasiado margen para improvisar cuando esto empiece."
 
-            "¿Qué piensas hacer tú, Tomás?":
+            "¿Qué piensas hacer tú, Charles?":
                 
                 y "No hablo solo de la tormenta."
 
@@ -8846,7 +8846,7 @@ label cap8_acercamiento_charles:
         "¿A quién ves liderando el grupo?":
             jump cap8_liderazgo_charles
 
-        "Tomás está pensando en cualquier cosa, menos en quién debe ser el líder. Mejor ni le pregunto.":
+        "Charles está pensando en cualquier cosa, menos en quién debe ser el líder. Mejor ni le pregunto.":
             jump cap8_separacion_grupo
 
 label cap8_liderazgo_charles:
@@ -13841,12 +13841,12 @@ label cap10_exploracion_rocas:
 
     menu:
         "Entrar en la cueva antes de que el agua bloquee la entrada.":
-            $ decision_final_entrada = "entrar"
+            "{i}El tiempo apremia y ya perdieron demasiado.{/i}"
             jump cap10_inicio_cueva
 
-        "Esperar a ver si la marea sube o si los desaparecidos regresan por su cuenta.":
-            $ decision_final_entrada = "esperar"
-            jump cap10_espera_afuera
+        "Esperar para ver si la marea sube o si los desaparecidos regresan por su cuenta.":
+            "{i}Antes de que puedas comenzar a plantearle tu punto a los demás, un sonido llama tu atención.{/i}"
+            jump cap10_inicio_cueva
 
 label cap10_manglar_decisiones:
 
@@ -13921,13 +13921,33 @@ label cap10_manglar_decisiones:
     "{i}En las piedras hay marcas recientes de la subida de la marea y dos pares de huellas en la arena que se pierden dentro de la cueva.{/i}"
 
     jump cap10_inicio_cueva
-        
+     
 label cap10_inicio_cueva:
-    
-    ##################
-    # LLEGUÉ HASTA ACÁ CON LA REVISIÓN. FALTA EL REENCUENTRO CON LOS OTROS PARA TERMINAR ESTE CAPÍTULO.
-    ##################
 
+    "{i}Escuchan crujidos detrás de ustedes, cada vez más fuerte.{/i}"
+    "{i}Voltean para ver y reconocen los rostros agotados de los integrantes del otro grupo de búsqueda.{/i}"
+    "{i}Se acercan jadeando, y se detienen a contemplar la entrada a la cueva.{/i}"
+
+    if "bob" not in equipo_exploracion:
+        show bob parado hablando at center with Dissolve(0.4)
+        b "¡Qué suerte que están todos bien, [nombre_personaje]!"
+        b "El camino hasta aquí resultó ser bastante más accidentado de lo que esperábamos, ¿eh?"
+        show erika preocupada at right with Dissolve(0.4)
+        k "Lo importante es que encontramos la cueva antes de que la marea lo hiciera imposible."
+        k "Ahora tenemos que entrar..."
+        hide bob with Dissolve(0.4)
+        hide erika with Dissolve(0.4)
+
+    else:
+        show erika preocupada at right with Dissolve(0.4)
+        k "Veo que llegaron sanos y salvos. ¡Excelente!"
+        k "Nosotros nos demoramos porque llegar resultó todo un desafío. Imagino que habrán pasado por lo mismo."
+        show bob parado hablando at center with Dissolve(0.4)
+        b "La marea fue lo que hizo difícil tomar una decisión. Cuando entendimos que debíamos apurarnos, decidimos cruzar."
+        b "Supongo que ahora lo único que resta es entrar..."
+        hide bob with Dissolve(0.4)
+        hide erika with Dissolve(0.4)
+    
     "{i}Todos intercambian miradas, buscando coraje en los demás. Suspiran al unísono y se adentran hacia la profundidad.{/i}"
     jump cap10_end
 
