@@ -13941,14 +13941,21 @@ label cap10_inicio_cueva:
     else:
         show erika preocupada at right with Dissolve(0.4)
         k "Veo que llegaron sanos y salvos. ¡Excelente!"
-        k "Nosotros nos demoramos porque llegar resultó todo un desafío. Imagino que habrán pasado por lo mismo."
+        k "Nosotros nos demoramos porque encontrar el camino resultó todo un desafío. Imagino que habrán pasado por lo mismo."
         show bob parado hablando at center with Dissolve(0.4)
         b "La marea fue lo que hizo difícil tomar una decisión. Cuando entendimos que debíamos apurarnos, decidimos cruzar."
         b "Supongo que ahora lo único que resta es entrar..."
         hide bob with Dissolve(0.4)
         hide erika with Dissolve(0.4)
     
-    "{i}Todos intercambian miradas, buscando coraje en los demás. Suspiran al unísono y se adentran hacia la profundidad.{/i}"
+    if jugador_es_lider:
+        "{i}Todas las miradas se posan en ti con mucha expectativa. Todos esperan que des el primer paso.{/i}"
+        "{i}Asientes con la cabeza y te adentras en la profundidad, con los demás siguiéndote en fila.{/i}"
+
+    else:
+        "{i}Todos intercambian miradas, buscando coraje en los demás.{/i}"    
+        "{i}Suspiran al unísono y se adentran hacia la profundidad.{/i}"
+
     jump cap10_end
 
 label cap10_end:
@@ -14009,69 +14016,108 @@ label chapter_11_start:
     scene bg gruta_entrada with fade
     show screen combined_ui
 
-    "{i}El eco se extingue rápido. El sonido parece tragarlo la piedra húmeda. La cueva es enorme y profunda. Algunos haces de luz llegan desde grietas por las que se cuelan algunas raices barrosas.{/i}"
-    "{i}El aire está cargado de sal, y algo más: una mezcla agria entre algas podridas y humedad.{/i}"
+    "{i}Lo primero que notan al entrar a la cueva es que en algún lugar hay una fuente de luz{/i}"
+    
+    show bob parado hablando at right with Dissolve(0.4)
+    b "Es probable que haya alguna apertura en el techo de la gruta."
 
-    "{i}Las paredes están cubiertas de moho oscuro, con vetas verdosas que parecen latir bajo la luz difusa. A lo lejos, se escuchan goteos irregulares.{/i}"
+    show ingrid parada  at center with Dissolve(0.4)
+    i "¡Por suerte! Si no, no se cómo haríamos para ver dónde pisamos."
+    i "Lo único que nos falta es que alguien se tropiece entre las rocas y se tuerza el tobillo."
 
-    "{i}Raíces del manglar bajan por las grietas del techo. Gotean sobre charcos azulados. Hay insectos diminutos arrastrándose por la superficie del agua.{/i}"
+    show marina at left with Dissolve(0.4)
+    m "¡Ingrid! Ni lo menciones... necesitamos a la suerte de nuestro lado, no la tientes."
+
+    hide marina with Dissolve(0.4)        
+    hide bob with Dissolve(0.4)
+    hide ingrid with Dissolve(0.4)
+    
+    "{i}El eco de sus pasos se extingue rápido. El musgo que cubre las paredes de roca parece tragar los sonidos.{/i}"
+    "{i}El aire está cargado de sal pero hay una corriente fresca.{/i}"
+    "{i}Luego de avanzar un poco más, ven algunos haces de luz solar filtrados por raíces que se cuelan entre grietas en el techo.{/i}"
+    
+    show erika seria at left with Dissolve(0.4)
+    k "Mira eso, Bob. Parece que por una vez, tenías razón."
+
+    show ingrid parada  at center with Dissolve(0.4)
+    i "Al menos ahora sabemos que el complejo de cavernas no es cerrado."
+    i "Será útil recordarlo si nos atrapa la marea."
+
+    hide ingrid with Dissolve(0.4)
+    hide erika with Dissolve(0.4)   
 
     if jugador_es_lider:
         if marina > 0:
             show marina at left with Dissolve(0.4)
-            m "Bien. Estamos acá por tu decisión. Si algo sale mal… que sea aprendiendo."
+            m "Bien. Eso me deja más tranquila. Debo admitir que no estaba muy segura de entrar..."
             hide marina with Dissolve(0.4)
         elif marina < 0:
             show marina molesta at left with Dissolve(0.4)
-            m "No sé por qué te seguimos. Pero ya estamos adentro. A ver qué tan bien funciona tu liderazgo acá abajo."
+            m "Ingrid, ¿otra vez?"
+            m "Creo que ya tengo suficientes pensamientos pesimistas sabiendo quién nos lidera..."
             hide marina with Dissolve(0.4)
 
         if tomas > 0:
             show tomas firme at center with Dissolve(0.4)
-            t "Lo dijiste bien afuera: no podíamos quedarnos esperando. Con vos en el frente, al menos se decide algo."
+            t "No podíamos quedarnos esperando. Por suerte [nombre_personaje] tomó la iniciativa, y ahora vemos que no era tan peligroso."
             hide tomas with Dissolve(0.4)
         elif tomas < 0:
             show tomas cruzado at center with Dissolve(0.4)
-            t "Otra excursión que depende de tu criterio... espero que esta no acabe peor que la anterior."
+            t "Esperemos que si sucede una emergencia, todos estemos a la altura."
+            "{i}Algo en su tono de voz te hace sospechar que eso fue dirigido hacia ti.{/i}"
             hide tomas with Dissolve(0.4)
     else:
         if marina > 0:
             show marina seria at left with Dissolve(0.4)
-            m "No sos líder... pero elegiste venir. Eso dice algo. Todavía no sé qué, pero dice algo."
+            m "La verdad, [nombre_personaje], es que ya no tengo miedo."
+            m "Me has ayudado a darme cuenta de que soy capaz de más de lo que creía."
             hide marina with Dissolve(0.4)
 
         if tomas > 0:
             show tomas analizando at center with Dissolve(0.4)
-            t "No importa quién toma las decisiones ahora. Estamos juntos, y eso... no es poco."
+            t "A mi me alegra mucho que hayamos tenido la oportunidad de entrar juntos a la cueva después de todo."
+            t "Necesitábamos un recordatorio de cuánto más fuertes somos si estamos unidos."
             hide tomas with Dissolve(0.4)
 
+    "{i}Empiezas a sentir que haces más esfuerzo que antes para avanzar.{/i}"
+    "{i}Puede que sea el cansancio, pero sospechas que el camino está empezando a elevarse levemente.{/i}"
+    "{i}Pronto el suelo se vuelve más arenoso, y es entonces cuando detectan las huellas nuevamente.{/i}"
+    "{i}Parece que uno de los dos venía rengueando y arrastrándose un poco.{/i}"
 
-    "{i}Marcas de pisadas borrosas reaparecen en un tramo angosto. Algunas se arrastran, como si alguien hubiese caminado herido.{/i}"
+    show marina preocupada at left with Dissolve(0.4)
+    m "¿Creen que uno de ellos esté herido?."    
 
-    if bob > 0:
-        show bob parado hablando at right with Dissolve(0.4)
-        b "Si seguimos por ese pasillo… el agua puede llegar a cubrirnos. ¿Estamos dispuestos a arriesgarnos?"
-        hide bob with Dissolve(0.4)
-    elif bob < 0:
-        show bob parado enojado at right with Dissolve(0.4)
-        b "Esto requiere que nos movamos rapido, y algunos van paseando."
-        hide bob with Dissolve(0.4)
+    show ingrid parada  at center with Dissolve(0.4)   
+    i "A juzgar por el tamaño de las huellas, es Laura la que rengueaba."
 
-    "{i}En uno de los charcos, hay algo flotando. No es piedra ni planta. Es una prenda rasgada, tal vez parte de una camisa. Temblando como si recordara quién la perdió.{/i}"
-    "El grupo se detiene unos segundos a observar."
+    hide marina with Dissolve(0.4)
+    hide ingrid with Dissolve(0.4)
+    
+    show bob parado hablando at right with Dissolve(0.4)
+    b "¡Miren! ¡Allí!"
+    hide bob with Dissolve(0.4)    
+
+    "{i}Unos pasos más adelante hay algo en el piso que llama su atención.{/i}"
+    "{i}No es una piedra, y tampoco una planta.{/i}"
+    "{i}Se acercan y descubren que se trata de un trozo de tela.{/i}"
+    "{i}Como si alguien hubiera arrancado la manga de una camisa.{/i}"
+    
     menu:
-        "Recordás que todo esto empezó con la caja. Algo nos llevó hasta acá.":
-            $ marina += 1
-            "{i}Marina te mira de reojo, como reconociendo que tu memoria tiene propósito.{/i}"
-        "Decís que el objetivo es encontrar a Laura y Charles. Lo demás puede esperar.":
-            $ tomas += 1
-            "{i}Tomas asiente. Su respiración se calma apenas.{/i}"
-        "Preguntás si alguno cree que deberíamos volver. El silencio pesa.":
-            $ bob -= 1
-            "{i}Bob se encoge de hombros. No le gusta el titubeo, ni dentro ni fuera de la cueva.{/i}"
+        "Minimizar el hallazgo, evitando sugerir escenarios pesimistas.":
+            y "Esta tela es de la camisa de Charles..."
+            y "¡Vamos! Ya casi los alcanzamos."
+        "Mencionar que seguramente se detuvieron para atender las heridas de Laura.":
+            y "Deben de haber usado la manga de la camisa de Charles para hacer vendas o un cabestrillo."
+            y "¡Estas son buenas noticias! Significa que Laura consiguió seguir adelante."
+        "Admitir que el hallazgo te preocupa.":
+            y "Esto solo confirma que efectivamente, Laura está herida."
+            y "No hay sangre, pero de todas formas creo que deberíamos apurar la marcha."
 
-    "{i}Siguen avanzando. A la derecha, una grieta deja pasar luz azulada. El techo tiene una fisura vertical por donde caen gotas con aroma a hierro viejo. El piso, en ese tramo, huele a sal y a promesas rotas.{/i}"
-    "{i}Ya no hay vuelta atrás.{/i}"
+    "{i}Siguen avanzando, ansiosos pero con grandes expectativas.{/i}"
+    
+    ###############################
+    # HASTA ACÁ SE LLEGÓ EL SÁBADO
+    ###############################
 
     jump cap11_dialogos_en_marcha
 
@@ -14403,9 +14449,9 @@ label cap11_salida_rapida_abertura:
     hide bob with Dissolve(0.4)
 
     show ingrid parada  at center with Dissolve(0.4)
-    m "Acá se decide todo. Si nos hundimos, no va a ser sólo por el agua."
+    i "Acá se decide todo. Si nos hundimos, no va a ser sólo por el agua."
 
-    hide marina with Dissolve(0.4)
+    hide ingrid with Dissolve(0.4)
 
     "{i}Laura se apoya contra una roca que parece firme. Pero un fragmento se desprende y cae al agua. El sonido es corto, pero afilado. No hay más estabilidad que la que el grupo pueda generar ahora.{/i}"
     "Laura extiende la mano, sin hablar. Hay más miedo que dolor en su gesto."
