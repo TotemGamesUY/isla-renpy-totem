@@ -12,6 +12,10 @@ define c = Character("Charles Grey", color="#5b746c")
 define k = Character("Erika Smith", color="#e07c4d")
 define t = Character("Tomás Greenson", color="#b19621")
 define i = Character("Ingrid Sversson", color="#6c742d")
+define r = Character("Rescatista", color="#546ace")
+define p = Character("Pescador", color="#b19621")
+
+
 
 
 #define el player id
@@ -510,6 +514,9 @@ default relacion_subida = []           # Personajes con los que se mejora víncu
 default relacion_bajada = []           # Personajes que se sienten defraudados
 default reloj_marea = 0                # Tiempo narrativo antes del cierre de la cueva
 default decision_post_espera = ""
+default cap12_choice = ""
+default influencia_charles = 0
+default proyecto = ""
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -14856,7 +14863,7 @@ label cap11_post_salida_tardia:
 
     "{i}El sonido interrumpe. Lejano. Agudo. Un motor en el aire. Un punto metálico cruza el cielo. Un avión. El grupo grita. Agitan los brazos. Saltan.{/i}"
 
-    "{i}El avión gira... pero no baja. Se aleja entre nubes bajas, tragado por la bruma costera. El silencio que deja atrás es distinto. Es la esperanza rota.{/i}"
+    "{i}El avión gira...  y se aleja entre nubes bajas, tragado por la bruma costera. El silencio que deja atrás es distinto. Es la esperanza rota.{/i}"
 
     "{i}¿Esperar el rescate? ¿O tratar de saloir de la isla? Esas preguntas están en la mente de todos.{/i}"
 
@@ -14977,3 +14984,2372 @@ label cap11_end:
 
 label chapter_12_start:
     "ACA EMPIEZA EL CAP 12"
+    jump cap12_avion_visto
+
+label cap12_avion_visto:
+
+    scene bg costa_amplia_con_niebla with fade
+    show screen combined_ui
+
+    "{i}El grupo descansa sobre la arena húmeda. Las voces son pocas. El cansancio y la tensión cae sobre el grupo como un mazazo.{/i}"
+
+    show marina mirando_cielo at left with Dissolve(0.4)
+    m "¿Eso es…? ¡Mirá arriba!"
+
+    show ingrid parada at center with Dissolve(0.4)
+    i "¡Un avión! ¡Está girando!"
+
+    show tomas levantandose at right with Dissolve(0.4)
+    t "¡Agiten los brazos! ¡Griten! ¡Que nos vean!"
+
+    hide marina
+    hide ingrid
+    hide tomas
+    with Dissolve(0.4)
+
+    "{i}Todos se levantan. Saltan. Gritan. Erika intenta prender fuego una tela pero todo esta mojado. Bob lanza una rama al aire. El avión gira... y se aleja entre nubes bajas.{/i}"
+
+    show laura decepcionada at center with Dissolve(0.4)
+    l "(susurrando) No nos vieron. No fue suficiente."
+
+    hide laura with Dissolve(0.4)
+
+    "{i}El grupo queda quieto. El sonido del motor se aleja. La esperanza se convierte en pregunta. ¿Y ahora qué?{/i}"
+
+    jump cap12_discusion_rescate
+
+label cap12_discusion_rescate:
+
+    scene playa_tarde with Dissolve(0.5)
+
+    show laura molesta at left
+    l "¡Era un avión de búsqueda! ¡Lo vi claramente! Dio una curva y se fue."
+
+    show charles despreocupado at centerright
+    c "Sí, pero no bajó ni hizo señales. Sin duda ni nos vió."
+
+    show erika seria at centerleft
+    k "No podemos quedarnos esperando. Hay que hacer algo visible. Algo que grite 'estamos acá'."
+
+    show bob firme at center
+    b "No nos desesperemos, pensemos. Ya demostramos que podemos hacer cosas juntos. ¿Se acuerdan del jabalí?"
+
+    show marina preocupada at right
+    m "Sí, pero después cada uno se fue por su lado. Y mirá cómo terminamos."
+
+    show ingrid cansada at centerleft
+    i "Lo que pasó con la caja fue grave. Todos sabíamos que había algo importante ahí."
+
+    show tomas callado at center
+    t "Y cuando volvimos... el mapa y el cuaderno ya no estaban."
+
+    show erika enojada at centerleft
+    k "¿Y ustedes? ¿Van a explicar por qué se fueron solos a la cueva?"
+
+    show laura a_la_defensiva at left
+    l "No teníamos que pedir permiso. Vimos una oportunidad y la tomamos."
+
+    show charles bromista at centerright
+    c "Además, conseguimos algo. No todo, pero algo. ¿No cuenta?"
+
+    show bob serio at center
+    b "¿Y si no los encontrábamos? ¿Y si la marea los atrapaba?"
+
+    show marina juzgadora at right
+    m "Fue egoísta. Y peligroso. No es la primera vez que actúan por su cuenta."
+
+    show ingrid reflexiva at centerleft
+    i "La caja, el mapa, las notas... eran pistas. Pero no para que dos se metan solos en una cueva inundada."
+
+    menu:
+        "Defender a Laura y Charles":
+            $ cap12_choice = "Defender a Laura y Charles"
+            $ laura += 1
+            $ charles += 1
+            y "Tomaron una decisión arriesgada, sí. Pero también actuaron con iniciativa."
+            l "Gracias. No todo se puede resolver en asamblea."
+            c "¡Al fin alguien que lo entiende!"
+
+        "Recriminar su actitud":
+            $ cap12_choice = "Recriminar su actitud"
+            $ marina += 1
+            $ erika += 1
+            y "Lo que hicieron fue imprudente. Pusieron en riesgo al grupo."
+            m "Exactamente. No podemos permitir que cada uno haga lo que quiera."
+            k "Gracias por decirlo."
+
+        "Intentar mediar entre ambos lados":
+            $ cap12_choice = "Intentar mediar entre ambos lados"
+            $ bob += 1
+            $ ingrid += 1
+            y "Lo que importa ahora es que estamos todos vivos. Aprendamos de esto."
+            b "Bien dicho. Lo que viene va a requerir más unidad."
+            i "Sí. No podemos repetir errores."
+
+        "Quedarse en silencio":
+            $ cap12_choice = "Quedarse en silencio"
+            y "{i}Preferís observar. Las palabras vuelan, pero las miradas pesan más.{/i}"
+
+    jump cap12_reacciones_jugador
+
+label cap12_reacciones_jugador:
+
+    if cap12_choice == "Defender a Laura y Charles":
+        show laura agradecida at left
+        l "No todos entienden lo que es actuar bajo presión. Gracias por no juzgarnos."
+
+        show charles relajado at centerright
+        c "Sabía que ibas a ver el lado práctico. No todo es democracia en la selva."
+
+        show marina molesta at right
+        m "¿En serio? ¿Eso es lo que valoramos ahora?"
+
+        show erika decepcionada at centerleft
+        k "Pensé que tenías más criterio..."
+
+    elif cap12_choice == "Recriminar su actitud":
+        show marina satisfecha at right
+        m "Gracias por poner las cosas en su lugar. Ya era hora."
+
+        show erika firme at centerleft
+        k "Tu voz pesa. Y hoy la usaste bien."
+
+        show laura herida at left
+        l "No esperaba eso de vos..."
+
+        show charles incómodo at centerright
+        c "Bueno, ya entendí el mensaje."
+
+    elif cap12_choice == "Intentar mediar entre ambos lados":
+        show bob tranquilo at center
+        b "Eso es lo que necesitamos. Cabeza fría."
+
+        show ingrid serena at centerleft
+        i "Tu forma de ver las cosas ayuda a que no nos rompamos."
+
+        show laura pensativa at left
+        l "Tal vez nos apresuramos..."
+
+        show charles reflexivo at centerright
+        c "Sí... pudo haber salido mal."
+
+    elif cap12_choice == "Quedarse en silencio":
+        show marina desconfiada at right
+        m "¿Nada que decir? A veces el silencio también toma partido."
+
+        show bob observador at center
+        b "Estás pensando. Lo respeto."
+
+        show laura confundida at left
+        l "¿Estás de acuerdo o no?"
+
+        show charles curioso at centerright
+        c "Tu cara dice más que tus palabras."
+
+    show erika decidida at centerleft
+    k "Sea como sea, tenemos que volver. El refugio es lo único que tenemos seguro."
+
+    show bob asintiendo at center
+    b "Y tenemos que pensar qué hacemos con lo que se recuperó. Las joyas fueron robadas y las están buscando."
+
+    show ingrid mirando al horizonte at centerleft
+    i "¿Cómo que hacemos, las entregamos a la policía. Es lo más lógico."
+
+    "Algunos no parecen estar muy de acuerdo, está claro que podría haber otros destinos para esas joyas."
+
+    scene bosque_atardecer with fade
+    "El grupo comienza a caminar de regreso. Las tensiones no se han resuelto del todo, pero algo ha cambiado."
+
+    jump cap12_regreso_refugio
+
+label cap12_regreso_refugio:
+
+    scene bosque_atardecer with fade
+
+    "Las ramas crujen bajo los pies. El sol cae lento, tiñendo el bosque de naranja y sombras largas."
+
+    show laura caminando at left
+    l "Cuando vi el mapa, pensé... tal vez era una señal. Algo que nos podía sacar de acá."
+
+    show charles caminando at centerright
+    c "Y si no lo hacíamos nosotros, alguien más lo iba a hacer. No quería que se perdiera."
+
+    show marina caminando at right
+    m "¿Y pensaron en nosotros? En lo que íbamos a sentir al ver que no estaban."
+
+    show bob caminando at center
+    b "La confianza se construye. Y se rompe fácil."
+
+    show ingrid caminando at centerleft
+    i "Pero también se puede reparar. Si hay voluntad."
+
+    menu:
+        "Preguntar a Laura por qué no confió en el grupo":
+            $ laura += 1
+            y "¿Por qué no lo hablaste con nosotros? Podíamos haber ido juntos."
+            l "No sé... pensé que si lo discutíamos, nunca íbamos a decidir nada."
+
+        "Preguntar a Charles si pensó en el peligro":
+            $ charles += 1
+            y "¿Y si la marea los atrapaba? ¿Pensaste en eso?"
+            c "Sí. Pero también pensé que si no lo intentábamos, nos íbamos a arrepentir."
+
+        "Reflexionar sobre lo que significa confiar":
+            $ bob += 1
+            $ ingrid += 1
+            y "Confiar no es estar de acuerdo en todo. Es saber que el otro no te va a dejar atrás."
+            b "Eso. Eso es lo que tenemos que recuperar."
+            i "Y cuidar."
+
+        "No decir nada, solo seguir caminando":
+            y "{i}Caminás en silencio. Las palabras flotan entre los árboles, pero vos elegís el peso del momento.{/i}"
+
+    show erika mirando al cielo at centerleft
+    k "¿Y ahora qué? ¿Guardamos las joyas? ¿Las usamos? ¿Las escondemos?"
+
+    show bob pensativo at center
+    b "No sabemos si alguien más las está buscando. El recorte hablaba de ladrones, no de tesoros."
+
+    show marina inquieta at right
+    m "Y si ese avión vuelve... ¿qué vamos a contar?"
+
+    show charles firme at centerleft
+    c "Aún hay tiempo para decidir eso, no? Aún estamos atrapados en esta isla."
+
+    scene refugio_tarde with fade
+    "El refugio aparece entre los árboles. No es perfecto, pero es suyo. Y por ahora, es hogar."
+
+    jump cap12_cena_refugio
+
+label cap12_cena_refugio:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    "El grupo se acomoda en el refugio. Se apoyan contra los troncos, las piernas se estiran, y el aire huele a leña y humedad."
+
+    show bob cocinando at center
+    b "No es gourmet, pero calienta el alma. Sopa de raíces y unas zanahorias silvestres."
+
+    show marina sirviendo agua at right
+    m "Y agua fresca. No como la de la cueva..."
+
+    show laura sentada at left
+    l "Todavía me duelen las piernas. Pero estoy viva. Y eso ya es mucho."
+
+    show charles comiendo at centerright
+    c "¿Qué habrá pasado con quién enterró las joyas? Se tomó un buen trabajo para ocultarlas."
+
+    show erika pensativa at centerleft
+    k "Quizás algo le pasó y nunca puedo regresar a recuperarlas."
+
+    show ingrid tomando sopa at center
+    i "LO nunca logró salir de la isla... hay muchos peligros. Un jabalí furioso, serpientes venenosas..."
+
+    "Comen en silencio por un momento. El calor de la sopa contrasta con el frío de la noche que se acerca."
+
+    jump cap12_conversaciones_jugador
+
+label cap12_conversaciones_jugador:
+
+    menu:
+        "Hablar con Laura sobre lo que sintió en la cueva":
+            $ laura += 1
+            show laura cerca at left
+            l "Pensé que no salía. Que me iba a quedar ahí. Pero Charles no me dejó rendirme."
+
+        "Hablar con Charles sobre las joyas":
+            $ charles += 1
+            show charles cerca at centerright
+            c "No sé si valen tanto como dicen. Pero verlas ahí... fue como tocar una historia olvidada."
+
+        "Hablar con Erika sobre el grupo":
+            $ erika += 1
+            show erika cerca at centerleft
+            k "Estamos rotos. Pero no destruidos. Si aprendemos de esto, podemos ser más fuertes."
+
+        "Hablar con Ingrid sobre el futuro":
+            $ ingrid += 1
+            show ingrid cerca at center
+            i "Mañana tenemos que decidir. Qué hacer con las joyas, con el mapa, con nosotros."
+
+        "No hablar con nadie":
+            y "{i}Te quedás observando. Las palabras flotan, pero vos elegís el silencio como compañía.{/i}"
+
+    "La comida se termina. Las miradas se cruzan. Algunos se acomodan para dormir, otros vigilan el entorno."
+
+    jump cap12_noche
+
+label cap12_noche:
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+
+    "La noche cae como un manto espeso. El fuego se reduce a brasas. Los cuerpos se acomodan en mantas improvisadas."
+
+    "El silencio no es total. Se oyen respiraciones, algún suspiro, el crujir de ramas lejanas."
+
+    "Dormís. Y aunque el suelo es duro, el cansancio vence."
+
+    jump cap12_amanecer
+
+label cap12_amanecer:
+
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+
+    "El sol se filtra al interior del refugio. El aire es fresco. El cuerpo, aunque adolorido, se siente más liviano."
+
+    show bob estirando at center
+    b "Dormí como roca. Hoy hay que pensar. No podemos seguir improvisando."
+
+    show marina preparando algo at right
+    m "Tenemos comida para un par de días. Pero no más."
+
+    show erika anotando en su cuaderno at centerleft
+    k "Voy a hacer una lista. Lugares, recursos, riesgos."
+
+    show laura mirando el mapa at left
+    l "Este mapa... tiene más marcas. No vimos todo."
+
+    show charles sacando el cuaderno de notas at centerright
+    c "Y este cuaderno tiene claves. Nombres, fechas. Algo más hay."
+
+    jump cap12_inicio_plan
+
+label cap12_inicio_plan:
+
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
+
+    "Salen del refugio. El sol se levanta entre las ramas. El aire es fresco, pero la tensión se siente antes que el calor."
+
+    show bob firme at center
+    b "La huerta está casi vacía. Los hongos de la cueva no son seguros. Y los huevos que encontramos ya no están."
+
+    show marina preocupada at right
+    m "Podemos intentar pescar, pero no es fácil. No tenemos los implementos mínimos."
+
+    show ingrid reflexiva at centerleft
+    i "Sobrevivir sin hacer nada no es opción. No por mucho tiempo."
+
+    show erika seria at left
+    k "Entonces decidamos. ¿Qué hacemos para salir de acá?"
+
+    jump cap12_plan_discusion
+
+label cap12_plan_discusion:
+
+    scene playa_reunion with fade
+
+    "El grupo se acomoda en círculo, algunos sentados en troncos, otros de pie. El silencio pesa."
+
+    show bob decidido at center
+    b "Podemos construir una balsa. Usar el bote inflable como base, sumar troncos, hojas de palma, lo que flote."
+
+    b "Vi una silueta en el horizonte. Podría ser otra isla. El avión pasó en esa dirección."
+
+    show erika firme at right
+    k "O podemos hacer una hoguera gigante. Algo que se vea desde kilómetros. Si pasa un barco o avión, que nos vean."
+
+    show charles pensativo at left
+    c "Ambas ideas tienen sentido... pero también riesgos."
+
+    "Las miradas se cruzan. Nadie quiere decidir solo. Es momento de hablar."
+
+    jump cap12_plan_opciones_jugador
+
+label cap12_plan_opciones_jugador:
+
+    menu:
+        "Construir la balsa y arriesgarse":
+            $ jugador_postura = "balsa"
+            "Crees que vale la pena arriesgarse. Quedarse no es opción."
+
+        "Hacer la hoguera y esperar ayuda":
+            $ jugador_postura = "hoguera"
+            "Prefieres apostar a que alguien los vea. Irse podría ser peor."
+
+        "Ambas ideas tienen problemas...":
+            $ jugador_postura = "duda"
+            "No estás convencido de ninguna. Hay que pensar más."
+
+    jump cap12_plan_intercambio_personajes
+
+label cap12_plan_intercambio_personajes:
+
+    if jugador_postura == "balsa":
+        show bob animado at center
+        b "¡Eso! Si nos movemos, hay una chance real. No podemos quedarnos esperando."
+
+        show erika escéptica at right
+        k "¿Y si esa silueta no es nada? ¿Y si la balsa se rompe? No hay segunda oportunidad."
+
+        show charles dudando at left
+        c "Mmm... lo de la balsa suena bien, pero Erika tiene razón. Es arriesgado."
+
+    elif jugador_postura == "hoguera":
+        show erika esperanzada at right
+        k "Gracias. No podemos lanzarnos al mar sin saber. Una señal fuerte puede salvarnos."
+
+        show bob frustrado at center
+        b "¿Y si nadie pasa? ¿Cuánto tiempo más podemos aguantar acá?"
+
+        show charles pensativo at left
+        c "La hoguera es más segura... pero también más pasiva. No sé..."
+
+    elif jugador_postura == "duda":
+        show bob impaciente at center
+        b "¡Pero hay que decidir! No podemos quedarnos en la indecisión."
+
+        show erika firme at right
+        k "Pensar no es perder tiempo. Es evitar errores."
+
+        show charles confundido at left
+        c "Estoy igual que tú. No sé cuál es peor... o mejor."
+
+    "El grupo se enreda en argumentos. Cada uno defiende su idea, pero también escucha."
+
+    jump cap12_plan_posturas
+
+label cap12_plan_posturas:
+
+    scene playa_reunion_tension with dissolve
+
+    "Las voces se elevan. Cada propuesta empieza a tomar forma, pero también a mostrar sus grietas."
+
+    # Postura a favor de la hoguera
+    show erika explicando at right
+    k "La hoguera puede arder por días. Si usamos aceite de alguna planta, madera seca, ropa... será visible desde lejos."
+
+    k "No arriesgamos vidas. No nos alejamos. Solo necesitamos que alguien nos vea."
+
+    show ingrid asintiendo at centerleft
+    i "Y podemos mantenerla encendida por turnos. No es tan difícil."
+
+    # Postura a favor de la balsa
+    show bob señalando el horizonte at center
+    b "Pero si nadie pasa... ¿qué hacemos? ¿Morir esperando?"
+
+    b "La silueta en el horizonte está ahí. No es imaginación. Podemos llegar en un día si el clima ayuda."
+
+    show marina dudando at right
+    m "¿Y si hay corriente? ¿Y si no hay isla? ¿Y si no volvemos?"
+
+    # Charles empieza a cambiar de opinión
+    show charles pensativo at left
+    c "Lo de la hoguera suena más seguro... pero si Bob tiene razón, podríamos estar a un paso de salir."
+
+    c "No sé. Cada vez que escucho a uno, cambio de idea."
+
+    "Charles se gira hacia ti, buscando tu opinión."
+
+    menu:
+        "La balsa es nuestra mejor oportunidad. Hay que arriesgarse.":
+            $ influencia_charles += 1
+            "Le hablas con convicción. Charles asiente, aunque aún duda."
+
+        "La hoguera es más sensata. No podemos lanzarnos al mar a ciegas.":
+            $ influencia_charles -= 1
+            "Le explicas los riesgos. Charles parece inclinarse hacia tu lógica."
+
+        "Ambas ideas tienen sentido. Lo importante es que el grupo esté unido.":
+            $ influencia_charles = 0
+            "Charles sonríe. 'Eso también es verdad', dice, aunque sigue sin decidirse."
+
+    "La discusión continúa. Algunos personajes cambian de postura, otros se aferran a su plan."
+
+    jump cap12_plan_charles_decide
+
+label cap12_plan_charles_decide:
+
+    "Charles se queda en silencio unos segundos. Mira a Erika, luego a Bob. Finalmente te mira a ti."
+
+    if influencia_charles > 0:
+        show charles decidido at left
+        c "Podría ir con ustedes. Si hay una posibilidad de salir, hay que tomarla."
+
+        $ charles_grupo = "balsa"
+
+    elif influencia_charles < 0:
+        show charles firme at left
+        c "Podría quedarme con Erika. Prefiero esperar ayuda que arriesgarme al mar."
+
+        $ charles_grupo = "hoguera"
+
+    else:
+        if charles >= 1:
+            show charles sonriente at left
+            c "Confío en ti. Podría sumarme a tu grupo."
+
+            $ charles_grupo = jugador_postura
+        else:
+            show charles neutral at left
+            c "No lo sé... pero creo que Erika tiene razón."
+
+            $ charles_grupo = "hoguera"
+
+    "La indecisión de Charles marca el cierre de la discusión. El grupo empieza a dividirse."
+    jump cap12_plan_division
+
+label cap12_plan_division:
+##### este no va, quedo por las dudas
+    scene playa_decision with fade
+    "Después de una larga discusión, el grupo decide dividirse en dos proyectos: construir una balsa para buscar ayuda o mantener una hoguera encendida para ser vistos desde el aire."
+
+    "Algunos ya han tomado partido."
+
+    show bob at centerleft
+    show marina at left
+    show erika at centerright
+    show tomas at right
+
+
+    "Bob, Tomas y Marina se inclinan por construir la balsa. Erika, Ingrid y Laura creen que mantener la hoguera encendida es más seguro. Charles aún no ha decidido."
+
+    menu:
+        "Unirme al equipo que construye una balsa con Bob, Laura y Marina":
+            $ proyecto = "balsa"
+            $ equipo_actual = ["jugador", "Bob", "Marina", "Laura"]
+            #$ posibles_reclutas = ["Charles", "Tomas"]
+            jump cap12_plan_division2
+
+        "Unirme al equipo de la hoguera con Erika, Ingrid y Tomas":
+            $ proyecto = "hoguera"
+            $ equipo_actual = ["jugador", "Erika", "Tomas", "Ingrid"]
+            #$ posibles_reclutas = ["Charles", "Tomas"]
+            jump cap12_plan_division2
+
+label cap12_plan_division2:
+
+    scene playa_separacion with fade
+
+    "El grupo se divide en dos zonas de la playa. Algunos se acercan a Bob, otros a Erika."
+
+    if proyecto == "balsa":
+        show bob motivado at center
+        b "Vamos a necesitar hojas de palma para trensar cuerdas, troncos, ramas... y el bote inflable. ¡Manos a la obra!"
+
+        show marina decidida at right
+        m "Yo puedo ayudar con los nudos. Aprendí algo en los campamentos."
+
+        show charles sonriente at centerleft
+        c "Estoy contigo. Vamos a hacer que esto funcione."
+        $ equipo_actual.append("Charles")
+
+        "Te sumas al grupo de la balsa. El trabajo comienza con energía y urgencia."
+        jump cap12_balsa_inicio
+
+    elif proyecto == "hoguera":
+        show erika concentrada at center
+        k "Necesitamos madera seca, algo de aceite de alguna planta, telas... y una estructura que aguante el viento."
+
+        show ingrid práctica at right
+        i "Hay ramas gruesas cerca del acantilado. Podemos empezar por ahí."
+
+        show charles sonriente at centerleft
+        c "Estoy contigo. Vamos a hacer que esto funcione."
+        $ equipo_actual.append("Charles")
+
+        "Te unes al grupo de la hoguera. El plan es claro, pero requiere precisión."
+        jump cap12_hoguera_inicio
+
+label cap12_balsa_inicio:
+
+    scene playa_balsa_construccion with Dissolve(0.5)
+
+    show bob organizando at center
+    b "Vamos a dividir tareas. Necesitamos troncos, cuerdas, bidones, y revisar el bote inflable."
+
+    show marina activa at right
+    m "Yo puedo buscar los bidones. Vi algunos cerca del arroyo."
+
+    "Te toca decidir cómo organizar el equipo. Todos esperan tu palabra."
+
+    menu:
+        "Asignar tareas según habilidades":
+            $ liderazgo += 1
+            "El grupo se organiza con eficiencia. Cada uno sabe qué hacer."
+
+        "Dejar que cada uno elija qué hacer":
+            $ liderazgo -= 1
+            "Algunos se dispersan. Hay confusión, pero también autonomía."
+
+        "Tomar el control y dar órdenes claras":
+            $ liderazgo += 2
+            "El grupo responde con rapidez. Aunque algunos se sienten presionados."
+
+    "La construcción comienza. El sonido de ramas cortadas y nudos apretados llena el aire."
+
+    jump cap12_balsa_encuentro_1
+
+label cap12_balsa_encuentro_1:
+
+    scene bosque_madera with dissolve
+
+    "Mientras buscás ramas gruesas cerca del límite del bosque, te cruzás con Erika. Lleva una pila de madera seca en los brazos."
+
+    show k molesta at center
+    k "¿Qué hacés acá? Esta zona la estamos usando para la hoguera."
+
+    y "Necesitamos madera para reforzar la balsa. No podemos navegar con algo que se desarme en el primer oleaje."
+
+    k "Y nosotros no podemos quedarnos sin fuego. Si pasa un avión y no tenemos con qué encenderlo, perdemos nuestra única oportunidad."
+
+    menu:
+        "Insistir en llevarse la madera":
+            $ erika -= 1
+            "Erika te mira con dureza."
+            k "Hacelo. Pero no esperes que te cubra si algo sale mal."
+
+        "Negociar y dividir los recursos":
+            $ erika += 1
+            "Proponés repartir la madera. Erika duda, pero acepta."
+            k "Está bien. Pero que no se repita."
+
+        "Ceder y dejar que Erika se lleve todo":
+            $ erika += 1
+            "Erika queda sorprendida por tu actitud."
+            menu:
+                "Invitar a Erika a sumarse al proyecto de la balsa":
+                    if erika > 2:
+                        $ equipo_actual.append("Erika")
+                        #$ proyecto_reclutas += 1
+                        "Erika te observa con atención, luego asiente lentamente."
+                        k "Aún creo que la hoguera es una buena opción pero si tu haces la balsa puede funcionar."
+                        "Erika y tu vuelven con la madera al sitio de construccion de la balsa"
+                    else:
+                        "Erika te observa con atención, luego sacude la cabeza lentamente."
+                        k "Claramente no me conoces, [nombre_jugador]. No voy a abandonar a mi grupo."
+                "No quiero problemas entre nosotros, hay mas madera en la isla.":
+                    "Erika se interna molesta en la jungla cargando la madera."   
+
+    "El bosque queda en silencio, pero la tensión persiste."
+
+    jump cap12_balsa_crisis_1
+
+label cap12_balsa_crisis_1:
+
+    scene balsa_construccion with fade
+
+    "La construcción avanza, pero el ambiente está tenso. Marina se sienta sola, mirando el agua con expresión apagada."
+
+    show marina triste at center
+    m "No sé si quiero seguir con esto..."
+
+    y "¿Qué pasó?"
+
+    m "Desde que empezamos, nadie me pregunta nada. Tomas y Laura deciden todo, vos estás siempre ocupado. Me siento invisible."
+
+    "La balsa cruje con el peso de los materiales. El silencio se vuelve incómodo."
+
+    menu:
+        "Decirle que no hay tiempo para dramas":
+            $ marina -= 1
+            y "Marina, aquí todos hacemos lo que podemos. No hay tiempo para hacerse la víctima."
+            "Marina se pone de pie, dolida."
+            m "Entonces no cuenten conmigo."
+            $ equipo_actual.remove("Marina")
+            "Marina abandona el grupo y se dirige a donde se está haciendo la hoguera."
+            "La tensión aumenta y la balsa aún no está lista."
+
+        "Reconocer su esfuerzo y proponerle que se encargue de una tarea clave":
+            $ marina += 1
+            y "¿Que te parece liderar la organización de los suministros?"
+            m "¿En serio? Bueno... lo voy a intentar."
+            "Te acercás y le agradecés por todo lo que ha hecho."
+            m "Gracias... No quiero rendirme. Pero necesito sentir que importo."
+            "La tensión baja, pero queda claro que el grupo necesita más comunicación."
+
+    jump cap12_balsa_encuentro_2
+
+label cap12_balsa_encuentro_2:
+
+    scene playa_orilla with dissolve
+
+    "Mientras inspeccionás la orilla, escuchás una voz familiar cantando desafinadamente."
+
+    show c relajado at center
+    c "¡Ahoy! Mirá lo que encontré. Una vela vieja, pero todavía sirve."
+
+    y "¿Dónde la conseguiste?"
+
+    c "Estaba enterrada cerca de los restos del bote que usamos al principio. No sé si usarla para hacer humo en la hoguera o dársela a ustedes para la balsa."
+
+    "Charles sonríe, pero se nota que está esperando que tomes una postura."
+
+    menu:
+        "Pedirle la vela para la balsa":
+            $ charles += 1
+            y "Esa vela podría ser clave para navegar mejor y no terminar flotando en el mar."
+            c "Bueno, si lo decís así... acá tenés."
+
+        "Decirle que la use como quiera":
+            "Decidís no presionarlo. Charles se encoge de hombros."
+            c "Gracias por no hacerme sentir culpable."
+            "Charles se aleja, con cara pensativa. Es dificil entender como piensa Charles."
+            if charles > 1:
+                c "Si, mejor sigo en el equipo. Aqui está la vela."
+            else:
+                c "En la hoguera me van a recibir bien cuando lleve esta vela."
+                c "Me voy con el otro equipo."
+                $ equipo_actual.remove("Charles")
+
+        "Burlarte de su indecisión":
+            $ charles -= 1
+            y "¿Sigues con idas y vueltas? Pareces un niño eligiendo un dulce."
+            "Charles frunce el ceño."
+            c "¿Sabés qué? Me la llevo, seguro que en la hoguera me reciben mejor."
+            $ equipo_actual.remove("Charles")
+
+    "Charles se aleja, tarareando una melodía inventada."
+
+    jump cap12_balsa_encuentro_3
+
+label cap12_balsa_encuentro_3:
+
+    scene laboratorio_improvisado with dissolve
+
+    "Te acercás al refugio donde Ingrid ha estado trabajando con algunos materiales recuperados."
+
+    show i seria at center
+    i "Estuve haciendo cálculos. La balsa no va a resistir si no se adhiere el bote a las ramas que están poniendo poe debajo."
+
+    y "¿Qué proponés?"
+
+    i "Se puede sacar una resina pegajosa de unos arboles que vi en la isla. Pero solo encontré dos de esos árboles."
+    i "Es la misma resina que pensabamos usar para acelerar el encendido del fuego de la hoguera."
+
+    "Ingrid te mira con seriedad. No hay sarcasmo ni enojo, solo lógica."
+
+    menu:
+        "Pedirle que te lleve hasta esos árboles":
+            y "Realmente sin la balsa, no hay salida. Además el fuego va a prender de todas maneras."
+            y "Y tú misma dices que sin eso nos vamos a hundir en medio del mar"
+            i "Entiendo. Pero esto pone en riesgo a mi grupo."
+            i "Pero tienes razón, tampoco puedo dejar que se ahoguen."
+            y "¿Que tal si te sumas al proyecto de la balsa? Tu podrías guiar para hacer buen uso de la resina."
+            if ingrid > 1:
+                $ equipo_actual.append("Ingrid")
+                #$ proyecto_reclutas += 1
+                "Ingrid te observa con atención."
+                i "Si voy con ustedes, quiero tener voz en las decisiones técnicas. ¿Está claro?"
+            else:
+                i "No, el otro equipo me necesita. No deberías pedir ni la resina ni que los traicione."
+                $ ingrid -= 1
+
+        "Negociar una solución intermedia":
+            $ ingrid += 1
+            "Podriamos usar un poco para dar mas solidez a la balsa y ustedes usar el resto para encender el fuego.."
+            i "No es ideal, pero podría funcionar. Acepto."
+
+        "Respetar su decisión y no pedir el recurso":
+            $ ingrid += 1
+            "Decidís no presionar. Ingrid asiente con respeto."
+            i "Gracias. No todos entienden lo que está en juego."
+
+    "Ingrid vuelve a sus cálculos. La decisión que tomaste podría cambiar el rumbo del proyecto."
+
+    jump cap12_balsa_crisis_2
+
+label cap12_balsa_crisis_2:
+
+    scene balsa_construccion_tarde with fade
+
+    "Volvés al campamento y notás que Laura ha reorganizado todo el plan de construcción sin consultar a nadie."
+
+    show l molesta at center
+    l "No podíamos seguir esperando. Tomé decisiones. Si no te gusta, podés irte."
+
+    y "¿No pensás que deberíamos decidir esto juntos?"
+
+    l "¿Decidir? Cada vez que debatimos perdemos tiempo. Yo quiero que esto funcione, no que sea democrático."
+
+    "El resto del equipo observa en silencio. La tensión es palpable."
+
+    menu:
+        "Confrontarla y exigir que respete al grupo":
+            $ laura -= 1
+            y "¿Otra vez tomando decisiones por tu lado sin importar los demas?"
+            y "Hay que escuchar a los demás. No puedes cambiar el plan sin consultar."
+            l "Yo me bajo. Tampoco te voy a consultar esto. Me voy con el otro equipo."
+            $ equipo_actual.remove("Laura")
+
+        "Cederle el liderazgo del proyecto":
+            $ laura += 1
+            y "No es la manera adecuada pero lo importante es hacer las cosas."
+            y "Explica lo que quieres hacer y nos repartimos esas tareas con el grupo."
+            l "Al menos ahora vamos a avanzar."
+
+        "Proponer una estructura compartida de decisiones":
+            y "Al grupo le viene bien tu ánimo y determinación."
+            y "Separemos las tareas, tu coordina algunas y otros decidiran sobre las demas."
+            l "Está bien. Pero si esto se vuelve un caos, no me culpes."
+
+    "La crisis deja huellas. El grupo sigue adelante, pero la dinámica ha cambiado."
+
+    jump cap12_balsa_evaluacion
+
+label cap12_balsa_evaluacion:
+
+    scene playa_balsa_finalizada with fade
+
+    "La balsa está lista. El grupo se reúne en la orilla, observando el horizonte."
+
+    $ cantidad_equipo = len(equipo_actual)
+
+    if cantidad_equipo >= 5:
+        "El equipo es sólido. Hay suficientes manos para navegar y enfrentar imprevistos."
+        "Los reclutas del otro proyecto aportan nuevas perspectivas y recursos."
+        "La tensión interna se ha reducido, aunque quedan heridas abiertas."
+
+        menu:
+            "Confirmar el proyecto de la balsa":
+                "El grupo se prepara para zarpar. El proyecto está completo."
+                jump cap12_balsa_completa
+
+    elif cantidad_equipo == 4:
+        "El equipo está incompleto. No hay suficientes personas para garantizar el éxito del proyecto."
+        "Tampoco el grupo de la hoguera tiene los recursos ni el personal necesario para sostener su plan."
+        "Ambos equipos se ven obligados a reunirse y tomar una decisión conjunta."
+
+        menu:
+            "Convocar a todos para decidir qué proyecto seguir":
+                "Se organiza una reunión entre los ocho personajes. El futuro depende de lo que decidan juntos."
+                jump cap12_decision_grupal
+
+    else:
+        "El equipo es insuficiente. La balsa no puede zarpar en estas condiciones."
+        "La falta de colaboración y las decisiones conflictivas debilitaron el proyecto."
+        "Algunos miembros dudan, otros se han ido. El grupo de la hoguera sigue activo."
+
+        menu:
+            "Aceptar que el proyecto de la balsa ha fallado":
+                "El grupo se repliega. El liderazgo pasa al equipo de la hoguera."
+                jump cap12_hoguera_completa
+
+label cap12_hoguera_inicio:
+
+    scene campamento_hoguera_dia
+    with fade
+
+    show erika neutral at left with Dissolve(0.5)
+    show ingrid annoyed at centerright with Dissolve(0.5)
+    show tomas annoyed at centerleft with Dissolve(0.5)
+    show charles relaxed at right with Dissolve(0.5)
+
+    k "Si queremos que esto funcione, necesitamos una base sólida. Troncos grandes abajo, ramas intermedias, hojas secas en la cima. Si se cae antes de prenderla, perdimos todo."
+
+    c "¿Y cómo pensás cortar troncos sin hachas? ¿Vamos a abrazarlos hasta que se rompan?"
+
+    c "Yo digo que juntemos todo lo que encontremos y lo apilemos. Si parece una montaña, ya está. ¿No?"
+
+    k "Eso no va a prender bien. Y si se cae, no hay segunda oportunidad."
+
+    t "Lo que no hay, no hay. Busquemos opciones."
+
+    "Todos te miran, esperando tu opinión."
+
+    menu:
+        "Apoyar a Erika":
+            $ erika += 1
+            $ charles -= 1
+            $ enfoque_hoguera = "estructurado"
+            y "La estructura es clave. Si se cae antes de prenderla, perdimos todo."
+            k "Gracias. Alguien entiende lo que está en juego."
+            c "Claro, sigamos planeando como si tuviéramos herramientas mágicas."
+
+        "Apoyar a Tomas":
+            $ tomas += 1
+            $ erika -= 1
+            $ enfoque_hoguera = "adaptativo"
+            y "No podemos planear como si tuviéramos herramientas. Hay que adaptarse."
+            t "¡Exacto! Por fin alguien con los pies en la tierra."
+            k "Adaptarse no significa dejar de planear con cuidado."
+
+        "Apoyar a Charles":
+            $ charles += 1
+            $ erika -= 1
+            $ enfoque_hoguera = "improvisado"
+            y "Si juntamos suficiente material, podemos ajustar la forma después."
+            c "¡Esa es la actitud! Montaña de ramas, allá vamos."
+            k "Esto no es un juego, Charles."
+
+        "Proponer una síntesis":
+            $ erika += 1
+            $ tomas += 1
+            $ enfoque_hoguera = "hibrido"
+            y "Podemos empezar con lo que tenemos, pero seguir el diseño de Erika en lo posible."
+            k "Me parece razonable."
+            t "Mientras no nos pasemos el día dibujando planos, va bien."
+            c "¿Y mi montaña de ramas? Nadie la quiere..."
+
+    "Con la decisión tomada, el grupo comienza a trabajar. Las tensiones no desaparecen, pero hay una dirección clara."
+
+    hide erika with Dissolve(0.5)
+    hide tomas with Dissolve(0.5)
+    hide charles with Dissolve(0.5)
+    hide ingrid with Dissolve(0.5)
+
+    jump cap12_hoguera_encuentro_1
+
+label cap12_hoguera_encuentro_1:
+
+    scene campamento_hoguera_dia
+    with fade
+
+    show erika neutral at left with Dissolve(0.5)
+    show bob neutral at right with Dissolve(0.5)
+
+    b "Buen día. Vine a ver cómo va el proyecto de la pira. Desde la balsa parece que están avanzando."
+
+    k "Avanzando sí, pero no improvisando. Estamos siguiendo una estructura clara. No queremos que se venga abajo cuando más lo necesitemos."
+
+    b "Entiendo. Aunque a veces, si uno espera a tener todo perfecto, se le pasa la oportunidad."
+
+    k "Prefiero perder tiempo que perder la oportunidad del rescate."
+
+    "La tensión entre Erika y Bob es evidente. Ambos tienen estilos de liderazgo distintos. Te miran, esperando tu opinión."
+
+    menu:
+        "Defender el enfoque estructurado":
+            $ erika += 1
+            $ bob -= 1
+            y "La estructura es clave. Si se cae antes de prenderla, perdimos todo."
+            k "Gracias. Alguien entiende lo que está en juego."
+            b "Solo espero que no se les pase el momento por estar midiendo ramas."
+
+        "Cuestionar el enfoque estructurado":
+            $ bob += 1
+            $ erika -= 1
+            y "Tal vez deberíamos ser más flexibles. No sabemos cuándo va a pasar el avión."
+            b "Exacto. A veces hay que actuar con lo que se tiene."
+            k "Y a veces actuar sin pensar es lo que te deja sin fuego cuando más lo necesitas."
+
+        "Intentar mediar":
+            $ bob += 1
+            $ erika += 1
+            y "Podemos mantener la estructura, pero tener algo listo para encender rápido si aparece el avión."
+            b "Eso suena razonable."
+            k "Mientras no se comprometa la estabilidad, me parece bien."
+
+        "Evitar intervenir":
+            y "..."
+            b "Bueno, seguiré observando."
+            k "..."
+
+    "Bob observa el trabajo un rato más, intercambia algunas palabras con Charles y Laura, y luego se despide."
+
+    hide erika with Dissolve(0.5)
+    hide bob with Dissolve(0.5)
+
+    scene bg hoguera with fade
+    "El día continúa, y el equipo de la hoguera sigue trabajando con la visita de Bob en mente."
+
+    jump cap12_hoguera_crisis_1
+
+label cap12_hoguera_crisis_1:
+
+    scene campamento_hoguera_tarde
+    with fade
+
+    show erika annoyed at left with Dissolve(0.5)
+    show charles neutral at right with Dissolve(0.5)
+
+    k "¿En serio estuviste toda la mañana buscando ramas secas y no trajiste ni una decente?"
+
+    c "¿Decente según quién? Las que encontré no estaban mojadas, ¿eso no cuenta?"
+
+    k "¡No si son del tamaño de mi brazo! Necesitamos troncos, no souvenirs."
+
+    c "Bueno, perdón por no tener superpoderes para partir árboles con la mente."
+
+    "La discusión sube de tono. Charles se burla, Erika se exaspera. El ambiente se vuelve tenso. Ambos te miran, esperando que digas algo."
+
+    menu:
+        "Defender a Erika":
+            $ erika += 1
+            $ charles -= 1
+            y "Charles, necesitamos materiales que realmente sirvan. Esto no es un juego."
+            l "Gracias. Alguien que entiende la urgencia."
+            c "Claro, sigamos gritando hasta que aparezcan troncos mágicos."
+            c "No vine para que me griten o me pidan imposibles,"
+            c "Suerte con su hoguera, me voy con el grupo de la balsa"
+            $ equipo_actual.remove("Charles")
+            hide charles with Dissolve(0.5)
+            "Charles se interna en la jungla enojado."
+
+        "Defender a Charles":
+            $ charles += 1
+            $ erika -= 1
+            y "Erika, está haciendo lo que puede. No tenemos herramientas."
+            c "¡Gracias! Al menos alguien ve la realidad."
+            k "Sí, claro. Y mientras tanto, seguimos perdiendo tiempo."
+
+        "Intentar mediar":
+            $ erika += 1
+            $ charles += 1
+            y "Entiendo los dos puntos. Tal vez podemos reorganizar tareas para que cada uno haga lo que mejor se le da."
+            k "Eso... podría funcionar."
+            c "Mientras no me manden a abrazar troncos, estoy dentro."
+
+        "Evitar intervenir":
+            y "..."
+            k "¿Nada? Genial. Silencio útil."
+            c "Bueno, me voy a seguir buscando ramitas."
+
+    "La tensión no desaparece del todo, y esas palabras dejan una marca en la dinámica del grupo."
+
+    hide laura with Dissolve(0.5)
+    hide charles with Dissolve(0.5)
+
+    scene bg hoguera with fade
+    "La tarde avanza, y el trabajo continúa con una energía distinta."
+
+    jump cap12_hoguera_encuentro_2
+
+label cap12_hoguera_encuentro_2:
+
+    scene campamento_hoguera_tarde
+    with fade
+
+    if "Charles" in equipo_actual:
+        jump cap12_hoguera_charles_mariana
+    else:
+        jump cap12_hoguera_encuentro_3
+
+label cap12_hoguera_charles_mariana:
+    show charles neutral at left with Dissolve(0.5)
+    show marina nervous at right with Dissolve(0.5)
+
+    m "Hola... vine a ver si necesitaban algo. Tenemos algunas sogas que no estamos usando."
+
+    c "¿Sogas? ¿Para atar la pira o para atarnos nosotros cuando nos frustremos?"
+
+    m "Pensé que podían servir para estabilizar la base. No sé si es buena idea..."
+
+    c "Ey, no te preocupes. Es mejor que lo que yo traje esta mañana."
+
+    m "¿Realmente les sirve? No quiero molestar..."
+
+    c "¿Por qué eres tan mojigata? Marina, si todos fueran como vos, esto sería un spa."
+
+    "Marina baja la mirada. Charles sonríe, pero no parece notar lo incómoda que está."
+
+    menu:
+        "Proteger a Marina":
+            $ marina += 1
+            $ charles -= 1
+            y "Marina, tu ayuda es valiosa. No tenés que justificarte."
+            m "Gracias... eso significa mucho."
+            c "Uy, perdón. No quise hacerte sentir mal."
+
+        "Presionar a Marina":
+            $ marina -= 1
+            y "Si vas a ofrecer algo, hacelo con seguridad. No estamos para dudas."
+            m "Lo siento... no quería incomodar."
+            c "Che, tampoco para retarla así."
+
+        "Evitar intervenir":
+            y "..."
+            m "Bueno... me voy entonces."
+            c "¿Es por algo que dije?"
+
+    "Marina se despide con una sonrisa tímida. Charles se queda mirando la pira, pensativo."
+
+    hide charles with Dissolve(0.5)
+    hide marina with Dissolve(0.5)
+
+    scene black with fade
+    "La noche se acerca, y el grupo reflexiona sobre lo que significa colaborar entre equipos."
+
+    jump cap12_hoguera_crisis_2
+
+label cap12_hoguera_encuentro_3:
+    #hay que ajustar este label y reconectarlo
+    scene campamento_hoguera_noche
+    with fade
+
+    show laura neutral at left with Dissolve(0.5)
+    show tomas neutral at right with Dissolve(0.5)
+
+    l " Hola Tomas, el silencioso constructor de hogueras."
+
+    t "..."
+
+    l "¿No hablás o estás guardando energía?"
+
+    t "..."
+
+    l "Bueno, al menos trajiste algo útil. ¿Eso es corteza seca?"
+
+    t "Sí."
+
+    l "¡Milagro! Una palabra completa."
+
+    "Tomas sigue trabajando en silencio. Laura lo observa con curiosidad, mezclada con impaciencia. El jugador puede intervenir."
+
+    menu:
+        "Valorar el silencio de Tomas":
+            $ tomas += 1
+            $ laura -= 1
+            y "No hace falta hablar mucho para aportar. Tomas está haciendo más que muchos."
+            t "Gracias."
+            l "Sí, claro. Y mientras tanto, yo tengo que adivinar qué piensa."
+
+        "Presionar a Tomas":
+            $ tomas -= 1
+            y "Si vas a colaborar, estaría bueno que te comuniques. Esto es un equipo."
+            t "..."
+            l "¡Por fin alguien que lo dice!"
+
+        "Apoyar a Laura":
+            $ laura += 1
+            $ tomas -= 1
+            y "Laura tiene razón. No podemos trabajar con alguien que no habla."
+            l "Gracias. Pensé que era la única que lo notaba."
+            t "..."
+
+        "Intentar mediar":
+            $ laura += 1
+            $ tomas += 1
+            y "Tomas trabaja bien, y Laura necesita claridad. Tal vez podemos encontrar un punto medio."
+            l "Mientras no tenga que leerle la mente, me sirve."
+            t "Haré lo posible."
+
+    "Tomas termina de acomodar la corteza y se despide con un gesto. Laura se queda mirando la pira, pensativa."
+
+    hide laura with Dissolve(0.5)
+    hide tomas with Dissolve(0.5)
+
+    scene black with fade
+    "La noche cae, y el grupo reflexiona sobre lo que significa trabajar con estilos distintos."
+
+    jump cap12_hoguera_crisis_2
+
+label cap12_hoguera_crisis_2:
+
+    scene campamento_hoguera_noche
+    with fade
+
+    show erika neutral at left with Dissolve(0.5)
+    show ingrid annoyed at right with Dissolve(0.5)
+
+    i "¿Sabés qué? Estoy harta de tus planes rígidos. Esto no es una simulación controlada, Erika."
+
+    k "Y yo estoy harta de tu constante análisis. Si no seguimos una estructura, esto se desmorona."
+
+    i "¡Se desmorona igual si nadie entiende ni comparte tus decisiones!"
+
+    k "No vine a caerle bien a nadie. Vine a hacer que esto funcione."
+
+    "La discusión escala. El tono se hace mas fuerte. El grupo pende de un hilo"
+
+    menu:
+        "Apoyar a Erika con firmeza":
+            $ erika += 2
+            $ ingrid -= 2
+            y "Erika tiene razón. Necesitamos orden, aunque no sea perfecto."
+            k "Gracias. Esto no es una competencia de lógica, es supervivencia."
+            i "Entonces hacelo sola. No voy a seguir a alguien que descarta el análisis."
+            $ equipo_actual.remove("Ingrid")
+            hide ingrid with Dissolve(0.5)
+            "Ingrid se aleja rumbo al lugar donde el otro equipo está haciendo la balsa."
+
+        "Apoyar a Ingrid con firmeza":
+            $ ingrid += 2
+            $ erika -= 2
+            y "Ingrid tiene razón. No podemos seguir un plan que no se cuestiona."
+            i "Por fin alguien lo ve."
+            k "Entonces que lo hagan sin mí. No voy a liderar un grupo que no confía."
+            $ equipo_actual.remove("Erika")
+            hide erika with Dissolve(0.5)
+            "Erika se aleja rumbo al lugar donde el otro equipo está haciendo la balsa."
+
+        "Intentar reconciliar":
+            $ ingrid += 1
+            $ erika += 1
+            y "Las dos tienen puntos válidos. Si no se escuchan, esto no va a funcionar."
+            k "Escuchar no significa ceder en todo."
+            i "Y liderar no significa imponer sin evidencia."
+            y "Estamos todos de acuerdo con eso. Repasemos lo que estamos haciendeo y busquemos que esto funcione."
+            "Ambas bajan la voz. No hay acuerdo total, pero siguen en el proyecto."
+
+        "Evitar intervenir":
+            y "..."
+            k "Silencio no es liderazgo."
+            i "Perfecto. Otro que no dice lo que piensa."
+            i "Yo no sigo en esto. Me voy."
+            $ equipo_actual.remove("Ingrid")
+            hide ingrid with Dissolve(0.5)
+            "Ingrid se aleja rumbo al lugar donde el otro equipo está haciendo la balsa."
+
+    "La situación está resuelta. El proyecto sigue, pero no será igual."
+
+    hide erika with Dissolve(0.5)
+    hide ingrid with Dissolve(0.5)
+
+    jump cap12_hoguera_evaluacion
+
+label cap12_hoguera_evaluacion:
+
+    scene campamento_hoguera_amanecer
+    with fade
+
+    y "La hoguera está avanzando. Pero lo que importa ahora es quién sigue comprometido."
+
+    # Recuento de personajes en el proyecto de la hoguera
+    $ hoguera_equipo = 0
+    $ equipo_actual.remove("jugador")
+
+    $ hoguera_equipo = len(equipo_actual) 
+    $ hoguera_equipo += 1
+
+    "Ahora hay [hoguera_equipo] personas que siguen en el equipo de la hoguera."
+    "[', '.join(equipo_actual)] y tú"
+
+    if hoguera_equipo >= 5:
+        y "Con este equipo, podemos completar la hoguera sin problemas."
+        jump cap12_hoguera_completa
+
+    elif hoguera_equipo == 4:
+        y "Cuatro personas no son suficientes para asegurar el éxito."
+        y "Necesitamos decidir como grupo qué hacer."
+        jump cap12_decision_grupal_dialogos
+
+    else:
+        y "Con tan poca gente, no hay forma de continuar este proyecto."
+        y "La única opción viable es construir la balsa."
+        "Todos se miran, han puesto mucho esfuerzo cargando troncos, ramas, extrayendo aceite de plantas..."
+        "Pero no es suficiente, quizás uniendo con esos recursos y su apoyo pueda completarse la balsa."
+        "Cargan lo que pueden y se dirigen a donde está el grupo de la balsa"
+        $ abandonar_hoguera = True
+        jump cap12_balsa_completa
+
+label cap12_decision_grupal_dialogos:
+
+    scene campamento_decision_grupal
+    with fade
+
+    show charles neutral at center with Dissolve(0.5)
+
+    c "No podemos seguir así. No hay suficiente gente en ningún proyecto. Hay que hablarlo."
+
+    # Personajes que pudieron cambiar de proyecto: Bob, Marina, Tomás, Ingrid
+
+    ## Erika
+    if "Erika" in equipo_actual:
+        show erika neutral at left
+        k "Me quedé en la hoguera porque pensé que era lo correcto. Pero no sé si fue la mejor decisión."
+    else:
+        show erika neutral at left
+        k "Me cambié a la balsa. No podía seguir en un grupo que no se escuchaba."
+
+    menu:
+        "Responder con empatía":
+            $ erika += 1
+            y "Entiendo lo que sentís. Fue una decisión difícil."
+        "Responder con neutralidad":
+            y "Es bueno que lo digas. Ya veremos qué hacemos."
+        "Responder con crítica":
+            $ erika -= 1
+            y "No era momento de cambiar de grupo por inseguridad."
+
+    ## Charles
+    if "Charles" in equipo_actual:
+        show charles neutral at left
+        c "Me quedé en la hoguera porque no quería decepcionar a nadie. Pero tengo dudas de si va a funcionar."
+    else:
+        show charles neutral at left
+        c "Me cambié a la balsa. Necesitaba estar con gente que no me cuestionara."
+
+    menu:
+        "Responder con apoyo":
+            $ charles += 1
+            y "Tu decisión fue valiente. Lo importante es que sigas adelante."
+        "Responder con distancia":
+            y "Lo entiendo. No todos pueden con tanta presión."
+        "Responder con juicio":
+            $ charles -= 1
+            y "No podés esperar que nadie cuestione si hay pobre desempeño."
+
+    ## Tomás
+    if "Tomas" in equipo_actual:
+        show tomas neutral at left
+        t "Me quedé en la hoguera. No soy de hablar mucho, pero se que podemos lograrlo."
+    else:
+        show tomas neutral at left
+        t "Me cambié a la balsa. No me gusta el conflicto, y allá hay más calma."
+
+    menu:
+        "Reconocer su esfuerzo":
+            $ tomas += 1
+            y "Tu constancia es valiosa. Gracias por seguir apostando."
+        "Responder con neutralidad":
+            y "Está bien. Cada uno busca lo que necesita."
+        "Cuestionar su decisión":
+            $ tomas -= 1
+            y "No podés evitar los problemas cambiando de grupo."
+
+    ## Ingrid
+    if "Ingrid" in equipo_actual:
+        show ingrid neutral at left
+        i "Me quedé en la hoguera. Aunque no me sienta cómoda, creo que puedo aportar algo técnico."
+    else:
+        show ingrid neutral at left
+        i "Me cambié a la balsa. No confío en la forma en que se manejan las cosas en la hoguera."
+
+    menu:
+        "Valorar su aporte":
+            $ ingrid += 1
+            y "Tu conocimiento puede marcar la diferencia. Gracias por quedarte."
+        "Responder con cautela":
+            y "Tus opiniones tienen peso. Espero que sean aportes."
+        "Desconfiar abiertamente":
+            $ ingrid -= 1
+            y "No sirve aportar si no confías en el equipo."
+
+    ## Cierre del jugador
+    hide bob
+    hide marina
+    hide tomas
+    hide ingrid
+    hide charles
+    with fade
+
+    scene campamento_decision_grupal_noche
+    show jugador neutral at center
+
+    y "No podemos seguir así. Divididos, sin rumbo. Hay que tomar una decisión clara."
+
+    y "Propongo que elijamos uno de los dos proyectos y nos comprometamos todos."
+
+    menu:
+        "Proponer continuar con la hoguera":
+            $ jugador_proyecto = "hoguera"
+            jump cap12_decision_grupal_reasignacion
+
+        "Proponer continuar con la balsa":
+            $ jugador_proyecto = "balsa"
+            jump cap12_decision_grupal_reasignacion
+
+label cap12_decision_grupal_reasignacion:
+
+    scene campamento_decision_grupal_noche
+    with fade
+
+    $ proyecto_jugador = jugador_proyecto
+    $ proyecto_opuesto = "balsa" if jugador_proyecto == "hoguera" else "hoguera"
+
+    $ equipo_jugador = 1  # jugador incluido
+    $ equipo_opuesto = 0
+
+    ## Charles
+    if charles > 1:
+        show charles neutral at center
+        c "Estoy con vos. Me quedo en el proyecto de la [proyecto_jugador]."
+        $ equipo_jugador += 1
+    else:
+        show charles neutral at center
+        c "Prefiero irme al otro grupo. No me convence tu propuesta."
+        $ equipo_opuesto += 1
+    hide charles
+
+    ## Laura
+    if laura > 1:
+        show laura neutral at center
+        l "Voy con vos. No me importa lo que digan los demás."
+        $ equipo_jugador += 1
+    else:
+        show laura neutral at center
+        l "No confío en tu forma de liderar. Me voy al otro proyecto."
+        $ equipo_opuesto += 1
+    hide laura
+
+    ## Erika
+    if erika > 1:
+        show erika neutral at center
+        k "Trabajemos juntos. Si vamos a hacer esto, que sea con decisión."
+        $ equipo_jugador += 1
+    else:
+        show erika neutral at center
+        k "No me convence tu propuesta. Me voy al otro grupo."
+        $ equipo_opuesto += 1
+    hide erika
+
+    ## Bob
+    if bob > 1:
+        show bob neutral at center
+        b "Contá conmigo. Prefiero el proyecto de la [proyecto_jugador]."
+        $ equipo_jugador += 1
+    else:
+        show bob neutral at center
+        b "No me parece lo mejor. Me voy al otro grupo."
+        $ equipo_opuesto += 1
+    hide bob
+
+    ## Marina
+    if marina > 1:
+        show marina neutral at center
+        m "Voy con vos. Me preocupa, pero confío en vos."
+        $ equipo_jugador += 1
+    else:
+        show marina neutral at center
+        m "Prefiero irme al otro grupo. No me siento segura acá."
+        $ equipo_opuesto += 1
+    hide marina
+
+    ## Tomás
+    if tomas > 1:
+        show tomas neutral at center
+        t "Estoy con vos."
+        $ equipo_jugador += 1
+    else:
+        show tomas neutral at center
+        t "Me voy al otro grupo."
+        $ equipo_opuesto += 1
+    hide tomas
+
+    ## Ingrid (desempate)
+    if ingrid > 1:
+        if equipo_jugador == 4 and equipo_opuesto == 4:
+            show ingrid neutral at center
+            i "No quiero que esto siga en empate. Me sumo a tu proyecto."
+            $ equipo_jugador += 1
+        else:
+            show ingrid neutral at center
+            i "Voy con vos. Creo que puedo aportar algo."
+            $ equipo_jugador += 1
+    else:
+        if equipo_jugador == 4 and equipo_opuesto == 4:
+            show ingrid neutral at center
+            i "No quiero que esto quede en empate. Me sumo a tu proyecto."
+            $ equipo_jugador += 1
+        else:
+            show ingrid neutral at center
+            i "Me voy al otro grupo. No confío en tu liderazgo."
+            $ equipo_opuesto += 1
+
+    hide charles
+    hide laura
+    hide erika
+    hide bob
+    hide marina
+    hide tomas
+    hide ingrid
+    with fade
+
+    ## Resultado final
+    if equipo_jugador > equipo_opuesto:
+        "La mayoria se compromete con tu proyecto de la [proyecto_jugador]."
+        if proyecto_jugador == "hoguera":
+            jump cap12_hoguera_completa
+        else:
+            jump cap12_balsa_completa
+    else:
+        "La mayoría se compromete con el proyecto de la [proyecto_opuesto]."
+        if proyecto_opuesto == "hoguera":
+            jump cap12_hoguera_completa
+        else:
+            jump cap12_balsa_completa
+
+label cap12_hoguera_completa:
+
+    scene campamento_hoguera_final
+    with fade
+    "Los ocho se ponen manos a la obra, entre todos el proceso se hace mas sencillo."
+    "Se traen los troncos, cuerdas y demas materiales de la balsa, lo que acelera mucho la construccion de la hoguera."
+    "Finalmente..."
+
+    scene bg hoguera_pronta
+    with fade
+    "La pira está armada. Alta, sólida, y ubicada en una zona protegida por rocas naturales. Si llega una tormenta, resistirá."
+
+    "Las capas de ramas y troncos están bien distribuidas. En la cima, hojas secas y resina lista para encender."
+
+    "Al costado, un pequeño depósito con elementos para generar humo denso: corteza húmeda, aceites vegetales, y restos de tela."
+
+    "El grupo observa en silencio. No hay fuego aún, pero hay esperanza."
+
+    menu:
+        "Dar una última indicación técnica":
+            y "Asegúrense de que el depósito de ressina esté cubierto pero accesible. No podemos perder tiempo si aparece el avión."
+            "El grupo asiente. Tu liderazgo técnico refuerza la confianza."
+
+        "Compartir una reflexión emocional":
+            y "No sé si esto va a funcionar. Pero lo hicimos juntos. Y eso ya es algo."
+            "Algunos bajan la mirada. Otros sonríen. Hay algo más fuerte que el miedo: el vínculo."
+
+    "La hoguera queda atrás. Alta, silenciosa, esperando su momento."
+
+    jump cap_final_hoguera_avion_aparece
+
+label cap12_balsa_completa:
+
+    scene playa_balsa_final
+    with fade
+
+    "Los ocho se ponen manos a la obra, entre todos el proceso se hace mas sencillo."
+    "Se traen los troncos, resina y demas materiales de la hoguera, lo que acelera mucho la construccion de la balsa."
+    "Finalmente..."
+
+    scene bg balsa_pronta
+    with fade
+    "La balsa está terminada. Amplia, equilibrada, con una base reforzada por sogas y troncos entrelazados."
+
+    "En el centro, un compartimento improvisado con reservas de agua y comida. No es mucho, pero puede durar unos días."
+
+    "Han construido remos con ramas gruesas y un timón rudimentario con una tabla rota y cuerda vegetal."
+
+    "El grupo la rodea. No hay viento aún, pero hay decisión."
+
+    menu:
+        "Dar una última indicación técnica":
+            y "Aseguren las reservas con doble nudo. Si se cae algo al agua, no hay segunda oportunidad."
+            "El grupo ajusta las sogas. Tu atención al detalle marca la diferencia."
+
+        "Compartir una reflexión emocional":
+            y "No sé si esto va a funcionar. Pero lo hicimos juntos. Y eso ya es algo."
+            "Algunos bajan la mirada. Otros sonríen. Hay algo más fuerte que el miedo: el vínculo."
+
+    "La balsa queda en la orilla. Lista para partir, esperando el momento justo."
+
+    jump cap_final_balsa_lanzamiento
+
+label cap_final_hoguera_avion_aparece:
+
+    scene cielo_nublado
+    with fade
+
+    "Una figura metálica aparece entre las nubes. Es un avión."
+    "Pero la visibilidad es mala. Empieza a caer una Llovizna fina y el viento parece ir en aumento."
+
+    show laura irascible at left
+    l "¡Ahí está! ¡Lo vi! ¡Es ahora o nunca!"
+
+    show charles despreocupado at centerleft
+    c "¿Y si no nos ve? ¿Y si es solo una nube con forma de esperanza?"
+
+    show erika decidida at center
+    k "¡No es momento para bromas! Hay que encender la pira ya."
+
+    show marina nerviosa at centerright
+    m "¿Y si el viento la apaga? ¿Y si no funciona?"
+    hide charles
+    show bob firme at right
+    b "Calma. Tenemos una oportunidad. Pero hay que actuar con cabeza."
+
+    "El grupo se agita. Algunos discuten, otros dudan. La tensión escala."
+
+    show ingrid pensativa at centerright
+
+    l "Las ramas están húmedas. No prenderán fácil."
+
+    i "Si usamos corteza de palma y resina, podríamos lograr una combustión más estable."
+
+    "La situacion es un caos, muchas voces y poco tiempo para resaolver el problema."
+    $ caos = 0
+    menu:
+        "Tomar el liderazgo y asignar tareas":
+            y "Erika, dirige el encendido. Ingrid, prepara la mezcla. Tomás, protege la base. Bob, vigila el avión. Laura y Charles, ayuden sin discutir."
+            "El grupo se reorganiza. Hay tensión, pero obedecen."
+            $ liderazgo += 1
+
+        "Intentar mediar entre las posturas":
+            y "Todos quieren lo mejor. Pero si no nos escuchamos, vamos a fallar. Ingrid, ¿puedes explicar tu propuesta?"
+            i "Sí. Si usamos resina y corteza seca, el fuego resistirá el viento."
+            k "Entonces vamos con eso. Pero rápido."
+            $ liderazgo += 1
+
+        "Dejar que el grupo actúe sin intervenir":
+            y "No voy a meterme. Que cada uno haga lo que crea mejor."
+            "El grupo se dispersa. Hay caos. Algunos siguen a Erika, otros a Ingrid. Charles se distrae. Marina entra en pánico."
+            $ caos += 1
+
+    "El avión parece girar lentamente. ¿Está alejándose?"
+
+    hide laura
+    hide charles
+    hide erika
+    hide marina
+    hide bob
+    hide tomas
+    hide ingrid
+
+    jump cap_final_hoguera_intento_fallido
+
+label cap_final_hoguera_intento_fallido:
+
+    scene campamento_lluvia
+    with fade
+
+    "Intentan encender la pira. Las hojas prenden, pero el viento las apaga. El avión gira lentamente, alejándose."
+
+    show erika frustrada at center
+    show charles exaltado at centerleft
+    show marina llorando at left
+    show bob evaluando at right
+    show laura molesta at centerright
+
+    k "¡No prende! ¡El viento lo arruina todo!"
+
+    c "¡Pongan toda la resina de una! ¡No hay tiempo!"
+
+    m "¡No, no! ¡Eso es peligroso! Puede explotar y desarmar toda la pira."
+
+    b "Podríamos agregar mas con cuidado. Pero hay que decidir ya."
+
+    l "¡Esto es un desastre! Nadie escucha. Nadie manda."
+
+    show tomas concentrado at centerleft
+    show ingrid analizando at centerright
+
+    t "Tengo ramas gruesas. Pero necesitamos calor constante."
+
+    i "La resina está lista. Pero necesitamos proteger el fuego del viento."
+
+    "Hay que actuar. Hay múltiples frentes abiertos."
+
+    menu:
+        "Usar toda la resina disponible para encender la pira":
+            y "No hay tiempo. Usamos la resina. Bob, tú controlas que no se ponga mucha de una sola vez."
+            "Charles corre a buscarla. Erika prepara la base. Marina se aleja, temblando. Ingrid analiza el mejor lugar para agregar la resina."
+            $ liderazgo += 1
+
+        "Buscar otra fuente de combustible menos riesgosa":
+            y "No arriesgaremos todo. Tomas, busca corteza seca. Ingrid, mezcla hojarasca con resina. Laura, ayuda a proteger la base."
+            "Erika protesta, pero acepta. Charles se impacienta. Bob observa en silencio."
+            $ liderazgo += 1
+
+        "Calmar a Marina y reorganizar al grupo":
+            y "Marina, respira. No estás sola. Bob, toma el control del encendido. Erika, apóyalo. Charles, sin bromas."
+            m "Gracias... estoy bien. Lo intentaré."
+            "El grupo se reorganiza. El avión aún no se ha ido del todo."
+            $ liderazgo += 1
+
+        "Imponer órdenes con firmeza":
+            y "¡Basta de dudas! Resina, ramas gruesas y predemos el fuego ya! ¡Vamos, sin peros!"
+            "El grupo obedece, pero hay tensión. Laura lanza una mirada dura. Marina se aleja."
+
+    "La tensión es máxima. El fuego aún no prende. El avión parece dudar en su trayectoria."
+
+    hide erika
+    hide charles
+    hide marina
+    hide bob
+    hide laura
+    hide tomas
+    hide ingrid
+
+    jump cap_final_hoguera_reaccion_grupal
+
+label cap_final_hoguera_reaccion_grupal:
+
+    scene campamento_lluvia_intensa
+    with fade
+
+    "La lluvia arrecia. El viento sopla con fuerza. El avión parece girar para alejarse. El grupo entra en frenesí."
+
+    show erika decidida at center
+    k "¡Vamos! ¡No se detengan! ¡Protejan la base!"
+    hide erika
+
+    show bob calculador at centerleft
+    b "Si usamos la lona del refugio como cortaviento, podríamos estabilizar el fuego."
+    hide bob
+
+    show ingrid tensa at centerright
+    i "La mezcla está lista. Pero hay que encenderla con algo más potente."
+    hide ingrid
+
+    show tomas concentrado at center
+    t "Está el frasco de alcohol de la caja enterrada."
+    hide tomas
+
+    show laura alterada at left
+    l "¡No hay tiempo! ¡Tiren toda la resina y ya!"
+    hide laura
+
+    show marina colapsando at center
+    m "¡No quiero morir aquí! ¡No quiero!"
+    hide marina
+
+    show charles improvisando at center
+    c "¡Alcohol y resina! ¿Y si las usamos para prender todo de golpe?"
+    hide charles
+
+    "El jugador debe elegir entre dos planes contradictorios:"
+
+    menu:
+        "Plan A: método seguro y técnico (lona + proteger entre todos la base)":
+            show bob firme at centerleft
+            show tomas concentrado at center
+            show ingrid decidida at centerright
+
+            y "Vamos con el plan técnico. Bob, Tomas, coloquen la lona. Los demás a proteger la base del viento y la lluvia."
+
+            b "Entendido. La lona va contra el viento."
+            t "Espero que funcione."
+            i "¡Sujeten bien la base!"
+
+            hide bob
+            hide tomas
+            hide ingrid
+
+            $ estrategia_final += 1
+
+        "Plan B: método rápido y riesgoso (alcohol + resina)":
+            show charles exaltado at centerleft
+            show laura decidida at centerright
+
+            y "No hay tiempo. Charles, trae el alcohol. Laura, Bob preparen el resto de la resina. Erika, enciende esas hojas secas."
+
+            c "¡Esto va a ser épico o fatal!"
+            l "¡Ya está! ¡Prende!"
+
+            hide charles
+            hide laura
+
+    "Mientras se ejecuta el plan, Marina tiene una crisis emocional."
+
+    show marina temblando at center
+
+    menu:
+        "Ayudar a Marina a recuperar la calma":
+            y "Marina, mírame. Respira. Estamos cerca. No te rindas ahora."
+            m "Lo intento... gracias..."
+            hide marina
+            $ liderazgo += 1
+
+        "Ignorar la crisis y enfocarse en el fuego":
+            y "No hay tiempo para emociones. ¡Concéntrense!"
+            m "..."
+            hide marina
+
+    "Finalmente, el fuego prende. Una columna de humo negro se eleva. El grupo contiene la respiración."
+
+    jump cap_final_hoguera_encendido
+
+label cap_final_hoguera_encendido:
+
+    scene campamento_hoguera_encendida
+    with fade
+
+    "La pira finalmente prende. Las llamas crecen. Una columna de humo negro se eleva hacia el cielo gris."
+
+    show erika aliviada at center
+    k "Lo logramos... ahora depende de ellos."
+    hide erika
+
+    show bob observando at centerleft
+    b "El humo es denso. Si están atentos, lo verán."
+    hide bob
+
+    "El grupo se reúne en silencio. Todos miran al cielo. El avión parece girar... ¿está regresando?"
+
+    show marina esperanzada at center
+    m "¿Está volviendo? ¿Lo logramos?"
+    hide marina
+
+    show laura emocionada at right
+    l "¡Sí! ¡Está girando! ¡Nos vio!"
+    hide laura
+
+    show charles eufórico at centerleft
+    c "¡Nos vio! ¡Nos vio! ¡Estamos salvados!"
+    hide charles
+
+    show tomas sonriendo at centerright
+    t "Nunca pensé que me alegraría tanto de ver un avión."
+    hide tomas
+
+    show ingrid reflexiva at center
+    i "La ciencia y el caos... funcionaron juntos."
+    hide ingrid
+
+    "El avión pasa sobre sus cabezas, bajo y lento. Desde la cabina, alguien saluda con la mano. Luego gira y se aleja por donde había llegado."
+
+    show erika emocionada at center
+    k "Van a volver. El rescate es inminente."
+    hide erika
+
+    "El grupo estalla en gritos, abrazos, risas. Algunos lloran. Otros simplemente se sientan, agotados pero aliviados."
+
+    menu:
+        "Celebrar con el grupo":
+            y "¡Lo logramos! ¡Juntos!"
+            "Te unes a los abrazos y festejos. La tensión se disuelve en alegría compartida."
+
+
+        "Quedarse en silencio, observando":
+            y "..."
+            "Observas desde la distancia. El humo aún se eleva. El cielo comienza a despejarse."
+
+        "Buscar a alguien en particular":
+            menu:
+                "Buscar a Marina":
+                    y "¿Estás bien?"
+                    show marina emocionada at center
+                    m "Sí... gracias a ti."
+                    hide marina
+                    $ marina += 1
+
+                "Buscar a Erika":
+                    y "Buen trabajo, líder."
+                    show erika agradecida at center
+                    k "No habría funcionado sin todos."
+                    hide erika
+                    $ erika += 1
+
+                "Buscar a Charles":
+                    y "No estuvo tan mal tu idea."
+                    show charles orgulloso at center
+                    c "¿Viste? El caos tiene estilo."
+                    hide charles
+                    $ charles += 1
+
+    jump epilogo_isla
+
+label cap_final_balsa_lanzamiento:
+
+    scene playa_balsa
+    with fade
+
+    "La balsa está lista. Hecha con troncos, cuerdas y esperanza. El grupo la empuja al agua y sube con cuidado."
+
+    show bob al mando at center
+    b "Charles, vigila el equilibrio. Marina, cuida el agua y la comida. Tomás, Laura, Ingrid y Erika en los remos. Yo voy al timón."
+
+    b "¿[nombre_jugador], dónde crees que puedes aportar más?"
+
+    menu:
+        "Tomar el timón":
+            y "Yo dirijo. Bob, tú puedes estar atento a la corriente."
+            b "Bien, si crees que puedes hacerlo, yo me fijo en las corrientes."
+            $ rol_timon = True
+
+        "Remar junto a Erika, Tomás y el resto":
+            y "Voy a remar. Necesitamos fuerza."
+            b "Buena elección."
+            $ rol_remo = True
+
+        "Encargarse del equilibrio y provisiones":
+            y "Me ocupo de que nada se pierda. Marina, ayúdame."
+            show marina at left
+            m "Sí... haré lo que pueda."
+            $ rol_soporte = True
+
+    hide bob
+    hide erika
+
+    show charles incómodo at center
+    c "¿Y yo por qué tengo que vigilar el equilibrio? ¡No soy un contrapeso humano!"
+
+    show laura molesta at centerleft
+    l "Porque si te caes, nos hundimos. ¿Querés remar?"
+
+    show marina nerviosa at centerright
+    m "Por favor, no peleen. Ya estamos en el agua..."
+
+    "La situacion escala y distrae a todos. La balsa toma una ola un poco en diagonal, haciendo que todo cruja y se sacuda."
+
+    menu:
+        "Reasignar tareas":
+            if rol_soporte:
+                y "Charles, ven aqui a ayudar con las provisiones a Marina."
+                y "Yo me encargo de equilibrar la balsa."
+                $ rol_soporte = False
+                $ rol_equilibrio = True
+            else:
+                y "Laura, vigila el equilibrio. Charles, agarra un remo y ayuda."
+                l "Está bien. Pero estoy cansada de que actúe como un niño."
+
+        "Imponer orden":
+            y "Charles, hacé lo que te toca. No estamos en un crucero."
+            c "Ok, ok..."
+            $ liderazgo += 1
+
+        "Ignorar el conflicto":
+            y "..."
+            "Laura y Charles siguen discutiendo. Marina se pone más nerviosa."
+            $ caos += 1
+
+    hide charles
+    hide laura
+    hide marina
+
+    jump cap_final_balsa_olas
+
+label cap_final_balsa_olas:
+
+    scene mar_rompiente
+    with fade
+
+    "La balsa avanza lentamente. Las olas crecen cerca de la rompiente. El grupo se tensa."
+
+    show bob concentrado at center
+    b "¡Mantengan el ritmo! ¡No se detengan!"
+
+    if rol_timon:
+        b "¡[nombre_jugador]! Cuidado, hay que tomar esa corriente de a poco. Si entramos de frente nos va a dar vuelta."
+    else:
+        show bob concentrado at centerleft
+        b "La corriente se cruza. Voy a tener que girar un poco y tomar la corriente con suavidad.."
+
+    show ingrid analítica at centerright
+    i "No. Si giramos, perdemos fuerza. Hay que atravesar recto."
+
+    "El grupo se divide. Hay que decidir decidir si seguir el plan de Ingrid o tomar la corriente con un giro."
+
+    menu:
+        "Atravesar recto la corriente para mantener impulso":
+            y "Vamos recto. No perdamos impulso."
+            k "Bien. Todos, mantengan el ritmo."
+            t "¡A remar!"
+            $ caos -= 1
+
+
+        "Girar un poco la balsa para tomar la corriente de a poco":
+            y "Giramos un poco. Tomás, marca el ángulo."
+            show tomas at left
+            t "Entendido."
+            show erika at right
+            k "Espero que funcione..."
+            $ caos -= 1
+
+        "No decidir, dejar que el grupo actúe":
+            y "..."
+            "Erika y Tomás discuten. Bob toma el mando. La balsa se sacude."
+            $ caos += 1
+
+    hide bob
+    hide tomas
+    hide erika
+    hide ingrid
+
+    show marina asustada at center
+    m "¡Nos vamos a volcar! ¡No puedo...!"
+
+    menu:
+        "Calmar a Marina":
+            y "Respira. Estamos bien. Confía en nosotros."
+            m "Lo intento..."
+            $ liderazgo += 1
+
+        "Ignorarla y concentrarse en remar":
+            y "¡Remen! No hay tiempo para distracciones."
+            m "..."
+            $ caos += 1
+
+
+    hide marina
+
+    "La balsa supera la rompiente. El grupo respira aliviado, pero el mar sigue agitado."
+
+    jump cap_final_balsa_corriente
+
+label cap_final_balsa_corriente:
+
+    scene mar_abierto
+    with dissolve
+    "Luego de varias horas de esfuerzo y sobresaltos, la balsa está bastante cerca de la costa a la que se dirigían,"
+    "Parece una isla pequeña o quizas la punta de de alguna lengua de tierra de una isla mas grande. Aún es dificil de decir a la sitancia."
+    "La balsa se acerca de la costa. El grupo se da cuenta de que una corriente los arrastra hacia mar abierto."
+
+    show tomas tenso at centerleft
+    t "Esto no está bien. Nos está llevando mar adentro."
+
+    show erika calculando at centerright
+    k "La corriente es fuerte. Si desmontamos la balsa, podríamos nadar en partes."
+
+    show bob frustrado at center
+    b "¡No! Si saltamos, nos dispersamos. Hay que resistir y esperar que cambie."
+
+    show marina desesperada at right
+    m "¡No quiero morir aquí!"
+
+    "El grupo se divide. El jugador debe tomar una decisión."
+    jump cap_final_balsa_corriente_desicion
+
+label cap_final_balsa_corriente_desicion:
+    "El tiempo se acaba y hay que tomar una desicion...ya."
+
+    menu:
+        "Estrellar la balsa hacia una roca cercana, y luego nadar hasta la costa.":
+            y "Erika, Bob, todos a los remos. Ttratemos de golpear contra esa roca a medio camino. Tomás, ayuda a Marina."
+            k "Es muy arriesgado pero puede funcionar."
+            i "Es probable que alguno se lastime cuando se rompa la balsa"
+            l "Nos vamos a quedar sin agua, ni nada..."
+            m "No se si puedo nadar tanto..."
+            $ liderazgo += 1
+            jump resolucion_corriente_nado_check
+
+        "Resistir en la balsa y remar hasta que la corriente ceda":
+            y "Nos quedamos juntos. Bob, guia la balsa. Los demás...rememos todos."
+            b "Buena decisión. No nos separemos."
+            c "No hay remos para todos."
+            i "Si fallamos no hay manera de volver a ninguna isla."
+            $ liderazgo += 1
+            jump resolucion_corriente_resistencia_check
+
+        "Tomar una acción impulsiva y saltar sin consenso":
+            y "¡Salten! ¡Ahora!"
+            "El grupo entra en caos. Algunos dudan, otros obedecen."
+            $ caos += 1
+            jump resolucion_corriente_impulsiva
+
+label resolucion_corriente_nado_check:
+    "Todos opinan, el tiempo se acaba."
+    menu:
+        "Mantener el plan de ir contra la roca y nadar a la orilla desde ahi":
+            y "¡Prepárense! Vamos a estrellarnos contra la roca"
+            y "Todos listos para nadar cuando eso pase"
+            jump resolucion_corriente_nado
+        "Quizas no es un buen plan, mejor pensar otra opcion.":
+            jump cap_final_balsa_corriente_desicion
+
+label resolucion_corriente_resistencia_check:
+    "La corriente cada vez es mas fuerte, hay que decidir."
+    menu:
+        "Mantener el plan de remar rumbo a la isla contra la corriente":
+            y "¡Remen! Con lo que tengan, saquen partes de la balsa si es necesario"
+            y "Podemos tomar turnos para remar con los que no consigan remos"
+            jump resolucion_corriente_resistencia
+        "Quizas no es un buen plan, mejor pensar otra opcion.":
+            jump cap_final_balsa_corriente_desicion
+
+label resolucion_corriente_nado:
+
+    scene mar_nado
+    with fade
+    "¡CRASHHH! La balsa se estrella contra la roca, agua, espuma y troncos vuelan por el aire."
+    "El grupo cae al gua y se dispersa. La balsa se desarma. Erika guía a los demás con señales."
+    $ salvados = 0
+    jump resolucion_corriente_nado_grupo
+
+label resolucion_corriente_nado_grupo:
+    $ salvados += 1
+    menu:
+        "Esperas a que todos estén nadando hacia la orilla" if salvados < 3:
+            "El cansancio hace que pesen los brazos y las piernas"
+            "No estas segur[e] de cuanto más puedes mantenerte a flote entre las olas."
+            "Ayudas a quienes están mas rezagados y con mas dificultades para nadar"
+            jump resolucion_corriente_nado_grupo
+
+        "Decides asegurarte de llegar tú tambien a la orilla" if salvados < 3:
+            "La última ola te hizo tragar agua salada, hay gritos por todos lados."
+            "Nadas con determinación hacia la orilla, esperas que los demás puedan llegar a salvo..."
+            "...pero decides que es momento de cuidarte primero."
+            $ todos_salvados = False
+        "Parece que todos están ya nadando a la orilla" if salvados == 3:
+            "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
+            "Nadas entre las olas rumbo a la orilla... "
+            "...pero los brazos te pensan más y más, las olas te cubren."
+            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            b "Debes cuidarte, casi te ahogas por salvar los demas."
+            $ todos_salvados = True
+        "Te aseguras que todos estén a salvo." if salvados == 3:
+            "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
+            "Nadas entre las olas rumbo a la orilla... "
+            "...pero los brazos te pensan más y más, las olas te cubren."
+            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            b "Debes cuidarte, casi te ahogas por salvar los demas."
+            $ todos_salvados = True
+
+
+    "Tras mucho esfuerzo, logran llegar a una costa desconocida."
+
+    show tomas agotado at center
+    t "No sé cómo lo logramos..."
+
+    show erika aliviada at centerright
+    k "Las olas cerca de la orilla ayudaron un poco. Pero fue arriesgado."
+
+    jump cap_final_balsa_rescate
+
+label resolucion_corriente_resistencia:
+
+    scene mar_espera
+    with fade
+
+    "El grupo permanece unido en la balsa. Bob refuerza el timón con cuerdas improvisadas."
+
+    "Todos reman con fuerza, Bob gruñe al timón tratando de mantener el curso. Ingrid delante tuyo rema con determinación."
+
+    "Una ola golpea la balsa de costado. Ingrid deja caer su remo al agua y al intentar recuperarlo trastabilla y pierde el equilibrio."
+    menu: 
+        "Tratar de ayudarla para que no caiga de la balsa":
+            "Te estiras y tratas de impularla al interior de la balsa"
+            i "¡Me caigo! ¡Ayudaaaaaa!"
+            menu:
+                "Empujarla al interior de la balsa a como de lugar":
+                    "La empujas por el hombro, pero ella ya está cayendo."
+                    "Su peso te arrastra al borde la balsa."
+                    menu: 
+                        "Salvar a Ingrid":
+                            "Empujas a Ingrid y mientras ella cae al interior de la balsa, tú te caes de cabeza al agua."
+                            b "¡Nooooo, [nombre_personaje] se cayó al agua!"
+                            c "Yo puedo agarrarl[e]"
+                            "Charles se inclina y te agarra del brazo"
+                            "Sientes como hace fuerza y te saca de debajo del agua. Varias manos te agarran y te suben a la balsa."
+                            "Escupiendo agua y jadeando, te recuperas boca arriba en el piso de la balsa."
+                            $ salvar_ingrid_cae_player = True
+                        "Salvarte a ti":
+                            "Te agarras del bolde de la balsa y logras volver a tu posicion."
+                            "Mientras te recuperas, ves como Ingrid se cae de cabeza al agua."
+                            $ salvar_ingrid_cae_ingrid = True
+                            b "¡Nooooo, Ingrid se cayó al agua!"
+                            c "Yo puedo agarrarla"
+                            "Charles se inclina y la agarra del brazo"
+                            "SiLe saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
+                            "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa."
+                "Mantenerte firme en tu posición y ayudar en lo posible.":
+                    "Tratas de empujarla al interior de la balsa pero ya está muy al borde y no puedes sujetarla bien"
+                    "Ves como cae por el borde del bote y se hunde."
+                    $ salvar_ingrid_cae_ingrid = True
+                    b "¡Nooooo, Ingrid se cayó al agua!"
+                    c "Yo puedo agarrarla"
+                    "Charles se inclina y la agarra del brazo"
+                    "Con esfeurzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
+                    "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa."   
+        "Dejar de remar para recuperar el remo que Ingrid dejó caer al agua.":
+            "Aseguras tu remo con las piernas y te inclinas para recoger el remo."
+            $ salvar_ingrid_remo = True
+            "Recoges el remo y se lo pasas a Charles que no tiene uno"
+            y ¡"Rema! ¡O vamos a terminar a la deriva!"
+            "Le tiras el remo a Charles al mismo tiempo que Ingrid cae al agua."
+            b "¡Nooooo, Ingrid se cayó al agua!"
+            c "Yo puedo agarrarla... ¡ufff!"
+            "El remo que le tiraste lo distrae y falla el intento. Ingrid pasa de largo y la balsa sigue de largo."
+            "Bob en el ultimo momento se inclina y logra agarrarla cuando la la balsa la dejaba atras."
+            "Una ola terminó ayudando dandole un impulso que terminó con ambos escupiendo agua en el piso de la balsa."
+
+        "Mantienes la intensidad de tu remo para compensar que Ingrid no está remando":
+            "Agarras con fuerza el remo y redoblas tus esfuerzos para vencer la corriente"
+            $ salvar_ingrid_ignorar = True
+            y "¡No dejen de remar! Estamos en el medio de la corriente, si paramos ahora estamos perdidos"
+            "Ingrid es golpeada por una ola y termina cayendo al agua"
+            b "¡Nooooo, Ingrid se cayó al agua!"
+            c "Yo puedo agarrarla"
+            "Charles se inclina y la agarra del brazo"
+            "Con esfuerzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
+            "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa." 
+
+    show bob at left
+    b "¡Es ahora o nunca! Voy a cruzar la balsa en la corriente, o salimos o nos arrastra."
+    show erika at right
+    k "¡A remar!"
+    "Todos toman sus remos, se acomodan ràpido en sus posiciones y comienzan a remar con todo."
+    "La corriente cambia lentamente, las olas los levantan y empujan hacia la orilla."
+
+    show bob orgulloso at center
+    b "Sabía que aguantar era lo correcto."
+
+    show marina emocionada at right
+    m "¡Tierra! ¡Lo logramos!"
+
+    jump cap_final_balsa_rescate
+
+label resolucion_corriente_impulsiva:
+
+    scene mar_caos
+    with fade
+
+    "El grupo se lanza al agua sin coordinación. Algunos se separan, otros se aferran a restos de la balsa."
+    $ salvados = 0
+    jump resolucion_corriente_impulsiva_check
+
+label resolucion_corriente_impulsiva_check:
+    $ salvados += 1
+    menu:
+        "Esperas a que todos estén nadando hacia la orilla" if salvados < 3:
+            "El cansancio hace que pesen los brazos y las piernas"
+            "No estas segur[e] de cuanto más puedes mantenerte a flote entre las olas."
+            "Ayudas a quienes están mas rezagados y con mas dificultades para nadar"
+            jump resolucion_corriente_impulsiva_check
+
+        "Decides asegurarte de llegar tú tambien a la orilla" if salvados < 3:
+            "La última ola te hizo tragar agua salada, hay gritos por todos lados."
+            "Nadas con determinación hacia la orilla, esperas que los demás puedan llegar a salvo..."
+            "...pero decides que es momento de cuidarte primero."
+            $ todos_salvados = False
+        "Parece que todos están ya nadando a la orilla" if salvados == 3:
+            "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
+            "Nadas entre las olas rumbo a la orilla... "
+            "...pero los brazos te pensan más y más, las olas te cubren."
+            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            b "Debes cuidarte, casi te ahogas por salvar los demas."
+            $ todos_salvados = True
+        "Te aseguras que todos estén a salvo." if salvados == 3:
+            "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
+            "Nadas entre las olas rumbo a la orilla... "
+            "...pero los brazos te pensan más y más, las olas te cubren."
+            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            b "Debes cuidarte, casi te ahogas por salvar los demas."
+            $ todos_salvados = True
+
+    "La corriente los arrastra, y por suerte, los conduce a una costa rocosa."
+
+    show erika molesta at center
+    k "Eso fue una locura. Pero funcionó... de algún modo."
+
+    show tomas distante at centerleft
+    t "No todos están bien. Algunos casi se ahogan, otros se lastimaron con las rocas."
+    t "Esto fue muy insensato"
+    menu:
+        "Actué y ahora estamos a salvo":
+            "Soluciones no problemas, Tomas. No iba a ser fácil de ninguna manera. Yo decidí y actué"
+            "Tomas te mira con intensidad, parece estar por decir algo, pero sigue caminando y te ignora."
+            $ tomas -= 1
+        "Lamento la impulsividad":
+            y "La verdad, tienes razon Tomas. Afortunadamente salió bien."
+            t "Afortunadamente. Disculpas aceptadas."
+
+
+    jump cap_final_balsa_rescate
+
+label cap_final_balsa_rescate:
+
+    scene isla_pequena
+    with fade
+
+    "El grupo llega a la costa de una isla diminuta. La vegetación es escasa, y una colina rocosa se alza en el centro."
+
+    show bob observador at center
+    b "No parece haber mucho aquí..."
+
+    show erika decidida at centerright
+    k "Subamos esa colina. Desde arriba podremos ver mejor."
+
+    show marina at right
+    m "¿Que vamos a hacer ahora? Estamos peor que antes"
+
+    show charles at centerleft
+    c "Algo se nos ocurrirá, Marina. Al menos acá no parece haber jabalíes."
+
+    show marina sonriente 
+    m "Solo podría haber uno, parado en la punta de la colina."
+    "Algunos se sonrien, pero todos alegran el semblante. Ese toque de humor de Charles y Marina les devuelve un poco de esperanza."
+
+    "El grupo asciende con esfuerzo. El sol golpea fuerte, y el viento trae olor a sal y combustible quemado."
+
+    scene cima_colina
+    with dissolve
+
+    "Desde la cima, el grupo observa el otro lado de la isla. Un pequeño bote de pesca se balancea cerca de la costa."
+
+    show marina emocionada at center
+    m "¡Un bote! ¡Un bote de verdad!"
+
+    show tomas euforico at centerleft
+    t "¡Griten! ¡Que nos vean!"
+
+    "Todos gritan con fuerza. Uno de los pescadores en el bote se gira, los ve, y responde con un grito."
+
+    p "¡Los vimos! ¡Vamos a pedir ayuda!"
+
+    "El grupo se queda en silencio por un momento. Luego, estalla en festejos."
+
+    show bob sonriendo at right
+    b "Lo logramos..."
+
+    show erika aliviada at left
+    k "Estamos a salvo."
+
+    show marina llorando at center
+    m "Pensé que no saldríamos de esta..."
+
+    "El sol comienza a descender. El grupo se abraza, exhausto pero esperanzado. El rescate es inminente."
+
+    jump epilogo_isla
+
+label epilogo_isla:
+
+    scene costa_isla
+    with fade
+
+    "Horas después, un barco de rescate llega a la isla. Un grupo de médicos y rescatistas baja con rapidez."
+
+    show rescatista at center
+    r "Tranquilos, estamos aquí para ayudarlos. ¿Hay heridos?"
+
+    "El grupo es atendido, hidratado, y guiado al barco. La tensión comienza a disiparse."
+
+    scene cubierta_barco
+    with dissolve
+
+    "Ya en la cubierta, mientras el barco se aleja de la isla, el grupo se reúne. El viento es suave, y el mar tranquilo."
+
+    ## Diálogos según relación con el jugador
+
+    if bob >= 2:
+        show bob reflexivo at left
+        b "Nunca pensé que confiar en vos me iba a salvar la vida. Gracias por no rendirte."
+
+    elif bob <= -2:
+        show bob distante at left
+        b "No sé si fue suerte o qué, pero no vuelvo a seguir tus decisiones."
+
+    else:
+        show bob neutral at left
+        b "Fue duro. No siempre estuve de acuerdo con vos, pero salimos adelante."
+
+    if erika >= 2:
+        show erika serena at center
+        k "Tu forma de pensar nos mantuvo unidos. Me alegra haber compartido esto con vos."
+
+    elif erika <= -2:
+        show erika fría at center
+        k "Tomaste decisiones que casi nos cuestan todo. No lo voy a olvidar."
+
+    else:
+        show erika pensativa at center
+        k "Aprendí mucho. No sé si lo hicimos bien, pero sobrevivimos."
+
+    if tomas >= 2:
+        show tomas sonriente at right
+        t "Sos de los que no se quiebran. Me alegra haber estado con vos en esto."
+
+    elif tomas <= -2:
+        show tomas serio at right
+        t "No me gustó cómo manejaste las cosas. Pero al menos estamos vivos."
+
+    else:
+        show tomas tranquilo at right
+        t "Fue una locura. No sé si lo hicimos bien, pero funcionó."
+
+    if marina >= 2:
+        show marina emocionada at center
+        m "Nunca me sentí tan protegida. Gracias por cuidarme."
+
+    elif marina <= -2:
+        show marina distante at center
+        m "No quiero hablar de lo que pasó. No contigo."
+
+    else:
+        show marina vulnerable at center
+        m "Todavía estoy procesando todo. Pero gracias por estar ahí."
+
+    ## Reflexión final del jugador
+
+    "Mientras el barco se aleja, el jugador observa el horizonte. El grupo guarda silencio por un momento."
+
+    menu:
+        "Fue una experiencia transformadora":
+            y "No somos los mismos. Algo cambió en todos nosotros."
+            $ reflexion = "transformadora"
+
+        "Solo quiero olvidar lo que pasó":
+            y "Prefiero no pensar más en esto. Que quede atrás."
+            $ reflexion = "evasiva"
+
+        "Sobrevivimos, y eso es suficiente":
+            y "No sé qué aprendí. Pero sobrevivimos. Eso basta."
+            $ reflexion = "pragmática"
+
+    "El sol cae sobre el mar. El barco sigue su curso. El grupo, marcado por la experiencia, comienza a imaginar lo que vendrá."
+
+    "El juego termina aqui!!!!"
+
+    return
+
