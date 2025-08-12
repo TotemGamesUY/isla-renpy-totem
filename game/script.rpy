@@ -514,6 +514,7 @@ default decision_post_espera = ""
 default cap12_choice = ""
 default influencia_charles = 0
 default proyecto = ""
+default liderazgo = 0
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -533,7 +534,6 @@ default stuff_bidon_agua = False
 default stuff_bote = False
 
 #define variables de stats
-default liderazgo = 0
 default sed = 1
 default hambre = 1
 default cansancio = 1
@@ -774,7 +774,8 @@ init python:
 ## Aca comienza la PARTE 1 #################   ###############################################################################################################
 ############################################   ###############################################################################################################
 
-label pedir_id:
+label pedir_id_2:
+    #esta logica es para pedir ID solo en android, ahora no se esta aplicando.
     if renpy.android:  # Solo mostrar en Android
         while True:  # Se repite hasta que el ID sea válido
             show screen pedir_id_screen
@@ -796,7 +797,56 @@ label pedir_id:
             else:
                 "Debes ingresar un ID válido."
 
+label pedir_id:
+    while True:  # Se repite hasta que el ID sea válido
+        show screen pedir_id_screen
+        $ resultado = ui.interact()
+
+        if resultado:
+                
+            if input_id in player_ids:
+                $ player_id = input_id  # Asignar el ID válido
+                    
+                "ID válido registrado: [player_id]."
+                hide screen pedir_id_screen
+                    
+                jump start_game  # Sale del label si el ID es válido
+                
+            else:
+                "ID inválido. Intenta nuevamente."
+
+        else:
+            "Debes ingresar un ID válido."
+
 label pedir_codigo_capitulo:
+    while True:  # Se repite hasta que el ID sea válido
+        show screen pedir_codigo_capitulo_screen
+        $ resultado = ui.interact()
+        
+        if resultado:
+
+            hide screen pedir_codigo_capitulo_screen
+
+            if renpy.android:  # Solo mostrar en Android   
+                if persistent.cantidad_capitulos == 4 and resultado == "44":
+                    jump chapter_5_start
+                elif persistent.cantidad_capitulos == 8 and resultado == "88":
+                    jump chapter_9_start
+                elif persistent.cantidad_capitulos == 10 and resultado == "00om":
+                    jump chapter_11_start
+            else :
+                if persistent.cantidad_capitulos == 4 and resultado == "44ac":
+                    jump chapter_5_start
+                elif persistent.cantidad_capitulos == 8 and resultado == "88":
+                    jump chapter_9_start
+                elif persistent.cantidad_capitulos == 10 and resultado == "00om":
+                    jump chapter_11_start
+                
+        else:
+            "Código inválido. Intenta nuevamente."
+
+label pedir_codigo_capitulo_2:
+    #este no se esta usando ahora, tenia los capitulos diferenciados por android y pc
     while True:  # Se repite hasta que el ID sea válido
         show screen pedir_codigo_capitulo_screen
         $ resultado = ui.interact()
@@ -826,7 +876,7 @@ label pedir_codigo_capitulo:
             "Código inválido. Intenta nuevamente."
 
 label start:
-    #$ quick_menu = False  # Oculta el menú
+    $ quick_menu = False  # Oculta el menú
     # Inicializar el capítulo actual
     $ capitulo_actual = 0
 
@@ -842,10 +892,12 @@ label start:
     scene bg inicio at truecenter
     with Dissolve(.5)
 
-    if renpy.android:  # Si el juego está en Android, pedir ID
-        call pedir_id from _call_pedir_id
-    else:
-        jump start_game
+    call pedir_id from _call_pedir_id #esto es para que pida en todos los installs, si es solo para android usar el de abajo
+
+    #if renpy.android:  # Si el juego está en Android, pedir ID
+        #call pedir_id from _call_pedir_id
+    #else:
+        #jump start_game
 
 label start_game:
     $ persistent.cantidad_capitulos = 0
