@@ -14408,50 +14408,9 @@ label cap11_regreso_con_laura:
     c "Se que querrán oírlo todo acerca del tesoro, pero por favor, salgamos de aquí primero."
     hide charles with Dissolve(0.4)
 
-    "{i}El agua ya les llega a las rodillas, y hay pequeñas ondas que indican que el flujo de agua es cada vez mayor.{/i}"
+    "{i}Pequeñas ondas en la superficie indican que el flujo de agua es cada vez mayor.{/i}"
 
     jump cap11_salida_media_abertura
-
-label cap11_salida_media_abertura:
-
-    scene bg pasillo_agua_altura_pecho with fade
-    show screen combined_ui
-
-    "{i}Llegan a la abertura, los demás les gritan que se apuren. Está cayendo mucha agua formando una pequeña cascada.{/i}"
-
-    show marina triste at left with Dissolve(0.4)
-    m "La abertura está cerca. Pero el agua cae fuerte, hay que tener cuidado."
-
-    hide marina with Dissolve(0.4)
-
-    show laura triste at center with Dissolve(0.4)
-    l "(susurrando) Estoy agotada. Pero si alguien me guía… creo que puedo llegar."
-
-    hide laura with Dissolve(0.4)
-
-    show tomas hablando at right with Dissolve(0.4)
-    t "Esa piedra sobresale. Podemos usarla como escalón. Pero hay que moverse ya..."
-
-    hide tomas with Dissolve(0.4)
-
-    menu:
-        "Subís primero por la roca y abrís paso desde arriba":
-            $ tomas += 1
-            "{i}Tomás te impulsa con fuerza. Desde la piedra seca extendés la mano a Marina. La cadena se forma sin palabras, pero firme.{/i}"
-
-        "Sostenés a Laura mientras Marina se adelanta por la pendiente":
-            $ laura += 1
-            $ marina += 1
-            "{i}El agua golpea los muslos. Marina trepa con precisión. Laura se apoya contra vos, temblando. Entre los tres logran que avance.{/i}"
-
-        "Te quedás al final y vigilás que nadie se quede atrás":
-            $ bob += 1
-            "{i}Esperás, mirando cada sombra. Bob te extiende la mano, con gesto grave. Haces fuerza para trepar poco a poco con el agua cayendo y empujando hacia abajo. El último escalón cede.{/i}"
-            "{i}Quedas un instante colgado del brazo de Bob pero con un ultimo impulso logras llegar arriba.{/i}"
-
-    "{i}Una corriente más fuerte se filtra entre los pies. La salida no parece más cercana… hay que darse prisa.{/i}"
-
-    jump cap11_salida_media_tension
 
 label cap11_busqueda_charles:
 
@@ -14528,7 +14487,7 @@ label cap11_regreso_desde_excavacion:
 
     "{i}Charles camina detrás tuyo, con un trapo con las pocas joyas recogidas apretado entre sus dedos.{/i}"
     "{i}No dice mucho, pero se nota que aún está lidiando con la frustración de no haber podido rescatar algo más.{/i}"
-    "{i}El agua, que ahora alcanza sus rodillasm hace que cada paso requiera un gran esfuerzo, y es dificil ver donde pisar.{/i}"
+    "{i}El agua, que ahora alcanza sus rodillas hace que cada paso requiera un gran esfuerzo, y es dificil ver donde pisar.{/i}"
 
     show charles frustrado at center with Dissolve(0.4)
     c "Podríamos haber sacado el resto. Pero entiendo... era arriesgado. Tal vez podamos vuelver cuando baje la marea."
@@ -14630,7 +14589,7 @@ label cap11_salida_rapida_salida:
     "{i}La salida los recibe con luz ceniza. Las raíces del manglar los acogen y protegen, pero el aire está pesado.{/i}"
    
     show erika exhausta at left with Dissolve(0.4)
-    k "Están todos... temía que alguno fuera a quedarse atrás. Cada vez entra mas agua."
+    k "Están todos... temía que alguno fuera a quedarse atrás. Cada vez entra más agua."
     hide erika with Dissolve(0.4)
 
     show charles triste at center with Dissolve(0.4)    
@@ -14641,7 +14600,7 @@ label cap11_salida_rapida_salida:
     hide charles with Dissolve(0.4)
 
     "{i}El grupo se toma unos minutos para recuperar el aliento.{/i}"
-    "{i}Algunos se sientan en la arena mojada. Laura se revisa el vendaje. Bob se aparta, sin hablar.{/i}"
+    "{i}Algunos se sientan entre las raíces. Laura se revisa el vendaje. Bob se aparta, sin hablar.{/i}"
 
     menu:
         "Pese a todo, logramos salir. Y que eso es lo único que importa.":
@@ -14665,9 +14624,9 @@ label cap11_salida_rapida_salida:
 
     jump cap11_post_salida_rapida
 
-label cap11_salida_media_tension:
-
-    scene bg cueva_corriente_alta with fade
+label cap11_salida_media_abertura:
+    
+    scene bg pasillo_agua_altura_pecho with fade
     show screen combined_ui
 
     "{i}El agua te llega al pecho. Cada paso que das requiere un esfuerzo tremendo.{/i}"
@@ -14765,9 +14724,9 @@ label cap11_salida_media_salida:
             $ tomas += 1            
             "{i}Laura desvía la vista. Charles te mira como si lo hubieses insultado.{/i}"
             "{i}Comienzan a prepararse para regresar al refugio.{/i}"
-        "Esperas a que todos recuperen energías, y comienzas a caminar hacia el refugio sin decir más.":
+        "Esperar en silencio a que todos recuperen energías y comenzar a preparar el regreso.":
             $ bob += 1
-            "{i}Bob te sigue en silencio. El resto, de a tandas, los sigue desde atrás.{/i}"
+            "{i}De a poco recuperan el aliento y comienzan a organizarse para transportar a Laura hasta el refugio.{/i}"
 
     jump cap11_post_salida_media
 
@@ -14819,68 +14778,74 @@ label cap11_salida_tardia_salida:
 
     "{i}La salida los recibe con luz ceniza. Las raíces del manglar los acogen y protegen, pero el aire está pesado.{/i}"
 
-    show bob agotado at left with Dissolve(0.4)
-    b "Eso... estuvo cerca. Bien hecho, [nombre_personaje]. Ese tiburón no tenía chances contra tu madera de líder."
+    show bob agotado at right with Dissolve(0.4)
+    b "Eso... estuvo cerca. Bien hecho, [nombre_personaje]. Ese tiburón no tenía chances contra ti. Ya eres un viejo lobo marino."
     hide bob with Dissolve(0.4)
 
     show charles triste at center with Dissolve(0.4)
     c "Estas joyas... no son tan valiosas como ustedes. Lamento haberlos expuesto a semejantes peligros."
-    hide charles with Dissolve(0.4)  
+    hide charles with Dissolve(0.4)
+    
+    show erika conversando at left with Dissolve(0.4)
+    k "Ahora tenemos que esperar a que la marea retroceda para poder bajar hasta la playa."
+    l "Sugiero que aprovechen para descansar. Estas raíces serán nuestro refugio por la noche."
+    hide erika
+
+    "{i}Esta aventura les ha dejado marcados, y sus cuerpos cansados lo evidencian.{/i}"
 
     jump cap11_post_salida_tardia
-
-    ##########
-    # LUNES LLEGUÉ HASTA ACÁ
-    ##########
 
 label cap11_post_salida_tardia:
 
     scene bg rocas_marea_baja_amanece with fade
     show screen combined_ui
 
-    "{i}El mar retrocedió, rápidamente. El grupo desciende de la saliente. Nadie celebra. Nadie habla. El cuerpo duele. La cabeza más.{/i}"
-
-    "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol nace como una promesa hueca. El cansancio arrastra los pies como cadenas invisibles.{/i}"
+    "{i}Luego de unas horas, cerca del amanecer, el mar retrocede. El grupo desciende de la saliente. Nadie celebra. Nadie habla.{/i}"    
+    "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol nace como una promesa hueca. El cansancio les hace arrastrar los pies como cadenas invisibles.{/i}"
 
     $ hambre += 2
     $ sed += 2
     $ cansancio += 3
 
     show bob parado enojado at left with Dissolve(0.4)
-    b "¿Valió la pena? Lo pregunto en serio. ¿Todo ese riesgo por unas piedras mojadas?"
+    b "¿Valió la pena?"
+    b "Lo pregunto en serio."
+    b "¿Todo ese riesgo por unas piedras mojadas?"
 
     show marina triste at center with Dissolve(0.4)
-    m "La cueva casi nos ahoga… porque alguien quiso ir más profundo. Esto no fue grupo… fue egoismo."
+    m "Pudimos habernos ahogado ahí dentro... Y todo por un tesoro que... ¿de qué sirve aquí varados?"
 
     show charles triste at right with Dissolve(0.4)
-    c "Tomé una decisión. Pero no empujé a nadie. Cada uno eligió seguir."
+    c "Yo tomé la decisión que nadie más se atrevía a tomar, solo eso."
+    c "Ni Laura ni yo les pedimos que nos acompañaran, así que no se por qué nos vinieron a buscar."
 
     hide bob
     hide marina
     hide charles
     with Dissolve(0.4)
 
-    "{i}El tono sube. Las palabras cortan. Las culpas flotan como si buscaran a quién pegarse.{/i}"
+    "{i}Los demás lo miran, incrédulos de su ingratitud. Está claro que el no iba a poder cargar con Laura sin ayuda.{/i}"
 
     menu:
-        "Recriminás a Charles por haber puesto en riesgo a todos":
+        "Reprochar a Charles por haber puesto en riesgo a todos.":
             $ charles -= 1
             $ marina += 1
-            "{i}Charles baja la vista. Marina asiente. Nadie contradice.{/i}"
-        "Defendés que las decisiones fueron compartidas, no impuestas":
-            $ bob += 1
+            "{i}Charles baja la mirada. Marina asiente, apoyándote. Nadie te contradice.{/i}"
+        "Sostener que todos tomamos decisiones, tanto Charles y Laura, como el resto al salir a rescatarlos.":           
             $ charles += 1
             "{i}Bob se cruza de brazos. No acepta del todo, pero no discute. Charles te mira con cierto alivio.{/i}"
-        "Pedís que dejen de culparse. Lo importante es que todos están vivos":
+        "Pedir que dejen de culparse los unos a los otros. Lo importante es que todos están vivos":
             $ marina -= 1
             $ tomas += 1
-            "{i}Marina resopla con fastidio. Tomás te da una palmada muda en el hombro.{/i}"
+            "{i}Marina resopla con fastidio. Claramente no está conforme con dejarlo pasar.{/i}"
+            "{i}Tomás te da una palmada muda en el hombro. No te queda claro si está de acuerdo, pero si que respeta tu gratitud.{/i}"
 
-    "{i}El sonido interrumpe. Lejano. Agudo. Un motor en el aire. Un punto metálico cruza el cielo. Un avión. El grupo grita. Agitan los brazos. Saltan.{/i}"
+    "{i}Un sonido que no escuchaban hace mucho interrumpe la discusión.{/i}"
+    "{i}Lejano. Agudo. Un motor en el aire. Un punto metálico cruza el cielo. Un avión. El grupo grita. Agitan los brazos. Saltan.{/i}"
 
     "{i}El avión gira...  y se aleja entre nubes bajas, tragado por la bruma costera. El silencio que deja atrás es distinto. Es la esperanza rota.{/i}"
 
-    "{i}¿Esperar el rescate? ¿O tratar de saloir de la isla? Esas preguntas están en la mente de todos.{/i}"
+    "{i}¿Volverán a rescatarlos, o significa que ya se dieron por vencidos y deben buscar una salida por sus propios medios?{/i}"
 
     jump cap11_end
 
@@ -14889,45 +14854,33 @@ label cap11_post_salida_media:
     scene bg costa_bote_oleaje with fade
     show screen combined_ui
 
-    "{i}El bote golpea contra la arena. Los cuerpos duelen, los brazos tiemblan. El mar ruge detrás, la marea y las olas cada mes mas grandes.{/i}"
+    "{i}Bajar por las rocas parece imposible, así que rodean el manglar por el lado opuesto, y se turnan para cargar a Laura.{/i}"
 
     $ hambre += 1
     $ sed += 2
     $ cansancio += 2
 
     show erika enojada at center with Dissolve(0.4)
-    k "Los traje. Pero esto no fue un rescate. Fue un parche. No se puede repetir."
-
-    show tomas enojado at left with Dissolve(0.4)
-    t "Si no se hubiera escarbado más, no hubiéramos corrido tanto riesgo."
+    k "Lo siento, pero yo no puedo quedarme callada sin decir nada."
+    k "Lo que pasó hoy no se puede repetir. Pensé que habíamos aprendido durante la tormenta."
+    k "De ahora en más, cuando decidamos algo, que sea en conjunto, por favor."    
 
     show charles brazos abiertos at right with Dissolve(0.4)
-    c "No fue por codicia. Era una oportunidad. Y ustedes decidieron venir detras mio."
+    c "Lo que hice no fue por codicia. Era una oportunidad. Si ustedes decidieron venir detrás nuestro, háganse cargo."
 
     hide erika
     hide tomas
     hide charles
     with Dissolve(0.4)
 
-    "{i}Las voces se cruzan. Cada uno defiende su pedazo de razón. El grupo eleva el tono, aún bajo el impacto de lo vivido.{/i}"
+    "{i}Los demás le clavan miradas fulminantes. Todos en el grupo escupen sus opiniones a los gritos, aún alterados por lo vivido.{/i}"
+    
+    "{i}De repente, un zumbido en el cielo los deja a todos en silencio. Un avión, volando bajo."
+    "{i}Se acerca... hace un giro. Todos comienzan a gritar nuevamente, pero hacia las nubes y agitando los brazos desesperadamente.{/i}"
+    "{i}Pero el avión no deja de girar, y completa una media vuelta. Lo ven alejarse hasta que desaparece."
+    "{i}Como una estrella fugaz... efímera... como sus esperanzas.{/i}"
 
-    menu:
-        "Defendés a Erika por haber actuado cuando otros dudaban":
-            $ erika += 1
-            $ tomas -= 1
-            "{i}Erika te mira sin decir nada. Tomás aprieta los dientes.{/i}"
-        "Culpás a Charles por haber insistido más allá de lo prudente":
-            $ charles -= 1
-            "{i}Charles te observa sin emoción. La herida va más allá del orgullo.{/i}"
-        "Proponés enfocarse en cómo seguir, no en quién falló":
-            $ marina += 1
-            "{i}Marina asiente. Ingrid murmura algo que suena como ‘por fin’.{/i}"
-
-    "{i}Un zumbido en el cielo. El grupo gira la cabeza. Un avión. Bajo. Gris. Se acerca… hace un giro. Las voces explotan. Gritos. Brazos al aire. Un silbido de esperanza.{/i}"
-
-    "{i}Pero no baja. No gira hacia ellos. Lo ven alejarse como un recuerdo que nunca fue suyo.{/i}"
-
-    "{i}¿Y ahora qué? Esperar sentados. O buscar una alternativa. La isla no da certezas. Sólo opciones duras.{/i}"
+    "{i}¿Volverán a rescatarlos, o significa que ya se dieron por vencidos y deben buscar una salida por sus propios medios?{/i}"
 
     jump cap11_end
 
@@ -14936,46 +14889,52 @@ label cap11_post_salida_rapida:
     scene bg costa_orilla_clara with fade
     show screen combined_ui
 
-    "{i}La arena está húmeda. Las rocas escupen espuma. El grupo llega justo a tiempo. El mar ya lame la entrada con fuerza. Si hubieran tardado más, estarían encerrados.{/i}"
+    "{i}Abajo, en las rocas, la marea aún no bloquea el acceso a la playa totalmente, aunque la entrada de la gruta sigue inundada.{/i}"
+    "{i}Si hubieran tardado más, estarían encerrados en el manglar y tendrían que pasar la noche allí o aventurarse en la jungla con Laura herida.{/i}"
 
     $ hambre += 1
     $ sed += 1
     $ cansancio += 2
 
     show marina preocupada at left with Dissolve(0.4)
-    m "Fue suerte. No decisión. Y la suerte... no se recicla."
+    m "Tuvimos suerte. Espero que sean conscientes de eso."
 
     show bob parado enojado at center with Dissolve(0.4)
-    b "La imprudencia va a terminar con uno de nosotros muerto... o varios."
+    b "Si seguimos actuando impulsivamente, esa imprudencia va a terminar con uno de nosotros muerto."
 
     show laura triste at right with Dissolve(0.4)
-    l "Lo siento, me tento la aventura. No pretendía ponerlos en riesgo"
+    l "Lo siento, me tentó la aventura y Charles parecía ser el único otro con ganas de investigar. No pretendía ponerlos en riesgo"
 
     hide marina
     hide bob
     hide laura
     with Dissolve(0.4)
 
-    "{i}La discusión es suave, pero punzante. Nadie grita. Pero se dicen las cosas con claridad.{/i}"
+    "{i}No parece que los demás vayan a esperar a volver al refugio para discutir lo ocurrido.{/i}"
 
     menu:
-        "Ya no podemos actuar sin plan. Hay que decidir juntos.":
+        "Lo que yo rescato de todo esto, es que de ahora en más tenemos que decidir como grupo cuando vayamos a tomar riesgos así.":
             $ tomas += 1
             $ marina += 1
-            "{i}Tomas asiente. Marina murmura: ‘Era hora’.{/i}"
-        "El problema fue la falta de liderazgo claro.":
-            $ bob += 1
-            $ marina -= 1
-            "{i}Bob no habla, pero se mantiene más cerca que antes. Marina se aleja hacia una roca.{/i}"
-        "Lo importante es haber llegado. El resto se verá después.":
+            "{i}Tomás aprieta los labios y asiente.{/i}"
+            show marina preocupada at left with Dissolve(0.4)
+            m "Exactamente, ya era hora de que alguien lo dijera."
+            hide marina with Dissolve(.4)
+        "El problema fue la falta de confianza.":
+            $ bob += 1            
+            "{i}Bob se sorprende con tus palabras, como si estuviera pensando lo mismo, sin animarse a decirlo.{/i}"
+        "Lo importante es haber salido todos vivos. No es momento de juzgar a nadie.":
             $ laura += 1
-            "{i}Laura sonríe, muy apenas. Nadie contradice… por ahora.{/i}"
+            "{i}Laura sonríe disimuladamente, como si quisiera que solo tu te des cuenta.{/i}"
 
-    "{i}El cielo cruje. Un ruido. Una línea metálica en el horizonte. Un avión. Las manos se alzan. Los gritos rompen el aire.{/i}"
+    "{i}Un sonido que no escuchaban hace mucho evita que la discusión continúe.{/i}"
+    "{i}Lejano. Agudo. Un motor en el aire. Un punto metálico cruza el cielo. Un avión. El grupo grita. Agitan los brazos. Saltan.{/i}"
 
-    "{i}Pero no desciende. Da media vuelta. Se va. Como si nunca los hubiera visto. El silencio pesa sobre todos.{/i}"
+    "{i}El avión gira y se aleja entre nubes bajas, tragado por la bruma costera. El silencio que deja atrás es distinto. Es la esperanza rota.{/i}"
 
-    "{i}¿Esperar otro día? ¿O buscar otras opciones? Hay que decidir que hacer.{/i}"
+    "{i}¿Volverán a rescatarlos, o significa que ya se dieron por vencidos y deben buscar una salida por sus propios medios?{/i}"
+
+    jump cap11_end
 
     jump cap11_end
 
