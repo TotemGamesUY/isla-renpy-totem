@@ -15,11 +15,18 @@ define i = Character("Ingrid Sversson", color="#6c742d")
 define r = Character("Rescatista", color="#546ace")
 define p = Character("Pescador", color="#b19621")
 
+# Bloquea accceso a menu con esc o boton drecho y las opciones de quick menu y quick save
+init python:
+    config.keymap['game_menu'] = []  # Desactiva ESC y clic derecho
+    # Elimina las teclas asignadas a quick save/load
+    config.keymap['quick_save'] = []
+    config.keymap['quick_load'] = []
+
 #define el player id
 default player_id = ""
 define player_name = ""
 define player_lastname = ""
-define player_ids = ["Jugador1", "jugador2", "Jugador3", "jugador4", "vero", "fabrizio", "rod", "jime", "maria", "g3r", "5u3"]  # Lista de IDs válidos para android
+define player_ids = ["prueba", "reporte", "MFierro", "MArroqui", "ESosa", "VMedina", "ASena", "GAlarcon", "EOroño", "GRibas", "NArena", "JAlbornoz", "MMendizaba", "MSire", "NdeBrum", "VGarcia", "JLopez", "BMartinez", "DCarrion", "Jlabandera", "LMachini", "KBerrospe", "lchaves",  "g3r", "5u3"]  # Lista de IDs válidos para android
 default input_id = ""  # Variable para almacenar el ID ingresado por el jugador
 default input_codigo_capitulo = "" # Codigo que pide para continuar jugando los capitulos
 
@@ -390,22 +397,22 @@ default reporte_dormir_mas = False
 default reporte_despertar_ingrid = False
 default bebio = False
 default comio = False
-default despierta_antes = False
-default todos_despiertos = False
+default reporte_despierta_antes = False
+default reporte_todos_despiertos = False
 default marina_ofrece_comida = False
-default bob_se_queda = False
-default marina_se_queda = False
-default laura_se_queda = False
-default encontraron_agua = False
+default reporte_bob_se_queda = False
+default reporte_marina_se_queda = False
+default reporte_laura_se_queda = False
+default reporte_encontraron_agua = False
 default reporte_todos_explorar = False
 default reporte_algunos_explorar = False
 default comidant_ingrid = False
 default bebidant_ingrid = False
-default va_con_bob = False
-default va_con_marina = False
-default va_con_laura = False
-default exploran_tres = False
-default exploran_todos = False
+default reporte_va_con_bob = False
+default reporte_va_con_marina = False
+default reporte_va_con_laura = False
+default reporte_exploran_tres = False
+default reporte_exploran_todos = False
 default reporte_advierte_agua = False
 default inventan_cantimploras = False
 default reporte_conejillos_de_indias = False
@@ -424,43 +431,36 @@ default reporte_refugio_visitado_1 = ""
 default reporte_refugio_visitado_2 = ""
 default reporte_opinion_refugio = ""
 default reporte_conflicto_entre_lideres = ""
-default confianza_ingrid = 0
-default jugador_lider = 0
-default jugador_mediador = 0
-default destino_exploracion_1 = ""
-default destino_exploracion_2 = ""
+default reporte_destino_exploracion_1 = ""
+default reporte_destino_exploracion_2 = ""
 default opciones_exploracion = []
 default opciones_exploracion2 = []
 default objeto_faltante = []
 default opciones_texto = []
 default reporte_ingrid_te_convence = False
 default reporte_oyen_jabali = False
-default confianza_tomas = 0
-default confianza_charles = 0
 default reporte_respetuoso_tomas = False
 default reporte_intenta_conectar_tomas = False
 default reporte_broma_charles = False
 default reporte_desconfia_charles = False 
-default apoyo_laura = False
-default apoyo_ingrid = False
-default apoyo_charles = False
-default estrategia_agresiva = False
-default estrategia_pacifica = 0
-default estrategia_pasiva = 0
+default reporte_apoyo_laura = False
+default reporte_apoyo_ingrid = False
+default reporte_apoyo_charles = False
+default reporte_estrategia_agresiva = False
+default reporte_estrategia_pacifica = 0
+default reporte_estrategia_pasiva = 0
 default player = 0
-default apoyo_tomas = 0
-default apoyo_bob = 0
-default apoyo_erika = 0
-default apoyo_marina = 0
+default reporte_apoyo_tomas = 0
+default reporte_apoyo_bob = 0
+default reporte_apoyo_erika = 0
+default reporte_apoyo_marina = 0
 default grupo_jugador = []
 default grupo_jabaporco = []
 default grupo_bob = []
 default grupo_erika = []
-default apoyo_lider_jugador = 0
-default apoyo_lider_bob = 0
-default apoyo_lider_erika = 0
-default relacion_fuerte_jugador = []
-default relacion_conflictiva_jugador = []
+default reporte_apoyo_lider_jugador = 0
+default reporte_apoyo_lider_bob = 0
+default reporte_apoyo_lider_erika = 0
 default personaje_indeciso = ""
 default dialogo_personajes = {}
 default climb_hill = False
@@ -479,22 +479,22 @@ default reporte_apoya_liderazgo_erika = False
 default reporte_apoya_liderazgo_bob = False
 default reporte_postula_liderazgo = False
 default reporte_evade_liderazgo = False
-default enfoque_preparacion = ""
-default equipo_bob = False
-default equipo_erika = False
-default equipo_jugador_opcion1 = False
-default equipo_jugador_opcion2 = False
-default jugador_es_lider = False
-default bob_es_lider = False
-default erika_es_lider = False
+default reporte_enfoque_preparacion = ""
+default reporte_equipo_bob = False
+default reporte_equipo_erika = False
+default reporte_equipo_jugador_opcion1 = False
+default reporte_equipo_jugador_opcion2 = False
+default reporte_jugador_es_lider = False
+default reporte_bob_es_lider = False
+default reporte_erika_es_lider = False
 default elegido = ""
-default decision_cueva = ""
+default reporte_decision_cueva = ""
 default tarea_jugador1 = ""
 default tarea_jugador2 = ""
 default tarea_jugador3 = ""
 default compartio_info = False
 default personajes_desaparecidos = []
-default compartio_info_caja = None  # Puede ser True o False
+default reporte_compartio_info_caja = None  # Puede ser True o False
 default cruce1 = ""  # Guarda a quién te cruzaste
 default cruce2 = ""
 default invitar_marina = False
@@ -503,17 +503,12 @@ default invitar_erika = False
 default invitar_ingrid = False
 default invitar_charles = False
 default invitar_tomas = False
-default equipo_exploracion = []
-default decision_rocas_tardia = ""
-default decision_seguir = ""           # ¿Explorar más o no?
-default reaccion_charles = ""          # Postura ante lo que hizo Charles
-default relacion_subida = []           # Personajes con los que se mejora vínculo
-default relacion_bajada = []           # Personajes que se sienten defraudados
-default reloj_marea = 0                # Tiempo narrativo antes del cierre de la cueva
-default decision_post_espera = ""
-default cap12_choice = ""
-default influencia_charles = 0
-default proyecto = ""
+default reporte_equipo_exploracion = []
+default reporte_decision_rocas_tardia = ""
+default reporte_reloj_marea = 0                # Tiempo narrativo antes del cierre de la cueva
+default reporte_cap12_choice = ""
+default reporte_influencia_charles = 0
+default reporte_proyecto = ""
 default liderazgo = 0
 
 default relaciones_cap1_bob = 99
@@ -527,6 +522,14 @@ default relaciones_cap3_laura = 99
 default relaciones_cap4_bob = 99
 default relaciones_cap4_marina = 99
 default relaciones_cap4_laura = 99
+default relaciones_cap5_bob = 99
+default relaciones_cap5_marina = 99
+default relaciones_cap5_laura = 99
+default relaciones_cap5_erika = 99
+default relaciones_cap5_tomas = 99
+default relaciones_cap5_charles = 99
+default relaciones_cap5_ingrid = 99
+
 
 #define inventario inicial
 default stuff_caja_grande = False
@@ -828,16 +831,16 @@ label pedir_codigo_capitulo:
             hide screen pedir_codigo_capitulo_screen
 
             if renpy.android:  # Solo mostrar en Android   
-                if persistent.cantidad_capitulos == 4 and resultado == "44":
+                if persistent.cantidad_capitulos == 4 and resultado == "44ug":
                     jump chapter_5_start
-                elif persistent.cantidad_capitulos == 8 and resultado == "88":
+                elif persistent.cantidad_capitulos == 8 and resultado == "88yn":
                     jump chapter_9_start
                 elif persistent.cantidad_capitulos == 10 and resultado == "00om":
                     jump chapter_11_start
             else :
-                if persistent.cantidad_capitulos == 4 and resultado == "44ac":
+                if persistent.cantidad_capitulos == 4 and resultado == "44ug":
                     jump chapter_5_start
-                elif persistent.cantidad_capitulos == 8 and resultado == "88":
+                elif persistent.cantidad_capitulos == 8 and resultado == "88yn":
                     jump chapter_9_start
                 elif persistent.cantidad_capitulos == 10 and resultado == "00om":
                     jump chapter_11_start
@@ -1186,6 +1189,9 @@ label intro_final:
     
     
     "Aquí termina la introducción. En el siguiente capítulo tus decisiones definirán el destino de los supervivientes. ¿Preparad[e] para descubrir los secretos de la isla?"
+    # prueba de enviar reporte
+    $ enviar_reporte(player_id)
+    "El reporte fue enviado con exito!"
     # Ocultar los pop-ups con dissolve
     hide screen relaciones_popup with dissolve
     # hide screen decisiones_popup with dissolve
@@ -2268,18 +2274,21 @@ label final:
     # show screen decisiones_popup(contenido=decisiones_contenido)
     
     "Aquí termina el capitulo, pero la historia aún tiene grandes desafíos y muchas decisiones de las que depende la superviviencia del grupo."
+    # prueba de enviar reporte
+    $ enviar_reporte(player_id)
+    "El reporte fue enviado con exito!"
     # Ocultar los pop-ups con dissolve
     hide screen relaciones_popup with dissolve
     # hide screen decisiones_popup with dissolve
     $ choice_position = "default" # default alta superior
     menu:
         "CONTINUAR":
-            jump final_cap3
+            jump chapter_3_start
             #jump final_cap3
         "VOLVER A VER EL RESÚMEN":
             jump final
     
-label final_cap3:
+#label final_cap3:
     if renpy.android:
         jump chapter_3_start
     else:
@@ -2780,6 +2789,10 @@ label chapter_3_end:
     # show screen decisiones_popup(contenido=decisiones_contenido)
     
     "El grupo ha encontrado refugio, pero aún quedan muchos desafíos por delante y un giro inesperado de la historia."
+
+    # prueba de enviar reporte
+    $ enviar_reporte(player_id)
+    "El reporte fue enviado con exito!"
 
     # Ocultar los pop-ups con dissolve
     hide screen relaciones_popup with dissolve
@@ -3956,7 +3969,7 @@ label marina_laura_regresan:
     show marina hablando at center
     with Dissolve(.5)
     m "¡Hemos encontrado agua!"
-    $ encontraron_agua = True
+    $ reporte_encontraron_agua = True
     show laura gr hablando at leftgr
     with Dissolve(.5)
     l "Pero vimos árboles sin nada de fruta, era ya muy tarde. Mañana hay que seguir buscando."
@@ -4157,6 +4170,7 @@ label segment_1_end:
     # prueba de enviar reporte
     $ enviar_reporte(player_id)
     "El reporte fue enviado con exito!"
+    "Para continuar debes esperar que te entreguen el proximo código. ¡Buen trabajo!"
     call pedir_codigo_capitulo from _call_pedir_codigo_capitulo4
 
 
@@ -4209,7 +4223,7 @@ label ingrid_despierta:
             "Te levantas con cuidado y te acercas a Ingrid."
             $ desicion_intro += 1
             $ reporte_despertar_ingrid = True
-            $ despierta_antes = True
+            $ reporte_despierta_antes = True
             jump ayudar_ingrid_despertar
 
 label ayudar_ingrid_despertar:
@@ -4225,7 +4239,7 @@ label ayudar_ingrid_despertar:
 
 label nutrir_ingrid:
     if (agua > 0 and not bebio) or (comida > 0 and not comio):
-        if todos_despiertos == False:
+        if reporte_todos_despiertos == False:
             "Podría ver qué tenemos y darle algo, o esperar a que los demás despierten."
 
         $ choice_position = "default" # default alta superior
@@ -4253,38 +4267,38 @@ label nutrir_ingrid:
                 $ comidant_ingrid = True
                 jump nutrir_ingrid
 
-            "Tratar de calmarla y esperar a que despierten los demás." if despierta_antes and not todos_despiertos:
+            "Tratar de calmarla y esperar a que despierten los demás." if reporte_despierta_antes and not reporte_todos_despiertos:
                 y "Tranquila, Ingrid, estás bien, te golpeaste la cabeza. El capitán Bob, Marina y Laura estamos aquí."
                 jump despiertan_todos
         
-            "Con eso se va a sentir un poco mejor." if not despierta_antes and (comio or bebio):
+            "Con eso se va a sentir un poco mejor." if not reporte_despierta_antes and (comio or bebio):
                 y "Eso te hará bien."
                 jump dejarla_descansar
         
     elif comio and agua <= 0:
         "Aunque aún no tengamos agua para ella, un poco de comida en el estómago le hará recuperar fuerzas."
-        if todos_despiertos:
+        if reporte_todos_despiertos:
             jump ingrid_debil
         else:
-            if despierta_antes:
+            if reporte_despierta_antes:
                 jump despiertan_todos
-            if not despierta_antes:
+            if not reporte_despierta_antes:
                 jump dejarla_descansar
 
     elif bebio and comida <= 0:
         "Aunque no tengamos comida, estar hidratada la ayudará a sentirse mejor."
-        if todos_despiertos:
+        if reporte_todos_despiertos:
             jump ingrid_debil
         else:
-            if despierta_antes:
+            if reporte_despierta_antes:
                 jump despiertan_todos
-            if not despierta_antes:
+            if not reporte_despierta_antes:
                 jump dejarla_descansar
 
 label despiertan_todos:
-    $ todos_despiertos = True
+    $ reporte_todos_despiertos = True
     pause 1
-    if despierta_antes:
+    if reporte_despierta_antes:
         "Bob es el primero en despertar, y se le ilumina la cara cuando ve a Ingrid conciente."
     else:
         "Despiertas con un grito de júbilo de Bob."
@@ -4419,22 +4433,22 @@ label elegir_cuidador:
                     y "Tal vez sea mejor que ella se quede, así ve una cara familiar."
                     l "No tengo problema con quedarme."
                     m "Bien, iré con ustedes entonces."
-                    $ laura_se_queda = True
+                    $ reporte_laura_se_queda = True
                     jump p5_explorar
 
                 "Se nota que a Marina se le dan bien los cuidados." if laura > 1:
                     y "Genial entonces. Laura, Bob y yo iremos a explorar."
-                    $ marina_se_queda = True
+                    $ reporte_marina_se_queda = True
                     jump p5_explorar
 
                 "Me gustaría pasar un rato con Laura y poder limar asperezas con ella." if laura < 2:
                     y "Genial entonces. Laura, Bob y yo iremos a explorar."
-                    $ marina_se_queda = True
+                    $ reporte_marina_se_queda = True
                     jump p5_explorar
 
         "Es un buen punto.":
             y "Tienes razón, Bob. Marina, Laura y yo exploraremos."
-            $ bob_se_queda = True
+            $ reporte_bob_se_queda = True
             jump p5_explorar
 
 
@@ -4455,14 +4469,14 @@ label p5_explorar:
                 show bob parado hablando at center
                 with Dissolve(.5)
                 b "Buena idea, [nombre_personaje]."                
-                if encontraron_agua:
+                if reporte_encontraron_agua:
                     l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
                 elif reporte_encontrar_agua_comida:
                     l "Genial, entonces Marina y yo iremos al lugar que encontraste ayer."
                     $ marina_laura_arroyo_frutos = True
                 else:
                     l "Genial, entonces Marina y yo nos adentraremos en la jungla a buscar agua y comida."
-                $ va_con_bob = True
+                $ reporte_va_con_bob = True
                 $ liderazgo += 1
                 hide bob
                 with Dissolve(.5)
@@ -4479,7 +4493,7 @@ label p5_explorar:
                 m "Me parece una buena idea. Limar asperezas será bueno para el grupo."                
                 b "Excelente, entonces Laura y yo conformaremos la otra expedición."
                 l "Me parece perfecto."
-                $ va_con_marina = True
+                $ reporte_va_con_marina = True
                 $ liderazgo += 1
                 jump p5_division_tareas
                     
@@ -4490,7 +4504,7 @@ label p5_explorar:
                 m "Por favor, [nombre_personaje], me vas a hacer sonrojar. Me encantaría."                
                 y "Laura, ¿estás de acuerdo en ir con Bob?"
                 l "¡Por supuesto! No hay problema."
-                $ va_con_marina = True
+                $ reporte_va_con_marina = True
                 $ liderazgo += 1
                 jump p5_division_tareas
 
@@ -4501,7 +4515,7 @@ label p5_explorar:
                 l "Es verdad, hablando se entienden las personas."
                 y "Marina, estarás bien con Bob, ¿no?"
                 m "¡Claro!"
-                $ va_con_laura = True
+                $ reporte_va_con_laura = True
                 $ liderazgo += 1
                 jump p5_division_tareas
 
@@ -4512,19 +4526,19 @@ label p5_explorar:
                 l "¡Estaba por proponerte lo mismo!"
                 b "Excelente, entonces Marina y yo conformaremos la otra expedición."
                 m "Me parece perfecto."
-                $ va_con_laura = True
+                $ reporte_va_con_laura = True
                 $ liderazgo += 1
                 jump p5_division_tareas
                             
             "Más allá de todo lo que ha pasado, Bob ha demostrado tener buen criterio. Quizá sea mejor ver qué propone.":
                 pause 1
 
-                if encontraron_agua:
+                if reporte_encontraron_agua:
                     b "¿Qué les parece si [nombre_personaje] y yo exploramos el área cercana a la playa?"
                     b "Podemos revisar la orilla a ver si la marea trajo algo más."
                     l "Genial, entonces Marina y yo iremos a buscar agua al lugar que encontramos ayer."
                     m "No olviden mantener los ojos abiertos por algo de comida. Nosotras haremos lo mismo."
-                    $ va_con_bob = True
+                    $ reporte_va_con_bob = True
                     hide bob
                     with Dissolve(.5)
                     hide marina
@@ -4538,7 +4552,7 @@ label p5_explorar:
                     b "Podemos pasar por la playa a ver si hay algo que rescatar, y seguir hacia allí luego."
                     l "Buena idea, Bob. Entre todos podremos cargar bastantes recursos de vuelta al refugio."
                     y "Vamos, ¡a la playa!."
-                    $ exploran_todos = True
+                    $ reporte_exploran_todos = True
                     hide bob
                     with Dissolve(.5)
                     hide marina
@@ -4552,7 +4566,7 @@ label p5_explorar:
                     b "Quizá tu y yo podríamos ir a ver si queda algo, o si la marea trajo algo más."
                     l "Genial, entonces Marina y yo iremos a explorar el interior de la jungla a ver si encontramos agua y comida."
                     m "¡Mantengan los ojos abiertos ustedes dos también!"
-                    $ va_con_bob = True
+                    $ reporte_va_con_bob = True
                     hide bob
                     with Dissolve(.5)
                     hide marina
@@ -4563,7 +4577,7 @@ label p5_explorar:
 
     else:
         "Los tres se internan en la jungla."
-        $ exploran_tres = True
+        $ reporte_exploran_tres = True
         hide bob
         with Dissolve(0.5)
         hide marina
@@ -4576,7 +4590,7 @@ label p5_explorar:
         if reporte_encontrar_agua_comida:
             y "Vamos, les mostraré dónde encontré los frutos, allí había agua."
 
-            if not stuff_bidon_agua and bob_se_queda:
+            if not stuff_bidon_agua and reporte_bob_se_queda:
                 show laura hablando at right
                 with Dissolve(0.5)
                 l "Ayer pensaba... En la jungla hay bastante bambú."
@@ -4590,7 +4604,7 @@ label p5_explorar:
                 hide marina
                 with Dissolve(0.5)          
 
-            elif not stuff_bidon_agua and (laura_se_queda or marina_se_queda):
+            elif not stuff_bidon_agua and (reporte_laura_se_queda or reporte_marina_se_queda):
                 show bob parado hablando at center
                 with Dissolve(0.5)
                 b "Ayer, cuando me costaba conciliar el sueño, preparé estos contenedores quebrando cañas de bambú."
@@ -4601,21 +4615,21 @@ label p5_explorar:
 
             jump arroyo_frutos
 
-        elif encontraron_agua:
+        elif reporte_encontraron_agua:
             y "Ayer cuando regresaron dijeron que habían encontrado agua. ¿Recuerdas cómo llegar hasta allí?"
-            if laura_se_queda:
+            if reporte_laura_se_queda:
                 show marina hablando at center
                 with Dissolve(0.5)
                 m "Si, es por aquí, ¡síganme!"
                 hide marina
                 with Dissolve(0.5)
-            elif marina_se_queda:
+            elif reporte_marina_se_queda:
                 show laura hablando at center
                 with Dissolve(0.5)
                 l "Si, es por aquí, ¡síganme!"
                 hide laura
                 with Dissolve(0.5)
-            elif bob_se_queda:
+            elif reporte_bob_se_queda:
                 show laura hablando at center
                 with Dissolve(0.5)
                 l "Si, es por aquí, ¡síguenos!"
@@ -4628,7 +4642,7 @@ label p5_explorar:
             jump exploracion_profunda
 
 label p5_division_tareas:
-    if reporte_encontrar_agua_comida and va_con_laura:
+    if reporte_encontrar_agua_comida and reporte_va_con_laura:
         y "Laura, ¿qué te parece si vamos al lugar que encontré ayer?"
         l "Sin duda. Por más que no queden más frutas, el agua nos vendrá bien."
         b "Marina y yo buscaremos comida entonces."
@@ -4641,7 +4655,7 @@ label p5_division_tareas:
         with Dissolve(.5)
         jump arroyo_frutos
 
-    elif reporte_encontrar_agua_comida and va_con_marina:
+    elif reporte_encontrar_agua_comida and reporte_va_con_marina:
         y "Marina, ¿qué te parece si vamos al lugar que encontré ayer?"
         m "Es la única fuente de agua que conocemos, así que hagámoslo."
         b "Laura y yo nos enfocaremos en encontrar algo para comer entonces."
@@ -4654,7 +4668,7 @@ label p5_division_tareas:
         with Dissolve(.5)
         jump arroyo_frutos
 
-    elif encontraron_agua and va_con_laura:
+    elif reporte_encontraron_agua and reporte_va_con_laura:
         y "Laura, tal vez sea buena idea que vayamos a ese lugar que encontraron ayer con Marina."
         l "Si, traigamos algo de agua. Bob y Marina pueden concentrarse en buscar comida."
         b "¿Estamos todos de acuerdo entonces?"
@@ -4667,7 +4681,7 @@ label p5_division_tareas:
         with Dissolve(.5)
         jump manantial_marina_laura
     
-    elif encontraron_agua and va_con_marina:
+    elif reporte_encontraron_agua and reporte_va_con_marina:
         y "Marina, tal vez sea buena idea que vayamos a ese lugar que encontraron ayer con Laura."
         m "Si, un grupo debe ir a la segura."
         b "Bien, entonces Laura y yo exploraremos en busca de comida."
@@ -4705,7 +4719,7 @@ label exploracion_profunda:
 label arroyo_frutos:
     show bg jungle river at truecenter
     with Dissolve(.5)
-    if bob_se_queda and not reporte_encontrar_agua_comida:
+    if reporte_bob_se_queda and not reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Sabía que lo lograríamos si perseverábamos!"
@@ -4772,7 +4786,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif marina_se_queda and not reporte_encontrar_agua_comida:
+    elif reporte_marina_se_queda and not reporte_encontrar_agua_comida:
         show laura sonriendo at left
         with Dissolve(.5)
         l "¡Miren este oasis!"
@@ -4839,7 +4853,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif laura_se_queda and not reporte_encontrar_agua_comida:
+    elif reporte_laura_se_queda and not reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Sabía que lo lograríamos si perseverábamos!"
@@ -4904,7 +4918,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif bob_se_queda and reporte_encontrar_agua_comida:
+    elif reporte_bob_se_queda and reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Agua, al fin!"
@@ -4952,7 +4966,7 @@ label arroyo_frutos:
             pause .5          
             "Al terminar de cargarlas, emprenden la vuelta al refugio."
             
-    elif marina_se_queda and reporte_encontrar_agua_comida:
+    elif reporte_marina_se_queda and reporte_encontrar_agua_comida:
         show laura sonriendo at right
         with Dissolve(.5)
         l "¡Agua, al fin!"
@@ -5001,7 +5015,7 @@ label arroyo_frutos:
             pause .5
             "Al terminar de cargarlas, emprenden la vuelta al refugio."
 
-    elif laura_se_queda and reporte_encontrar_agua_comida:
+    elif reporte_laura_se_queda and reporte_encontrar_agua_comida:
         show marina sonriendo at right
         with Dissolve(.5)
         l "¡Agua, al fin!"
@@ -5049,7 +5063,7 @@ label arroyo_frutos:
             pause .5
             "Al terminar de cargarlas, emprenden la vuelta al refugio."
 
-    elif va_con_marina and not reporte_encontrar_agua_comida:
+    elif reporte_va_con_marina and not reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Sabía que lo lograríamos si perseverábamos!"
@@ -5115,7 +5129,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif va_con_laura and not reporte_encontrar_agua_comida:
+    elif reporte_va_con_laura and not reporte_encontrar_agua_comida:
         show laura sonriendo at left
         with Dissolve(.5)
         l "El agua está fresca y clara, ¡y parece haber suficientes frutos para que todos podamos comer hoy!"
@@ -5177,7 +5191,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif va_con_marina and reporte_encontrar_agua_comida:
+    elif reporte_va_con_marina and reporte_encontrar_agua_comida:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Agua, al fin!"
@@ -5225,7 +5239,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
             
-    elif va_con_laura and reporte_encontrar_agua_comida:
+    elif reporte_va_con_laura and reporte_encontrar_agua_comida:
         show laura sonriendo at left
         with Dissolve(.5)
         l "¡Agua, al fin!"
@@ -5273,7 +5287,7 @@ label arroyo_frutos:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif exploran_todos:
+    elif reporte_exploran_todos:
         show laura sonriendo at right
         with Dissolve(.5)
         l "¡Agua!"
@@ -5354,7 +5368,7 @@ label manantial_marina_laura:
     show bg jungle river at truecenter
     with Dissolve(.5)
 
-    if va_con_marina:
+    if reporte_va_con_marina:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Aquí está! El manantial del que les hablamos."
@@ -5402,7 +5416,7 @@ label manantial_marina_laura:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif va_con_laura:
+    elif reporte_va_con_laura:
         show laura sonriendo at left
         with Dissolve(.5)
         l "¡Aquí está! El manantial del que les hablamos."
@@ -5450,7 +5464,7 @@ label manantial_marina_laura:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif exploran_tres and bob_se_queda:
+    elif reporte_exploran_tres and reporte_bob_se_queda:
         show laura sonriendo at right
         with Dissolve(.5)
         l "¡Aquí está! El manantial del que les hablamos."
@@ -5502,7 +5516,7 @@ label manantial_marina_laura:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif exploran_tres and marina_se_queda:
+    elif reporte_exploran_tres and reporte_marina_se_queda:
         show laura sonriendo at right
         with Dissolve(.5)
         l "¡Aquí está! El manantial del que les hablamos."
@@ -5554,7 +5568,7 @@ label manantial_marina_laura:
             pause .5
             "Juntan todo lo que consiguieron y emprenden la vuelta al refugio."
 
-    elif exploran_tres and laura_se_queda:
+    elif reporte_exploran_tres and reporte_laura_se_queda:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Aquí está! El manantial del que les hablamos."
@@ -5615,7 +5629,7 @@ label manantial_marina_laura:
     jump retorno_refugio
 
 label p5playa:
-    if exploran_todos:
+    if reporte_exploran_todos:
         if not (reporte_esconde_bote or reporte_esconde_caja or reporte_comparte_bote or reporte_comparte_caja):
             "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
         else:
@@ -5807,7 +5821,7 @@ label p5playa:
         with Dissolve(.5)
         jump arroyo_frutos
 
-    elif va_con_bob:
+    elif reporte_va_con_bob:
         if not (reporte_esconde_bote or reporte_esconde_caja or reporte_comparte_bote or reporte_comparte_caja):
             "Luego de volver tras sus pasos del día anterior durante un rato, los cuatro llegan juntos a la playa."
         else:
@@ -5967,7 +5981,7 @@ label retorno_refugio:
     $ update_stat("cansancio", cansancio - 1)
     $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
 
-    if comida <=2 and (exploran_todos or exploran_tres):
+    if comida <=2 and (reporte_exploran_todos or reporte_exploran_tres):
         "En el camino de vuelta, encuentran unos pocos frutos de una especie que hasta ahora no habían visto, parecen sabrosos."
         $ comida += 5
         "Comen algunos y llevan el resto para el campamento."
@@ -5980,7 +5994,7 @@ label retorno_refugio:
         "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
         "Hay marcas en la madera, como si algo con grandes colmillos hubiera estado rascando la corteza."
 
-    elif exploran_todos or exploran_tres:
+    elif reporte_exploran_todos or reporte_exploran_tres:
         "En el camino de vuelta, encuentran huellas de grandes pezuñas."
         "Se miran, pero nadie quiere decir lo obvio."
         "Antes de continuar te acercas a un árbol en el que parece que las huellas se detienen."
@@ -5998,7 +6012,7 @@ label retorno_refugio:
 
     "Luego de una ardua jornada de exploración, el refugio ya está a la vista."
 
-    if exploran_todos:
+    if reporte_exploran_todos:
         show marina sonriendo at left
         with Dissolve(.5)
         m "¡Vamos! Ingrid necesita comer y beber algo."
@@ -6006,14 +6020,14 @@ label retorno_refugio:
         with Dissolve(.5)
         "Los cuatro entran al refugio."
 
-    elif exploran_tres:
-        if laura_se_queda or bob_se_queda:
+    elif reporte_exploran_tres:
+        if reporte_laura_se_queda or reporte_bob_se_queda:
             show marina sonriendo at left
             with Dissolve(.5)
             m "¡Vamos! Ingrid necesita comer y beber algo."
             hide marina
             with Dissolve(.5)
-        elif marina_se_queda:
+        elif reporte_marina_se_queda:
             show laura sonriendo at right
             with Dissolve(.5)
             l "¡Vamos! Ingrid necesita comer y beber algo."
@@ -6022,7 +6036,7 @@ label retorno_refugio:
         "Los tres entran al refugio."
 
     else:
-        if va_con_bob:
+        if reporte_va_con_bob:
             "Se encuentran con Laura y Marina poco antes de llegar."
             show bob saludando sucio at center
             with Dissolve(.5)
@@ -6101,7 +6115,7 @@ label retorno_refugio:
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
-        elif va_con_marina:
+        elif reporte_va_con_marina:
             "Se encuentran con Laura y Bob poco antes de llegar."
             show bob saludando sucio at center
             with Dissolve(.5)
@@ -6114,7 +6128,7 @@ label retorno_refugio:
             l "¿Pudieron encontrar algo?"
             y "¡Por suerte si!"
 
-            if reporte_encontrar_agua_comida or encontraron_agua:
+            if reporte_encontrar_agua_comida or reporte_encontraron_agua:
                 m "Trajimos agua. ¿Y ustedes?"
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
@@ -6155,7 +6169,7 @@ label retorno_refugio:
                 m "Entremos, Ingrid necesita beber y comer algo."
                 "Los cuatro entran al refugio."
 
-        elif va_con_laura:
+        elif reporte_va_con_laura:
             "Se encuentran con Marina y Bob poco antes de llegar."
             show bob saludando sucio at center
             with Dissolve(.5)
@@ -6168,7 +6182,7 @@ label retorno_refugio:
             m "¿Pudieron encontrar algo?"
             y "¡Por suerte si!"
 
-            if reporte_encontrar_agua_comida or encontraron_agua:
+            if reporte_encontrar_agua_comida or reporte_encontraron_agua:
                 l "Trajimos agua. ¿Y ustedes?"
                 b "Nosotros encontramos algunos frutos cuando volvíamos."
                 $ comida += 5
@@ -6221,15 +6235,15 @@ label retorno_refugio:
         scene bg inside shelter
 
     "Dentro del refugio, Ingrid parece estar algo incómoda, pero está despierta."
-    if bob_se_queda:
+    if reporte_bob_se_queda:
         show bob parado serio at right
         with Dissolve(.5)
         "Bob se encuentra a su lado, y los saluda con la cabeza al verles entrar."
-    elif laura_se_queda:
+    elif reporte_laura_se_queda:
         show laura sonriendo at right
         with Dissolve(.5)
         "Laura se encuentra a su lado, y sonríe cuando los ve."
-    elif marina_se_queda:
+    elif reporte_marina_se_queda:
         show marina sonriendo at right
         with Dissolve(.5)
         "Marina se encuentra a su lado, y deja escapar un pequeño grito de júbilo cuando se da cuenta de que volvieron."
@@ -7367,16 +7381,16 @@ label cap7_sed:
             opciones_texto.append("Explorar el Claro")
 
     if len(opciones_exploracion) == 1:
-        $ destino_exploracion_1 = opciones_exploracion[0]
+        $ reporte_destino_exploracion_1 = opciones_exploracion[0]
         jump cap7_decidir_quien_va
     else:
         menu:
             "[opciones_texto[0]]":
-                $ destino_exploracion_1 = opciones_exploracion[0]
+                $ reporte_destino_exploracion_1 = opciones_exploracion[0]
                 jump cap7_decidir_quien_va
 
             "[opciones_texto[1]]":
-                $ destino_exploracion_1 = opciones_exploracion[1]
+                $ reporte_destino_exploracion_1 = opciones_exploracion[1]
                 jump cap7_decidir_quien_va
      
 label cap7_decidir_quien_va:
@@ -7535,7 +7549,7 @@ label cap7_refugio_con_ingrid:
             jump cap7_union_con_grupo_explorador
 
         "Me quedé por compromiso":
-            $ confianza_ingrid -= 1
+            $ ingrid -= 1
             "Me alegra que digas eso, en realidad queria ir pero..."
 
             i "No quiero ser una carga."
@@ -7589,7 +7603,7 @@ label cap7_union_con_grupo_explorador:
     jump explorar_primer_sitio
 
 label explorar_primer_sitio:
-    if destino_exploracion_1 == "cueva":
+    if reporte_destino_exploracion_1 == "cueva":
 
         scene bg jungle cave
         with Dissolve(0.5)
@@ -7615,7 +7629,7 @@ label explorar_primer_sitio:
         $ comida == 10
         y "Vamos, hay que aprovechar la luz para seguir explorando."
 
-    elif destino_exploracion_1 == "cabaña":
+    elif reporte_destino_exploracion_1 == "cabaña":
 
         scene bg jungle hut
         with Dissolve(0.5)
@@ -7636,7 +7650,7 @@ label explorar_primer_sitio:
         $ yesca = True
         "{i}No parece haber nada más en la cabaña que pueda serles útil, por lo que se disponen a seguir explorando.{/i}"
         
-    elif destino_exploracion_1 == "claro":
+    elif reporte_destino_exploracion_1 == "claro":
 
         scene bg jungle clearing
         "{i}El claro está iluminado por la luz del sol y algunos árboles frutales llaman su atención.{/i}"
@@ -7665,31 +7679,31 @@ label cap7_antes_de_encuentro_nuevos:
         python:
             opciones_exploracion2 = []            
 
-            if refugio != "cabaña" and destino_exploracion_1 != "cabaña":
+            if refugio != "cabaña" and reporte_destino_exploracion_1 != "cabaña":
                 opciones_exploracion2.append("cabaña")
 
-            if refugio != "cueva" and destino_exploracion_1 != "cueva":
+            if refugio != "cueva" and reporte_destino_exploracion_1 != "cueva":
                 opciones_exploracion2.append("cueva")
 
-            if refugio != "claro" and destino_exploracion_1 != "claro":
+            if refugio != "claro" and reporte_destino_exploracion_1 != "claro":
                 opciones_exploracion2.append("claro")
 
-        $ destino_exploracion_2 = opciones_exploracion2[0]
+        $ reporte_destino_exploracion_2 = opciones_exploracion2[0]
 
     elif search_west:
         y "Cuando estaba buscando el primer refugio, recorrí la parte oeste de la isla y fui hasta la playa, pero no subi a la colina."
         y "Quizá desde allí puedan ver qué otros lugares quedan por explorar."
-        $ destino_exploracion_2 = "claro"
+        $ reporte_destino_exploracion_2 = "claro"
     else:
         y "Cuando estabamos buscando refugio, nadie decidió explorar hacia el oeste."
         y "Quizá en esa dirección haya algo interesante."
-        $ destino_exploracion_2 = "claro"
+        $ reporte_destino_exploracion_2 = "claro"
 
-    if destino_exploracion_2 == "cueva":
+    if reporte_destino_exploracion_2 == "cueva":
         scene bg jungle cave
-    elif destino_exploracion_2 == "cabaña":
+    elif reporte_destino_exploracion_2 == "cabaña":
         scene bg jungle hut
-    elif destino_exploracion_2 == "claro":
+    elif reporte_destino_exploracion_2 == "claro":
         scene bg jungle clearing
 
     show laura seria at left
@@ -7872,8 +7886,8 @@ label cap7_conflicto_tomas_charles:
     $ choice_position = "alta" # default alta superior
     menu:
         "Apoyar a Tomás. Charles estaba holgazaneando.":            
-            $ confianza_tomas += 1
-            $ confianza_charles -= 1
+            $ tomas += 1
+            $ charles -= 1
             y "Si lo que Charles hacía era útil, yo no lo noté. No lo vi ni moverse desde que llegamos."
 
             t "Exacto."
@@ -7883,8 +7897,8 @@ label cap7_conflicto_tomas_charles:
             c "Vaya, qué rápid[e] eres para sacar conclusiones."
 
         "Apoyar a Charles. Tal vez sí estaba haciendo algo.":            
-            $ confianza_charles += 1
-            $ confianza_tomas -= 1
+            $ charles += 1
+            $ tomas -= 1
             y "No podemos asumir que no estaba en realidad vigilando, por más relajado que pareciera."
 
             t "Espero que de verdad sea el caso."
@@ -7950,11 +7964,11 @@ label cap7_encuentro_nuevo_grupo:
     elif reporte_distante_tomas:
         k "Tomás no estaba siendo insolente con ustedes, [nombre_personaje]. No todos tenemos las mismas prioridades, y el estaba trabajando."
     
-    if confianza_tomas > confianza_charles:
+    if tomas > charles:
 
         k "¿Qué decir de charles que no haya dicho ya [nombre_personaje]. Solo digamos que verlo trabajar no es algo que se da todos los días."
     
-    elif confianza_tomas < confianza_charles:
+    elif tomas < charles:
 
         k "Si estás del lado de Charles, [nombre_personaje], comienzo a pensar que tu grupo ha sobrevivido a pesar de ti, y no gracias a ti."
     else:
@@ -8237,7 +8251,7 @@ label cap7_evaluacion_refugio:
     b "A ver, a ver. Vamos a ordenarnos, de a uno. Comenzaré yo."       
     b "Creo que la cabaña es la mejor opción. Tiene una estructura sobre la que se puede expandir."
 
-    if destino_exploracion_2 == "cabaña":
+    if reporte_destino_exploracion_2 == "cabaña":
         
         show erika parada at centerright
         with Dissolve(0.5)
@@ -8613,20 +8627,20 @@ label cap8_avisar_tormenta:
     $ choice_position = "default" # default alta superior
     menu:
         "Apoyar el enfoque de Erika: organizar el refuerzo estructural del refugio.":
-            $ enfoque_preparacion = "estructura"
+            $ reporte_enfoque_preparacion = "estructura"
             $ erika += 2
             y "No podremos resguardar ningún recurso si el refugio no resiste la tormenta, Bob."
             "{i}Bob asiente, resignándose.{/i}"
 
         "Apoyar el enfoque de Bob: asegurarse de tener provisiones antes que nada.":
-            $ enfoque_preparacion = "recursos"
+            $ reporte_enfoque_preparacion = "recursos"
             $ bob += 2
             y "¿Cuánto durará la tormenta? Busquemos recursos ahora, porque salir a buscarlos con viento y lluvia más tarde es una locura."
             "{i}El solo imaginarlo hace que todos comiencen a pensarlo dos veces. De a uno, van asintiendo.{/i}"
             "{i}Erika sacude la cabeza, frustrada.{/i}"
 
         "Equilibrar ambos enfoques. Se debe trabajar en todo a la vez.":
-            $ enfoque_preparacion = "equilibrado"
+            $ reporte_enfoque_preparacion = "equilibrado"
             $ bob += 1
             $ erika += 1
             y "Ahora somos más, podemos perfectamente dividirnos las tareas y asegurarnos que el refugio sea seguro y los recursos suficientes."
@@ -8651,7 +8665,7 @@ label cap8_prioridades_refugio:
 
     "{i}La tormenta se acerca. Cada minuto cuenta.{/i}"
 
-    if enfoque_preparacion == "estructura":
+    if reporte_enfoque_preparacion == "estructura":
         "{i}El grupo se reparte las tareas para asegurar la protección contra el viento y la lluvia.{/i}"
         
         show erika conversando at centerleft
@@ -8670,7 +8684,7 @@ label cap8_prioridades_refugio:
 
         k "Nos ocuparemos después. Si no protegemos el refugio, perderemos todo."
 
-    elif enfoque_preparacion == "recursos":
+    elif reporte_enfoque_preparacion == "recursos":
         "{i}El grupo prioriza buscar provisiones. Se dividen para encontrar alimentos, agua y materiales de emergencia.{/i}"
         
         show bob parado serio at centerright
@@ -8699,7 +8713,7 @@ label cap8_prioridades_refugio:
         b "El refugio, por más que lo reforcemos, puede transformarse en una trampa mortal."
         b "Quedar atrapados allí sin suministros podría ser peor que aguantar la tormenta sin reforzarlo."
 
-    elif enfoque_preparacion == "equilibrado":
+    elif reporte_enfoque_preparacion == "equilibrado":
         "{i}El grupo distribuye las tareas. Algunos van a ir a buscar suministros, y otros se quedarán a reforzar el refugio."
         "{i}La inseguridad se nota en los rostros de todos, que temen no alcanzar ninguna de las dos metas a tiempo.{/i}"
         
@@ -8835,13 +8849,13 @@ label cap8_liderazgo_ingrid:
 
     menu:
         "Bob sabe improvisar. Sobrevivir es más importante que planificar cada detalle.":
-            $ apoyo_bob += 1
+            $ reporte_apoyo_bob += 1
             y "Bob se adapta bien a los imprevistos. Reaccionar rápido muchas veces puede ser de vida o muerte."
 
             i "Es verdad, la adaptación es clave. Pero sin estructura, esto se convierte en caos."
 
         "Erika mantiene el orden. Necesitamos estar más estructurados.":
-            $ apoyo_erika += 1
+            $ reporte_apoyo_erika += 1
             y "Si no tenemos una base de organización, nos vamos a hundir."
 
             i "Orden significa estructura. Y estructura significa posibilidad de estabilidad."
@@ -8912,13 +8926,13 @@ label cap8_liderazgo_charles:
     c "Aún lo estoy considerando."
     menu:
         "Bob sabe improvisar. Sobrevivir es más importante que planificar cada detalle.":
-            $ apoyo_bob += 1
+            $ reporte_apoyo_bob += 1
             y "Bob se adapta bien a los imprevistos. Reaccionar rápido muchas veces puede ser de vida o muerte."
 
             c "Bob improvisará bien, pero un solo error de juicio puede costarnos muy caro."
 
         "Erika mantiene el orden. Necesitamos estar más estructurados.":
-            $ apoyo_erika += 1
+            $ reporte_apoyo_erika += 1
             y "Si no tenemos una base de organización, nos vamos a hundir."
 
             c "A veces las estructuras más rígidas son las que más fácilmente se desmoronan. Hay fortaleza en la flexibilidad."
@@ -8988,13 +9002,13 @@ label cap8_liderazgo_laura:
 
     menu:
         "Bob sabe improvisar. Sobrevivir es más importante que planificar cada detalle.":
-            $ apoyo_bob += 1
+            $ reporte_apoyo_bob += 1
             y "Bob se adapta bien a los imprevistos. Reaccionar rápido muchas veces puede ser de vida o muerte."
 
             l "Bob sí que no baja los brazos. Eso es bueno."
 
         "Erika mantiene el orden. Necesitamos estar más estructurados.":
-            $ apoyo_erika += 1
+            $ reporte_apoyo_erika += 1
             y "Si no tenemos una base de organización, nos vamos a hundir."
 
             l "Eso suena más sencillo de lo que es. Tenemos que estar preparados para trabajar duro."
@@ -9064,13 +9078,13 @@ label cap8_liderazgo_marina:
 
     menu:
         "Bob sabe improvisar. Sobrevivir es más importante que planificar cada detalle.":
-            $ apoyo_bob += 1
+            $ reporte_apoyo_bob += 1
             y "Bob se adapta bien a los imprevistos. Reaccionar rápido muchas veces puede ser de vida o muerte."
 
             m "Por supuesto, Bob ha sido imprescindible desde el primer día."
 
         "Erika mantiene el orden. Necesitamos estar más estructurados.":
-            $ apoyo_erika += 1
+            $ reporte_apoyo_erika += 1
             y "Si no tenemos una base de organización, nos vamos a hundir."
 
             m "No voy a mentirte... Me agrada bastante Erika. Lo da todo."
@@ -9139,13 +9153,13 @@ label cap8_liderazgo_tomas:
 
     menu:
         "Bob sabe improvisar. Sobrevivir es más importante que planificar cada detalle.":
-            $ apoyo_bob += 1
+            $ reporte_apoyo_bob += 1
             y "Bob se adapta bien a los imprevistos. Reaccionar rápido muchas veces puede ser de vida o muerte."
 
             t "Sigo pensando que me gané la lotería despertando junto a Erika en la playa, pero es cierto que Bob tiene lo suyo."
 
         "Erika mantiene el orden. Necesitamos estar más estructurados.":
-            $ apoyo_erika += 1
+            $ reporte_apoyo_erika += 1
             y "Si no tenemos una base de organización, nos vamos a hundir."
 
             t "Si hemos llegado tan lejos, se lo debemos a ella."
@@ -9203,7 +9217,7 @@ label cap8_separacion_grupo:
 
     "{i}Los grupos de trabajo comienzan a formarse según las prioridades establecidas y las afinidades de cada uno.{/i}"
 
-    if apoyo_bob > apoyo_erika:
+    if reporte_apoyo_bob > reporte_apoyo_erika:
 
         show ingrid enojada at right
         with Dissolve(0.5)        
@@ -9220,7 +9234,7 @@ label cap8_separacion_grupo:
 
         jump cap8_formacion_equipos
 
-    elif apoyo_erika > apoyo_bob:
+    elif reporte_apoyo_erika > reporte_apoyo_bob:
 
         show tomas serio at left
         with Dissolve(0.5)
@@ -9294,7 +9308,7 @@ label cap8_preparacion_tormenta:
 
     menu:
         "Priorizar una preparación rápida y efectiva":
-            $ apoyo_bob += 2
+            $ reporte_apoyo_bob += 2
             y "No hay tiempo que perder. Hagamos lo que podamos con el que nos queda."
 
             "{i}Bob asiente de inmediato.{/i}"
@@ -9305,7 +9319,7 @@ label cap8_preparacion_tormenta:
             hide bob 
             with Dissolve(0.5)
         "Optimizar los esfuerzos será lo mejor.":
-            $ apoyo_erika += 2
+            $ reporte_apoyo_erika += 2
             y "Erika, la coordinación de todos será clave para salir de esto."
 
             "{i}Erika cruza los brazos y asiente con una mirada determinada.{/i}"
@@ -9371,19 +9385,19 @@ label cap8_formacion_equipos:
 
     menu:
         "Seguir a Bob: rapidez y adaptación con materiales disponibles.":
-            $ equipo_bob = True
+            $ reporte_equipo_bob = True
             jump cap8_proteccion_bob
         
         "Seguir a Erika: decidir qué queremos reforzar para enfocar los esfuerzos.":
-            $ equipo_erika = True
+            $ reporte_equipo_erika = True
             jump cap8_proteccion_erika
 
         "Proponer una alternativa, tomando parte de la idea de Bob pero integrando el entorno.":
-            $ equipo_jugador_opcion1 = True
+            $ reporte_equipo_jugador_opcion1 = True
             jump cap8_proteccion_jugador_opcion1
 
         "Proponer una alternativa, tomando parte de la idea de Erika pero integrando el entorno.":
-            $ equipo_jugador_opcion2 = True
+            $ reporte_equipo_jugador_opcion2 = True
             jump cap8_proteccion_jugador_opcion2
 
 label cap8_proteccion_bob:
@@ -9688,7 +9702,7 @@ label cap8_finalizacion_proteccion:
     "{i}Las últimas horas han sido intensas.{/i}"
     "{i}El esfuerzo por dejar las diferencias de lado, sumado al cansancio del trabajo, deja a todos agotados.{/i}"
 
-    if equipo_bob:
+    if reporte_equipo_bob:
         "{i}La estrategia de Bob logró reforzar lo esencial con rapidez, pero algunos dudan de la estabilidad de ciertas áreas.{/i}"
         
         show bob parado serio at centerright
@@ -9704,7 +9718,7 @@ label cap8_finalizacion_proteccion:
 
         b "Hicimos lo que teníamos que hacer."
 
-    if equipo_erika:
+    if reporte_equipo_erika:
         "{i}El plan de Erika siguió cada cálculo con precisión, pero la lentitud no permitió cubrir todas las áreas completamente.{/i}"
         
         show erika enojada at centerleft
@@ -9720,7 +9734,7 @@ label cap8_finalizacion_proteccion:
 
         t "Seguimos el plan al pie de la letra, debería funcionar."
 
-    if equipo_jugador_opcion1:
+    if reporte_equipo_jugador_opcion1:
         "{i}La solución ejecutada por [nombre_personaje] fue bien recibida por algunos, pero otros aún dudan de su efectividad.{/i}"
         
         show marina triste at left
@@ -9732,7 +9746,7 @@ label cap8_finalizacion_proteccion:
 
         t "Si no cometimos fallos críticos, podría funcionar."
 
-    if equipo_jugador_opcion2:
+    if reporte_equipo_jugador_opcion2:
         "{i}La alternativa de [nombre_personaje] fue recibida con cierto escepticismo, aunque logró aplicarse.{/i}"
         
         show ingrid seria at left
@@ -9787,13 +9801,13 @@ label cap8_tormenta_golpea:
 
     menu:
         "Apoyar la decisión de Bob: improvisar rápido.":
-            $ apoyo_bob += 2
+            $ reporte_apoyo_bob += 2
             y "Tenemos que actuar antes de que la tormenta se lleve todo."
 
             "{i}Bob asiente con rapidez, pero Erika parece furiosa por la improvisación repentina.{/i}"
 
         "Apoyar la decisión de Erika: analizar la situación.":
-            $ apoyo_erika += 2
+            $ reporte_apoyo_erika += 2
             y "Si seguimos moviendo cosas sin lógica, vamos a perder más."
 
             "{i}Erika estudia detenidamente cada detalle de cómo la tormenta se impone sobre el refugio mientras Bob maldice por perder tiempo.{/i}"
@@ -9823,13 +9837,13 @@ label cap8_tormenta_golpea:
 
     menu:
         "Apoyar a Laura: enfocarse en lo necesario para sobrevivir.":
-            $ apoyo_laura += 2
+            $ reporte_apoyo_laura += 2
             y "Si no tenemos lo básico, todo lo demás es irrelevante."
             
             "{i}Laura sigue adelante, pero Marina se frustra y se aleja.{/i}"
 
         "Apoyar a Marina: es imprudente arriesgar sus vidas en este vendaval.":
-            $ apoyo_marina += 2
+            $ reporte_apoyo_marina += 2
             y "No podemos arriesgarnos a perder a nadie."
 
             "{i}Marina se enfoca en ayudar a los demás.{/i}"
@@ -9874,13 +9888,13 @@ label cap8_crisis_personajes:
 
     menu:
         "Apoyar a Ingrid: seguir una estrategia lógica.":
-            $ apoyo_ingrid += 2
+            $ reporte_apoyo_ingrid += 2
             y "Si seguimos improvisando a lo loco, todo va a fallar."
 
             "{i}Ingrid respira hondo, agradeciendo el respaldo. Charles maldice y se aleja.{/i}"
 
         "Apoyar a Charles: detenerse a pensar cada movimiento solo será peor.":
-            $ apoyo_charles += 2
+            $ reporte_apoyo_charles += 2
             y "Si seguimos trazando planes, vamos a perder el poco tiempo que tenemos."
 
             "{i}Charles sonríe, confiado. Ingrid aprieta los dientes, frustrada.{/i}"
@@ -9916,13 +9930,13 @@ label cap8_crisis_personajes:
 
     menu:
         "Apoyar a Tomás: Bob fue condescendiente con el.":
-            $ apoyo_tomas += 2
+            $ reporte_apoyo_tomas += 2
             y "Bob, tal vez exageraste. Podrías haberle expresado tu opinión con más respeto."
 
             "{i}Bob sacude la cabeza sin aceptar la acusación y sigue trabajando en proteger el refugio.{/i}"
 
         "Apoyar a Bob: Tomás parecia no estar pensando con claridad.":
-            $ apoyo_bob += 2
+            $ reporte_apoyo_bob += 2
             y "Tomás, Bob solamente quiso tranquilizarte. Estabas proponiendo algo descabellado."
 
             "{i}Bob asiente agradeciéndote, mientras Tomás se muestra frustrado.{/i}"
@@ -9964,14 +9978,14 @@ label cap8_punto_de_quiebre:
 
     menu:
         "Apoyar a Bob: perdimos mucho tiempo discutiendo las ideas de Erika.":
-            $ apoyo_bob += 2
+            $ reporte_apoyo_bob += 2
             y "Erika, mira nuestro refugio, volando por los aires allí fuera."
             y "Creo que quedó demostrado que había que actuar rápido desde el primer momento."
 
             "{i}Bob se endereza, sintiéndose validado, pero Erika rezonga entre dientes.{/i}"
 
         "Apoyar a Erika: solo aquello a lo que se le dedicó más planificación sigue en pié a esta altura, después de todo.":
-            $ apoyo_erika += 2
+            $ reporte_apoyo_erika += 2
             y "Bob, si aún nos queda algo, es gracias a los recaudos tomados por Erika."
 
             "{i}Erika asiente mientras sigue trabajando, pero Bob maldice por el tiempo perdido.{/i}"
@@ -10010,19 +10024,19 @@ label cap8_punto_de_quiebre:
 
     menu:
         "Intentar alejar al jabalí sin violencia.":
-            $ estrategia_pacifica += 2
+            $ reporte_estrategia_pacifica += 2
             y "Si logramos desviar su atención, podríamos evitar una confrontación."
 
             "{i}El grupo intenta auyentarlo, pero la criatura sigue inquieta.{/i}"
 
         "Atacar al jabalí para alejarlo por la fuerza.":
-            $ estrategia_agresiva += 2
+            $ reporte_estrategia_agresiva += 2
             y "Si nos quedamos quietos, podría ser peor."
 
             "{i}Los personajes reaccionan con rapidez, armándose con lo que pueden, pero nadie se anima a dar el primer paso.{/i}"
 
         "No hacer nada y observar su reacción.":
-            $ estrategia_pasiva += 2
+            $ reporte_estrategia_pasiva += 2
             y "Quizás no nos haya detectado aún."
 
             "{i}Todos dejan lo que están haciendo y se agachan, tratándo de esconderse. La duda es visible en los rostros de algunos.{/i}"
@@ -10090,11 +10104,11 @@ label cap8_enfrentamiento_lideres:
 
     menu:
         "Sí, deberíamos haber hecho una recorrida rápida al menos.":
-            $ apoyo_lider_bob += 2
+            $ reporte_apoyo_lider_bob += 2
             "{i}Bob asiente con la cabeza, gesticulando con las manos lo obvio de su argumento. Erika las levanta en el aire, exasperada.{/i}"
 
         "No, quedarse juntos era la mejor opción. El refugio demandaba nuestra atención urgente":
-            $ apoyo_lider_erika += 2
+            $ reporte_apoyo_lider_erika += 2
             "{i}Erika exhala con un dejo de alivio. Bob resopla.{/i}"
 
         "¿Qué importa qué hubiese sido mejor?":
@@ -10114,12 +10128,12 @@ label cap8_enfrentamiento_lideres:
 
     menu:
         "La confianza es clave para la prosperidad decualquier grupo, Erika tiene razón":
-            $ apoyo_lider_erika += 2
+            $ reporte_apoyo_lider_erika += 2
             "{i}Erika sonríe aliviada.{/i}"
             k "Al menos alguien entiende lo que significa trabajar con otras personas."
 
         "En situaciones como esta, saber seguir órdenes puede ser de vida o muerte.":
-            $ apoyo_lider_bob += 2
+            $ reporte_apoyo_lider_bob += 2
             "{i}Bob suelta una risa seca. Finalmente, alguien que entiende que en una urgencia las cosas son distintas.{/i}"
 
         "Ambos se enfocaron más en tener razón que en tener éxito.":
@@ -10148,20 +10162,20 @@ label cap8_eleccion_liderazgo:
         "Apoyar a Bob como líder":
             y "Más allá de todo, Bob desde el principio se ha esforzado porque todos nos salvemos."
             y "Está claro que no van a ponerse de acuerdo, pero yo estoy con el."
-            $ apoyo_lider_bob += 3
+            $ reporte_apoyo_lider_bob += 3
             "{i}Bob exhala con alivio y asiente.{/i}"
             jump cap8_dialogo_lider_bob
 
         "Apoyar a Erika como líder":
             y "En muy poco tiempo, Erika a dejado una muy buena impresión en mi."
             y "Y como parece que la ruptura es inevitable... Bob, lamento decirte que yo estoy con ella."
-            $ apoyo_lider_erika += 3
+            $ reporte_apoyo_lider_erika += 3
             "{i}Erika cruza los brazos con firmeza.{/i}"
             jump cap8_dialogo_lider_erika
 
         "Tomar el liderazgo":            
-            $ apoyo_lider_jugador += 3
-            $ jugador_es_lider = True
+            $ reporte_apoyo_lider_jugador += 3
+            $ reporte_jugador_es_lider = True
             y "Erika, Bob, yo estoy cansado de que el resto de nosotros esté a la merced de sus diferencias irreconciliables."
             "{i}Las miradas de todos se centran en ti.{/i}"
             "{i}Para convertirte en líder tu próximo movimiento debe ser convencer a uno de ellos de que te siga.{/i}"
@@ -10169,7 +10183,7 @@ label cap8_eleccion_liderazgo:
 
             menu:
                 "Intentar que Bob te siga":
-                    if apoyo_lider_bob >= 0:
+                    if reporte_apoyo_lider_bob >= 0:
                         y "Aquellos que piensen lo mismo, vengan conmigo."
                         y "Bob, me gustaría que te nos unas, pero esta vez seré yo quien lidere."
                         "{i}Bob te observa, duda por un segundo, pero finalmente acepta.{/i}"
@@ -10181,7 +10195,7 @@ label cap8_eleccion_liderazgo:
                         $ grupo_jugador.append("erika")
 
                 "Intentar que Erika se una a tu grupo":
-                    if apoyo_lider_erika >= 0:
+                    if reporte_apoyo_lider_erika >= 0:
                         y "Aquellos que piensen lo mismo, vengan conmigo."
                         y "Erika, me gustaría que te nos unas, pero no se si estás dispuesta a trabajar bajo el liderazgo de otra persona."
                         "{i}Erika frunce el ceño, pero finalmente accede con reticencia.{/i}"
@@ -10204,7 +10218,7 @@ label cap8_eleccion_liderazgo:
 
 label cap8_dialogo_lider_bob:
 
-    $ bob_es_lider = True
+    $ reporte_bob_es_lider = True
 
     "{i}Bob te observa con una mirada firme.{/i}"
 
@@ -10223,7 +10237,7 @@ label cap8_dialogo_lider_bob:
 
 label cap8_dialogo_lider_erika:
 
-    $ erika_es_lider = True
+    $ reporte_erika_es_lider = True
 
     "{i}Erika te observa con atención, como analizando tu respuesta.{/i}"
 
@@ -10253,7 +10267,7 @@ label cap8_formacion_grupos_finales:
         for personaje in ["tomas", "marina", "charles", "laura"]:
             if getattr(store, f"apoyo_{personaje}", 0) > 2:
                 grupo_jugador.append(personaje)
-            elif apoyo_lider_bob > apoyo_lider_erika:
+            elif reporte_apoyo_lider_bob > reporte_apoyo_lider_erika:
                 grupo_bob.append(personaje)
             else:
                 grupo_erika.append(personaje)
@@ -10304,7 +10318,7 @@ label cap8_formacion_grupos_finales:
     menu:
         "Intentar convencer a Ingrid de quedarse":
             y "Ingrid, después de todo lo que pasamos juntos, ¿vamos a separarnos?"
-            if getattr(store, "apoyo_ingrid", 0) > 2:
+            if getattr(store, "reporte_apoyo_ingrid", 0) > 2:
                 "{i}Después de una larga pausa, Ingrid acepta, pero su expresión muestra incertidumbre.{/i}"
                 python:
                     grupo_jugador.append("ingrid")
@@ -10438,7 +10452,7 @@ label chapter_9_start:
     hide screen combined_ui
     show screen combined_ui
 
-    if bob_es_lider:
+    if reporte_bob_es_lider:
         show bob parado serio at left with Dissolve(.5)
         b "Deberíamos priorizar reabastecernos de alimento."
 
@@ -10452,7 +10466,7 @@ label chapter_9_start:
         b "Los que estén conmigo, vamos. No hay tiempo que perder."
         b "Creo que podemos estar de acuerdo en que hay que priorizar reabastecernos de alimento."
 
-    elif erika_es_lider:
+    elif reporte_erika_es_lider:
         show erika parada at right with Dissolve(0.5)
         k "Debemos recorrer aquellos lugares de la isla que no hemos explorado, para encontrar comida pronto."
 
@@ -10845,7 +10859,7 @@ label cap9_eleccion_estrategia:
     "{i}Plan B: improvisar un perímetro con trapos, cenizas, plantas amargas y marcas olfativas que disuadan al animal.{/i}"
     "{i}Supone menores riesgos, pero no saben si funcionará, y si lo hace, van a tener que reponer los repelentes periódicamente."
 
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
 
         if "erika" in grupo_jugador:
             show erika conversando at center
@@ -11256,7 +11270,7 @@ label cap9_union_grupos:
 label cap9_reaccion_pasiva:
     $ exito_total = 0
 
-    if "erika" in grupo_jugador or erika_es_lider:
+    if "erika" in grupo_jugador or reporte_erika_es_lider:
         show erika conversando at center with Dissolve(.5)
         k "¡Tomás, con cautela! ¡Distráelo para que se de vuelta!"
         k "Ingrid, Laura, ¡cuando no esté mirando, restauren la barrera lo más rápido que puedan."
@@ -11298,7 +11312,7 @@ label cap9_reaccion_pasiva:
                 pause .5
                 "{i}Termina yéndose hacia la jungla, acorde al plan original.{/i}"
 
-    elif "bob" in grupo_jugador or bob_es_lider:
+    elif "bob" in grupo_jugador or reporte_bob_es_lider:
         show bob pensando at center with Dissolve(.5)
         b "¡Tomás, rápido! ¡Has que vuelva tras sus pasos para darnos algo de tiempo!"
         b "Cuando se alla alejado, Ingrid y Laura corran a levantar las ramas que cayeron de la barrera."
@@ -11674,13 +11688,13 @@ label cap9_encuentro_caja:
         "Ignorarlo, estás agotado y quieres irte ya.":
             $ reporte_ignora_curiosidad = True
             "{i}Tu curiosidad no es mas grande que tu cansancio, así que tras un rápido vistazo, decides marcharte.{/i}"
-            if "bob" in grupo_jugador or bob_es_lider:
+            if "bob" in grupo_jugador or reporte_bob_es_lider:
                 show bob pensando at right
                 with Dissolve (0.5)
                 b "¿Qué es? Quizás sea algo util."
                 "{i}Observas mientras Bob lo desentierra y revisa una caja metálica, rectangular, carcomida por el óxido.{/i}"
 
-            elif "erika" in grupo_jugador or erika_es_lider:
+            elif "erika" in grupo_jugador or reporte_erika_es_lider:
                 show erika conversando at right
                 with Dissolve (0.5)
                 k "¿Qué es? Quizás sea algo util."
@@ -11883,7 +11897,6 @@ label chapter_10_start:
 label cap10_inicio_discusion_cueva:
 
     $ persistent.cantidad_capitulos += 1
-    $ decision_cueva = ""
     $ primera_tarea_realizada = False
 
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
@@ -11917,7 +11930,7 @@ label cap10_inicio_discusion_cueva:
         t "¿De qué nos sirve un tesoro si no podemos salir de aquí? Yo digo que nos ocupemos de mejorar nuestra situación actual."
         hide tomas with Dissolve(0.5)
 
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
         "{i}Las miradas se clavan en vos. Esperan algo concreto. Una decisión.{/i}"
     else:
         "{i}Aunque no sos el líder, notás que los demás esperan tu opinión.{/i}"
@@ -11926,20 +11939,20 @@ label cap10_inicio_discusion_cueva:
     $ choice_position = "default"
     menu:
         "No necesitan más misterios. Necesitan estabilidad. Y que todos conserve sus energías.":
-            $ decision_cueva = "ignorar"
+            $ reporte_decision_cueva = "ignorar"
             y "Lo más responsable es enfocarse en sobrevivir y esperar el rescate."
         "Lo que viste te intriga. Pero sería un error arrastrar al grupo sin preparación. Primero, lo urgente.":
-            $ decision_cueva = "restaurar_primero"
+            $ reporte_decision_cueva = "restaurar_primero"
             y "Una vez que hayamos fortalecido el refugio, podremos explorar."
         "Lo que encontraron no parece casual. Sientes que es una pieza de algo más.":
-            $ decision_cueva = "priorizar_exploracion"
+            $ reporte_decision_cueva = "priorizar_exploracion"
             y "Investiguemos lo antes posible. Lo que haya ahí también podría ser vital para nuestra supervivencia."   
 
     if "erika" in grupo_jugador:
-        if decision_cueva == "priorizar_exploracion":
+        if reporte_decision_cueva == "priorizar_exploracion":
             show erika hablando at center with Dissolve(0.5)
             k "Necesitamos toda la ayuda que podamos conseguir, es la decisión correcta."
-        elif decision_cueva == "ignorar":
+        elif reporte_decision_cueva == "ignorar":
             show erika ceño_fruncido at center with Dissolve(0.5)
             k "¿No quieres que volvamos a enterrar la caja, ya que estamos?"
         else:
@@ -11948,10 +11961,10 @@ label cap10_inicio_discusion_cueva:
         hide erika with Dissolve(0.5)
 
     elif "bob" in grupo_jugador:
-        if decision_cueva == "priorizar_exploracion":
+        if reporte_decision_cueva == "priorizar_exploracion":
             show bob parado hablando at center with Dissolve(0.5)
             b "Sea lo que sea que haya allí, más te vale que sirva para algo o todo esto será una pérdida de tiempo."
-        elif decision_cueva == "ignorar":
+        elif reporte_decision_cueva == "ignorar":
             show bob parado hablando at center with Dissolve(0.5)
             b "Por suerte contamos con alguien con los pies en la tierra."
         else:
@@ -11969,7 +11982,7 @@ label cap10_asignacion_tareas:
     "{i}El día comienza. El refugio aún necesita reparaciones, y hay tareas por hacer.{/i}"
     "{i}Nadie lo dice, pero todos esperan señales de organización.{/i}"
 
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
         if "marina" in grupo_jugador:
             if marina > 1:
                 show marina sonriendo at left with Dissolve(0.4)
@@ -12005,11 +12018,11 @@ label cap10_asignacion_tareas:
                 jump cap10_tarea_agua_1
 
     else:  # Jugador no es líder
-        if erika_es_lider:
+        if reporte_erika_es_lider:
             show erika conversando at center with Dissolve(0.4)
             k "Las tareas no están sujetas a negociación, pero te doy la opción de elegir en qué orden hacer las tres que te tocan."
             hide erika with Dissolve(0.4)
-        elif bob_es_lider:
+        elif reporte_bob_es_lider:
             show bob parado hablando at center with Dissolve(0.4)
             b "Hoy hay que moverse. Te daré a elegir cuál de las tres tareas que te tocan quieres hacer primero."
             hide bob with Dissolve(0.4)
@@ -12061,7 +12074,7 @@ label cap10_tarea_troncos_1:
     $ choice_position = "default"
     menu:
         "Contarle la verdad sobre lo que había en la caja.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
             if cruce1 == "charles":
                 c "Sabía que algo estaban ocultando. Gracias por tu honestidad."
                 $ charles += 1
@@ -12083,7 +12096,7 @@ label cap10_tarea_troncos_1:
                     $ laura += 1
 
         "Ocultar y minimizar lo hallado.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
             if cruce1 == "charles":
                 c "No soy tonto, ¿sabes? No parece ser tan insignificante como lo pintas."
                 $ charles -= 1
@@ -12149,7 +12162,7 @@ label cap10_tarea_agua_1:
     $ choice_position = "default"
     menu:
         "Contarle la verdad sobre lo que había en la caja.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
             if cruce1 == "charles":
                 c "Sabía que algo estaban ocultando. Gracias por tu honestidad."
                 $ charles += 1
@@ -12171,7 +12184,7 @@ label cap10_tarea_agua_1:
                     $ laura += 1
 
         "Ocultar y minimizar lo hallado.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
             if cruce1 == "charles":
                 c "No soy tonto, ¿sabes? No parece ser tan insignificante como lo pintas."
                 $ charles -= 1
@@ -12237,7 +12250,7 @@ label cap10_tarea_leña_1:
     $ choice_position = "default"
     menu:
         "Contarle la verdad sobre lo que había en la caja.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
             if cruce1 == "charles":
                 c "Sabía que algo estaban ocultando. Gracias por tu honestidad."
                 $ charles += 1
@@ -12259,7 +12272,7 @@ label cap10_tarea_leña_1:
                     $ laura += 1
 
         "Ocultar y minimizar lo hallado.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
             if cruce1 == "charles":
                 c "No soy tonto, ¿sabes? No parece ser tan insignificante como lo pintas."
                 $ charles -= 1
@@ -12357,7 +12370,7 @@ label cap10_tarea_leña_2:
     $ choice_position = "default"
     menu:
         "Revelar todo lo que había en la caja: el dibujo, los símbolos y el recorte de diario.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
 
             if cruce2 == "tomas":
                 t "¡Suena verdaderamente increíble! Gracias por contármelo, [nombre_personaje]"
@@ -12400,7 +12413,7 @@ label cap10_tarea_leña_2:
                     $ charles += 1
 
         "Negarlo o decir que eran solo papeles sin sentido.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
 
             if cruce2 == "tomas":
                 t "No sigas, [nombre_personaje]. Claramente no quieres decirme la verdad."
@@ -12489,7 +12502,7 @@ label cap10_tarea_agua_2:
     $ choice_position = "default"
     menu:
         "Revelar todo lo que había en la caja: el dibujo, los símbolos y el recorte de diario.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
 
             if cruce2 == "tomas":
                 t "¡Suena verdaderamente increíble! Gracias por contármelo, [nombre_personaje]"
@@ -12532,7 +12545,7 @@ label cap10_tarea_agua_2:
                     $ charles += 1
 
         "Negarlo o decir que eran solo papeles sin sentido.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
 
             if cruce2 == "tomas":
                 t "No sigas, [nombre_personaje]. Claramente no quieres decirme la verdad."
@@ -12619,7 +12632,7 @@ label cap10_tarea_troncos_2:
     $ choice_position = "default"
     menu:
         "Revelar todo lo que había en la caja: el dibujo, los símbolos y el recorte de diario.":
-            $ compartio_info_caja = True
+            $ reporte_compartio_info_caja = True
 
             if cruce2 == "tomas":
                 t "¡Suena verdaderamente increíble! Gracias por contármelo, [nombre_personaje]"
@@ -12662,7 +12675,7 @@ label cap10_tarea_troncos_2:
                     $ charles += 1
 
         "Negarlo o decir que eran solo papeles sin sentido.":
-            $ compartio_info_caja = False
+            $ reporte_compartio_info_caja = False
 
             if cruce2 == "tomas":
                 t "No sigas, [nombre_personaje]. Claramente no quieres decirme la verdad."
@@ -13290,8 +13303,8 @@ label cap10_reunion_doble_grupo:
 
 label cap10_formacion_equipo_exploracion:
 
-    if not equipo_exploracion:
-        $ equipo_exploracion = []
+    if not reporte_equipo_exploracion:
+        $ reporte_equipo_exploracion = []
 
 
     "{i}Tienes que elegir con quién te vas a aventurar hacia la playa.{/i}"
@@ -13310,9 +13323,9 @@ label cap10_formacion_equipo_exploracion:
             jump cap10_invitar_ingrid
         "Invitar a Tomás" if not invitar_tomas:
             jump cap10_invitar_tomas
-        "No parece que nadie quiera ir contigo" if (invitar_marina and invitar_bob and invitar_erika and invitar_ingrid and invitar_tomas and len(equipo_exploracion) == 0):
+        "No parece que nadie quiera ir contigo" if (invitar_marina and invitar_bob and invitar_erika and invitar_ingrid and invitar_tomas and len(reporte_equipo_exploracion) == 0):
             jump cap10_soledad_post_fallo
-        "Solo una persona aceptó sumarse" if (invitar_marina and invitar_bob and invitar_erika and invitar_ingrid and invitar_tomas and len(equipo_exploracion) == 1):
+        "Solo una persona aceptó sumarse" if (invitar_marina and invitar_bob and invitar_erika and invitar_ingrid and invitar_tomas and len(reporte_equipo_exploracion) == 1):
             jump cap10_soledad_post_fallo
 
 label cap10_soledad_post_fallo:
@@ -13322,7 +13335,7 @@ label cap10_soledad_post_fallo:
 
     "{i}Tus intentos de conformar un grupo no tuvieron mucho éxito.{/i}"
 
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
         "{i}Eres el líder de unos grupos, pero empiezas a entender que a veces el liderazgo no significa apoyo ciego en todo.{/i}"
         "{i}Sobredimensionaste la confianza que te tienen los demás.{/i}"
     else:
@@ -13330,49 +13343,49 @@ label cap10_soledad_post_fallo:
 
     "{i}¿Habrás hecho algo mal? ¿O simplemente tus decisiones dejaron marcas más hondas de lo que imaginabas?{/i}"
 
-    if len(equipo_exploracion) == 1:
+    if len(reporte_equipo_exploracion) == 1:
 
         "{i}Sientes una mano en el hombro que trata de confortarte.{/i}"
 
-        if "bob" in equipo_exploracion:
+        if "bob" in reporte_equipo_exploracion:
             show bob parado hablando at center with Dissolve(.5)
             b "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Bob vuelve a los pocos minutos.{/i}"
             "{i}Marina lo acompaña.{/i}"
-            $ equipo_exploracion.append("marina")
+            $ reporte_equipo_exploracion.append("marina")
 
-        elif "erika" in equipo_exploracion:
+        elif "erika" in reporte_equipo_exploracion:
             show erika parada at center with Dissolve(.5)
             k "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Erika vuelve a los pocos minutos.{/i}"
             "{i}Tomás la acompaña.{/i}"
-            $ equipo_exploracion.append("tomas")
+            $ reporte_equipo_exploracion.append("tomas")
 
-        elif "marina" in equipo_exploracion:
+        elif "marina" in reporte_equipo_exploracion:
             show marina hablando at center with Dissolve(.5)
             m "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Marina vuelve a los pocos minutos.{/i}" 
             "{i}Ingrid la acompaña.{/i}"
-            $ equipo_exploracion.append("ingrid")
+            $ reporte_equipo_exploracion.append("ingrid")
 
-        elif "ingrid" in equipo_exploracion:
+        elif "ingrid" in reporte_equipo_exploracion:
             show ingrid cintura at center with Dissolve(.5)
             i "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Ingrid vuelve a los pocos minutos.{/i}"
             "{i}Tomás la acompaña.{/i}"
-            $ equipo_exploracion.append("tomas")                        
+            $ reporte_equipo_exploracion.append("tomas")                        
 
-        elif "tomas" in equipo_exploracion:
+        elif "tomas" in reporte_equipo_exploracion:
             show tomas hablando at center with Dissolve(.5)
             t "Iré a ver si puedo convencer a alguien más."
             pause .5
             "{i}Tomás vuelve a los pocos minutos.{/i}"
             "{i}Marina lo acompaña.{/i}"
-            $ equipo_exploracion.append("marina")
+            $ reporte_equipo_exploracion.append("marina")
 
     else:
         "{i}Reflexionas sobre esa idea y reconoces que hay cosas por las que nunca pediste perdón.{/i}"
@@ -13381,15 +13394,15 @@ label cap10_soledad_post_fallo:
             "Volver y explicarle a todos que no te habías detenido a pensar en todas las veces que les has fallado.":
                 "{i}Ellos sonríen, asienten, y alguno hasta te abraza, agradecido.{/i}"
                 "{i}Ingrid y Tomás dan un paso adelante y acceden a ir contigo.{/i}"
-                $ equipo_exploracion.append("tomas")
-                $ equipo_exploracion.append("ingrid")
+                $ reporte_equipo_exploracion.append("tomas")
+                $ reporte_equipo_exploracion.append("ingrid")
 
             "No es tiempo de autocrítica. Si nadie quiere acompañarte, tendrás que ir sol[e].":
                 "{i}Miras el cielo para orientarte y te propones emprender la marcha hacia la costa.{/i}"
                 "{i}De repente escuchas pasos detrás tuyo. Volteas, al parecer alguien está tratando de alcanzarte.{/i}"
 
                 "{i}Ingrid se te acerca en silencio, y se posiciona a tu lado, mostrando su apoyo y voluntad de seguirte.{/i}"
-                $ equipo_exploracion.append("ingrid")
+                $ reporte_equipo_exploracion.append("ingrid")
                 pause .5
                 "{i}Escuchas nuevamente movimiento detrás de ustedes.{/i}"                    
                 "{i}Parece que alguien más se acerca.{/i}"
@@ -13404,14 +13417,14 @@ label cap10_invitar_marina:
         show marina sonriente at center with Dissolve(0.4)
         m "¿Que si quiero ir contigo? ¡Claro!"
         m "Si encontraron algo raro, quiero estar ahí."
-        $ equipo_exploracion.append("marina")
+        $ reporte_equipo_exploracion.append("marina")
     else:
         show marina preocupada at center with Dissolve(0.4)
         m "No. No confío en ti, tus métodos y tus prioridades. Lo lamento."
 
     hide marina with Dissolve(0.4)
 
-    if len(equipo_exploracion) == 2:
+    if len(reporte_equipo_exploracion) == 2:
         jump cap10_exploracion_inicio
     else:
         jump cap10_formacion_equipo_exploracion
@@ -13423,7 +13436,7 @@ label cap10_invitar_bob:
     if ("bob" in grupo_jugador and bob >= 0) or ("bob" not in grupo_jugador and bob > 0):
         show bob parado hablando at center with Dissolve(0.4)
         b "Bien. Salgamos rápido, y mantengamos los ojos abiertos."
-        $ equipo_exploracion.append("bob")
+        $ reporte_equipo_exploracion.append("bob")
     else:
         show bob parado serio at center with Dissolve(0.4)
         b "No. Ya no es lo mismo. Si alguna vez te ganaste una pizca de mi confianza, la has perdido."
@@ -13443,14 +13456,14 @@ label cap10_invitar_erika:
     if ("erika" in grupo_jugador and erika >= 0) or ("erika" not in grupo_jugador and erika > 0):
         show erika parada at center with Dissolve(0.4)
         k "Acepto. Puede ser que necesites de mis habilidades para superar esta crisis después de todo."
-        $ equipo_exploracion.append("erika")
+        $ reporte_equipo_exploracion.append("erika")
     else:
         show erika enojada at center with Dissolve(0.4)
         k "La verdad es que no has demostrado gran capacidad para la resolución de problemas desde que nos conocimos."
         k "Lo siento, pero la respuesta es no."
         hide erika with Dissolve(0.4)
 
-    if len(equipo_exploracion) == 2:
+    if len(reporte_equipo_exploracion) == 2:
         jump cap10_exploracion_inicio
     else:
         jump cap10_formacion_equipo_exploracion
@@ -13462,14 +13475,14 @@ label cap10_invitar_ingrid:
     if ("ingrid" in grupo_jugador and ingrid >= 0) or ("ingrid" not in grupo_jugador and ingrid > 0):
         show ingrid sonriente at center with Dissolve(0.4)
         i "¡Por supuesto! Necesito saber qué está pasando allá abajo."
-        $ equipo_exploracion.append("ingrid")
+        $ reporte_equipo_exploracion.append("ingrid")
     else:
         show ingrid cintura at center with Dissolve(0.4)
         i "Me cuesta creer que tendrás la seguridad y salud de Laura y Charles como tu primera prioridad."
         i "Tendrás que encontrar a alguien más."
         hide ingrid with Dissolve(0.4)
 
-    if len(equipo_exploracion) == 2:
+    if len(reporte_equipo_exploracion) == 2:
         jump cap10_exploracion_inicio
     else:
         jump cap10_formacion_equipo_exploracion 
@@ -13481,13 +13494,13 @@ label cap10_invitar_tomas:
     if ("tomas" in grupo_jugador and tomas >= 0) or ("tomas" not in grupo_jugador and tomas > 0):
         show tomas hablando at center with Dissolve(0.4)
         t "Cuenta conmigo. Quiero respuestas, al misterio, y a qué hizo que pensaran que ir tras sus pistas era buena idea."
-        $ equipo_exploracion.append("tomas")
+        $ reporte_equipo_exploracion.append("tomas")
     else:
         show tomas enojado at center with Dissolve(0.4)
         t "Prefiero quedarme a garantizar el bienestar de los que no hemos decidido unilateralmente correr riesgos innecesarios."
         hide tomas with Dissolve(0.4)
 
-    if len(equipo_exploracion) == 2:
+    if len(reporte_equipo_exploracion) == 2:
         jump cap10_exploracion_inicio
     else:
         jump cap10_formacion_equipo_exploracion
@@ -13502,35 +13515,35 @@ label cap10_exploracion_inicio:
     "{i}En ella hay dos pares de huellas frescas.{/i}"    
 
     # Uno del grupo señala las huellas
-    if "ingrid" in equipo_exploracion:
+    if "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "¿Ya sabes lo que significa eso, verdad [nombre_personaje]?"
         y "Estas huellas fueron hechas luego de que la marea bajara."
         y "No pueden llevarnos mucha ventaja."
         hide ingrid with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "Mira eso, [nombre_personaje]."
         y "Estas huellas fueron hechas luego de que la marea bajara."
         y "No pueden llevarnos mucha ventaja."
         hide bob with Dissolve(0.4)
 
-    elif "tomas" in equipo_exploracion:
+    elif "tomas" in reporte_equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "Dos pares de huellas. ¡Seguro son Laura y Charles!"
         y "Estas huellas fueron hechas luego de que la marea bajara."
         y "No pueden llevarnos mucha ventaja."
         hide tomas with Dissolve(0.4)
 
-    elif "erika" in equipo_exploracion:
+    elif "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "Las huellas van en una dirección clara. Tienen que ser ellos."
         y "Estas huellas fueron hechas luego de que la marea bajara."
         y "No pueden llevarnos mucha ventaja."
         hide erika with Dissolve(0.4)
 
-    elif "marina" in equipo_exploracion:
+    elif "marina" in reporte_equipo_exploracion:
         show marina alerta at center with Dissolve(0.4)
         m "Uff... miren lo profundas que son esas huellas. Caminar en esta arena si que es duro."
         y "Estas huellas fueron hechas luego de que la marea bajara."
@@ -13539,27 +13552,27 @@ label cap10_exploracion_inicio:
 
     "{i}Mientras siguen la línea de huellas, alguien más en el equipo rompe el silencio.{/i}"
 
-    if "marina" in equipo_exploracion:
+    if "marina" in reporte_equipo_exploracion:
         show marina alerta at center with Dissolve(0.4)
         m "Cuidemos nuestras energías, ¿si? No sabemos qué nos espera cuando los encontremos."
         hide marina with Dissolve(0.4)
 
-    elif "erika" in equipo_exploracion:
+    elif "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "¿Y si fue uno de ellos quien convenció al otro?"
         hide erika with Dissolve(0.4)
 
-    elif "tomas"in equipo_exploracion:
+    elif "tomas"in reporte_equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "No me gusta esto. Si se fueron sin decir nada, ¿cómo podemos confiar en ellos?"
         hide tomas with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "Espero que los encontremos antes de que hagan alguna locura."       
         hide bob with Dissolve(0.4)
 
-    elif "ingrid" in equipo_exploracion:
+    elif "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "No tenemos cómo perder este rastro, siempre y cuando no perdamos el tiempo."        
         hide ingrid with Dissolve(0.4)
@@ -13590,27 +13603,27 @@ label cap10_exploracion_inicio:
 
     #condicionales segun quienes estan en el grupo de exploracion
 
-    if "ingrid" in equipo_exploracion:
+    if "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "Si vamos por las rocas, avanzaremos más rápido, pero si la marea sube antes de que volvamos, quedaremos atrapados."
         hide ingrid with Dissolve(0.4)
 
-    if "bob" in equipo_exploracion:
+    if "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "Por la selva es más seguro... en teoría."
         hide bob with Dissolve(0.4)
 
-    if "tomas" in equipo_exploracion:
+    if "tomas" in reporte_equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "En la selva avanzaremos más lento, y además corremos el riesgo de perdernos. La vegetación está muy densa."        
         hide tomas with Dissolve(0.4)
 
-    if "erika" in equipo_exploracion:
+    if "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "No sabemos exactamente qué tan larga es la ventana de tiempo que nos permite la marea."
         hide erika with Dissolve(0.4)
 
-    if "marina" in equipo_exploracion:
+    if "marina" in reporte_equipo_exploracion:
         show marina alerta at center with Dissolve(0.4)
         m "También hay que pensar que por las rocas terminaremos ensopados, con las olas estrellándose frente a nosotros"
         m "Eso hará todo un poco más difícil..."
@@ -13633,27 +13646,27 @@ label cap10_exploracion_jungla:
     "{i}El follaje se cierra sobre sus cabezas. El sol queda atrapado entre ramas trenzadas.{/i}"
     "{i}Avanzar se vuelve una lucha contra raíces, humedad y caminos casi impenetrables.{/i}"
 
-    if "marina" in equipo_exploracion:
+    if "marina" in reporte_equipo_exploracion:
         show marina molesta at center with Dissolve(0.4)
         m "Creo que después de todo hubiese preferido mojarme..."
         hide marina with Dissolve(0.4)
 
-    elif "ingrid" in equipo_exploracion:
+    elif "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "¿Estamos seguros de que esto no es un laberinto vegetal que nunca se termina?"
         hide ingrid with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "No dejemos que la espesura nos desanime. ¡A redoblar fuerzas!"
         hide bob with Dissolve(0.4)
 
-    elif "tomas" in equipo_exploracion:
+    elif "tomas" in reporte_equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "La única razón por la que no nos hemos perdido es que es tan densa la espesura que vamos dejando un zurco en la vegetación."        
         hide tomas with Dissolve(0.4)
 
-    elif "erika" in equipo_exploracion:
+    elif "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "Me quedó la espina en el ojo con lo de la marea. ¿Nos habría dado el tiempo, después de todo?"
         hide erika with Dissolve(0.4)
@@ -13670,27 +13683,27 @@ label cap10_exploracion_jungla:
     "{i}Lo examinan, esperanzados por encontrar un rastro de Laura o Charles.{/i}"
     "{i}Pero rápidamente se dan cuenta de algo terrible. Este es su propio rastro. Han estado caminando en círculos.{/i}"
 
-    if "tomas" in equipo_exploracion:
+    if "tomas" in reporte_equipo_exploracion:
         show tomas frustrado at left with Dissolve(0.4)
         t "Esto es ridículo. No estamos explorando, estamos transpirando... ¡y sin rumbo!"
         hide tomas with Dissolve(0.4)
 
-    elif "marina" in equipo_exploracion:
+    elif "marina" in reporte_equipo_exploracion:
         show marina molesta at center with Dissolve(0.4)
         m "Creo... Creo que ya pasamos por aquí..."
         hide marina with Dissolve(0.4)
 
-    elif "ingrid" in equipo_exploracion:
+    elif "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "Lo que temíamos. Nos perdimos y nos fuimos desviando."
         hide ingrid with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "A este paso nunca los encontraremos. Asegurémonos de dejar marcas para que esto no vuelva a pasar."
         hide bob with Dissolve(0.4)
 
-    elif "erika" in equipo_exploracion:
+    elif "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "Después de todo, la que nos atrapó fue la marea verde. Esta espesura es realmente un laberinto."
         hide erika with Dissolve(0.4)
@@ -13709,27 +13722,27 @@ label cap10_exploracion_jungla:
     "{i}Pasando la alta arbolada encuentran un manglar.{/i}"
     "{i}Con ramas saliendo del barro negro, las sombras dibujan figuras siniestras en la superficie del agua estancada.{/i}" # GOTY
 
-    if "erika" in equipo_exploracion:
+    if "erika" in reporte_equipo_exploracion:
         show erika preocupada at right with Dissolve(0.4)
         k "No me encanta esto. Si nos hundimos ahí adentro, no hay vuelta."
         hide erika with Dissolve(0.4)
 
-    elif "tomas" in equipo_exploracion:
+    elif "tomas" in reporte_equipo_exploracion:
         show tomas frustrado at left with Dissolve(0.4)
         t "Esto se está poniendo cada vez más peligroso. Espero que los demás no hayan venido por aquí también."
         hide tomas with Dissolve(0.4)
 
-    elif "marina" in equipo_exploracion:
+    elif "marina" in reporte_equipo_exploracion:
         show marina molesta at center with Dissolve(0.4)
         m "En este tipo de pantanos tropicales... ¿no hay serpientes?"
         hide marina with Dissolve(0.4)
 
-    elif "ingrid" in equipo_exploracion:
+    elif "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "Encontrar un camino seguro a través de la ciénaga será todo un desafío."
         hide ingrid with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "Debo admitir que la selva quizá no era la opción más segura después de todo."
         hide bob with Dissolve(0.4)
@@ -13754,7 +13767,7 @@ label cap10_transicion_rocas_tardia:
 
     scene bg costa_bifurcacion with fade
     show screen combined_ui
-    $ reloj_marea +=1
+    $ reporte_reloj_marea +=1
 
     "{i}Retroceden desde el manglar, pasando por los altos árboles y volviendo por el camino que dejaron entre la maleza.{/i}"
     "{i}Cuando por fin emergen nuevamente a la costa, la vista los detiene en seco.{/i}"
@@ -13764,40 +13777,40 @@ label cap10_transicion_rocas_tardia:
     "{i}Las rocas que antes parecían abiertas como un sendero ya están parcialmente cubiertas.{/i}"
     "{i}El mar ruge con una nueva cadencia y las olas son bastante más altas.{/i}"
 
-    if "marina" in equipo_exploracion:
+    if "marina" in reporte_equipo_exploracion:
         show marina seria at left with Dissolve(0.4)
         m "Tendríamos que haber ido por las rocas desde un principio."
         hide marina with Dissolve(0.4)
 
-    if "bob" in equipo_exploracion:
+    if "bob" in reporte_equipo_exploracion:
         show bob tenso at center with Dissolve(0.4)
         b "Tenemos dos opciones: cruzar ya y arriesgarnos a resbalar... o esperar y ver qué tan rápido está subiendo."
         b "Corremos el riesgo de perder la última chance de atravesar al otro lado."
         hide bob with Dissolve(0.4)
 
-    if "ingrid" in equipo_exploracion:
+    if "ingrid" in reporte_equipo_exploracion:
         show ingrid seria at center with Dissolve(0.4)
         i "Si nos hubiésemos detenido a ver qué tan rápido subía la marea, nos habríamos dado cuenta de que había tiempo de sobra."
         i "Ahora puede que ya sea demasiado tarde."
         hide ingrid with Dissolve(0.4)   
 
-    if "tomas" in equipo_exploracion:
+    if "tomas" in reporte_equipo_exploracion:
         show tomas cruzado at left with Dissolve(0.4)
         t "Perdimos demasiado tiempo dando vueltas en esa condenada selva."        
         hide tomas with Dissolve(0.4)
 
-    if "erika" in equipo_exploracion:
+    if "erika" in reporte_equipo_exploracion:
         show erika preocupada at left with Dissolve(0.4)
         k "No me gusta esto. En una hora ese sendero, que ahora apenas vemos, va a estar bajo un metro de agua."
         hide erika with Dissolve(0.4)
 
     menu:
         "Intentar atravesar las rocas ahora, antes de que la marea suba más.":
-            $ decision_rocas_tardia = "cruzar"
+            $ reporte_decision_rocas_tardia = "cruzar"
             jump cap10_exploracion_rocas
 
         "Esperar unos minutos y observar el comportamiento de la marea antes de decidir.":
-            $ decision_rocas_tardia = "esperar"
+            $ reporte_decision_rocas_tardia = "esperar"
             jump cap10_espera_en_rocas
 
 label cap10_espera_en_rocas:
@@ -13808,13 +13821,13 @@ label cap10_espera_en_rocas:
     "{i}Se quedan junto a las rocas, observando el movimiento del agua, como si la respuesta fuera un suspiro entre olas.{/i}"
     "{i}El sol está más bajo. La línea húmeda en la roca no llega al medio metro.{/i}"
 
-    if "erika" in equipo_exploracion:
+    if "erika" in reporte_equipo_exploracion:
         show erika observando at left with Dissolve(0.4)
         k "Si medio metro más, nos quedamos afuera..."
         k "Laura y Charles estarán atrapados allí un día entero."
         hide erika with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         show bob ceño_fruncido at left with Dissolve(0.4)
         b "Esperar demasiado no es buena idea. Cruzar sin saber no me gusta demasiado, pero ya estamos aquí, y no hay opción."
         hide bob with Dissolve(0.4)
@@ -13829,7 +13842,7 @@ label cap10_exploracion_rocas:
     scene bg zona_rocas with fade
     show screen combined_ui
 
-    if decision_rocas_tardia == "cruzar" or $ decision_rocas_tardia = "esperar":
+    if reporte_decision_rocas_tardia == "cruzar" or reporte_decision_rocas_tardia = "esperar":
         "{i}El mar se escucha distinto: más cerca, más violento.{/i}"
         "{i}Las rocas, que mas temprano estaban secas, ahora son salpicadas por las olas. No hay margen para titubear.{/i}"
     else:
@@ -13838,7 +13851,7 @@ label cap10_exploracion_rocas:
     "{i}Avanzar con cuidado y sin enlentencer la marcha se les hace muy difícil.{/i}"
     "{i}El ruido de las olas es interumpido por un grito de dolor.{/i}"
 
-    if "erika" in equipo_exploracion:    
+    if "erika" in reporte_equipo_exploracion:    
         "{i}Erika dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
         show erika preocupada at right with Dissolve(0.4)
         menu:
@@ -13848,7 +13861,7 @@ label cap10_exploracion_rocas:
                 "{i}Ella se encuentra bien, que es lo que importa. Discutir ahora solo los haría perder más tiempo.{/i}"
         hide erika with Dissolve(0.4)
         
-    elif "tomas" in equipo_exploracion:
+    elif "tomas" in reporte_equipo_exploracion:
         "{i}Tomás dió un paso en falso y cayó. Lo ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
         show tomas frustrado at left with Dissolve(0.4)
         menu:
@@ -13858,7 +13871,7 @@ label cap10_exploracion_rocas:
                 "{i}El se encuentra bien, que es lo que importa. Discutir ahora solo los haría perder más tiempo.{/i}" 
         hide tomas with Dissolve(0.4)
 
-    elif "marina" in equipo_exploracion:        
+    elif "marina" in reporte_equipo_exploracion:        
         "{i}Marina dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
         show marina molesta at center with Dissolve(0.4)
         menu:
@@ -13868,7 +13881,7 @@ label cap10_exploracion_rocas:
                 "{i}Ella se encuentra bien, que es lo que importa. Discutir ahora solo los haría perder más tiempo.{/i}"        
         hide marina with Dissolve(0.4)
 
-    elif "ingrid" in equipo_exploracion:
+    elif "ingrid" in reporte_equipo_exploracion:
         "{i}Ingrid dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
         show ingrid seria at center with Dissolve(0.4)
         menu:
@@ -13878,7 +13891,7 @@ label cap10_exploracion_rocas:
                 "{i}Ella se encuentra bien, que es lo que importa. Discutir ahora solo los haría perder más tiempo.{/i}"
         hide ingrid with Dissolve(0.4)
 
-    elif "bob" in equipo_exploracion:
+    elif "bob" in reporte_equipo_exploracion:
         "{i}Bob dió un paso en falso y cayó. Lo ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"        
         show bob parado hablando at center with Dissolve(0.4)
         menu:
@@ -13986,7 +13999,7 @@ label cap10_inicio_cueva:
     "{i}Voltean para ver y reconocen los rostros agotados de los integrantes del otro grupo de búsqueda.{/i}"
     "{i}Se acercan jadeando, y se detienen a contemplar la entrada a la cueva.{/i}"
 
-    if "bob" not in equipo_exploracion:
+    if "bob" not in reporte_equipo_exploracion:
         show bob parado hablando at center with Dissolve(0.4)
         b "¡Qué suerte que están todos bien, [nombre_personaje]!"
         b "El camino hasta aquí resultó ser bastante más accidentado de lo que esperábamos, ¿eh?"
@@ -14006,7 +14019,7 @@ label cap10_inicio_cueva:
         hide bob with Dissolve(0.4)
         hide erika with Dissolve(0.4)
     
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
         "{i}Todas las miradas se posan en ti con mucha expectativa. Todos esperan que des el primer paso.{/i}"
         "{i}Asientes con la cabeza y te adentras en la profundidad, con los demás siguiéndote en fila.{/i}"
 
@@ -14104,7 +14117,7 @@ label chapter_11_start:
     hide ingrid with Dissolve(0.4)
     hide erika with Dissolve(0.4)   
 
-    if jugador_es_lider:
+    if reporte_jugador_es_lider:
         if marina > 0:
             show marina at left with Dissolve(0.4)
             m "Bien. Eso me deja más tranquila. Debo admitir que no estaba muy segura de entrar..."
@@ -14465,7 +14478,7 @@ label cap11_busqueda_charles:
     menu:
         "Ayudar a Charles a escarbar. No pueden irse con tan poco, luego de arriesgar tanto.":
             $ charles += 1
-            $ reloj_marea +=1
+            $ reporte_reloj_marea +=1
             "{i}Juntos remueven barro y arena hasta que se topan con un cofre de madera podrida, que colapsa sobre sí mismo.{/i}"
             "{i}Hay muchas más joyas aquí, pero también hay mucha más agua cayendo.{/i}"
             "{i}Charles comienza a sacar las gemas del pozo y te las pasa para que las guardes.{/i}"
@@ -14537,9 +14550,9 @@ label cap11_regreso_desde_excavacion:
 
 label cap11_salida_final:
 
-    if reloj_marea == 0:
+    if reporte_reloj_marea == 0:
         jump cap11_salida_rapida_abertura
-    elif reloj_marea == 1:
+    elif reporte_reloj_marea == 1:
         jump cap11_salida_media_abertura
     else:
         jump cap11_salida_tardia_abertura
@@ -15065,7 +15078,7 @@ label cap12_discusion_rescate:
 
     menu:
         "Defender a Laura y Charles":
-            $ cap12_choice = "Defender a Laura y Charles"
+            $ reporte_cap12_choice = "Defender a Laura y Charles"
             $ laura += 1
             $ charles += 1
             y "Tomaron una decisión arriesgada, sí. Pero también actuaron con iniciativa."
@@ -15073,7 +15086,7 @@ label cap12_discusion_rescate:
             c "¡Al fin alguien que lo entiende!"
 
         "Recriminar su actitud":
-            $ cap12_choice = "Recriminar su actitud"
+            $ reporte_cap12_choice = "Recriminar su actitud"
             $ marina += 1
             $ erika += 1
             y "Lo que hicieron fue imprudente. Pusieron en riesgo al grupo."
@@ -15081,7 +15094,7 @@ label cap12_discusion_rescate:
             k "Gracias por decirlo."
 
         "Intentar mediar entre ambos lados":
-            $ cap12_choice = "Intentar mediar entre ambos lados"
+            $ reporte_cap12_choice = "Intentar mediar entre ambos lados"
             $ bob += 1
             $ ingrid += 1
             y "Lo que importa ahora es que estamos todos vivos. Aprendamos de esto."
@@ -15089,14 +15102,14 @@ label cap12_discusion_rescate:
             i "Sí. No podemos repetir errores."
 
         "Quedarse en silencio":
-            $ cap12_choice = "Quedarse en silencio"
+            $ reporte_cap12_choice = "Quedarse en silencio"
             y "{i}Preferís observar. Las palabras vuelan, pero las miradas pesan más.{/i}"
 
     jump cap12_reacciones_jugador
 
 label cap12_reacciones_jugador:
 
-    if cap12_choice == "Defender a Laura y Charles":
+    if reporte_cap12_choice == "Defender a Laura y Charles":
         show laura agradecida at left
         l "No todos entienden lo que es actuar bajo presión. Gracias por no juzgarnos."
 
@@ -15109,7 +15122,7 @@ label cap12_reacciones_jugador:
         show erika decepcionada at centerleft
         k "Pensé que tenías más criterio..."
 
-    elif cap12_choice == "Recriminar su actitud":
+    elif reporte_cap12_choice == "Recriminar su actitud":
         show marina satisfecha at right
         m "Gracias por poner las cosas en su lugar. Ya era hora."
 
@@ -15122,7 +15135,7 @@ label cap12_reacciones_jugador:
         show charles incómodo at centerright
         c "Bueno, ya entendí el mensaje."
 
-    elif cap12_choice == "Intentar mediar entre ambos lados":
+    elif reporte_cap12_choice == "Intentar mediar entre ambos lados":
         show bob tranquilo at center
         b "Eso es lo que necesitamos. Cabeza fría."
 
@@ -15135,7 +15148,7 @@ label cap12_reacciones_jugador:
         show charles reflexivo at centerright
         c "Sí... pudo haber salido mal."
 
-    elif cap12_choice == "Quedarse en silencio":
+    elif reporte_cap12_choice == "Quedarse en silencio":
         show marina desconfiada at right
         m "¿Nada que decir? A veces el silencio también toma partido."
 
@@ -15444,15 +15457,15 @@ label cap12_plan_posturas:
 
     menu:
         "La balsa es nuestra mejor oportunidad. Hay que arriesgarse.":
-            $ influencia_charles += 1
+            $ reporte_influencia_charles += 1
             "Le hablas con convicción. Charles asiente, aunque aún duda."
 
         "La hoguera es más sensata. No podemos lanzarnos al mar a ciegas.":
-            $ influencia_charles -= 1
+            $ reporte_influencia_charles -= 1
             "Le explicas los riesgos. Charles parece inclinarse hacia tu lógica."
 
         "Ambas ideas tienen sentido. Lo importante es que el grupo esté unido.":
-            $ influencia_charles = 0
+            $ reporte_influencia_charles = 0
             "Charles sonríe. 'Eso también es verdad', dice, aunque sigue sin decidirse."
 
     "La discusión continúa. Algunos personajes cambian de postura, otros se aferran a su plan."
@@ -15463,13 +15476,13 @@ label cap12_plan_charles_decide:
 
     "Charles se queda en silencio unos segundos. Mira a Erika, luego a Bob. Finalmente te mira a ti."
 
-    if influencia_charles > 0:
+    if reporte_influencia_charles > 0:
         show charles decidido at left
         c "Podría ir con ustedes. Si hay una posibilidad de salir, hay que tomarla."
 
         $ charles_grupo = "balsa"
 
-    elif influencia_charles < 0:
+    elif reporte_influencia_charles < 0:
         show charles firme at left
         c "Podría quedarme con Erika. Prefiero esperar ayuda que arriesgarme al mar."
 
@@ -15507,13 +15520,13 @@ label cap12_plan_division:
 
     menu:
         "Unirme al equipo que construye una balsa con Bob, Laura y Marina":
-            $ proyecto = "balsa"
+            $ reporte_proyecto = "balsa"
             $ equipo_actual = ["jugador", "Bob", "Marina", "Laura"]
             #$ posibles_reclutas = ["Charles", "Tomas"]
             jump cap12_plan_division2
 
         "Unirme al equipo de la hoguera con Erika, Ingrid y Tomas":
-            $ proyecto = "hoguera"
+            $ reporte_proyecto = "hoguera"
             $ equipo_actual = ["jugador", "Erika", "Tomas", "Ingrid"]
             #$ posibles_reclutas = ["Charles", "Tomas"]
             jump cap12_plan_division2
@@ -15524,7 +15537,7 @@ label cap12_plan_division2:
 
     "El grupo se divide en dos zonas de la playa. Algunos se acercan a Bob, otros a Erika."
 
-    if proyecto == "balsa":
+    if reporte_proyecto == "balsa":
         show bob motivado at center
         b "Vamos a necesitar hojas de palma para trensar cuerdas, troncos, ramas... y el bote inflable. ¡Manos a la obra!"
 
@@ -15538,7 +15551,7 @@ label cap12_plan_division2:
         "Te sumas al grupo de la balsa. El trabajo comienza con energía y urgencia."
         jump cap12_balsa_inicio
 
-    elif proyecto == "hoguera":
+    elif reporte_proyecto == "hoguera":
         show erika concentrada at center
         k "Necesitamos madera seca, algo de aceite de alguna planta, telas... y una estructura que aguante el viento."
 

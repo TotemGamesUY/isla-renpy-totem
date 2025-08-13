@@ -342,11 +342,11 @@ screen navigation():
 
             textbutton _("Comenzar Juego") action Start()
 
-        else:
+        #else:
 
-            textbutton _("Histórico") action ShowMenu("history")
+            #textbutton _("Histórico") action ShowMenu("history")
 
-            textbutton _("Guardar Partida") action ShowMenu("save")
+            #textbutton _("Guardar Partida") action ShowMenu("save")
         
         if main_menu and persistent.game_started:
             
@@ -358,7 +358,7 @@ screen navigation():
             Function(renpy.save_persistent)
         ]
 
-        textbutton _("Preferencias") action ShowMenu("preferences")
+        #textbutton _("Preferencias") action ShowMenu("preferences")
 
         if _in_replay:
 
@@ -366,14 +366,14 @@ screen navigation():
 
         elif not main_menu:
 
-            textbutton _("Main Menu") action MainMenu()
+            textbutton _("Menú Principal") action MainMenu()
 
         textbutton _("Info") action ShowMenu("about")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+        #if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Ayuda") action ShowMenu("help")
+            #textbutton _("Ayuda") action ShowMenu("help")
 
         if renpy.variant("pc"):
 
