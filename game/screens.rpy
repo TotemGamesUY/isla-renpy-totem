@@ -338,7 +338,7 @@ screen navigation():
 
         spacing gui.navigation_spacing
         
-        if main_menu and not persistent.game_started:
+        if not persistent.game_started:
 
             textbutton _("Comenzar Juego") action Start()
 
@@ -348,15 +348,15 @@ screen navigation():
 
             #textbutton _("Guardar Partida") action ShowMenu("save")
         
-        if main_menu and persistent.game_started:
+        if persistent.game_started:
             
-            textbutton _("Cargar Partida") action FileLoad(1, confirm=False)
+            textbutton _("Cargar partida") action Function(renpy.load, renpy.newest_slot())
 
-        textbutton _("Reiniciar partida") action [
-            Function(setattr, persistent, "game_started", False),
-            Function(setattr, persistent, "cantidad_capitulos", 0),
-            Function(renpy.save_persistent)
-        ]
+        #textbutton _("Reiniciar partida") action [
+        #    Function(setattr, persistent, "game_started", False),
+        #    Function(setattr, persistent, "cantidad_capitulos", 0),
+        #    Function(renpy.save_persistent)
+        #]
 
         #textbutton _("Preferencias") action ShowMenu("preferences")
 

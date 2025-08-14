@@ -17326,4 +17326,3 @@ label epilogo_isla:
     "El juego termina aqui!!!!"
 
     return
-
