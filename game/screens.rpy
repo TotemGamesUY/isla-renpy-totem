@@ -307,7 +307,7 @@ screen quick_menu():
 init python:
     config.overlay_screens.append("quick_menu")
 
-default quick_menu = True
+
 
 style quick_button is default
 style quick_button_text is button_text
@@ -352,11 +352,11 @@ screen navigation():
             
             textbutton _("Cargar partida") action Function(renpy.load, renpy.newest_slot())
 
-        #textbutton _("Reiniciar partida") action [
-        #    Function(setattr, persistent, "game_started", False),
-        #    Function(setattr, persistent, "cantidad_capitulos", 0),
-        #    Function(renpy.save_persistent)
-        #]
+        textbutton _("Reiniciar partida") action [
+            Function(setattr, persistent, "game_started", False),
+            Function(setattr, persistent, "cantidad_capitulos", 0),
+            Function(renpy.save_persistent)
+        ]
 
         #textbutton _("Preferencias") action ShowMenu("preferences")
 
