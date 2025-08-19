@@ -143,6 +143,8 @@ image bg gruta_inundada = im.Scale("bg gruta_inundada.jpg", config.screen_width,
 image bg gruta_inundada2 = im.Scale("bg gruta_inundada2.jpg", config.screen_width, config.screen_height)
 image bg manglar_claro_turquesa = im.Scale("bg manglar_claro_turquesa.jpg", config.screen_width, config.screen_height)
 image bg cueva_lago = im.Scale("bg cueva_lago.jpg", config.screen_width, config.screen_height)
+image bg cueva_corriente_alta_shark = im.Scale("bg cueva_corriente_alta_shark.jpg", config.screen_width, config.screen_height)
+image bg cueva_corriente_alta = im.Scale("bg cueva_corriente_alta.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
 # PLACEHOLDERS:
 
@@ -3378,7 +3380,7 @@ label init_buscar_comida:
 
             $ choice_position = "default" # default alta superior
             menu:
-                "Laura, tu ya descansante bastante mientras buscabamos refugio.":
+                "Laura, tú ya descansante bastante mientras buscábamos refugio.":
                     $ desicion_intro += 1
                     $ reporte_comida_chicana_l = True
                     show laura enojada at center
@@ -12533,10 +12535,10 @@ label cap10_tarea_leña_2:
 
 label cap10_tarea_agua_2:
 
-    scene bg jungle_pool with fade
+    scene bg jungle river with fade
     show screen combined_ui
 
-    "{i}La caminata hacia las pendientes del norte es corta, pero empinada.{/i}"
+    "{i}La caminata hacia el arroyo es larga y empinada.{/i}"
     "{i}Los recipientes improvisados de agua siguen en su sitio, llenos de hojas húmedas y barro filtrado.{/i}"
     "{i}Mientras buscas algo para limpiarlos, sientes que no estás solo.{/i}"
     
@@ -13907,10 +13909,10 @@ label cap10_espera_en_rocas:
 
 label cap10_exploracion_rocas:
 
-    scene bg zona_rocas with fade
+    scene bg zona_rocas with Dissolve(0.4)
     show screen combined_ui
 
-    if reporte_decision_rocas_tardia == "cruzar" or reporte_decision_rocas_tardia = "esperar":
+    if reporte_decision_rocas_tardia == "cruzar" or reporte_decision_rocas_tardia == "esperar":
         "{i}El mar se escucha distinto: más cerca, más violento.{/i}"
         "{i}Las rocas, que mas temprano estaban secas, ahora son salpicadas por las olas. No hay margen para titubear.{/i}"
     else:
@@ -13921,7 +13923,7 @@ label cap10_exploracion_rocas:
 
     if "erika" in reporte_equipo_exploracion:    
         "{i}Erika dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
-        show erika sorprendida at right with Dissolve(0.4)
+        show erika gr sorprendida at leftgr with Dissolve(0.4)
         menu:
             "Pedirle que tenga más cuidado.":
                 y "Erika, ten cuidado. Si uno de nosotros se lastima, esta misión de rescate está acabada."
@@ -13931,7 +13933,7 @@ label cap10_exploracion_rocas:
         
     elif "tomas" in reporte_equipo_exploracion:
         "{i}Tomás dió un paso en falso y cayó. Lo ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
-        show tomas frustrado at left with Dissolve(0.4)
+        show tomas gr serio at leftgr with Dissolve(0.4)
         menu:
             "Pedirle que tenga más cuidado.":
                 y "Tomás, ten cuidado. Si uno de nosotros se lastima, esta misión de rescate está acabada."
@@ -13941,7 +13943,7 @@ label cap10_exploracion_rocas:
 
     elif "marina" in reporte_equipo_exploracion:        
         "{i}Marina dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
-        show marina molesta at center with Dissolve(0.4)
+        show marina gr triste at leftgr with Dissolve(0.4)
         menu:
             "Pedirle que tenga más cuidado.":
                 y "Marina, ten cuidado. Si uno de nosotros se lastima, esta misión de rescate está acabada."
@@ -13951,7 +13953,7 @@ label cap10_exploracion_rocas:
 
     elif "ingrid" in reporte_equipo_exploracion:
         "{i}Ingrid dió un paso en falso y cayó. La ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"
-        show ingrid seria at center with Dissolve(0.4)
+        show ingrid gr seria at leftgr with Dissolve(0.4)
         menu:
             "Pedirle que tenga más cuidado.":
                 y "Ingrid, ten cuidado. Si uno de nosotros se lastima, esta misión de rescate está acabada."
@@ -13961,7 +13963,7 @@ label cap10_exploracion_rocas:
 
     elif "bob" in reporte_equipo_exploracion:
         "{i}Bob dió un paso en falso y cayó. Lo ayudas a levantarse, y parece no haber sufrido más que un rasguño.{/i}"        
-        show bob parado hablando at center with Dissolve(0.4)
+        show bob gr serio sucio at leftgr with Dissolve(0.4)
         menu:
             "Pedirle que tenga más cuidado.":
                 y "Bob, ten cuidado. Si uno de nosotros se lastima, esta misión de rescate está acabada."
@@ -13971,7 +13973,7 @@ label cap10_exploracion_rocas:
 
     "{i}Avanzan con más cuidado y lentamente, pero finalmente llegan a una pequeña playa escondida.{/i}"
  
-    scene bg playa_gruta_entrada with fade
+    scene bg playa_gruta_entrada with Dissolve(0.4)
     
     "{i}La entrada a una cueva es visible entre dos riscos de piedra cubierta cubierta de musgo.{/i}"
     "{i}Las marcas de agua llegan a la altura de tu pecho.{/i}"
@@ -14331,9 +14333,10 @@ label cap11_dialogos_en_marcha:
 
     "{i}El grupo avanza lentamente, cada vez más consciente de lo traicionera que es la gruta, y tratando de no pensar en la marea.{/i}"
     "{i}Bob parece querer decir algo. Se nota la duda en su rostro, pero finalmente rompe el silencio.{/i}"
-
+    show bob gr pensando at leftgr with Dissolve(.4)
     b "Esto definitivamente es una trampa mortal. Miren esa grieta... es aún peor de lo que Ingrid imaginaba."
     "{i}Bob señala unas grietas en la pared de la cueva por las que se filtra agua.{/i}"
+    show erika gr conversando at rightgr with Dissolve(.4)
     k "Entra agua, pero no aire..."    
     
     hide bob
@@ -14577,14 +14580,14 @@ label cap11_joyas_rescate_dificil:
 
 label cap11_regreso_desde_excavacion:
 
-    scene bg cueva_tension_retorno with fade
+    scene bg gruta_marca_agua with Dissolve(0.4)
     show screen combined_ui
 
     "{i}Charles camina detrás tuyo, con un trapo con las pocas joyas recogidas apretado entre sus dedos.{/i}"
     "{i}No dice mucho, pero se nota que aún está lidiando con la frustración de no haber podido rescatar algo más.{/i}"
     "{i}El agua, que ahora alcanza sus rodillas hace que cada paso requiera un gran esfuerzo, y es dificil ver donde pisar.{/i}"
 
-    show charles frustrado at center with Dissolve(0.4)
+    show charles boca abierta at center with Dissolve(0.4)
     c "Podríamos haber sacado el resto. Pero entiendo... era arriesgado. Tal vez podamos vuelver cuando baje la marea."
     hide charles with Dissolve(0.4)
 
@@ -14606,14 +14609,16 @@ label cap11_salida_final:
 
     if reporte_reloj_marea == 0:
         jump cap11_salida_rapida_abertura
+
     elif reporte_reloj_marea == 1:
         jump cap11_salida_media_abertura
+        
     else:
         jump cap11_salida_tardia_abertura
 
 label cap11_salida_rapida_abertura:
 
-    scene bg gruta inundada with fade
+    scene bg gruta_inundada with fade
     show screen combined_ui
 
     "{i}La abertura por la que habían entrado está inundada. El agua se sacude dentro de la caverna con cada embate de las olas afuera.{/i}"
@@ -14624,19 +14629,21 @@ label cap11_salida_rapida_abertura:
     "{i}Pruebas trepar, pero en seguida te das cuenta de que las rocas están húmedas y la pendiente ahora requiere usar manos y piernas.{/i}"
     "{i}Cualquiera de ustedes podría hacerlo, pero Laura no lo logrará sin ayuda.{/i}"
 
-    show bob nervioso at left with Dissolve(0.4)    
+    
 
     if bob < 0:
+        show bob gr parado enojado at leftgr with Dissolve(0.4)    
         b "Vamos, [nombre_personaje]. Demuéstranos que no eres tan mal líder como yo creí. ¿Qué hacemos?"
     else:
+        show bob gr parado hablando at leftgr with Dissolve(0.4)    
         b "Lo que sea que tengas en mente, hagámoslo rápido."
     hide bob with Dissolve(0.4)
 
-    show ingrid parada  at center with Dissolve(0.4)
+    show ingrid gr cintura  at rightgr with Dissolve(0.4)
     i "Laura, vamos a ayudarte, como cuando me ayudaron ustedes a mi, ¿recuerdas?. Tu tranquila."
     hide ingrid with Dissolve(0.4)
 
-    "Laura extiende la mano, sin hablar. En sus ojos ves que el miedo y la culpa la distraen del dolor."
+    "{i}Laura extiende la mano, sin hablar. En sus ojos ves que el miedo y la culpa la distraen del dolor.{/i}"
 
     menu:
         "La sujetas con fuerza, ayudándola a trepar.":
@@ -14646,17 +14653,17 @@ label cap11_salida_rapida_abertura:
             "{i}El de ella sin embargo, no tanto. Se suelta poco antes de llegar arriba, y se resbala, cayendo.{/i}"
             menu:
                 "Tratar de atajarla.":
-                    "{i}No llegas a atajarla, pero logras frenar un poco su caída, y el agua hace el resto.{/i}"
+                    "{i}El cansancio es mucho y no logras atraparla, pero logras frenar un poco su caída, y el agua hace el resto.{/i}"
                 "Alertar a Charles.":
                     "{i}Abajo, a nivel de suelo, Charles logra atraparla y amortigua el impacto tirándose de espaldas hacia atrás, al agua.{/i}"
 
-        "Le haces señas a Charles para que la asista, mientras tu abres camino, tanteando la firmeza de las rocas y apartando raíces.":
+        "Le haces señas a Charles para que la asista, mientras tú abres camino, tanteando la firmeza de las rocas y apartando raíces.":
             "{i}Los musgos y raíces están más resbalosas de lo que creías.{/i}"
             "{i}Laura avanzan lentamente, ella primero, usando sus brazos, y Tomás empujándola detrás.{/i}"
             "{i}De repente, ella resbala y su agarre en el musgo se desprende, poco antes de llegar arriba, y se resbala, cayendo.{/i}"
             menu:
-                "Alertar a Tomás.":
-                    "{i}Tomás, no llega a atajarla, pero logra frenar un poco su caída, y el agua hace el resto.{/i}"
+                "Alertar a Tomas.":
+                    "{i}Tomas, logra frenar un poco su caída, y el agua hace el resto.{/i}"
                 "Alertar a Charles.":
                     "{i}Abajo, a nivel de suelo, Charles logra atraparla y amortigua el impacto tirándose de espaldas hacia atrás, al agua.{/i}"
 
@@ -14678,19 +14685,21 @@ label cap11_salida_rapida_abertura:
 
 label cap11_salida_rapida_salida:
 
-    scene bg manglar_luz_gris with fade
+    scene bg manglar_claro_turquesa with Dissolve(0.4)
     show screen combined_ui
 
     "{i}La salida los recibe con luz ceniza. Las raíces del manglar los acogen y protegen, pero el aire está pesado.{/i}"
    
-    show erika exhausta at left with Dissolve(0.4)
+    show erika parada at left with Dissolve(0.4)
     k "Están todos... temía que alguno fuera a quedarse atrás. Cada vez entra más agua."
     hide erika with Dissolve(0.4)
 
-    show charles triste at center with Dissolve(0.4)    
+    
     if charles >= 2:
+        show charles triste at center with Dissolve(0.4)    
         c "Lo lamento, no queria ponerlos a todos en peligro."
     else:
+        show charles brazos cruzados at center with Dissolve(0.4)    
         c "Me pregunto cuantas joyas abrán quedado enterradas en el fondo de la cueva."
     hide charles with Dissolve(0.4)
 
@@ -14709,8 +14718,10 @@ label cap11_salida_rapida_salida:
         "Finalmente terminamos salvándonos nosotros, y parte del tesoro.":
             $ charles += 1
             if charles >= 2:
+                show charles sonriente at center with Dissolve(0.4) 
                 "{i}Charles te sorníe. Sabes que le hubiese gustado recuperar el resto del tesoro, pero que valora más su vida.{/i}"
             else:
+                show charles enojado at center with Dissolve(0.4) 
                 "{i}Charles cruza miradas contigo. Claramente no está contento con las pocas joyas que pudieron recuperar.{/i}"
         "Te sientas a mirar la entrada ya sumergida, en silencio.":
             $ bob += 1
@@ -14837,35 +14848,36 @@ label cap11_salida_media_salida:
     jump cap11_post_salida_media
 
 label cap11_salida_tardia_abertura:
-
-    scene bg cueva_corriente_alta with fade
+    scene bg pasillo_agua_altura_pecho with Dissolve(0.5)
     show screen combined_ui
 
     "{i}El agua le llega al mentón a los de menor estatura, y avanzar es una combinación de caminata y nado.{/i}"
     "{i}La fuerza de la corriente solo lo hace más difícil, y empiezan a dudar si llegarán a salir a tiempo.{/i}"
-    "{i}Cuando llegan a la última caverna, está totalmente inundada. El agua se sacude dentro de la caverna con cada embate de las olas afuera.{/i}"
-    "{i}La grieta en el techo de la gruta, por la que cuelgan raíces del manglar, es la única salida visible.{/i}"
 
-    y "Allí, ¡miren! ¡Tendremos que nadar hasta las raíces!"
+    scene bg cueva_corriente_alta with Dissolve(0.5)
+    "{i}Cuando llegan a la última caverna, está casi totalmente inundada. Descansan un poco en unas rocas preparándose para el último esfuerzo{/i}"
+    "{i}El agua se sacude dentro de la caverna con cada embate de las olas afuera.{/i}"
+
     jump cap11_salida_tardia_tension
 
 label cap11_salida_tardia_tension:
 
-    scene bg cueva_tiburon_alerta with fade
+    scene bg cueva_corriente_alta_shark with Dissolve(0.5)
     show screen combined_ui
 
-    "{i}Bob y tu ayudan a Laura primero, y el resto los sigue nadando.{/i}"
-
+    y "¡Tiburón!"
     "{i}Una sombra corta el agua. La superficie se parte como una herida. Una aleta asoma sobre la superficie.{/i}"
-    "{i}Un tiburón de unos dos metros sacude el agua violentamente, intentando abrirse paso hacia ustedes entre una red de raíces.{/i}"
+    "{i}Un tiburón de unos tres metros sacude el agua violentamente, intentando abrirse paso hacia ustedes entre las rocas que se asoman.{/i}"
 
-    show marina triste at left with Dissolve(0.4)
-    m "¡Tiburón!"
-    hide marina with Dissolve(0.4)
-    "{i}No puede llegar hasta ustedes todavía, pero la el nivel ascendente del agua le permitirá alcanzarlos si no se apuran.{/i}"
-
+    "{i}No puede llegar hasta ustedes todavía, pero el aumento del nivel del agua le permitirá alcanzarlos si no se apuran.{/i}"
+    show marina gr triste at waterleft with Dissolve(0.5)
+    m "¿Qué hacemos? ¡Tengo mucho miedo! Tenemos la salida bloqueada y el tiburón está cada vez mas cerca."
+    hide marina with Dissolve(0.5)
+    show ingrid gr triste at waterleft with Dissolve(0.5)
+    i "Hay una saliente entre las raices cerca del techo, están secas. Hay que trepar hasta ahi!"
+    hide ingrid with Dissolve(0.5)
     menu:
-        "Coordinas el grupo en cadena para que cada uno que alcance las rocas cercanas a la salida pueda ayudar al siguiente.":          
+        "Coordinas el grupo en cadena para que cada uno que empiece a trepar pueda ayudar al siguiente.": 
             "{i}Suben uno a uno. El tiburón golpea una raíz con la aleta.{/i}"
             "{i}Abre la boca y destruye las raíces, nadando a toda prisa, pero ustedes ya están fuera de alcance.{/i}"
         "Empujas a Charles primero, luego trepas tú para ayudar a Laura.":            
@@ -14879,35 +14891,37 @@ label cap11_salida_tardia_tension:
 
 label cap11_salida_tardia_salida:
 
-    scene bg saliente_aislada_noche with fade
+    scene bg saliente_aislada_noche with Dissolve(0.4)
     show screen combined_ui
 
-    "{i}La salida los recibe con luz ceniza. Las raíces del manglar los acogen y protegen, pero el aire está pesado.{/i}"
+    "{i}La marea sube pero no llega hasta su improvisado refugio.{/i}"
+    "{i}Llega la noche y la cueva empieza a quedar a oscuras. Cada tanto se escucha un chapoteo que les recuerda lo cerca que estuvieron.{/i}"
 
-    show bob agotado at right with Dissolve(0.4)
+    show bob gr parado hablando at rightgr with Dissolve(0.4)
     b "Eso... estuvo cerca. Bien hecho, [nombre_personaje]. Ese tiburón no tenía chances contra ti. Ya eres un viejo lobo marino."
     hide bob with Dissolve(0.4)
 
-    show charles triste at center with Dissolve(0.4)
+    show charles gr triste at leftgr with Dissolve(0.4)
     c "Estas joyas... no son tan valiosas como ustedes. Lamento haberlos expuesto a semejantes peligros."
     hide charles with Dissolve(0.4)
     
-    show erika conversando at left with Dissolve(0.4)
+    show erika gr conversando at leftgr with Dissolve(0.4)
     k "Ahora tenemos que esperar a que la marea retroceda para poder bajar hasta la playa."
-    l "Sugiero que aprovechen para descansar. Estas raíces serán nuestro refugio por la noche."
-    hide erika
 
-    "{i}Esta aventura les ha dejado marcados, y sus cuerpos cansados lo evidencian.{/i}"
+    y "Sugiero que aprovechen para descansar. Estas raíces serán nuestro refugio por la noche."
+    hide erika
+    
+    "{i}Esta aventura les ha dejado marcados, y sus cuerpos doloridos lo evidencian.{/i}"
 
     jump cap11_post_salida_tardia
 
 label cap11_post_salida_tardia:
 
-    scene bg rocas_marea_baja_amanece with fade
+    scene bg playa_gruta_entrada with Dissolve(0.4)
     show screen combined_ui
 
     "{i}Luego de unas horas, cerca del amanecer, el mar retrocede. El grupo desciende de la saliente. Nadie celebra. Nadie habla.{/i}"    
-    "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol nace como una promesa hueca. El cansancio les hace arrastrar los pies como cadenas invisibles.{/i}"
+    "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol se recibe bien en el rostro. El cansancio les hace arrastrar los pies como cadenas invisibles.{/i}"
 
     $ hambre += 2
     $ sed += 2
@@ -14916,21 +14930,23 @@ label cap11_post_salida_tardia:
     show bob parado enojado at left with Dissolve(0.4)
     b "¿Valió la pena?"
     b "Lo pregunto en serio."
-    b "¿Todo ese riesgo por unas piedras mojadas?"
+    b "¿Todo ese riesgo por unas piedras robadas?"
 
     show marina triste at center with Dissolve(0.4)
     m "Pudimos habernos ahogado ahí dentro... Y todo por un tesoro que... ¿de qué sirve aquí varados?"
 
-    show charles triste at right with Dissolve(0.4)
-    c "Yo tomé la decisión que nadie más se atrevía a tomar, solo eso."
-    c "Ni Laura ni yo les pedimos que nos acompañaran, así que no se por qué nos vinieron a buscar."
+    if charles < 0:
+        show charles enojado at right with Dissolve(0.4)
+        c "Yo tomé la decisión que nadie más se atrevía a tomar, solo eso."
+        c "Ni Laura ni yo les pedimos que nos acompañaran, así que no se por qué nos vinieron a buscar."
+        "{i}Los demás lo miran, incrédulos de su ingratitud. Está claro que el no iba a poder cargar con Laura sin ayuda.{/i}"
+    else:
+        show charles triste at right with Dissolve(0.4)
+        c "Lo siento, no queríamos arrastrarlos a tanto peligro."
+        c "Vimos una oportunidad y decidimos hacer algo nosotros dos."
+        "{i}Los demás lo miran, es raro oir a Charles hablar con seriedad, pero aún así no parece ser suficiente para todos.{/i}"
 
-    hide bob
-    hide marina
-    hide charles
-    with Dissolve(0.4)
-
-    "{i}Los demás lo miran, incrédulos de su ingratitud. Está claro que el no iba a poder cargar con Laura sin ayuda.{/i}"
+    
 
     menu:
         "Reprochar a Charles por haber puesto en riesgo a todos.":
@@ -15048,8 +15064,6 @@ label cap11_post_salida_rapida:
 
     jump cap11_end
 
-    jump cap11_end
-
 
 label cap11_end:
         $ choice_position = "default" # default alta superior
@@ -15082,13 +15096,13 @@ label cap12_avion_visto:
     scene bg beach sunny with fade
     show screen combined_ui
 
-    "{i}El grupo descansa sobre la arena húmeda. Las voces son pocas. El cansancio y la tensión cae sobre el grupo como un mazazo.{/i}"
+    "{i}El grupo queda en silencio sobre la arena húmeda. El cansancio y la tensión cae sobre el grupo como un mazazo.{/i}"
 
     show marina hablando at left with Dissolve(0.4)
     m "¿Eso es…? ¡Mirá arriba!"
 
     show ingrid risita at center with Dissolve(0.4)
-    i "¡Un avión! ¡Está girando!"
+    i "¡El avión! ¡Está girando!"
 
     show tomas sonriendo at right with Dissolve(0.4)
     t "¡Agiten los brazos! ¡Griten! ¡Que nos vean!"
