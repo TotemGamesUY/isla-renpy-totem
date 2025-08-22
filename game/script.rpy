@@ -14,7 +14,7 @@ define k = Character("Erika Smith", color="#e07c4d")
 define t = Character("Tomás Greenson", color="#b19621")
 define i = Character("Ingrid Sversson", color="#6c742d")
 define r = Character("Rescatista", color="#546ace")
-define p = Character("Pescador", color="#b19621")
+define w = Character("Pescador", color="#b19621")
 
 # Bloquea accceso a menu con esc o boton drecho y las opciones de quick menu y quick save
 init python:
@@ -27,7 +27,7 @@ init python:
 default player_id = ""
 define player_name = ""
 define player_lastname = ""
-define player_ids = ["prueba", "reporte", "MFierro", "MArroqui", "ESosa", "VMedina", "ASena", "GAlarcon", "EOroño", "GRibas", "NArena", "JAlbornoz", "MMendizaba", "MSire", "NdeBrum", "VGarcia", "JLopez", "BMartinez", "DCarrion", "Jlabandera", "LMachini", "KBerrospe", "lchaves",  "g3r", "5u3"]  # Lista de IDs válidos para android
+define player_ids = ["clopez", "RAmeigeira", "Inefop", "prueba", "reporte", "MFierro", "MArroqui", "ESosa", "VMedina", "ASena", "GAlarcon", "EOroño", "GRibas", "NArena", "JAlbornoz", "MMendizaba", "MSire", "NdeBrum", "VGarcia", "JLopez", "BMartinez", "DCarrion", "Jlabandera", "LMachini", "KBerrospe", "lchaves",  "g3r", "5u3"]  # Lista de IDs válidos para android
 default input_id = ""  # Variable para almacenar el ID ingresado por el jugador
 default input_codigo_capitulo = "" # Codigo que pide para continuar jugando los capitulos
 
@@ -145,7 +145,26 @@ image bg manglar_claro_turquesa = im.Scale("bg manglar_claro_turquesa.jpg", conf
 image bg cueva_lago = im.Scale("bg cueva_lago.jpg", config.screen_width, config.screen_height)
 image bg cueva_corriente_alta_shark = im.Scale("bg cueva_corriente_alta_shark.jpg", config.screen_width, config.screen_height)
 image bg cueva_corriente_alta = im.Scale("bg cueva_corriente_alta.jpg", config.screen_width, config.screen_height)
+image bg beach_plane = im.Scale("bg beach_plane.jpg", config.screen_width, config.screen_height)
+image bg beach_no_plane = im.Scale("bg beach_no_plane.jpg", config.screen_width, config.screen_height)
+image bg beach_raft_start = im.Scale("bg beach_raft_start.jpg", config.screen_width, config.screen_height)
+image bg beach_raft_mid = im.Scale("bg beach_raft_mid.jpg", config.screen_width, config.screen_height)
+image bg beach_raft_last = im.Scale("bg beach_raft_last.jpg", config.screen_width, config.screen_height)
+image bg beach_raft_end = im.Scale("bg beach_raft_end.jpg", config.screen_width, config.screen_height)
+image bg raft_front = im.Scale("raft_front.jpg", config.screen_width, config.screen_height)
+image bg raft_front_waves = im.Scale("raft_front_waves.jpg", config.screen_width, config.screen_height)
+image bg raft_timon = im.Scale("raft_timon.jpg", config.screen_width, config.screen_height)
+image bg raft_front_isla = im.Scale("raft_front_isla.jpg", config.screen_width, config.screen_height)
+image bg raft_front_isla2 = im.Scale("raft_front_isla2.jpg", config.screen_width, config.screen_height)
+image bg mar_isla = im.Scale("bg mar_isla.jpg", config.screen_width, config.screen_height)
+image bg isla_llegada = im.Scale("bg isla_llegada.jpg", config.screen_width, config.screen_height)
+image bg raft_timon_isla = im.Scale("raft_timon_isla.jpg", config.screen_width, config.screen_height)
+image bg isla_rada = im.Scale("bg isla_rada.jpg", config.screen_width, config.screen_height)
+image bg rescue = im.Scale("bg rescue.jpg", config.screen_width, config.screen_height)
+image bg ship_travel = im.Scale("bg ship_travel.jpg", config.screen_width, config.screen_height)
+image bg hoguera_ramas = im.Scale("bg hoguera_ramas.jpg", config.screen_width, config.screen_height)
 image bg comic 1 = im.Scale("comic_1.jpg", config.screen_width, config.screen_height)
+
 # PLACEHOLDERS:
 
 #webp animados
@@ -161,6 +180,10 @@ image marina sonriendo = "Marina_sonriendo.png"
 image marina gr sonriendo = "Marina_sonriendo_gr.png"
 image marina triste ="Marina_triste.png"
 image marina gr triste ="Marina_triste_gr.png"
+image marina parada ="marina parada.png"
+image marina gr parada ="marina gr parada.png"
+image marina neutra ="marina neutra.png"
+image marina gr neutra ="marina gr neutra.png"
 
 image bob saludando sucio = "Bob_saludando_sonriente.png"
 image bob gr serio sucio = "Bob_parado_serio_gr.png"
@@ -228,6 +251,9 @@ image tomas gr hablando = "tomas.200.hablando.png"
 image tomas gr risa = "tomas.200.risa.png"
 image tomas gr serio = "tomas.200.serio.png"
 image tomas gr sonriendo = "tomas.200.sonriendo.png"
+
+image rescatista saluda = "rescatista_saluda.png"
+image rescatista habla = "rescatista_habla.png"
 
 # Lista de imagenes "grupo" para cada personaje para la sepracion en grupos
 image marina grupo ="Marina_hablando.png"
@@ -544,6 +570,49 @@ default reporte_cap12_choice = ""
 default reporte_influencia_charles = 0
 default reporte_proyecto = ""
 default liderazgo = 0
+default reporte_cap12_pregunta_caminata = ""
+default reporte_cap12_hablar_con = ""
+default reporte_jugador_postura = ""
+default reporte_cap12_balsa_organizar = ""
+default reporte_cap12_balsa_erika = ""
+default reporte_cap12_balsa_erika_invitar = False
+default reporte_cap12_balsa_erika_invitar_acepta = False
+default reporte_cap12_balsa_erika_invitar_rechaza = False
+default reporte_cap12_marina_crisis = ""
+default reporte_Cap12_charles_vela = ""
+default reporte_Cap12_charles_vela_queda = False
+default reporte_Cap12_charles_vela_abandona = False
+default reporte_cap12_balsa_ingrid = ""
+default reporte_cap12_balsa_ingrid_acepta = False
+default reporte_cap12_balsa_ingrid_rechaza = False
+default reporte_cap12_balsa_laura = ""
+default reporte_cap12_balsa_final_equipo = False
+default reporte_cap12_balsa_final_lider = False
+default reporte_cap12_balsa_4_abandonar = False
+default reporte_cap12_balsa_4_convocar = False
+default reporte_cap12_4_proyecto = ""
+default reporte_cap12_proyecto_mensaje = ""
+default reporte_rol_soporte = False
+default reporte_rol_remo = False
+default reporte_rol_timon = False
+default reporte_cap12_charles_protesta = ""
+default reporte_cap12_balsa_corriente = ""
+default reporte_cap12_balsa_marina_asustada = ""
+default reporte_cap12_balsa_isla = ""
+default reporte_cap12_balsa_impulsivo_respalda = False
+default reporte_cap12_balsa_impulsivo_disculpa = False
+default reporte_cap12_balsa_nadando_orilla_seguro = False
+default reporte_cap12_balsa_nadando_orilla_todos = False
+default reporte_cap12_balsa_nadando_orilla_self = False
+default reporte_cap12_salvar_ingrid_cae_player = False
+default reporte_cap12_salvar_ingrid_cae_ingrid = False
+default reporte_cap12_salvar_ingrid_ignora_ingrid = False
+default reporte_cap12_salvar_ingrid_remo = False
+default reporte_reflexion = ""
+default reporte_enfoque_hoguera = ""
+default reporte_cap12_hoguera_bob = ""
+default reporte_cap12_hoguera_charles = ""
+default reporte_cap12_hoguera_ingrid = ""
 
 default relaciones_cap1_bob = 99
 default relaciones_cap1_marina = 99
@@ -563,7 +632,55 @@ default relaciones_cap5_erika = 99
 default relaciones_cap5_tomas = 99
 default relaciones_cap5_charles = 99
 default relaciones_cap5_ingrid = 99
-
+default relaciones_cap6_bob = 99
+default relaciones_cap6_marina = 99
+default relaciones_cap6_laura = 99
+default relaciones_cap6_erika = 99
+default relaciones_cap6_tomas = 99
+default relaciones_cap6_charles = 99
+default relaciones_cap6_ingrid = 99
+default relaciones_cap7_bob = 99
+default relaciones_cap7_marina = 99
+default relaciones_cap7_laura = 99
+default relaciones_cap7_erika = 99
+default relaciones_cap7_tomas = 99
+default relaciones_cap7_charles = 99
+default relaciones_cap7_ingrid = 99
+default relaciones_cap8_bob = 99
+default relaciones_cap8_marina = 99
+default relaciones_cap8_laura = 99
+default relaciones_cap8_erika = 99
+default relaciones_cap8_tomas = 99
+default relaciones_cap8_charles = 99
+default relaciones_cap8_ingrid = 99
+default relaciones_cap9_bob = 99
+default relaciones_cap9_marina = 99
+default relaciones_cap9_laura = 99
+default relaciones_cap9_erika = 99
+default relaciones_cap9_tomas = 99
+default relaciones_cap9_charles = 99
+default relaciones_cap9_ingrid = 99
+default relaciones_cap10_bob = 99
+default relaciones_cap10_marina = 99
+default relaciones_cap10_laura = 99
+default relaciones_cap10_erika = 99
+default relaciones_cap10_tomas = 99
+default relaciones_cap10_charles = 99
+default relaciones_cap10_ingrid = 99
+default relaciones_cap11_bob = 99
+default relaciones_cap11_marina = 99
+default relaciones_cap11_laura = 99
+default relaciones_cap11_erika = 99
+default relaciones_cap11_tomas = 99
+default relaciones_cap11_charles = 99
+default relaciones_cap11_ingrid = 99
+default relaciones_cap12_bob = 99
+default relaciones_cap12_marina = 99
+default relaciones_cap12_laura = 99
+default relaciones_cap12_erika = 99
+default relaciones_cap12_tomas = 99
+default relaciones_cap12_charles = 99
+default relaciones_cap12_ingrid = 99
 
 #define inventario inicial
 default stuff_caja_grande = False
@@ -583,8 +700,8 @@ default separacion_pop_up_x = 0.15
 default separacion_pop_up_y = 0.03
 default posicion_pop_up_x = posicion_inicial_x + separacion_pop_up_x
 default posicion_pop_up_y = posicion_inicial_y + separacion_pop_up_y
-default verde = "#0c700c"
-default rojo = "#a50606"
+default verde = "#479e47"
+default rojo = "#af4646"
 
 # Define stuff buttons starting variables
 default stuff_button_1 = "none"
@@ -4215,7 +4332,7 @@ label segment_1_end:
         $ enviar_reporte(player_id)
         "El reporte fue enviado con exito!"
     "Para continuar debes esperar que te entreguen el proximo código. ¡Buen trabajo!"
-    call pedir_codigo_capitulo from _call_pedir_codigo_capitulo4
+    #call pedir_codigo_capitulo from _call_pedir_codigo_capitulo4
 
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -10432,13 +10549,13 @@ label mostrar_grupo_jugador:
 label cap8_end:
         # Generar contenido para los pop-ups de relaciones
         $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
-        $ relaciones_cap7_bob = bob
-        $ relaciones_cap7_marina = marina
-        $ relaciones_cap7_laura = laura
-        $ relaciones_cap7_ingrid = ingrid
-        $ relaciones_cap7_charles = charles
-        $ relaciones_cap7_erika = erika
-        $ relaciones_cap7_tomas = tomas
+        $ relaciones_cap8_bob = bob
+        $ relaciones_cap8_marina = marina
+        $ relaciones_cap8_laura = laura
+        $ relaciones_cap8_ingrid = ingrid
+        $ relaciones_cap8_charles = charles
+        $ relaciones_cap8_erika = erika
+        $ relaciones_cap8_tomas = tomas
                     
         # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
         $ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
@@ -10465,7 +10582,7 @@ label continuar:
                 jump segment_2_end
                 #jump chapter_9_start
             "VOLVER A VER EL RESÚMEN":
-                jump continuar
+                jump cap8_end
                 #jump chapter_8_end
 
 label segment_2_end:
@@ -11904,18 +12021,18 @@ label cap9_encuentro_caja:
     "{i}Cuando al fin cierras los ojos, sueñas con cúpulas cubiertas de lianas, pasadizos húmedos...{/i}"
     "{i}Sueñas con joyas perdidas... y jabalíes que custodian los secretos de la selva...{/i}"
 
-    jump cap_9_continuar
+    jump cap9_end
 
 label cap9_end:
         # Generar contenido para los pop-ups de relaciones
         $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
-        $ relaciones_cap7_bob = bob
-        $ relaciones_cap7_marina = marina
-        $ relaciones_cap7_laura = laura
-        $ relaciones_cap7_ingrid = ingrid
-        $ relaciones_cap7_charles = charles
-        $ relaciones_cap7_erika = erika
-        $ relaciones_cap7_tomas = tomas
+        $ relaciones_cap9_bob = bob
+        $ relaciones_cap9_marina = marina
+        $ relaciones_cap9_laura = laura
+        $ relaciones_cap9_ingrid = ingrid
+        $ relaciones_cap9_charles = charles
+        $ relaciones_cap9_erika = erika
+        $ relaciones_cap9_tomas = tomas
                     
         # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
         $ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
@@ -11932,7 +12049,7 @@ label cap9_end:
         # Ocultar los pop-ups con dissolve
         hide screen relaciones_popup with dissolve
         # hide screen decisiones_popup with dissolve
-        jump continuar
+        jump cap_9_continuar
 
 label cap_9_continuar:
         $ choice_position = "default" # default alta superior
@@ -11946,7 +12063,7 @@ label cap_9_continuar:
                 #jump segment_2_end
                 jump chapter_10_start
             "VOLVER A VER EL RESÚMEN":
-                jump cap_9_continuar
+                jump cap9_end
                 #jump chapter_8_end
  
 return
@@ -14104,13 +14221,13 @@ label cap10_inicio_cueva:
 label cap10_end:
         # Generar contenido para los pop-ups de relaciones
         $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
-        $ relaciones_cap7_bob = bob
-        $ relaciones_cap7_marina = marina
-        $ relaciones_cap7_laura = laura
-        $ relaciones_cap7_ingrid = ingrid
-        $ relaciones_cap7_charles = charles
-        $ relaciones_cap7_erika = erika
-        $ relaciones_cap7_tomas = tomas
+        $ relaciones_cap10_bob = bob
+        $ relaciones_cap10_marina = marina
+        $ relaciones_cap10_laura = laura
+        $ relaciones_cap10_ingrid = ingrid
+        $ relaciones_cap10_charles = charles
+        $ relaciones_cap10_erika = erika
+        $ relaciones_cap10_tomas = tomas
                     
         # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
         #$ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
@@ -14606,13 +14723,15 @@ label cap11_regreso_desde_excavacion:
     jump cap11_salida_final
 
 label cap11_salida_final:
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
 
     if reporte_reloj_marea == 0:
         jump cap11_salida_rapida_abertura
 
     elif reporte_reloj_marea == 1:
         jump cap11_salida_media_abertura
-        
+
     else:
         jump cap11_salida_tardia_abertura
 
@@ -14896,6 +15015,8 @@ label cap11_salida_tardia_salida:
 
     "{i}La marea sube pero no llega hasta su improvisado refugio.{/i}"
     "{i}Llega la noche y la cueva empieza a quedar a oscuras. Cada tanto se escucha un chapoteo que les recuerda lo cerca que estuvieron.{/i}"
+    $ update_stat("hambre", hambre - 1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
 
     show bob gr parado hablando at rightgr with Dissolve(0.4)
     b "Eso... estuvo cerca. Bien hecho, [nombre_personaje]. Ese tiburón no tenía chances contra ti. Ya eres un viejo lobo marino."
@@ -14923,9 +15044,8 @@ label cap11_post_salida_tardia:
     "{i}Luego de unas horas, cerca del amanecer, el mar retrocede. El grupo desciende de la saliente. Nadie celebra. Nadie habla.{/i}"    
     "{i}Avanzan por las rocas. Sin comida. Sin agua. El sol se recibe bien en el rostro. El cansancio les hace arrastrar los pies como cadenas invisibles.{/i}"
 
-    $ hambre += 2
-    $ sed += 2
-    $ cansancio += 3
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
 
     show bob parado enojado at left with Dissolve(0.4)
     b "¿Valió la pena?"
@@ -15020,9 +15140,8 @@ label cap11_post_salida_rapida:
     "{i}Abajo, en las rocas, la marea aún no bloquea el acceso a la playa totalmente, aunque la entrada de la gruta sigue inundada.{/i}"
     "{i}Si hubieran tardado más, estarían encerrados en el manglar y tendrían que pasar la noche allí o aventurarse en la jungla con Laura herida.{/i}"
 
-    $ hambre += 1
-    $ sed += 1
-    $ cansancio += 2
+    $ update_stat("sed", sed - 1)
+    $ show_variable_changed_popup("La sed ha aumentado ", rojo)
 
     show marina preocupada at left with Dissolve(0.4)
     m "Tuvimos suerte. Espero que sean conscientes de eso."
@@ -15062,6 +15181,34 @@ label cap11_post_salida_rapida:
 
     "{i}¿Volverán a rescatarlos, o significa que ya se dieron por vencidos y deben buscar una salida por sus propios medios?{/i}"
 
+    jump cap11_reporte
+
+label cap11_reporte:
+    # Generar contenido para los pop-ups de relaciones
+    $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
+    $ relaciones_cap11_bob = bob
+    $ relaciones_cap11_marina = marina
+    $ relaciones_cap11_laura = laura
+    $ relaciones_cap11_ingrid = ingrid
+    $ relaciones_cap11_charles = charles
+    $ relaciones_cap11_erika = erika
+    $ relaciones_cap11_tomas = tomas
+                    
+    # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
+    $ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
+                    
+    # Generar contenido para los pop-ups de decisiones
+    $ decisiones_contenido = generar_lista_popup("DECISIONES", lista_decisiones_intro, desicion_intro)
+
+    # Mostrar los pop-ups
+    show screen relaciones_popup(contenido=relaciones_contenido)
+    # show screen decisiones_popup(contenido=decisiones_contenido)
+                    
+    "Aquí termina el segmento 2, el grupo ha pasada una dura prueba. La tormenta ha pasado pero la isla tiene peligros acechando en la jungla."
+    "Ha llegado el momento de considerar que quizás no haya ningún equipo de rescate aún buscando."
+    # Ocultar los pop-ups con dissolve
+    hide screen relaciones_popup with dissolve
+    # hide screen decisiones_popup with dissolve
     jump cap11_end
 
 
@@ -15077,7 +15224,7 @@ label cap11_end:
                 jump chapter_12_start
                 #jump chapter_9_start
             "VOLVER A VER EL RESÚMEN":
-                jump cap11_end
+                jump cap11_reporte
                 #jump chapter_8_end
 
 
@@ -15093,7 +15240,7 @@ label chapter_12_start:
 
 label cap12_avion_visto:
 
-    scene bg beach sunny with fade
+    scene bg beach sunny with Dissolve(0.4)
     show screen combined_ui
 
     "{i}El grupo queda en silencio sobre la arena húmeda. El cansancio y la tensión cae sobre el grupo como un mazazo.{/i}"
@@ -15101,10 +15248,12 @@ label cap12_avion_visto:
     show marina hablando at left with Dissolve(0.4)
     m "¿Eso es…? ¡Mirá arriba!"
 
-    show ingrid risita at center with Dissolve(0.4)
+    scene bg beach_plane with Dissolve(0.4)
+
+    show ingrid sonriente at right with Dissolve(0.4)
     i "¡El avión! ¡Está girando!"
 
-    show tomas sonriendo at right with Dissolve(0.4)
+    show tomas enojado at centerright with Dissolve(0.4)
     t "¡Agiten los brazos! ¡Griten! ¡Que nos vean!"
 
     hide marina
@@ -15112,7 +15261,11 @@ label cap12_avion_visto:
     hide tomas
     with Dissolve(0.4)
 
-    "{i}Todos se levantan. Saltan. Gritan. Erika intenta prender fuego una tela pero todo esta mojado. Bob lanza una rama al aire. El avión gira... y se aleja entre nubes bajas.{/i}"
+    "{i}Todos se levantan. Saltan. Gritan. Erika intenta prender fuego una tela pero todo esta mojado. Bob lanza una rama al aire.{/i}"
+
+    scene bg beach_no_plane with Dissolve(0.4)
+
+    "{i}El avión gira... y se aleja entre nubes bajas.{/i}"
 
     show laura gr hablando at leftgr with Dissolve(0.4)
     l "(susurrando) No nos vieron. No fue suficiente."
@@ -15156,6 +15309,8 @@ label cap12_discusion_rescate:
     c "Además, conseguimos algo. No todo, pero algo. ¿No cuenta?"
 
     show bob parado serio at center with Dissolve(0.4)
+    show charles brazos cruzados at centerleft with Dissolve(0.4)
+
     b "¿Y si no los encontrábamos? ¿Y si la marea los atrapaba?"
     show charles brazos cruzados at centerleft with Dissolve(0.4)
     show marina hablando at right with Dissolve(0.4)
@@ -15165,6 +15320,7 @@ label cap12_discusion_rescate:
     show ingrid enojada at right with Dissolve(0.4)
     i "La caja, el mapa, las notas... eran pistas. Pero no para que dos se metan solos en una cueva inundada."
 
+    show ingrid cintura at right with Dissolve(0.5)
     #define posicion del pop up sobre las opciones de menu (default, alta o superior)
     $ choice_position = "alta"
     menu:
@@ -15182,8 +15338,11 @@ label cap12_discusion_rescate:
             $ marina += 1
             $ erika += 1
             $ ingrid += 1
+            hide bob with Dissolve(0.4)
             y "Lo que hicieron fue imprudente. Pusieron en riesgo al grupo."
+            show marina hablando at center with Dissolve(0.5)
             m "Exactamente. No podemos permitir que cada uno haga lo que quiera."
+            show erika conversando at center with Dissolve(0.5)
             k "Gracias por decirlo."
 
         "Intentar mediar entre ambos lados":
@@ -15203,7 +15362,7 @@ label cap12_discusion_rescate:
             $ bob -= 1
             $ erika -= 1
             $ marina -= 1
-
+    
     jump cap12_reacciones_jugador
 
 label cap12_reacciones_jugador:
@@ -15216,100 +15375,104 @@ label cap12_reacciones_jugador:
         show charles sonriente at centerleft with Dissolve(0.5)
         c "Sabía que ibas a ver el lado práctico. No todo es democracia en la selva."
 
-        show marina hablando at right with Dissolve(0.5)
+        show marina preocupada at right with Dissolve(0.5)
         m "¿En serio? ¿Eso es lo que valoramos ahora?"
 
         show erika conversando at centerright with Dissolve(0.5)
         k "Pensé que tenías más criterio..."
 
     elif reporte_cap12_choice == "Recriminar su actitud":
-        show marina satisfecha at right with Dissolve(0.5)
+        show marina hablando at center with Dissolve(0.5)
         m "Gracias por poner las cosas en su lugar. Ya era hora."
 
-        show erika firme at centerleft with Dissolve(0.5)
+        show erika conversando at centerright with Dissolve(0.5)
         k "Tu voz pesa. Y hoy la usaste bien."
 
-        show laura herida at left with Dissolve(0.5)
+        show laura enojada at left with Dissolve(0.5)
         l "No esperaba eso de vos..."
-
-        show charles incómodo at centerright with Dissolve(0.5)
+        show laura seria at left with Dissolve(0.5)
+        show charles triste at centerleft with Dissolve(0.5)
         c "Bueno, ya entendí el mensaje."
 
     elif reporte_cap12_choice == "Intentar mediar entre ambos lados":
-        show bob tranquilo at center with Dissolve(0.5)
+        show bob pensando at center with Dissolve(0.5)
         b "Eso es lo que necesitamos. Cabeza fría."
 
-        show ingrid serena at centerleft with Dissolve(0.5)
+        show ingrid risita at right with Dissolve(0.5)
         i "Tu forma de ver las cosas ayuda a que no nos rompamos."
 
-        show laura pensativa at left with Dissolve(0.5)
+        show laura hablando at left with Dissolve(0.5)
         l "Tal vez nos apresuramos..."
-
-        show charles reflexivo at centerright with Dissolve(0.5)
+        show laura seria at left with Dissolve(0.5)
+        show charles triste at centerleft with Dissolve(0.5)
+        
         c "Sí... pudo haber salido mal."
 
     elif reporte_cap12_choice == "Quedarse en silencio":
-        show marina desconfiada at right with Dissolve(0.5)
+        hide ingrid Dissolve(0.5)
+        show marina preocupada at right with Dissolve(0.5)
         m "¿Nada que decir? A veces el silencio también toma partido."
 
-        show bob observador at center with Dissolve(0.5)
+        show bob pensando at center with Dissolve(0.5)
         b "Estás pensando. Lo respeto."
 
-        show laura confundida at left with Dissolve(0.5)
+        show bob parado serio at center with Dissolve(0.5)
+        show laura hablando at left with Dissolve(0.5)
         l "¿Estás de acuerdo o no?"
 
-        show charles curioso at centerright with Dissolve(0.5)
-        c "Tu cara dice más que tus palabras."
+        show charles sonriente at centerleft with Dissolve(0.5)
+        c "El que calla, otorga."
 
-    show erika decidida at centerleft with Dissolve(0.5)
+    show erika enojada at centerright with Dissolve(0.5)
     k "Sea como sea, tenemos que volver. El refugio es lo único que tenemos seguro."
 
-    show bob asintiendo at center with Dissolve(0.5)
+    show bob pensando at center with Dissolve(0.5)
     b "Y tenemos que pensar qué hacemos con lo que se recuperó. Las joyas fueron robadas y las están buscando."
-
-    show ingrid mirando al horizonte at centerleft with Dissolve(0.5)
+    hide ingrid with Dissolve(0.5)
+    show marina hablando at right with Dissolve(0.5)
     i "¿Cómo que hacemos, las entregamos a la policía. Es lo más lógico."
 
     "Algunos no parecen estar muy de acuerdo, está claro que podría haber otros destinos para esas joyas."
 
-    scene bosque_atardecer with Dissolve(0.5)
+    scene bg jungle trail with Dissolve(0.5)
     "El grupo comienza a caminar de regreso. Las tensiones no se han resuelto del todo, pero algo ha cambiado."
 
     jump cap12_regreso_refugio
 
 label cap12_regreso_refugio:
 
-    scene bosque_atardecer with Dissolve(0.5)
-
     "Las ramas crujen bajo los pies. El sol cae lento, tiñendo el bosque de naranja y sombras largas."
 
-    show laura caminando at left with Dissolve(0.5)
+    show laura hablando at left with Dissolve(0.5)
     l "Cuando vi el mapa, pensé... tal vez era una señal. Algo que nos podía sacar de acá."
 
-    show charles caminando at centerright with Dissolve(0.5)
+    show charles boca abierta at centerright with Dissolve(0.5)
     c "Y si no lo hacíamos nosotros, alguien más lo iba a hacer. No quería que se perdiera."
 
-    show marina caminando at right with Dissolve(0.5)
+    show marina hablando at right with Dissolve(0.5)
     m "¿Y pensaron en nosotros? En lo que íbamos a sentir al ver que no estaban."
 
-    show bob caminando at center with Dissolve(0.5)
+    show bob parado hablando at center with Dissolve(0.5)
     b "La confianza se construye. Y se rompe fácil."
 
-    show ingrid caminando at centerleft with Dissolve(0.5)
+    show ingrid seria at centerleft with Dissolve(0.5)
     i "Pero también se puede reparar. Si hay voluntad."
 
     menu:
         "Preguntar a Laura por qué no confió en el grupo":
+            $ reporte_cap12_pregunta_caminata = "Preguntar a Laura por qué no confió en el grupo"
             $ laura += 1
             y "¿Por qué no lo hablaste con nosotros? Podíamos haber ido juntos."
             l "No sé... pensé que si lo discutíamos, nunca íbamos a decidir nada."
 
         "Preguntar a Charles si pensó en el peligro":
+            $ reporte_cap12_pregunta_caminata = "Preguntar a Charles si pensó en el peligro"
             $ charles += 1
             y "¿Y si la marea los atrapaba? ¿Pensaste en eso?"
             c "Sí. Pero también pensé que si no lo intentábamos, nos íbamos a arrepentir."
 
         "Reflexionar sobre lo que significa confiar":
+            $ reporte_cap12_pregunta_caminata = "Reflexionar sobre lo que significa confiar"
             $ bob += 1
             $ ingrid += 1
             y "Confiar no es estar de acuerdo en todo. Es saber que el otro no te va a dejar atrás."
@@ -15317,78 +15480,92 @@ label cap12_regreso_refugio:
             i "Y cuidar."
 
         "No decir nada, solo seguir caminando":
+            $ reporte_cap12_pregunta_caminata = "No decir nada, solo seguir caminando"
             y "{i}Caminás en silencio. Las palabras flotan entre los árboles, pero vos elegís el peso del momento.{/i}"
-
-    show erika mirando al cielo at centerleft
+    hide ingrid with Dissolve(0.5)
+    show erika conversando at centerleft with Dissolve(0.5)
     k "¿Y ahora qué? ¿Guardamos las joyas? ¿Las usamos? ¿Las escondemos?"
 
-    show bob pensativo at center
+    show bob pensando at center with Dissolve(0.5)
     b "No sabemos si alguien más las está buscando. El recorte hablaba de ladrones, no de tesoros."
 
-    show marina inquieta at right
+    show marina triste at right with Dissolve(0.5)
     m "Y si ese avión vuelve... ¿qué vamos a contar?"
 
-    show charles firme at centerleft
+    show charles sonriente at centerright with Dissolve(0.5)
     c "Aún hay tiempo para decidir eso, no? Aún estamos atrapados en esta isla."
 
-    scene refugio_tarde with fade
-    "El refugio aparece entre los árboles. No es perfecto, pero es suyo. Y por ahora, es hogar."
 
     jump cap12_cena_refugio
 
 label cap12_cena_refugio:
 
     scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
-
+    "El refugio aparece entre los árboles. No es perfecto, pero es suyo. Y por ahora, es hogar."
     "El grupo se acomoda en el refugio. Se apoyan contra los troncos, las piernas se estiran, y el aire huele a leña y humedad."
 
-    show bob cocinando at center
+    show bob gr parado hablando at leftgr with Dissolve(0.5)
     b "No es gourmet, pero calienta el alma. Sopa de raíces y unas zanahorias silvestres."
 
-    show marina sirviendo agua at right
+    show marina gr hablando at rightgr with Dissolve(0.5)
     m "Y agua fresca. No como la de la cueva..."
 
-    show laura sentada at left
-    l "Todavía me duelen las piernas. Pero estoy viva. Y eso ya es mucho."
+    $ update_stat("sed", sed + 2)
+    $ show_variable_changed_popup("La sed ha disminuido ", verde)
 
-    show charles comiendo at centerright
+    show marina sonriendo at right with Dissolve(0.5)
+    show bob parado serio at left with Dissolve(0.5)
+
+    show charles brazos cruzados at centerright
     c "¿Qué habrá pasado con quién enterró las joyas? Se tomó un buen trabajo para ocultarlas."
 
-    show erika pensativa at centerleft
+    show erika conversando at centerleft
     k "Quizás algo le pasó y nunca puedo regresar a recuperarlas."
 
-    show ingrid tomando sopa at center
-    i "LO nunca logró salir de la isla... hay muchos peligros. Un jabalí furioso, serpientes venenosas..."
+    show tomas hablando at center with Dissolve(0.5)
+    i "O nunca logró salir de la isla... hay muchos peligros. Un jabalí furioso, serpientes venenosas..."
 
     "Comen en silencio por un momento. El calor de la sopa contrasta con el frío de la noche que se acerca."
+
+    $ update_stat("hambre", hambre + 1)
+    $ show_variable_changed_popup("El hambre ha disminuido ", verde)
 
     jump cap12_conversaciones_jugador
 
 label cap12_conversaciones_jugador:
-
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    "Ya en el interior del refugio tienes la posibilidad de hablar con alguno del grupo."
     menu:
         "Hablar con Laura sobre lo que sintió en la cueva":
             $ laura += 1
-            show laura cerca at left
-            l "Pensé que no salía. Que me iba a quedar ahí. Pero Charles no me dejó rendirme."
+            $ reporte_cap12_hablar_con = "Laura"
+            show laura hablando at left
+            l "Pensé que no salía. Que me iba a quedar ahí. Pero ustedes no me dejaron rendirme."
 
         "Hablar con Charles sobre las joyas":
             $ charles += 1
-            show charles cerca at centerright
+            $ reporte_cap12_hablar_con = "Charles"
+            show charles boca abierta at centerright
             c "No sé si valen tanto como dicen. Pero verlas ahí... fue como tocar una historia olvidada."
 
         "Hablar con Erika sobre el grupo":
             $ erika += 1
-            show erika cerca at centerleft
+            show erika conversando at centerleft
+            $ reporte_cap12_hablar_con = "Erika"
             k "Estamos rotos. Pero no destruidos. Si aprendemos de esto, podemos ser más fuertes."
 
         "Hablar con Ingrid sobre el futuro":
             $ ingrid += 1
-            show ingrid cerca at center
-            i "Mañana tenemos que decidir. Qué hacer con las joyas, con el mapa, con nosotros."
+            $ reporte_cap12_hablar_con = "Ingrid"
+            show ingrid seria at center
+            i "Mañana tenemos que decidir. Hay que hacer algo...y pronto."
 
         "No hablar con nadie":
-            y "{i}Te quedás observando. Las palabras flotan, pero vos elegís el silencio como compañía.{/i}"
+            y "{i}Te alejas de los demás. A veces es necesario un rato a solas.{/i}"
+            $ reporte_cap12_hablar_con = "nadie"
+    
+    $ update_stat("hambre", hambre + 1)
+    $ show_variable_changed_popup("El hambre ha disminuido ", verde)
 
     "La comida se termina. Las miradas se cruzan. Algunos se acomodan para dormir, otros vigilan el entorno."
 
@@ -15398,7 +15575,7 @@ label cap12_noche:
 
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
-    "La noche cae como un manto espeso. El fuego se reduce a brasas. Los cuerpos se acomodan en mantas improvisadas."
+    "El cansancio de la experiencia en la cueva es demasiado. El grupo se acomodan en mantas improvisadas."
 
     "El silencio no es total. Se oyen respiraciones, algún suspiro, el crujir de ramas lejanas."
 
@@ -15409,23 +15586,20 @@ label cap12_noche:
 label cap12_amanecer:
 
     scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
+    
+    $ update_stat("cansancio", cansancio + 2)
+    $ show_variable_changed_popup("El cansancio ha disminuido ", verde)
 
     "El sol se filtra al interior del refugio. El aire es fresco. El cuerpo, aunque adolorido, se siente más liviano."
 
-    show bob estirando at center
+    show bob parado serio at center with Dissolve(0.5)
     b "Dormí como roca. Hoy hay que pensar. No podemos seguir improvisando."
 
-    show marina preparando algo at right
+    show marina preocupada at right with Dissolve(0.5)
     m "Tenemos comida para un par de días. Pero no más."
 
-    show erika anotando en su cuaderno at centerleft
-    k "Voy a hacer una lista. Lugares, recursos, riesgos."
-
-    show laura mirando el mapa at left
-    l "Este mapa... tiene más marcas. No vimos todo."
-
-    show charles sacando el cuaderno de notas at centerright
-    c "Y este cuaderno tiene claves. Nombres, fechas. Algo más hay."
+    show ingrid cintura at left with Dissolve(0.5)
+    i "Voy a hacer una lista. Lugares, recursos, riesgos."
 
     jump cap12_inicio_plan
 
@@ -15433,40 +15607,41 @@ label cap12_inicio_plan:
 
     scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
-    "Salen del refugio. El sol se levanta entre las ramas. El aire es fresco, pero la tensión se siente antes que el calor."
+    "Salen del refugio. El sol se levanta entre las ramas. Todos tienen el recuerdo del avión y piensan en su situación en la isla."
 
-    show bob firme at center
-    b "La huerta está casi vacía. Los hongos de la cueva no son seguros. Y los huevos que encontramos ya no están."
-
-    show marina preocupada at right
+    show bob parado hablando at center with Dissolve(0.5)
+    b "La huerta está casi vacía. Los hongos de la cueva no son seguros. Y los huevos que encontramos ya los comimos."
+    show bob parado serio at center with Dissolve(0.5)
+    show marina preocupada at right with Dissolve(0.5)
     m "Podemos intentar pescar, pero no es fácil. No tenemos los implementos mínimos."
-
-    show ingrid reflexiva at centerleft
+    show marina triste at right with Dissolve(0.5)
+    show ingrid enojada at centerleft with Dissolve(0.5)
     i "Sobrevivir sin hacer nada no es opción. No por mucho tiempo."
 
-    show erika conversando at left
+    show erika conversando at left with Dissolve(0.5)
     k "Entonces decidamos. ¿Qué hacemos para salir de acá?"
 
     jump cap12_plan_discusion
 
 label cap12_plan_discusion:
 
-    scene playa_reunion with fade
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
     "El grupo se acomoda en círculo, algunos sentados en troncos, otros de pie. El silencio pesa."
 
-    show bob decidido at center
+    show bob pensando at center with Dissolve(0.5)
     b "Podemos construir una balsa. Usar el bote inflable como base, sumar troncos, hojas de palma, lo que flote."
 
     b "Vi una silueta en el horizonte. Podría ser otra isla. El avión pasó en esa dirección."
-
-    show erika firme at right
+    show bob parado serio at center with Dissolve(0.5)
+    show erika conversando at right with Dissolve(0.5)
     k "O podemos hacer una hoguera gigante. Algo que se vea desde kilómetros. Si pasa un barco o avión, que nos vean."
 
-    show charles pensativo at left
+    show charles boca abierta at left with Dissolve(0.5)
     c "Ambas ideas tienen sentido... pero también riesgos."
 
     "Las miradas se cruzan. Nadie quiere decidir solo. Es momento de hablar."
+    show charles brazos cruzados at left with Dissolve(0.5)
 
     jump cap12_plan_opciones_jugador
 
@@ -15474,49 +15649,49 @@ label cap12_plan_opciones_jugador:
 
     menu:
         "Construir la balsa y arriesgarse":
-            $ jugador_postura = "balsa"
+            $ reporte_jugador_postura = "balsa"
             "Crees que vale la pena arriesgarse. Quedarse no es opción."
 
         "Hacer la hoguera y esperar ayuda":
-            $ jugador_postura = "hoguera"
+            $ reporte_jugador_postura = "hoguera"
             "Prefieres apostar a que alguien los vea. Irse podría ser peor."
 
         "Ambas ideas tienen problemas...":
-            $ jugador_postura = "duda"
+            $ reporte_jugador_postura = "duda"
             "No estás convencido de ninguna. Hay que pensar más."
 
     jump cap12_plan_intercambio_personajes
 
 label cap12_plan_intercambio_personajes:
 
-    if jugador_postura == "balsa":
-        show bob animado at center
+    if reporte_jugador_postura == "balsa":
+        show bob parado hablando at center with Dissolve(0.5)
         b "¡Eso! Si nos movemos, hay una chance real. No podemos quedarnos esperando."
 
-        show erika escéptica at right
+        show erika parada at right with Dissolve(0.5)
         k "¿Y si esa silueta no es nada? ¿Y si la balsa se rompe? No hay segunda oportunidad."
 
-        show charles dudando at left
+        show charles brazos cruzados at left with Dissolve(0.5)
         c "Mmm... lo de la balsa suena bien, pero Erika tiene razón. Es arriesgado."
 
-    elif jugador_postura == "hoguera":
-        show erika esperanzada at right
+    elif reporte_jugador_postura == "hoguera":
+        show erika conversando at right with Dissolve(0.5)
         k "Gracias. No podemos lanzarnos al mar sin saber. Una señal fuerte puede salvarnos."
 
-        show bob frustrado at center
+        show bob parado enojado at center with Dissolve(0.5)
         b "¿Y si nadie pasa? ¿Cuánto tiempo más podemos aguantar acá?"
 
-        show charles pensativo at left
+        show charles triste at left with Dissolve(0.5)
         c "La hoguera es más segura... pero también más pasiva. No sé..."
 
-    elif jugador_postura == "duda":
-        show bob impaciente at center
+    elif reporte_jugador_postura == "duda":
+        show bob parado enojado at center with Dissolve(0.5)
         b "¡Pero hay que decidir! No podemos quedarnos en la indecisión."
 
-        show erika firme at right
+        show erika enojada at right with Dissolve(0.5)
         k "Pensar no es perder tiempo. Es evitar errores."
 
-        show charles confundido at left
+        show charles boca abierta at left with Dissolve(0.5)
         c "Estoy igual que tú. No sé cuál es peor... o mejor."
 
     "El grupo se enreda en argumentos. Cada uno defiende su idea, pero también escucha."
@@ -15525,32 +15700,32 @@ label cap12_plan_intercambio_personajes:
 
 label cap12_plan_posturas:
 
-    scene playa_reunion_tension with dissolve
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
     "Las voces se elevan. Cada propuesta empieza a tomar forma, pero también a mostrar sus grietas."
 
     # Postura a favor de la hoguera
-    show erika explicando at right
+    show erika conversando at right with Dissolve(0.5)
     k "La hoguera puede arder por días. Si usamos aceite de alguna planta, madera seca, ropa... será visible desde lejos."
 
     k "No arriesgamos vidas. No nos alejamos. Solo necesitamos que alguien nos vea."
 
-    show ingrid asintiendo at centerleft
+    show ingrid cintura at centerleft with Dissolve(0.5)
     i "Y podemos mantenerla encendida por turnos. No es tan difícil."
 
     # Postura a favor de la balsa
-    show bob señalando el horizonte at center
+    show bob parado hablando at center with Dissolve(0.5)
     b "Pero si nadie pasa... ¿qué hacemos? ¿Morir esperando?"
 
     b "La silueta en el horizonte está ahí. No es imaginación. Podemos llegar en un día si el clima ayuda."
-
-    show marina dudando at right
+    show bob parado serio at center with Dissolve(0.5)
+    show marina preocupada at centerright with Dissolve(0.5)
     m "¿Y si hay corriente? ¿Y si no hay isla? ¿Y si no volvemos?"
 
     # Charles empieza a cambiar de opinión
-    show charles pensativo at left
+    show charles brazos cruzados at left
     c "Lo de la hoguera suena más seguro... pero si Bob tiene razón, podríamos estar a un paso de salir."
-
+    show charles triste at left
     c "No sé. Cada vez que escucho a uno, cambio de idea."
 
     "Charles se gira hacia ti, buscando tu opinión."
@@ -15566,7 +15741,8 @@ label cap12_plan_posturas:
 
         "Ambas ideas tienen sentido. Lo importante es que el grupo esté unido.":
             $ reporte_influencia_charles = 0
-            "Charles sonríe. 'Eso también es verdad', dice, aunque sigue sin decidirse."
+            show charles sonriente at left
+            c "Es verdad."
 
     "La discusión continúa. Algunos personajes cambian de postura, otros se aferran a su plan."
 
@@ -15577,25 +15753,25 @@ label cap12_plan_charles_decide:
     "Charles se queda en silencio unos segundos. Mira a Erika, luego a Bob. Finalmente te mira a ti."
 
     if reporte_influencia_charles > 0:
-        show charles decidido at left
+        show charles decidido at left with Dissolve(0.5)
         c "Podría ir con ustedes. Si hay una posibilidad de salir, hay que tomarla."
 
         $ charles_grupo = "balsa"
 
     elif reporte_influencia_charles < 0:
-        show charles firme at left
+        show charles firme at left with Dissolve(0.5)
         c "Podría quedarme con Erika. Prefiero esperar ayuda que arriesgarme al mar."
 
         $ charles_grupo = "hoguera"
 
     else:
         if charles >= 1:
-            show charles sonriente at left
+            show charles sonriente at left with Dissolve(0.5)
             c "Confío en ti. Podría sumarme a tu grupo."
 
-            $ charles_grupo = jugador_postura
+            $ charles_grupo = reporte_jugador_postura
         else:
-            show charles neutral at left
+            show charles neutral at left with Dissolve(0.5)
             c "No lo sé... pero creo que Erika tiene razón."
 
             $ charles_grupo = "hoguera"
@@ -15605,15 +15781,15 @@ label cap12_plan_charles_decide:
 
 label cap12_plan_division:
 ##### este no va, quedo por las dudas
-    scene playa_decision with fade
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
     "Después de una larga discusión, el grupo decide dividirse en dos proyectos: construir una balsa para buscar ayuda o mantener una hoguera encendida para ser vistos desde el aire."
 
     "Algunos ya han tomado partido."
 
-    show bob at centerleft
-    show marina at left
-    show erika at centerright
-    show tomas at right
+    show bob parado serio at centerleft with Dissolve(0.5)
+    show marina parada at left with Dissolve(0.5)
+    show erika parada at centerright with Dissolve(0.5)
+    show tomas serio at right with Dissolve(0.5)
 
 
     "Bob, Tomas y Marina se inclinan por construir la balsa. Erika, Ingrid y Laura creen que mantener la hoguera encendida es más seguro. Charles aún no ha decidido."
@@ -15633,18 +15809,19 @@ label cap12_plan_division:
 
 label cap12_plan_division2:
 
-    scene playa_separacion with fade
+    scene bg beach_no_plane with Dissolve(0.5)
 
     "El grupo se divide en dos zonas de la playa. Algunos se acercan a Bob, otros a Erika."
 
     if reporte_proyecto == "balsa":
-        show bob motivado at center
+        show laura seria at centerright
+        show bob parado hablando at center with Dissolve(0.5)
         b "Vamos a necesitar hojas de palma para trensar cuerdas, troncos, ramas... y el bote inflable. ¡Manos a la obra!"
 
-        show marina decidida at right
+        show marina hablando at right with Dissolve(0.5)
         m "Yo puedo ayudar con los nudos. Aprendí algo en los campamentos."
 
-        show charles sonriente at centerleft
+        show charles sonriente at left with Dissolve(0.5)
         c "Estoy contigo. Vamos a hacer que esto funcione."
         $ equipo_actual.append("Charles")
 
@@ -15652,13 +15829,14 @@ label cap12_plan_division2:
         jump cap12_balsa_inicio
 
     elif reporte_proyecto == "hoguera":
-        show erika concentrada at center
+        show tomas serio at centerright
+        show erika conversando at center with Dissolve(0.5)
         k "Necesitamos madera seca, algo de aceite de alguna planta, telas... y una estructura que aguante el viento."
 
-        show ingrid práctica at right
+        show ingrid cintura at right with Dissolve(0.5)
         i "Hay ramas gruesas cerca del acantilado. Podemos empezar por ahí."
 
-        show charles sonriente at centerleft
+        show charles sonriente at left with Dissolve(0.5)
         c "Estoy contigo. Vamos a hacer que esto funcione."
         $ equipo_actual.append("Charles")
 
@@ -15667,43 +15845,50 @@ label cap12_plan_division2:
 
 label cap12_balsa_inicio:
 
-    scene playa_balsa_construccion with Dissolve(0.5)
-
-    show bob organizando at center
+    show bob pensando at center
     b "Vamos a dividir tareas. Necesitamos troncos, cuerdas, bidones, y revisar el bote inflable."
 
-    show marina activa at right
-    m "Yo puedo buscar los bidones. Vi algunos cerca del arroyo."
-
-    "Te toca decidir cómo organizar el equipo. Todos esperan tu palabra."
+    show marina sonriendo at right
+    m "Yo puedo buscar los bidones. Dejamos algunos cerca del arroyo."
 
     menu:
         "Asignar tareas según habilidades":
+            y "Bob, revisa el bote mientras Charles y Laura traen hojas para las cuerdas." 
+            y "Marina puede ir a buscar los bidones mientras yo traigo algunas ramas gruesas."
+            $ reporte_cap12_balsa_organizar = "Dejar que cada uno elija qué hacer"
             $ liderazgo += 1
             "El grupo se organiza con eficiencia. Cada uno sabe qué hacer."
 
         "Dejar que cada uno elija qué hacer":
-            $ liderazgo -= 1
+            y "Todos sabemos que se necesite, que cada uno aporte como mejor pueda."
+            $ reporte_cap12_balsa_organizar = "Dejar que cada uno elija qué hacer"
             "Algunos se dispersan. Hay confusión, pero también autonomía."
 
         "Tomar el control y dar órdenes claras":
-            $ liderazgo += 2
+            y "Bob, revisa el bote mientras Charles y Laura traen hojas para las cuerdas." 
+            y "Marina puede ir a buscar los bidones mientras yo traigo algunas ramas gruesas."
+            $ liderazgo += 1
+            $ reporte_cap12_balsa_organizar = "Dejar que cada uno elija qué hacer"
             "El grupo responde con rapidez. Aunque algunos se sienten presionados."
 
-    "La construcción comienza. El sonido de ramas cortadas y nudos apretados llena el aire."
+        "Que otros se encarguen de organizar":
+            "Te mantienes en silencio y te pones mano a la obra."
+            $ reporte_cap12_balsa_organizar = "Que otros se encarguen de organizar"
+
+    "La construcción comienza. El sonido de ramas al ser quebradas y hojas de palma arrastradas llena el aire."
 
     jump cap12_balsa_encuentro_1
 
 label cap12_balsa_encuentro_1:
 
-    scene bosque_madera with dissolve
+    scene bg timber pile with Dissolve(0.5)
 
-    "Mientras buscás ramas gruesas cerca del límite del bosque, te cruzás con Erika. Lleva una pila de madera seca en los brazos."
+    "Mientras buscás ramas gruesas cerca del límite del bosque, te cruzás con Erika. Lleva una pila de madera seca en los brazos que deja caer para increparte."
 
-    show k molesta at center
-    k "¿Qué hacés acá? Esta zona la estamos usando para la hoguera."
+    show erika gr enojada at rightgr with Dissolve(0.5)
+    k "¿Qué hacés acá? Estas ramas la estamos usando para la hoguera."
 
-    y "Necesitamos madera para reforzar la balsa. No podemos navegar con algo que se desarme en el primer oleaje."
+    y "Necesitamos madera gruesa para reforzar la balsa. No podemos navegar con algo que se desarme en el primer oleaje."
 
     k "Y nosotros no podemos quedarnos sin fuego. Si pasa un avión y no tenemos con qué encenderlo, perdemos nuestra única oportunidad."
 
@@ -15711,41 +15896,50 @@ label cap12_balsa_encuentro_1:
         "Insistir en llevarse la madera":
             $ erika -= 1
             "Erika te mira con dureza."
+            $ reporte_cap12_balsa_erika = "Insistir en llevarse la madera"
             k "Hacelo. Pero no esperes que te cubra si algo sale mal."
 
         "Negociar y dividir los recursos":
             $ erika += 1
             "Proponés repartir la madera. Erika duda, pero acepta."
+            $ reporte_cap12_balsa_erika = "Negociar y dividir los recursos"
             k "Está bien. Pero que no se repita."
 
         "Ceder y dejar que Erika se lleve todo":
             $ erika += 1
+            show erika gr sorprendida at rightgr with Dissolve(0.5)
             "Erika queda sorprendida por tu actitud."
+            $ reporte_cap12_balsa_erika = "Ceder y dejar que Erika se lleve todo"
             menu:
                 "Invitar a Erika a sumarse al proyecto de la balsa":
+                    $ reporte_cap12_balsa_erika_invitar = True
                     if erika > 2:
                         $ equipo_actual.append("Erika")
                         #$ proyecto_reclutas += 1
+                        $ reporte_cap12_balsa_erika_invitar_acepta = True
+                        show erika gr parada at rightgr with Dissolve(0.5)
                         "Erika te observa con atención, luego asiente lentamente."
-                        k "Aún creo que la hoguera es una buena opción pero si tu haces la balsa puede funcionar."
-                        "Erika y tu vuelven con la madera al sitio de construccion de la balsa"
+                        k "Aún creo que la hoguera es una buena opción pero si tú haces la balsa puede funcionar."
+                        "Ambos vuelven con la madera al sitio de construccion de la balsa"
                     else:
                         "Erika te observa con atención, luego sacude la cabeza lentamente."
+                        $ reporte_cap12_balsa_erika_invitar_rechaza = True
+                        show erika gr enojada at rightgr with Dissolve(0.5)
                         k "Claramente no me conoces, [nombre_jugador]. No voy a abandonar a mi grupo."
                 "No quiero problemas entre nosotros, hay mas madera en la isla.":
                     "Erika se interna molesta en la jungla cargando la madera."   
-
+    hide erika with Dissolve(0.5)
     "El bosque queda en silencio, pero la tensión persiste."
 
     jump cap12_balsa_crisis_1
 
 label cap12_balsa_crisis_1:
 
-    scene balsa_construccion with fade
+    scene bg beach_raft_start with Dissolve(0.5)
 
     "La construcción avanza, pero el ambiente está tenso. Marina se sienta sola, mirando el agua con expresión apagada."
 
-    show marina triste at center
+    show marina triste at left with Dissolve(0.5)
     m "No sé si quiero seguir con esto..."
 
     y "¿Qué pasó?"
@@ -15758,29 +15952,35 @@ label cap12_balsa_crisis_1:
         "Decirle que no hay tiempo para dramas":
             $ marina -= 1
             y "Marina, aquí todos hacemos lo que podemos. No hay tiempo para hacerse la víctima."
-            "Marina se pone de pie, dolida."
+            show marina preocupada at left with Dissolve(0.5)
+            "Marina te mira, dolida."
             m "Entonces no cuenten conmigo."
             $ equipo_actual.remove("Marina")
+            $ reporte_cap12_marina_crisis = "No hay tiempo para dramas"
             "Marina abandona el grupo y se dirige a donde se está haciendo la hoguera."
+            hide marina with Dissolve(0.5)
             "La tensión aumenta y la balsa aún no está lista."
 
         "Reconocer su esfuerzo y proponerle que se encargue de una tarea clave":
             $ marina += 1
             y "¿Que te parece liderar la organización de los suministros?"
+            show marina sonriendo at left with Dissolve(0.5)
+            $ reporte_cap12_marina_crisis = "Reconocer su esfuerzo"
             m "¿En serio? Bueno... lo voy a intentar."
             "Te acercás y le agradecés por todo lo que ha hecho."
             m "Gracias... No quiero rendirme. Pero necesito sentir que importo."
+            hide marina with Dissolve(0.5)
             "La tensión baja, pero queda claro que el grupo necesita más comunicación."
 
     jump cap12_balsa_encuentro_2
 
 label cap12_balsa_encuentro_2:
 
-    scene playa_orilla with dissolve
+    scene bg beach sunny with Dissolve(0.5)
 
     "Mientras inspeccionás la orilla, escuchás una voz familiar cantando desafinadamente."
 
-    show c relajado at center
+    show charles gr sonriente at rightgr with Dissolve(0.5)
     c "¡Ahoy! Mirá lo que encontré. Una vela vieja, pero todavía sirve."
 
     y "¿Dónde la conseguiste?"
@@ -15793,43 +15993,53 @@ label cap12_balsa_encuentro_2:
         "Pedirle la vela para la balsa":
             $ charles += 1
             y "Esa vela podría ser clave para navegar mejor y no terminar flotando en el mar."
+            show charles gr boca abierta at rightgr with Dissolve(0.5)
+            $ reporte_Cap12_charles_vela = "Pedirle la vela para la balsa"
             c "Bueno, si lo decís así... acá tenés."
 
         "Decirle que la use como quiera":
             "Decidís no presionarlo. Charles se encoge de hombros."
+            show charles gr brazos cruzados at rightgr with Dissolve(0.5)
+            $ reporte_Cap12_charles_vela = "Decirle que la use como quiera"
             c "Gracias por no hacerme sentir culpable."
             "Charles se aleja, con cara pensativa. Es dificil entender como piensa Charles."
             if charles > 1:
+                show charles gr dedos v at rightgr with Dissolve(0.5)
                 c "Si, mejor sigo en el equipo. Aqui está la vela."
+                $ reporte_Cap12_charles_vela_queda = True
             else:
                 c "En la hoguera me van a recibir bien cuando lleve esta vela."
                 c "Me voy con el otro equipo."
+                $ reporte_Cap12_charles_vela_abandona = True
+                show charles gr boca abierta at rightgr with Dissolve(0.5)
                 $ equipo_actual.remove("Charles")
 
         "Burlarte de su indecisión":
             $ charles -= 1
-            y "¿Sigues con idas y vueltas? Pareces un niño eligiendo un dulce."
+            y "¿Sigues con idas y vueltas? Pareces un niño caprichoso."
+            $ reporte_Cap12_charles_vela = "Burlarte de su indecisión"
+            show charles gr enojado at rightgr with Dissolve(0.5)
             "Charles frunce el ceño."
             c "¿Sabés qué? Me la llevo, seguro que en la hoguera me reciben mejor."
             $ equipo_actual.remove("Charles")
-
+    hide charles with Dissolve(0.5)
     "Charles se aleja, tarareando una melodía inventada."
 
     jump cap12_balsa_encuentro_3
 
 label cap12_balsa_encuentro_3:
 
-    scene laboratorio_improvisado with dissolve
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
     "Te acercás al refugio donde Ingrid ha estado trabajando con algunos materiales recuperados."
 
-    show i seria at center
-    i "Estuve haciendo cálculos. La balsa no va a resistir si no se adhiere el bote a las ramas que están poniendo poe debajo."
+    show ingrid gr seria at leftgr with Dissolve(0.5)
+    i "Estuve haciendo cálculos. La balsa no va a resistir si no se adhiere el bote a las ramas que están poniendo por debajo."
 
     y "¿Qué proponés?"
 
-    i "Se puede sacar una resina pegajosa de unos arboles que vi en la isla. Pero solo encontré dos de esos árboles."
-    i "Es la misma resina que pensabamos usar para acelerar el encendido del fuego de la hoguera."
+    i "Se puede sacar una resina pegajosa de unos árboles que vi en la isla. Pero solo encontré dos de esos árboles."
+    i "Es la misma resina que pensábamos usar para acelerar el encendido del fuego de la hoguera."
 
     "Ingrid te mira con seriedad. No hay sarcasmo ni enojo, solo lógica."
 
@@ -15838,38 +16048,48 @@ label cap12_balsa_encuentro_3:
             y "Realmente sin la balsa, no hay salida. Además el fuego va a prender de todas maneras."
             y "Y tú misma dices que sin eso nos vamos a hundir en medio del mar"
             i "Entiendo. Pero esto pone en riesgo a mi grupo."
+            $ ingrid -= 1
+            show ingrid gr triste at leftgr with Dissolve(0.5)
             i "Pero tienes razón, tampoco puedo dejar que se ahoguen."
-            y "¿Que tal si te sumas al proyecto de la balsa? Tu podrías guiar para hacer buen uso de la resina."
+            y "¿Qué tal si te sumas al proyecto de la balsa? Tu podrías guiar para hacer buen uso de la resina."
+            $ reporte_cap12_balsa_ingrid = "Que te lleve a los árboles"
+            show ingrid gr cintura at leftgr with Dissolve(0.5)
             if ingrid > 1:
                 $ equipo_actual.append("Ingrid")
                 #$ proyecto_reclutas += 1
                 "Ingrid te observa con atención."
+                $ reporte_cap12_balsa_ingrid_acepta = True
                 i "Si voy con ustedes, quiero tener voz en las decisiones técnicas. ¿Está claro?"
             else:
                 i "No, el otro equipo me necesita. No deberías pedir ni la resina ni que los traicione."
+                $ reporte_cap12_balsa_ingrid_rechaza = True
                 $ ingrid -= 1
 
         "Negociar una solución intermedia":
             $ ingrid += 1
             "Podriamos usar un poco para dar mas solidez a la balsa y ustedes usar el resto para encender el fuego.."
+            show ingrid gr cintura at leftgr with Dissolve(0.5)
+            $ reporte_cap12_balsa_ingrid = "Negociar una solución intermedia"
             i "No es ideal, pero podría funcionar. Acepto."
 
         "Respetar su decisión y no pedir el recurso":
-            $ ingrid += 1
+            $ ingrid += 2
             "Decidís no presionar. Ingrid asiente con respeto."
+            $ reporte_cap12_balsa_ingrid = "Respetar su decisión y no pedir el recurso"
+            show ingrid gr cintura at leftgr with Dissolve(0.5)
             i "Gracias. No todos entienden lo que está en juego."
-
+    hide ingrid with Dissolve(0.5)
     "Ingrid vuelve a sus cálculos. La decisión que tomaste podría cambiar el rumbo del proyecto."
 
     jump cap12_balsa_crisis_2
 
 label cap12_balsa_crisis_2:
 
-    scene balsa_construccion_tarde with fade
+    scene bg beach_raft_mid with Dissolve(0.5)
 
-    "Volvés al campamento y notás que Laura ha reorganizado todo el plan de construcción sin consultar a nadie."
+    "Volvés al área de construcción y notás que Laura ha reorganizado todo el plan de construcción sin consultar a nadie."
 
-    show l molesta at center
+    show laura gr seria at rightgr with Dissolve(0.5)
     l "No podíamos seguir esperando. Tomé decisiones. Si no te gusta, podés irte."
 
     y "¿No pensás que deberíamos decidir esto juntos?"
@@ -15881,8 +16101,10 @@ label cap12_balsa_crisis_2:
     menu:
         "Confrontarla y exigir que respete al grupo":
             $ laura -= 1
-            y "¿Otra vez tomando decisiones por tu lado sin importar los demas?"
-            y "Hay que escuchar a los demás. No puedes cambiar el plan sin consultar."
+            y "¿Otra vez tomando decisiones por tu lado sin importar los demás?"
+            y "Hay que escuchar al grupo. No puedes cambiar el plan sin consultar."
+            $ reporte_cap12_balsa_laura = "Confrontarla y exigir que respete al grupo"
+            show laura gr enojada at rightgr with Dissolve(0.5)
             l "Yo me bajo. Tampoco te voy a consultar esto. Me voy con el otro equipo."
             $ equipo_actual.remove("Laura")
 
@@ -15890,12 +16112,19 @@ label cap12_balsa_crisis_2:
             $ laura += 1
             y "No es la manera adecuada pero lo importante es hacer las cosas."
             y "Explica lo que quieres hacer y nos repartimos esas tareas con el grupo."
+            $ reporte_cap12_balsa_laura = "Cederle el liderazgo del proyecto"
+            show laura gr hablando at rightgr with Dissolve(0.5)
+            $ bob -= 2
             l "Al menos ahora vamos a avanzar."
 
         "Proponer una estructura compartida de decisiones":
             y "Al grupo le viene bien tu ánimo y determinación."
             y "Separemos las tareas, tu coordina algunas y otros decidiran sobre las demas."
+            $ reporte_cap12_balsa_laura = "Proponer una estructura compartida de decisiones"
+            show laura gr enojada at rightgr with Dissolve(0.5)
             l "Está bien. Pero si esto se vuelve un caos, no me culpes."
+    
+    hide laura with Dissolve(0.5)
 
     "La crisis deja huellas. El grupo sigue adelante, pero la dinámica ha cambiado."
 
@@ -15903,31 +16132,65 @@ label cap12_balsa_crisis_2:
 
 label cap12_balsa_evaluacion:
 
-    scene playa_balsa_finalizada with fade
+    scene bg beach_raft_last with Dissolve(0.5)
 
-    "La balsa está lista. El grupo se reúne en la orilla, observando el horizonte."
+    "La balsa está tomando forma. El grupo se reúne en la orilla, observando el horizonte."
+        # Recuento de personajes en el proyecto de la hoguera
+    $ cantidad_equipo = 0
+    $ equipo_actual.remove("jugador")
 
-    $ cantidad_equipo = len(equipo_actual)
+    $ cantidad_equipo = len(equipo_actual) 
+    $ cantidad_equipo += 1
+
+    "Ahora hay [cantidad_equipo] personas que siguen en el equipo de la hoguera."
+    "[', '.join(equipo_actual)] y tú"
+
 
     if cantidad_equipo >= 5:
         "El equipo es sólido. Hay suficientes manos para navegar y enfrentar imprevistos."
-        "Los reclutas del otro proyecto aportan nuevas perspectivas y recursos."
+        "Quienes llegaron del otro proyecto aportan nuevas perspectivas y recursos."
         "La tensión interna se ha reducido, aunque quedan heridas abiertas."
 
         menu:
-            "Confirmar el proyecto de la balsa":
-                "El grupo se prepara para zarpar. El proyecto está completo."
+            "Felicitar al equipo por el logro":
+                y "¡Lo hemos hecho! Felicitaciones a todos."
+                $ reporte_cap12_balsa_final_equipo = True
+                jump cap12_balsa_completa
+            "Hacer notar tu liderazgo":
+                y "¡Está lista! Gracias por seguir mis instrucciones."
+                $ reporte_cap12_balsa_final_lider = True
                 jump cap12_balsa_completa
 
     elif cantidad_equipo == 4:
         "El equipo está incompleto. No hay suficientes personas para garantizar el éxito del proyecto."
         "Tampoco el grupo de la hoguera tiene los recursos ni el personal necesario para sostener su plan."
-        "Ambos equipos se ven obligados a reunirse y tomar una decisión conjunta."
+        "Ambos proyectos corren riesgo de no poderse llevar a cabo."
 
         menu:
             "Convocar a todos para decidir qué proyecto seguir":
                 "Se organiza una reunión entre los ocho personajes. El futuro depende de lo que decidan juntos."
-                jump cap12_decision_grupal
+                $ reporte_cap12_balsa_4_convocar = True
+                jump cap12_decision_grupal_dialogos
+            "Cancelar el proyecto de la balsa":
+                y "Divididos no vamos a lograr nada."
+                y "Propongo que nos sumemos al otro grupo."
+                y "Yo estoy decidido, al menos yo voy a hacerlo"
+                $ reporte_cap12_balsa_4_abandonar = True
+                "Los demás se miran con desánimo, sin tu participación saben que están forzados a cancelar la balsa."
+                if "Bob" in equipo_actual:
+                    $ bob -= 2
+                    show bob gr parado enojado at rightgr with Dissolve(0.5)
+                    b "No puedo creer que abandones sin luchar por el proyecto."
+                    hide bob with Dissolve(0.5)
+                if "Ingrid" in equipo_actual:
+                    $ ingrid -= 1
+                if "Charles" in equipo_actual:
+                    $ charles -= 1
+                if "Laura" in equipo_actual:
+                    $ laura -= 1
+                if "Erika" in equipo_actual:
+                    $ erika -= 1
+                jump cap12_hoguera_completa
 
     else:
         "El equipo es insuficiente. La balsa no puede zarpar en estas condiciones."
@@ -15935,28 +16198,47 @@ label cap12_balsa_evaluacion:
         "Algunos miembros dudan, otros se han ido. El grupo de la hoguera sigue activo."
 
         menu:
-            "Aceptar que el proyecto de la balsa ha fallado":
-                "El grupo se repliega. El liderazgo pasa al equipo de la hoguera."
+            "Aceptar responsabilidad por fallo del equipo":
+                y "Somos pocos, lo siento. He fallado en mantener el equipo unido."
+                show bob gr parado hablando at rightgr with Dissolve(0.5) 
+                b "Se ha hecho lo posible. No era una tarea fácil"
+                $ bob += 1
+                jump cap12_hoguera_completa
+            "Hacer que el equipo se haga cargo del fallo":
+                y "si todos hubieran hecho su parte, no seríamos tan pocos."
+                show bob gr parado enojado at rightgr with Dissolve(0.5) 
+                b "Quizás tu actitud es el problema."
+                $ bob -= 1
+                if "Ingrid" in equipo_actual:
+                    $ ingrid -= 1
+                if "Charles" in equipo_actual:
+                    $ charles -= 1
+                if "Laura" in equipo_actual:
+                    $ laura -= 1
+                if "Erika" in equipo_actual:
+                    $ erika -= 1
                 jump cap12_hoguera_completa
 
 label cap12_hoguera_inicio:
 
-    scene campamento_hoguera_dia
-    with fade
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
-    show erika neutral at left with Dissolve(0.5)
-    show ingrid annoyed at centerright with Dissolve(0.5)
-    show tomas annoyed at centerleft with Dissolve(0.5)
-    show charles relaxed at right with Dissolve(0.5)
-
+    
+    show ingrid seria at centerright with Dissolve(0.5)
+    
+    
+    show erika parada at left with Dissolve(0.5)
     k "Si queremos que esto funcione, necesitamos una base sólida. Troncos grandes abajo, ramas intermedias, hojas secas en la cima. Si se cae antes de prenderla, perdimos todo."
 
+    show charles boca abierta at right with Dissolve(0.5)
     c "¿Y cómo pensás cortar troncos sin hachas? ¿Vamos a abrazarlos hasta que se rompan?"
 
     c "Yo digo que juntemos todo lo que encontremos y lo apilemos. Si parece una montaña, ya está. ¿No?"
 
+    show erika conversando at left with Dissolve(0.5)
     k "Eso no va a prender bien. Y si se cae, no hay segunda oportunidad."
 
+    show tomas serio at centerleft with Dissolve(0.5)
     t "Lo que no hay, no hay. Busquemos opciones."
 
     "Todos te miran, esperando tu opinión."
@@ -15965,34 +16247,43 @@ label cap12_hoguera_inicio:
         "Apoyar a Erika":
             $ erika += 1
             $ charles -= 1
-            $ enfoque_hoguera = "estructurado"
+            $ reporte_enfoque_hoguera = "estructurado"
             y "La estructura es clave. Si se cae antes de prenderla, perdimos todo."
+            show erika parada at left with Dissolve(0.5)
             k "Gracias. Alguien entiende lo que está en juego."
+            show charles enojado at right with Dissolve(0.5)
             c "Claro, sigamos planeando como si tuviéramos herramientas mágicas."
 
         "Apoyar a Tomas":
             $ tomas += 1
             $ erika -= 1
-            $ enfoque_hoguera = "adaptativo"
+            $ reporte_enfoque_hoguera = "adaptativo"
             y "No podemos planear como si tuviéramos herramientas. Hay que adaptarse."
+            show tomas hablando at centerleft with Dissolve(0.5)
             t "¡Exacto! Por fin alguien con los pies en la tierra."
+            show erika enojada at left with Dissolve(0.5)
             k "Adaptarse no significa dejar de planear con cuidado."
 
         "Apoyar a Charles":
             $ charles += 1
             $ erika -= 1
-            $ enfoque_hoguera = "improvisado"
+            $ reporte_enfoque_hoguera = "improvisado"
             y "Si juntamos suficiente material, podemos ajustar la forma después."
+            show charles dedos v at right with Dissolve(0.5)
             c "¡Esa es la actitud! Montaña de ramas, allá vamos."
+            show erika enojada at left with Dissolve(0.5)
             k "Esto no es un juego, Charles."
 
         "Proponer una síntesis":
             $ erika += 1
             $ tomas += 1
-            $ enfoque_hoguera = "hibrido"
+            $ reporte_enfoque_hoguera = "hibrido"
             y "Podemos empezar con lo que tenemos, pero seguir el diseño de Erika en lo posible."
+            show erika parada at left with Dissolve(0.5)
             k "Me parece razonable."
+            show tomas hablando at centerleft with Dissolve(0.5)
             t "Mientras no nos pasemos el día dibujando planos, va bien."
+            show charles dedos v at right with Dissolve(0.5)
             c "¿Y mi montaña de ramas? Nadie la quiere..."
 
     "Con la decisión tomada, el grupo comienza a trabajar. Las tensiones no desaparecen, pero hay una dirección clara."
@@ -16006,24 +16297,24 @@ label cap12_hoguera_inicio:
 
 label cap12_hoguera_encuentro_1:
 
-    scene campamento_hoguera_dia
-    with fade
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
-    show erika neutral at left with Dissolve(0.5)
-    show bob neutral at right with Dissolve(0.5)
-
+    show bob parado serio at right with Dissolve(0.5)
     b "Buen día. Vine a ver cómo va el proyecto de la pira. Desde la balsa parece que están avanzando."
 
+    show erika parada at left with Dissolve(0.5)
     k "Avanzando sí, pero no improvisando. Estamos siguiendo una estructura clara. No queremos que se venga abajo cuando más lo necesitemos."
 
+    show bob parado hablando at right with Dissolve(0.5)
     b "Entiendo. Aunque a veces, si uno espera a tener todo perfecto, se le pasa la oportunidad."
-
+    show erika enojada at left with Dissolve(0.5)
     k "Prefiero perder tiempo que perder la oportunidad del rescate."
 
     "La tensión entre Erika y Bob es evidente. Ambos tienen estilos de liderazgo distintos. Te miran, esperando tu opinión."
 
     menu:
         "Defender el enfoque estructurado":
+            $ reporte_cap12_hoguera_bob = "Defender el enfoque estructurado"
             $ erika += 1
             $ bob -= 1
             y "La estructura es clave. Si se cae antes de prenderla, perdimos todo."
@@ -16031,6 +16322,7 @@ label cap12_hoguera_encuentro_1:
             b "Solo espero que no se les pase el momento por estar midiendo ramas."
 
         "Cuestionar el enfoque estructurado":
+            $ reporte_cap12_hoguera_bob = "Cuestionar el enfoque estructurado"
             $ bob += 1
             $ erika -= 1
             y "Tal vez deberíamos ser más flexibles. No sabemos cuándo va a pasar el avión."
@@ -16038,6 +16330,7 @@ label cap12_hoguera_encuentro_1:
             k "Y a veces actuar sin pensar es lo que te deja sin fuego cuando más lo necesitas."
 
         "Intentar mediar":
+            $ reporte_cap12_hoguera_bob = "Intentar mediar"
             $ bob += 1
             $ erika += 1
             y "Podemos mantener la estructura, pero tener algo listo para encender rápido si aparece el avión."
@@ -16045,6 +16338,7 @@ label cap12_hoguera_encuentro_1:
             k "Mientras no se comprometa la estabilidad, me parece bien."
 
         "Evitar intervenir":
+            $ reporte_cap12_hoguera_bob = "Evitar intervenir"
             y "..."
             b "Bueno, seguiré observando."
             k "..."
@@ -16054,18 +16348,17 @@ label cap12_hoguera_encuentro_1:
     hide erika with Dissolve(0.5)
     hide bob with Dissolve(0.5)
 
-    scene bg hoguera with fade
+    
     "El día continúa, y el equipo de la hoguera sigue trabajando con la visita de Bob en mente."
 
     jump cap12_hoguera_crisis_1
 
 label cap12_hoguera_crisis_1:
 
-    scene campamento_hoguera_tarde
-    with fade
+    scene bg beach_no_plane with Dissolve(0.5)
 
-    show erika annoyed at left with Dissolve(0.5)
-    show charles neutral at right with Dissolve(0.5)
+    show erika enojada at left with Dissolve(0.5)
+    show charles brazos cruzados at right with Dissolve(0.5)
 
     k "¿En serio estuviste toda la mañana buscando ramas secas y no trajiste ni una decente?"
 
@@ -16081,6 +16374,7 @@ label cap12_hoguera_crisis_1:
         "Defender a Erika":
             $ erika += 1
             $ charles -= 1
+            $ reporte_cap12_hoguera_charles = "Defender a Erika"
             y "Charles, necesitamos materiales que realmente sirvan. Esto no es un juego."
             l "Gracias. Alguien que entiende la urgencia."
             c "Claro, sigamos gritando hasta que aparezcan troncos mágicos."
@@ -16091,6 +16385,7 @@ label cap12_hoguera_crisis_1:
             "Charles se interna en la jungla enojado."
 
         "Defender a Charles":
+            $ reporte_cap12_hoguera_charles = "Defender a Charles"
             $ charles += 1
             $ erika -= 1
             y "Erika, está haciendo lo que puede. No tenemos herramientas."
@@ -16098,6 +16393,7 @@ label cap12_hoguera_crisis_1:
             k "Sí, claro. Y mientras tanto, seguimos perdiendo tiempo."
 
         "Intentar mediar":
+            $ reporte_cap12_hoguera_charles = "Intentar mediar"
             $ erika += 1
             $ charles += 1
             y "Entiendo los dos puntos. Tal vez podemos reorganizar tareas para que cada uno haga lo que mejor se le da."
@@ -16105,34 +16401,33 @@ label cap12_hoguera_crisis_1:
             c "Mientras no me manden a abrazar troncos, estoy dentro."
 
         "Evitar intervenir":
+            $ reporte_cap12_hoguera_charles = "Evitar intervenir"
             y "..."
             k "¿Nada? Genial. Silencio útil."
             c "Bueno, me voy a seguir buscando ramitas."
 
     "La tensión no desaparece del todo, y esas palabras dejan una marca en la dinámica del grupo."
 
-    hide laura with Dissolve(0.5)
+    hide erika with Dissolve(0.5)
     hide charles with Dissolve(0.5)
 
-    scene bg hoguera with fade
     "La tarde avanza, y el trabajo continúa con una energía distinta."
 
-    jump cap12_hoguera_encuentro_2
+    jump cap12_hoguera_encuentro_3
 
 label cap12_hoguera_encuentro_2:
 
-    scene campamento_hoguera_tarde
-    with fade
+    scene expression fondos_refugios[refugio]["interior"] with Dissolve(0.5)
 
     if "Charles" in equipo_actual:
         jump cap12_hoguera_charles_mariana
     else:
-        jump cap12_hoguera_encuentro_3
+        jump cap12_hoguera_crisis_2
 
 label cap12_hoguera_charles_mariana:
-    show charles neutral at left with Dissolve(0.5)
-    show marina nervous at right with Dissolve(0.5)
-
+    show charles brazos cruzados at left with Dissolve(0.5)
+    show marina hablando at right with Dissolve(0.5)
+    "Están en el refugio buscando cosas para usar como herramientas cuando llega Marina."
     m "Hola... vine a ver si necesitaban algo. Tenemos algunas sogas que no estamos usando."
 
     c "¿Sogas? ¿Para atar la pira o para atarnos nosotros cuando nos frustremos?"
@@ -16140,6 +16435,7 @@ label cap12_hoguera_charles_mariana:
     m "Pensé que podían servir para estabilizar la base. No sé si es buena idea..."
 
     c "Ey, no te preocupes. Es mejor que lo que yo traje esta mañana."
+    show marina triste at right with Dissolve(0.5)
 
     m "¿Realmente les sirve? No quiero molestar..."
 
@@ -16159,7 +16455,7 @@ label cap12_hoguera_charles_mariana:
             $ marina -= 1
             y "Si vas a ofrecer algo, hacelo con seguridad. No estamos para dudas."
             m "Lo siento... no quería incomodar."
-            c "Che, tampoco para retarla así."
+            c "Tampoco es para retarla así."
 
         "Evitar intervenir":
             y "..."
@@ -16240,11 +16536,10 @@ label cap12_hoguera_encuentro_3:
 
 label cap12_hoguera_crisis_2:
 
-    scene campamento_hoguera_noche
-    with fade
+    scene bg hoguera_ramas with Dissolve(0.5)
 
-    show erika neutral at left with Dissolve(0.5)
-    show ingrid annoyed at right with Dissolve(0.5)
+    show erika anojada at left with Dissolve(0.5)
+    show ingrid enojada at right with Dissolve(0.5)
 
     i "¿Sabés qué? Estoy harta de tus planes rígidos. Esto no es una simulación controlada, Erika."
 
@@ -16258,6 +16553,7 @@ label cap12_hoguera_crisis_2:
 
     menu:
         "Apoyar a Erika con firmeza":
+            $ reporte_cap12_hoguera_ingrid = "Apoyar a Erika con firmeza"
             $ erika += 2
             $ ingrid -= 2
             y "Erika tiene razón. Necesitamos orden, aunque no sea perfecto."
@@ -16268,6 +16564,7 @@ label cap12_hoguera_crisis_2:
             "Ingrid se aleja rumbo al lugar donde el otro equipo está haciendo la balsa."
 
         "Apoyar a Ingrid con firmeza":
+            $ reporte_cap12_hoguera_ingrid = "Apoyar a Ingrid con firmeza"
             $ ingrid += 2
             $ erika -= 2
             y "Ingrid tiene razón. No podemos seguir un plan que no se cuestiona."
@@ -16278,6 +16575,7 @@ label cap12_hoguera_crisis_2:
             "Erika se aleja rumbo al lugar donde el otro equipo está haciendo la balsa."
 
         "Intentar reconciliar":
+            $ reporte_cap12_hoguera_ingrid = "Intentar reconciliar"
             $ ingrid += 1
             $ erika += 1
             y "Las dos tienen puntos válidos. Si no se escuchan, esto no va a funcionar."
@@ -16288,6 +16586,7 @@ label cap12_hoguera_crisis_2:
 
         "Evitar intervenir":
             y "..."
+            $ reporte_cap12_hoguera_ingrid = "Evitar intervenir"
             k "Silencio no es liderazgo."
             i "Perfecto. Otro que no dice lo que piensa."
             i "Yo no sigo en esto. Me voy."
@@ -16304,8 +16603,7 @@ label cap12_hoguera_crisis_2:
 
 label cap12_hoguera_evaluacion:
 
-    scene campamento_hoguera_amanecer
-    with fade
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
     y "La hoguera está avanzando. Pero lo que importa ahora es quién sigue comprometido."
 
@@ -16319,15 +16617,18 @@ label cap12_hoguera_evaluacion:
     "Ahora hay [hoguera_equipo] personas que siguen en el equipo de la hoguera."
     "[', '.join(equipo_actual)] y tú"
 
-    if hoguera_equipo >= 5:
-        y "Con este equipo, podemos completar la hoguera sin problemas."
-        jump cap12_hoguera_completa
+    #if hoguera_equipo >= 5:
+        #y "Con este equipo, podemos completar la hoguera sin problemas."
+        #jump cap12_hoguera_completa
+    
+    y "Con tan poca gente, no hay forma de continuar este proyecto."
+    y "Necesitamos decidir como grupo qué hacer."
+    jump cap12_decision_grupal_dialogos
 
-    elif hoguera_equipo == 4:
-        y "Cuatro personas no son suficientes para asegurar el éxito."
+    if hoguera_equipo >= 4:
+        y "Con tan poca gente, no hay forma de continuar este proyecto."
         y "Necesitamos decidir como grupo qué hacer."
         jump cap12_decision_grupal_dialogos
-
     else:
         y "Con tan poca gente, no hay forma de continuar este proyecto."
         y "La única opción viable es construir la balsa."
@@ -16336,58 +16637,131 @@ label cap12_hoguera_evaluacion:
         "Cargan lo que pueden y se dirigen a donde está el grupo de la balsa"
         $ abandonar_hoguera = True
         jump cap12_balsa_completa
+##################################
+    scene bg beach_raft_last with Dissolve(0.5)
+
+    "La balsa está vatomando forma. El grupo se reúne en la orilla, observando el horizonte."
+
+    $ cantidad_equipo = len(equipo_actual)
+
+    if cantidad_equipo >= 5:
+        "El equipo es sólido. Hay suficientes manos para navegar y enfrentar imprevistos."
+        "Quienes llegaron del otro proyecto aportan nuevas perspectivas y recursos."
+        "La tensión interna se ha reducido, aunque quedan heridas abiertas."
+
+        menu:
+            "Felicitar al equipo por el logro":
+                y "¡Lo hemos hecho! Felicitaciones a todos."
+                $ reporte_cap12_balsa_final_equipo = True
+                jump cap12_balsa_completa
+            "Hacer notar tu liderazgo":
+                y "¡Está lista! Gracias por seguir mis instrucciones."
+                $ reporte_cap12_balsa_final_lider = True
+                jump cap12_balsa_completa
+
+    elif cantidad_equipo == 4:
+        "El equipo está incompleto. No hay suficientes personas para garantizar el éxito del proyecto."
+        "Tampoco el grupo de la hoguera tiene los recursos ni el personal necesario para sostener su plan."
+        "Ambos equipos se ven obligados a reunirse y tomar una decisión conjunta."
+
+        menu:
+            "Convocar a todos para decidir qué proyecto seguir":
+                "Se organiza una reunión entre los ocho personajes. El futuro depende de lo que decidan juntos."
+                $ reporte_cap12_balsa_4_convocar = True
+                jump cap12_decision_grupal
+            "Cancelar el proyecto de la balsa":
+                y "Divididos no vamos a lograr nada."
+                y "Propongo que nos sumemos al otro grupo."
+                y "Yo estoy decidido, al menos yo voy a hacerlo"
+                $ reporte_cap12_balsa_4_abandonar = True
+                "Los demás se miran con desánimo, sin tu participación saben que están forzados a cancelar la balsa."
+                if "Bob" in equipo_actual:
+                    $ bob -= 2
+                    show bob gr parado enojado at rightgr with Dissolve(0.5)
+                    b "No puedo creer que abandones sin luchar por el proyecto."
+                    hide bob with Dissolve(0.5)
+                if "Ingrid" in equipo_actual:
+                    $ ingrid -= 1
+                if "Charles" in equipo_actual:
+                    $ charles -= 1
+                if "Laura" in equipo_actual:
+                    $ laura -= 1
+                if "Erika" in equipo_actual:
+                    $ erika -= 1
+                jump cap12_hoguera_completa
+
+    else:
+        "El equipo es insuficiente. La balsa no puede zarpar en estas condiciones."
+        "La falta de colaboración y las decisiones conflictivas debilitaron el proyecto."
+        "Algunos miembros dudan, otros se han ido. El grupo de la hoguera sigue activo."
+
+        menu:
+            "Aceptar responsabilidad por fallo del equipo":
+                y "Somos pocos, lo siento. He fallado en mantener el equipo unido."
+                show bob gr parado hablando at rightgr with Dissolve(0.5) 
+                b "Se ha hecho lo posible. No era una tarea fácil"
+                $ bob += 1
+                jump cap12_hoguera_completa
+            "Hacer que el equipo se haga cargo del fallo":
+                y "si todos hubieran hecho su parte, no seríamos tan pocos."
+                show bob gr parado enojado at rightgr with Dissolve(0.5) 
+                b "Quizás tu actitud es el problema."
+                $ bob -= 1
+                if "Ingrid" in equipo_actual:
+                    $ ingrid -= 1
+                if "Charles" in equipo_actual:
+                    $ charles -= 1
+                if "Laura" in equipo_actual:
+                    $ laura -= 1
+                if "Erika" in equipo_actual:
+                    $ erika -= 1
+                jump cap12_hoguera_completa
 
 label cap12_decision_grupal_dialogos:
 
-    scene campamento_decision_grupal
-    with fade
+    scene expression fondos_refugios[refugio]["exterior"] with Dissolve(0.5)
 
-    show charles neutral at center with Dissolve(0.5)
+    show charles enojado at center with Dissolve(0.5)
 
     c "No podemos seguir así. No hay suficiente gente en ningún proyecto. Hay que hablarlo."
 
     # Personajes que pudieron cambiar de proyecto: Bob, Marina, Tomás, Ingrid
 
     ## Erika
-    if "Erika" in equipo_actual:
-        show erika neutral at left
-        k "Me quedé en la hoguera porque pensé que era lo correcto. Pero no sé si fue la mejor decisión."
-    else:
-        show erika neutral at left
-        k "Me cambié a la balsa. No podía seguir en un grupo que no se escuchaba."
 
-    menu:
-        "Responder con empatía":
-            $ erika += 1
-            y "Entiendo lo que sentís. Fue una decisión difícil."
-        "Responder con neutralidad":
-            y "Es bueno que lo digas. Ya veremos qué hacemos."
-        "Responder con crítica":
-            $ erika -= 1
-            y "No era momento de cambiar de grupo por inseguridad."
+    if reporte_cap12_balsa_erika_invitar_acepta:
+        show erika parada at left with Dissolve(0.5)
+        k "Me cambié a la balsa porque [nombre_personaje] me inspiró confianza. Pero no sé si fue la mejor decisión."
+        menu:
+            "Responder con empatía":
+                $ erika += 1
+                y "Entiendo lo que sentís. Fue una decisión difícil."
+            "Responder con neutralidad":
+                y "Es bueno que lo digas. Ya veremos qué hacemos."
+            "Responder con dureza":
+                $ erika -= 1
+                y "Cada un[e] debe hacerse cargo de sus desiciones."
+    
 
     ## Charles
-    if "Charles" in equipo_actual:
-        show charles neutral at left
-        c "Me quedé en la hoguera porque no quería decepcionar a nadie. Pero tengo dudas de si va a funcionar."
-    else:
-        show charles neutral at left
-        c "Me cambié a la balsa. Necesitaba estar con gente que no me cuestionara."
-
-    menu:
-        "Responder con apoyo":
-            $ charles += 1
-            y "Tu decisión fue valiente. Lo importante es que sigas adelante."
-        "Responder con distancia":
-            y "Lo entiendo. No todos pueden con tanta presión."
-        "Responder con juicio":
-            $ charles -= 1
-            y "No podés esperar que nadie cuestione si hay pobre desempeño."
+    if reporte_Cap12_charles_vela_abandona:
+        show charles boca abierta at right with Dissolve(0.5)
+        c "Me fuí a la hoguera porque creí que ahi me iban a recibir mejor. Pero tengo dudas de si va a funcionar."
+        menu:
+            "Responder con apoyo":
+                $ charles += 1
+                y "Tu decisión fue valiente. Lo importante es que sigas adelante."
+            "Responder con distancia":
+                y "Lo entiendo. No todos pueden con tanta presión."
+            "Responder con juicio":
+                $ charles -= 1
+                y "No podés esperar más si no son confiable."
+    
 
     ## Tomás
     if "Tomas" in equipo_actual:
-        show tomas neutral at left
-        t "Me quedé en la hoguera. No soy de hablar mucho, pero se que podemos lograrlo."
+        show tomas serio at centerright with Dissolve(0.5)
+        t "No soy de hablar mucho. Me quedé en la hoguera, punto."
     else:
         show tomas neutral at left
         t "Me cambié a la balsa. No me gusta el conflicto, y allá hay más calma."
@@ -16398,148 +16772,148 @@ label cap12_decision_grupal_dialogos:
             y "Tu constancia es valiosa. Gracias por seguir apostando."
         "Responder con neutralidad":
             y "Está bien. Cada uno busca lo que necesita."
-        "Cuestionar su decisión":
+        "Cuestionar su silencio":
             $ tomas -= 1
-            y "No podés evitar los problemas cambiando de grupo."
+            y "No podés evitar los problemas no dando tu opinión."
 
     ## Ingrid
-    if "Ingrid" in equipo_actual:
-        show ingrid neutral at left
-        i "Me quedé en la hoguera. Aunque no me sienta cómoda, creo que puedo aportar algo técnico."
-    else:
-        show ingrid neutral at left
-        i "Me cambié a la balsa. No confío en la forma en que se manejan las cosas en la hoguera."
-
-    menu:
-        "Valorar su aporte":
-            $ ingrid += 1
-            y "Tu conocimiento puede marcar la diferencia. Gracias por quedarte."
-        "Responder con cautela":
-            y "Tus opiniones tienen peso. Espero que sean aportes."
-        "Desconfiar abiertamente":
-            $ ingrid -= 1
-            y "No sirve aportar si no confías en el equipo."
+    if reporte_cap12_balsa_ingrid_acepta:
+        show ingrid cintura at centerleft with Dissolve(0.5)
+        i "Me fuí a la balsa porque necesitaban mi ayuda. Sin mi podían terminar muy mal." 
+        menu:
+            "Valorar su aporte":
+                $ ingrid += 1
+                y "Tu conocimiento puede marcar la diferencia. Gracias por tenerlo en cuenta."
+            "Responder con cautela":
+                y "Tus opiniones tienen peso. Siempre que sean aportes."
+            "Rechazar el planteo":
+                $ ingrid -= 1
+                y "Nadie es imprescindible."
 
     ## Cierre del jugador
-    hide bob
-    hide marina
-    hide tomas
-    hide ingrid
-    hide charles
-    with fade
-
-    scene campamento_decision_grupal_noche
-    show jugador neutral at center
+    hide erika with Dissolve(0.5)
+    hide tomas with Dissolve(0.5)
+    hide ingrid with Dissolve(0.5)
+    hide charles with Dissolve(0.5)
 
     y "No podemos seguir así. Divididos, sin rumbo. Hay que tomar una decisión clara."
+
+    scene bg campfire
+    "La noche cae y se juntan junto al fuego para resolver el problema."
 
     y "Propongo que elijamos uno de los dos proyectos y nos comprometamos todos."
 
     menu:
         "Proponer continuar con la hoguera":
             $ jugador_proyecto = "hoguera"
+            $ reporte_cap12_4_proyecto = "hoguera"
             jump cap12_decision_grupal_reasignacion
 
         "Proponer continuar con la balsa":
             $ jugador_proyecto = "balsa"
+            $ reporte_cap12_4_proyecto = "balsa"
             jump cap12_decision_grupal_reasignacion
 
 label cap12_decision_grupal_reasignacion:
 
-    scene campamento_decision_grupal_noche
-    with fade
-
-    $ proyecto_jugador = jugador_proyecto
-    $ proyecto_opuesto = "balsa" if jugador_proyecto == "hoguera" else "hoguera"
+    if jugador_proyecto == "hoguera":
+        $ proyecto_opuesto = "balsa" 
+    else:
+        $ proyecto_opuesto = "hoguera"
 
     $ equipo_jugador = 1  # jugador incluido
     $ equipo_opuesto = 0
 
     ## Charles
-    if charles > 1:
-        show charles neutral at center
-        c "Estoy con vos. Me quedo en el proyecto de la [proyecto_jugador]."
+    show charles brazos cruzados at centerleft with Dissolve(0.5)
+    if jugador_proyecto == "balsa":
+        c "Estoy decidido. Prefiero hacer la balsa."
         $ equipo_jugador += 1
     else:
-        show charles neutral at center
-        c "Prefiero irme al otro grupo. No me convence tu propuesta."
+        c "Estoy decidido. Prefiero hacer la balsa."
         $ equipo_opuesto += 1
     hide charles
 
     ## Laura
     if laura > 1:
-        show laura neutral at center
+        show laura hablando at centerleft with Dissolve(0.5)
         l "Voy con vos. No me importa lo que digan los demás."
         $ equipo_jugador += 1
     else:
-        show laura neutral at center
+        show laura seria at right with Dissolve(0.5)
         l "No confío en tu forma de liderar. Me voy al otro proyecto."
         $ equipo_opuesto += 1
     hide laura
 
     ## Erika
     if erika > 1:
-        show erika neutral at center
+        show erika conversando at centerleft with Dissolve(0.5)
         k "Trabajemos juntos. Si vamos a hacer esto, que sea con decisión."
         $ equipo_jugador += 1
     else:
-        show erika neutral at center
+        show erika enojada at right with Dissolve(0.5)
         k "No me convence tu propuesta. Me voy al otro grupo."
         $ equipo_opuesto += 1
     hide erika
 
     ## Bob
     if bob > 1:
-        show bob neutral at center
-        b "Contá conmigo. Prefiero el proyecto de la [proyecto_jugador]."
+        show bob parado hablando at centerleft with Dissolve(0.5)
+        b "Contá conmigo. Prefiero el proyecto de la [jugador_proyecto]."
         $ equipo_jugador += 1
     else:
-        show bob neutral at center
+        show bob parado enojado at right with Dissolve(0.5)
         b "No me parece lo mejor. Me voy al otro grupo."
         $ equipo_opuesto += 1
     hide bob
 
     ## Marina
     if marina > 1:
-        show marina neutral at center
-        m "Voy con vos. Me preocupa, pero confío en vos."
-        $ equipo_jugador += 1
+        show marina sonriendo at centerleft with Dissolve(0.5)
+        if jugador_proyecto == "balsa":
+            m "Estoy con vos. Confío en tu criterio."
+            $ equipo_jugador += 1
+        else:
+            m "Lo siento, prefiero el otro proyecto."
+            $ equipo_opuesto += 1
     else:
-        show marina neutral at center
-        m "Prefiero irme al otro grupo. No me siento segura acá."
-        $ equipo_opuesto += 1
+        show marina triste at right with Dissolve(0.5)
+        if jugador_proyecto == "balsa":
+            m "Confío en vos. Me sumo a la balsa"
+            $ equipo_jugador += 1
+        else:
+            m "Prefiero irme al otro grupo. No me siento segura acá."
+            $ equipo_opuesto += 1
     hide marina
 
     ## Tomás
     if tomas > 1:
-        show tomas neutral at center
-        t "Estoy con vos."
-        $ equipo_jugador += 1
+        show tomas serio at centerleft with Dissolve(0.5)
+        if jugador_proyecto == "balsa":
+            t "Estoy con vos."
+            $ equipo_jugador += 1
+        else:
+            t "Lo siento, prefiero el otro proyecto."
+            $ equipo_opuesto += 1
     else:
-        show tomas neutral at center
-        t "Me voy al otro grupo."
-        $ equipo_opuesto += 1
+        show tomas serio at right with Dissolve(0.5)
+        if jugador_proyecto == "balsa":
+            t "Prefiero hacer la balsa."
+            $ equipo_jugador += 1
+        else:
+            t "Prefiero el otro proyecto."
+            $ equipo_opuesto += 1
     hide tomas
 
     ## Ingrid (desempate)
-    if ingrid > 1:
-        if equipo_jugador == 4 and equipo_opuesto == 4:
-            show ingrid neutral at center
-            i "No quiero que esto siga en empate. Me sumo a tu proyecto."
-            $ equipo_jugador += 1
-        else:
-            show ingrid neutral at center
-            i "Voy con vos. Creo que puedo aportar algo."
-            $ equipo_jugador += 1
+    if jugador_proyecto == "balsa":
+        i "Me sumo a la balsa, quedarse no da garantía de que alguien nos vea."
+        $ equipo_jugador += 1
     else:
-        if equipo_jugador == 4 and equipo_opuesto == 4:
-            show ingrid neutral at center
-            i "No quiero que esto quede en empate. Me sumo a tu proyecto."
-            $ equipo_jugador += 1
-        else:
-            show ingrid neutral at center
-            i "Me voy al otro grupo. No confío en tu liderazgo."
-            $ equipo_opuesto += 1
+        show ingrid cintura at right with Dissolve(0.5)
+        i "Me voy al otro grupo. No creo que la hoguera sea el mejor plan."
+        $ equipo_opuesto += 1
+            
 
     hide charles
     hide laura
@@ -16550,9 +16924,13 @@ label cap12_decision_grupal_reasignacion:
     hide ingrid
     with fade
 
-    ## Resultado final
+
+    "La mayoria se compromete con tu proyecto de la balsa."
+    jump cap12_balsa_completa
+
+    ## Resultado final (no se usa)
     if equipo_jugador > equipo_opuesto:
-        "La mayoria se compromete con tu proyecto de la [proyecto_jugador]."
+        "La mayoria se compromete con tu proyecto de la [jugador_proyecto]."
         if proyecto_jugador == "hoguera":
             jump cap12_hoguera_completa
         else:
@@ -16597,18 +16975,17 @@ label cap12_hoguera_completa:
 
 label cap12_balsa_completa:
 
-    scene playa_balsa_final
-    with fade
+    scene bg beach_raft_last with Dissolve(0.5)
 
-    "Los ocho se ponen manos a la obra, entre todos el proceso se hace mas sencillo."
+    "Al comenzar el día, los ocho se ponen manos a la obra, entre todos el proceso se hace mas sencillo."
     "Se traen los troncos, resina y demas materiales de la hoguera, lo que acelera mucho la construccion de la balsa."
     "Finalmente..."
 
-    scene bg balsa_pronta
-    with fade
+    scene bg beach_raft_end with Dissolve(0.5)
+
     "La balsa está terminada. Amplia, equilibrada, con una base reforzada por sogas y troncos entrelazados."
 
-    "En el centro, un compartimento improvisado con reservas de agua y comida. No es mucho, pero puede durar unos días."
+    "En el centro, iran unos cestos improvisados con reservas de agua y comida. No es mucho, pero puede durar unos días."
 
     "Han construido remos con ramas gruesas y un timón rudimentario con una tabla rota y cuerda vegetal."
 
@@ -16617,10 +16994,12 @@ label cap12_balsa_completa:
     menu:
         "Dar una última indicación técnica":
             y "Aseguren las reservas con doble nudo. Si se cae algo al agua, no hay segunda oportunidad."
+            $ reporte_cap12_proyecto_mensaje = "Dar una última indicación técnica"
             "El grupo ajusta las sogas. Tu atención al detalle marca la diferencia."
 
         "Compartir una reflexión emocional":
             y "No sé si esto va a funcionar. Pero lo hicimos juntos. Y eso ya es algo."
+            $ reporte_cap12_proyecto_mensaje = "Compartir una reflexión emocional"
             "Algunos bajan la mirada. Otros sonríen. Hay algo más fuerte que el miedo: el vínculo."
 
     "La balsa queda en la orilla. Lista para partir, esperando el momento justo."
@@ -16923,53 +17302,58 @@ label cap_final_hoguera_encendido:
 
 label cap_final_balsa_lanzamiento:
 
-    scene playa_balsa
+    scene bg beach_raft_end
     with fade
 
     "La balsa está lista. Hecha con troncos, cuerdas y esperanza. El grupo la empuja al agua y sube con cuidado."
 
-    show bob al mando at center
+    show bob pensando at center
     b "Charles, vigila el equilibrio. Marina, cuida el agua y la comida. Tomás, Laura, Ingrid y Erika en los remos. Yo voy al timón."
 
-    b "¿[nombre_jugador], dónde crees que puedes aportar más?"
+    b "¿Dónde crees que puedes aportar más?"
 
     menu:
         "Tomar el timón":
             y "Yo dirijo. Bob, tú puedes estar atento a la corriente."
             b "Bien, si crees que puedes hacerlo, yo me fijo en las corrientes."
-            $ rol_timon = True
+            $ reporte_rol_timon = True
 
-        "Remar junto a Erika, Tomás y el resto":
+        "Remar junto a Erika, Tomas y el resto":
             y "Voy a remar. Necesitamos fuerza."
             b "Buena elección."
-            $ rol_remo = True
+            $ reporte_rol_remo = True
 
         "Encargarse del equilibrio y provisiones":
             y "Me ocupo de que nada se pierda. Marina, ayúdame."
             show marina at left
             m "Sí... haré lo que pueda."
-            $ rol_soporte = True
+            $ reporte_rol_soporte = True
 
     hide bob
     hide erika
 
-    show charles incómodo at center
+    scene raft_timon at truecenter with Dissolve(0.5)
+    show bob parado serio at centerright with Dissolve(0.5)
+
+    show charles triste at left with Dissolve(0.5)
     c "¿Y yo por qué tengo que vigilar el equilibrio? ¡No soy un contrapeso humano!"
 
-    show laura molesta at centerleft
+    show laura enojada at centerleft with Dissolve(0.5)
     l "Porque si te caes, nos hundimos. ¿Querés remar?"
 
-    show marina nerviosa at centerright
+    show marina preocupada at center with Dissolve(0.5)
     m "Por favor, no peleen. Ya estamos en el agua..."
 
     "La situacion escala y distrae a todos. La balsa toma una ola un poco en diagonal, haciendo que todo cruja y se sacuda."
 
     menu:
         "Reasignar tareas":
-            if rol_soporte:
+            $ charles +=1
+            if reporte_rol_soporte:
                 y "Charles, ven aqui a ayudar con las provisiones a Marina."
                 y "Yo me encargo de equilibrar la balsa."
-                $ rol_soporte = False
+                $ reporte_rol_soporte = False
+                $ reporte_cap12_charles_protesta = "Reasignar tareas"
                 $ rol_equilibrio = True
             else:
                 y "Laura, vigila el equilibrio. Charles, agarra un remo y ayuda."
@@ -16977,136 +17361,155 @@ label cap_final_balsa_lanzamiento:
 
         "Imponer orden":
             y "Charles, hacé lo que te toca. No estamos en un crucero."
+            $ reporte_cap12_charles_protesta = "Imponer orden"
             c "Ok, ok..."
             $ liderazgo += 1
 
         "Ignorar el conflicto":
             y "..."
             "Laura y Charles siguen discutiendo. Marina se pone más nerviosa."
-            $ caos += 1
+            $ reporte_cap12_charles_protesta = "Ignorar el conflicto"
+            $ marina -= 1
+
 
     hide charles
     hide laura
     hide marina
+    hide bob
 
     jump cap_final_balsa_olas
 
 label cap_final_balsa_olas:
 
-    scene mar_rompiente
-    with fade
+    scene bg raft_front_waves at truecenter with Dissolve(0.5)
 
     "La balsa avanza lentamente. Las olas crecen cerca de la rompiente. El grupo se tensa."
+    $ update_stat("sed", sed -1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
 
-    show bob concentrado at center
+    show bob parado enojado at right with Dissolve(0.5)
     b "¡Mantengan el ritmo! ¡No se detengan!"
 
-    if rol_timon:
-        b "¡[nombre_jugador]! Cuidado, hay que tomar esa corriente de a poco. Si entramos de frente nos va a dar vuelta."
+    if reporte_rol_timon:
+        b "¡Cuidado, hay que tomar esa corriente de a poco. Si entramos de frente nos va a dar vuelta."
     else:
-        show bob concentrado at centerleft
         b "La corriente se cruza. Voy a tener que girar un poco y tomar la corriente con suavidad.."
 
-    show ingrid analítica at centerright
+    show ingrid enojada at centerright with Dissolve(0.5)
     i "No. Si giramos, perdemos fuerza. Hay que atravesar recto."
 
     "El grupo se divide. Hay que decidir decidir si seguir el plan de Ingrid o tomar la corriente con un giro."
 
     menu:
         "Atravesar recto la corriente para mantener impulso":
+            $ reporte_cap12_balsa_corriente = "Atravesar recto como propone Ingrid"
             y "Vamos recto. No perdamos impulso."
+            show erika enojada at centerleft with Dissolve(0.5)
             k "Bien. Todos, mantengan el ritmo."
+            show tomas serio at left with Dissolve(0.5)
             t "¡A remar!"
-            $ caos -= 1
 
 
         "Girar un poco la balsa para tomar la corriente de a poco":
             y "Giramos un poco. Tomás, marca el ángulo."
-            show tomas at left
+            $ reporte_cap12_balsa_corriente = "Girar para tomarla poco a poco como dice Bob"
+            show tomas serio at centerleft with Dissolve(0.5)
             t "Entendido."
-            show erika at right
+            show erika conversando at left with Dissolve(0.5)
             k "Espero que funcione..."
-            $ caos -= 1
 
         "No decidir, dejar que el grupo actúe":
             y "..."
             "Erika y Tomás discuten. Bob toma el mando. La balsa se sacude."
-            $ caos += 1
+            $ liderazgo -=2
 
-    hide bob
-    hide tomas
-    hide erika
-    hide ingrid
-
-    show marina asustada at center
+    show marina triste at center with Dissolve(0.5)
     m "¡Nos vamos a volcar! ¡No puedo...!"
 
     menu:
         "Calmar a Marina":
+
             y "Respira. Estamos bien. Confía en nosotros."
+            $ reporte_cap12_balsa_marina_asustada = "Calmar a Marina"
             m "Lo intento..."
             $ liderazgo += 1
 
         "Ignorarla y concentrarse en remar":
             y "¡Remen! No hay tiempo para distracciones."
+            $ reporte_cap12_balsa_marina_asustada = "Ignorarla"
             m "..."
-            $ caos += 1
+            $ liderazgo -=2
 
-
-    hide marina
-
+    $ update_stat("cansancio", cansancio -1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
     "La balsa supera la rompiente. El grupo respira aliviado, pero el mar sigue agitado."
 
     jump cap_final_balsa_corriente
 
 label cap_final_balsa_corriente:
 
-    scene mar_abierto
-    with dissolve
+    scene bg raft_front_isla at truecenter with Dissolve(0.5)
+
     "Luego de varias horas de esfuerzo y sobresaltos, la balsa está bastante cerca de la costa a la que se dirigían,"
-    "Parece una isla pequeña o quizas la punta de de alguna lengua de tierra de una isla mas grande. Aún es dificil de decir a la sitancia."
+    $ update_stat("hambre", hambre -1)
+    $ show_variable_changed_popup("El hambre ha aumentado", rojo)
+    "Parece una isla pequeña o quizas la punta de de alguna lengua de tierra de una isla mas grande. Aún es difícil de decir a la distancia."
+
+    scene bg raft_front_isla2 at truecenter with Dissolve(0.5)
     "La balsa se acerca de la costa. El grupo se da cuenta de que una corriente los arrastra hacia mar abierto."
 
-    show tomas tenso at centerleft
+    show tomas enojado at centerleft with Dissolve(0.5)
     t "Esto no está bien. Nos está llevando mar adentro."
 
-    show erika calculando at centerright
+    show erika parada at centerright with Dissolve(0.5)
     k "La corriente es fuerte. Si desmontamos la balsa, podríamos nadar en partes."
 
-    show bob frustrado at center
+    show bob parado enojado at right with Dissolve(0.5)
     b "¡No! Si saltamos, nos dispersamos. Hay que resistir y esperar que cambie."
 
-    show marina desesperada at right
+    show marina preocupada at left with Dissolve(0.5)
     m "¡No quiero morir aquí!"
+    show marina triste at left with Dissolve(0.5)
 
-    "El grupo se divide. El jugador debe tomar una decisión."
     jump cap_final_balsa_corriente_desicion
 
 label cap_final_balsa_corriente_desicion:
-    "El tiempo se acaba y hay que tomar una desicion...ya."
+    "El tiempo se acaba y hay que tomar una desición...ya."
 
     menu:
-        "Estrellar la balsa hacia una roca cercana, y luego nadar hasta la costa.":
-            y "Erika, Bob, todos a los remos. Ttratemos de golpear contra esa roca a medio camino. Tomás, ayuda a Marina."
+        "Estrellar la balsa contra una roca cercana, y luego nadar hasta la costa.":
+            y "Erika, Bob, todos a los remos. Ttratemos de golpear contra esa roca a medio camino. Tomas, ayuda a Marina."
+            show erika conversando at centerright with Dissolve(0.5)
+            hide tomas with Dissolve(0.5)
             k "Es muy arriesgado pero puede funcionar."
+            show ingrid triste at center with Dissolve(0.5)
             i "Es probable que alguno se lastime cuando se rompa la balsa"
+            show laura hablando at centerleft with Dissolve(0.5)
             l "Nos vamos a quedar sin agua, ni nada..."
+            show marina preocupada at left with Dissolve(0.5)
             m "No se si puedo nadar tanto..."
             $ liderazgo += 1
+            $ reporte_cap12_balsa_isla = "Estrellar contra roca y nadar a la isla"
             jump resolucion_corriente_nado_check
 
         "Resistir en la balsa y remar hasta que la corriente ceda":
             y "Nos quedamos juntos. Bob, guia la balsa. Los demás...rememos todos."
+            $ reporte_cap12_balsa_isla = "Remar hasta vencer la corriente"
+            show bob parado hablando at right with Dissolve(0.5)
+            hide marina with Dissolve(0.5)
             b "Buena decisión. No nos separemos."
-            c "No hay remos para todos."
-            i "Si fallamos no hay manera de volver a ninguna isla."
+            show ingrid cintura at center with Dissolve(0.5)
+            i "No hay remos para todos."
+            show laura enojada at left with Dissolve(0.5)
+            l "Si fallamos no hay manera de volver a ninguna isla."
             $ liderazgo += 1
             jump resolucion_corriente_resistencia_check
 
         "Tomar una acción impulsiva y saltar sin consenso":
             y "¡Salten! ¡Ahora!"
+            $ reporte_cap12_balsa_isla = "Saltar al agua sin más"
             "El grupo entra en caos. Algunos dudan, otros obedecen."
-            $ caos += 1
+            $ liderazgo -= 2
             jump resolucion_corriente_impulsiva
 
 label resolucion_corriente_nado_check:
@@ -17131,8 +17534,7 @@ label resolucion_corriente_resistencia_check:
 
 label resolucion_corriente_nado:
 
-    scene mar_nado
-    with fade
+    scene bg mar_isla at truecenter with Dissolve(0.5)
     "¡CRASHHH! La balsa se estrella contra la roca, agua, espuma y troncos vuelan por el aire."
     "El grupo cae al gua y se dispersa. La balsa se desarma. Erika guía a los demás con señales."
     $ salvados = 0
@@ -17142,6 +17544,8 @@ label resolucion_corriente_nado_grupo:
     $ salvados += 1
     menu:
         "Esperas a que todos estén nadando hacia la orilla" if salvados < 3:
+            $ update_stat("cansancio", cansancio -1)
+            $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
             "El cansancio hace que pesen los brazos y las piernas"
             "No estas segur[e] de cuanto más puedes mantenerte a flote entre las olas."
             "Ayudas a quienes están mas rezagados y con mas dificultades para nadar"
@@ -17149,6 +17553,7 @@ label resolucion_corriente_nado_grupo:
 
         "Decides asegurarte de llegar tú tambien a la orilla" if salvados < 3:
             "La última ola te hizo tragar agua salada, hay gritos por todos lados."
+            $ reporte_cap12_balsa_nadando_orilla_self = True
             "Nadas con determinación hacia la orilla, esperas que los demás puedan llegar a salvo..."
             "...pero decides que es momento de cuidarte primero."
             $ todos_salvados = False
@@ -17156,117 +17561,145 @@ label resolucion_corriente_nado_grupo:
             "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
             "Nadas entre las olas rumbo a la orilla... "
             "...pero los brazos te pensan más y más, las olas te cubren."
-            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            b "¡Aquí! Toma mi mano"
             "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            $ reporte_cap12_balsa_nadando_orilla_todos = True
             b "Debes cuidarte, casi te ahogas por salvar los demas."
             $ todos_salvados = True
         "Te aseguras que todos estén a salvo." if salvados == 3:
             "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
             "Nadas entre las olas rumbo a la orilla... "
             "...pero los brazos te pensan más y más, las olas te cubren."
-            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            b "¡Aquí! Toma mi mano"
             "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            $ reporte_cap12_balsa_nadando_orilla_seguro = True
             b "Debes cuidarte, casi te ahogas por salvar los demas."
             $ todos_salvados = True
 
+    scene bg isla_llegada at truecenter with Dissolve(0.5)
 
     "Tras mucho esfuerzo, logran llegar a una costa desconocida."
+    $ update_stat("sed", sed -1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
 
-    show tomas agotado at center
+    show tomas gr serio at rightgr with Dissolve(0.5)
     t "No sé cómo lo logramos..."
 
-    show erika aliviada at centerright
+    show erika gr conversando at leftgr with Dissolve(0.5)
     k "Las olas cerca de la orilla ayudaron un poco. Pero fue arriesgado."
 
     jump cap_final_balsa_rescate
 
 label resolucion_corriente_resistencia:
 
-    scene mar_espera
-    with fade
-
     "El grupo permanece unido en la balsa. Bob refuerza el timón con cuerdas improvisadas."
 
+    scene bg raft_timon_isla at truecenter with Dissolve(0.5)
+    show bob parado hablando at right with Dissolve(0.5)
     "Todos reman con fuerza, Bob gruñe al timón tratando de mantener el curso. Ingrid delante tuyo rema con determinación."
+    $ update_stat("cansancio", cansancio -1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
 
     "Una ola golpea la balsa de costado. Ingrid deja caer su remo al agua y al intentar recuperarlo trastabilla y pierde el equilibrio."
     menu: 
         "Tratar de ayudarla para que no caiga de la balsa":
             "Te estiras y tratas de impularla al interior de la balsa"
+
+            show ingrid gr enojada at waterleft with Dissolve(0.5)
             i "¡Me caigo! ¡Ayudaaaaaa!"
             menu:
                 "Empujarla al interior de la balsa a como de lugar":
                     "La empujas por el hombro, pero ella ya está cayendo."
+                    show ingrid gr triste at shoulder with Dissolve(0.5)
                     "Su peso te arrastra al borde la balsa."
                     menu: 
                         "Salvar a Ingrid":
+                            hide ingrid
                             "Empujas a Ingrid y mientras ella cae al interior de la balsa, tú te caes de cabeza al agua."
-                            b "¡Nooooo, [nombre_personaje] se cayó al agua!"
+                            b "¡Nooooo, se cayó al agua!"
+                            show charles boca abierta at centerleft with Dissolve(0.5)
                             c "Yo puedo agarrarl[e]"
                             "Charles se inclina y te agarra del brazo"
                             "Sientes como hace fuerza y te saca de debajo del agua. Varias manos te agarran y te suben a la balsa."
-                            "Escupiendo agua y jadeando, te recuperas boca arriba en el piso de la balsa."
-                            $ salvar_ingrid_cae_player = True
+                            "Escupiendo agua y jadeando, te recuperas en el piso de la balsa."
+                            $ reporte_cap12_salvar_ingrid_cae_player = True
                         "Salvarte a ti":
                             "Te agarras del bolde de la balsa y logras volver a tu posicion."
                             "Mientras te recuperas, ves como Ingrid se cae de cabeza al agua."
-                            $ salvar_ingrid_cae_ingrid = True
+                            hide ingrid
+                            $ reporte_cap12_salvar_ingrid_cae_ingrid = True
                             b "¡Nooooo, Ingrid se cayó al agua!"
                             c "Yo puedo agarrarla"
+                            show charles boca abierta at centerleft with Dissolve(0.5)
                             "Charles se inclina y la agarra del brazo"
-                            "SiLe saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
+                            "Con esfuerzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
                             "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa."
                 "Mantenerte firme en tu posición y ayudar en lo posible.":
                     "Tratas de empujarla al interior de la balsa pero ya está muy al borde y no puedes sujetarla bien"
                     "Ves como cae por el borde del bote y se hunde."
-                    $ salvar_ingrid_cae_ingrid = True
+                    $ reporte_cap12_salvar_ingrid_ignora_ingrid = True
+                    hide ingrid
                     b "¡Nooooo, Ingrid se cayó al agua!"
+                    show charles boca abierta at centerleft with Dissolve(0.5)
                     c "Yo puedo agarrarla"
                     "Charles se inclina y la agarra del brazo"
-                    "Con esfeurzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
+                    "Con esfuerzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
                     "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa."   
         "Dejar de remar para recuperar el remo que Ingrid dejó caer al agua.":
             "Aseguras tu remo con las piernas y te inclinas para recoger el remo."
-            $ salvar_ingrid_remo = True
-            "Recoges el remo y se lo pasas a Charles que no tiene uno"
-            y ¡"Rema! ¡O vamos a terminar a la deriva!"
+            $ reporte_cap12_salvar_ingrid_remo = True
+            "Recoges el remo y se lo pasas a Charles que no tiene como remar."
+            y "¡Rema! ¡O vamos a terminar a la deriva!"
             "Le tiras el remo a Charles al mismo tiempo que Ingrid cae al agua."
+            hide ingrid
             b "¡Nooooo, Ingrid se cayó al agua!"
+            show charles boca abierta at centerleft with Dissolve(0.5)
             c "Yo puedo agarrarla... ¡ufff!"
+            hide charles with Dissolve(0.5)
             "El remo que le tiraste lo distrae y falla el intento. Ingrid pasa de largo y la balsa sigue de largo."
             "Bob en el ultimo momento se inclina y logra agarrarla cuando la la balsa la dejaba atras."
-            "Una ola terminó ayudando dandole un impulso que terminó con ambos escupiendo agua en el piso de la balsa."
+            hide bob
+            "Una ola fué de ayuda, dándole un impulso que terminó con ambos escupiendo agua en el piso de la balsa."
 
         "Mantienes la intensidad de tu remo para compensar que Ingrid no está remando":
             "Agarras con fuerza el remo y redoblas tus esfuerzos para vencer la corriente"
             $ salvar_ingrid_ignorar = True
             y "¡No dejen de remar! Estamos en el medio de la corriente, si paramos ahora estamos perdidos"
             "Ingrid es golpeada por una ola y termina cayendo al agua"
+            hide ingrid
             b "¡Nooooo, Ingrid se cayó al agua!"
             c "Yo puedo agarrarla"
+            show charles boca abierta at centerleft with Dissolve(0.5)
             "Charles se inclina y la agarra del brazo"
             "Con esfuerzo la saca de debajo del agua. Varias manos la agarran y la suben a la balsa."
             "Escupiendo agua y jadeando, Ingrid se recupera boca arriba en el piso de la balsa." 
 
-    show bob at left
+    show charles dedos v at centerleft with Dissolve(0.5)
+    show bob parado enojado at right  with Dissolve(0.5)
     b "¡Es ahora o nunca! Voy a cruzar la balsa en la corriente, o salimos o nos arrastra."
-    show erika at right
+    hide charles with Dissolve(0.5)
+    show erika conversando at center with Dissolve(0.5)
     k "¡A remar!"
     "Todos toman sus remos, se acomodan ràpido en sus posiciones y comienzan a remar con todo."
+    $ update_stat("cansancio", cansancio -1)
+    $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
     "La corriente cambia lentamente, las olas los levantan y empujan hacia la orilla."
 
-    show bob orgulloso at center
-    b "Sabía que aguantar era lo correcto."
+    scene bg isla_llegada at truecenter with Dissolve(0.5)
 
-    show marina emocionada at right
+    show bob saludando sucio at center with Dissolve(0.5)
+    b "Sabía que aguantar era lo correcto."
+    $ update_stat("sed", sed -1)
+    $ show_variable_changed_popup("La sed ha aumentado", rojo)
+
+    show marina sonriendo at right with Dissolve(0.5)
     m "¡Tierra! ¡Lo logramos!"
 
     jump cap_final_balsa_rescate
 
 label resolucion_corriente_impulsiva:
 
-    scene mar_caos
-    with fade
+    scene bg mar_isla with Dissolve(0.5)
 
     "El grupo se lanza al agua sin coordinación. Algunos se separan, otros se aferran a restos de la balsa."
     $ salvados = 0
@@ -17276,6 +17709,8 @@ label resolucion_corriente_impulsiva_check:
     $ salvados += 1
     menu:
         "Esperas a que todos estén nadando hacia la orilla" if salvados < 3:
+            $ update_stat("cansancio", cansancio -1)
+            $ show_variable_changed_popup("El cansancio ha aumentado", rojo)
             "El cansancio hace que pesen los brazos y las piernas"
             "No estas segur[e] de cuanto más puedes mantenerte a flote entre las olas."
             "Ayudas a quienes están mas rezagados y con mas dificultades para nadar"
@@ -17284,94 +17719,104 @@ label resolucion_corriente_impulsiva_check:
         "Decides asegurarte de llegar tú tambien a la orilla" if salvados < 3:
             "La última ola te hizo tragar agua salada, hay gritos por todos lados."
             "Nadas con determinación hacia la orilla, esperas que los demás puedan llegar a salvo..."
+            $ reporte_cap12_balsa_nadando_orilla_self = True
             "...pero decides que es momento de cuidarte primero."
             $ todos_salvados = False
         "Parece que todos están ya nadando a la orilla" if salvados == 3:
             "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
             "Nadas entre las olas rumbo a la orilla... "
             "...pero los brazos te pensan más y más, las olas te cubren."
-            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            b "¡Aquí! Toma mi mano"
             "Bob te ayuda los últimos metros, mientras escupes agua y toses."
+            $ reporte_cap12_balsa_nadando_orilla_todos = True
             b "Debes cuidarte, casi te ahogas por salvar los demas."
             $ todos_salvados = True
         "Te aseguras que todos estén a salvo." if salvados == 3:
             "Observas y a tu alrededor ya no hay nadie necesitando ayuda"
             "Nadas entre las olas rumbo a la orilla... "
             "...pero los brazos te pensan más y más, las olas te cubren."
-            b "¡Aquí! Toma mi mano, [nombre_jugador]"
+            $ reporte_cap12_balsa_nadando_orilla_seguro = True
+            b "¡Aquí! Toma mi mano"
             "Bob te ayuda los últimos metros, mientras escupes agua y toses."
             b "Debes cuidarte, casi te ahogas por salvar los demas."
             $ todos_salvados = True
+    
+    scene bg isla_llegada at truecenter with Dissolve(0.5)
 
-    "La corriente los arrastra, y por suerte, los conduce a una costa rocosa."
+    "La corriente los arrastra, y por suerte, los conduce a una costa arenosa."
 
-    show erika molesta at center
+    show erika enojada at center with Dissolve(0.5)
     k "Eso fue una locura. Pero funcionó... de algún modo."
+    $ erika -= 1
 
-    show tomas distante at centerleft
+    show tomas enojado at centerleft with Dissolve(0.5)
     t "No todos están bien. Algunos casi se ahogan, otros se lastimaron con las rocas."
     t "Esto fue muy insensato"
+    $ tomas -= 1
     menu:
         "Actué y ahora estamos a salvo":
             "Soluciones no problemas, Tomas. No iba a ser fácil de ninguna manera. Yo decidí y actué"
             "Tomas te mira con intensidad, parece estar por decir algo, pero sigue caminando y te ignora."
+            $ reporte_cap12_balsa_impulsivo_respalda = True
+            hide tomas with Dissolve(0.5)
             $ tomas -= 1
         "Lamento la impulsividad":
-            y "La verdad, tienes razon Tomas. Afortunadamente salió bien."
+            y "La verdad, tienes razón Tomas. Afortunadamente salió bien."
+            $ reporte_cap12_balsa_impulsivo_disculpas = True
             t "Afortunadamente. Disculpas aceptadas."
+            $ tomas += 2
 
 
     jump cap_final_balsa_rescate
 
 label cap_final_balsa_rescate:
 
-    scene isla_pequena
-    with Dissolve(0.5)
 
     "El grupo llega a la costa de una isla diminuta. La vegetación es escasa, y una colina rocosa se alza en el centro."
 
-    show bob observador at center with Dissolve(0.5)
+    show bob pensando at left with Dissolve(0.5)
     b "No parece haber mucho aquí..."
 
-    show erika decidida at centerright with Dissolve(0.5)
+    show erika parada at center with Dissolve(0.5)
     k "Subamos esa colina. Desde arriba podremos ver mejor."
 
-    show marina at right with Dissolve(0.5)
+    hide erika with Dissolve(0.5)
+    show marina preocupada at right with Dissolve(0.5)
     m "¿Que vamos a hacer ahora? Estamos peor que antes"
 
-    show charles at centerleft with Dissolve(0.5)
+    show charles sonriente at centerright with Dissolve(0.5)
     c "Algo se nos ocurrirá, Marina. Al menos acá no parece haber jabalíes."
 
-    show marina sonriendo with Dissolve(0.5) 
+    show marina sonriendo at right with Dissolve(0.5)
     m "Solo podría haber uno, parado en la punta de la colina."
+
     "Algunos se sonrien, pero todos alegran el semblante. Ese toque de humor de Charles y Marina les devuelve un poco de esperanza."
 
     "El grupo asciende con esfuerzo. El sol golpea fuerte, y el viento trae olor a sal y combustible quemado."
 
-    scene cima_colina
-    with Dissolve(0.5)
+    scene bg isla_rada at truecenter with Dissolve(0.5)
 
     "Desde la cima, el grupo observa el otro lado de la isla. Un pequeño bote de pesca se balancea cerca de la costa."
 
-    show marina emocionada at center with Dissolve(0.5)
+    show marina sonriendo at center with Dissolve(0.5)
     m "¡Un bote! ¡Un bote de verdad!"
 
-    show tomas euforico at centerleft with Dissolve(0.5)
+    show tomas risa at right with Dissolve(0.5)
     t "¡Griten! ¡Que nos vean!"
 
     "Todos gritan con fuerza. Uno de los pescadores en el bote se gira, los ve, y responde con un grito."
 
-    p "¡Los vimos! ¡Vamos a pedir ayuda!"
+    w "¡Los vimos! Son los del crucero que se hundió, ¿verdad? ¡Vamos a pedir ayuda!"
 
     "El grupo se queda en silencio por un momento. Luego, estalla en festejos."
-
-    show bob sonriendo at right
+    hide tomas with Dissolve(0.5)
+    show bob saludando sucio at right with Dissolve(0.5)
     b "Lo logramos..."
 
-    show erika aliviada at left
+    show erika sonriendo at centerleft with Dissolve(0.5)
     k "Estamos a salvo."
 
-    show marina llorando at center
+    show marina triste at center with Dissolve(0.5)
     m "Pensé que no saldríamos de esta..."
 
     "El sol comienza a descender. El grupo se abraza, exhausto pero esperanzado. El rescate es inminente."
@@ -17380,70 +17825,85 @@ label cap_final_balsa_rescate:
 
 label epilogo_isla:
 
-    scene costa_isla
-    with fade
+    scene bg rescue at truecenter with Dissolve(0.5)
 
     "Horas después, un barco de rescate llega a la isla. Un grupo de médicos y rescatistas baja con rapidez."
 
-    show rescatista at center
-    r "Tranquilos, estamos aquí para ayudarlos. ¿Hay heridos?"
+    show rescatista saluda at right with Dissolve(0.5)
+    r "Tranquilos, estamos aquí para ayudarlos."
+    
+    show rescatista habla at right with Dissolve(0.5)
+    r "¿Hay heridos?"
+
+    y "Solo algún golpe y arañazo, estamos listos para salir de estas islas."
 
     "El grupo es atendido, hidratado, y guiado al barco. La tensión comienza a disiparse."
+    $ update_stat("sed", sed +1)
+    $ show_variable_changed_popup("La sed ha disminuido", verde)
 
-    scene cubierta_barco
-    with dissolve
+
+
+    scene bg ship_travel with Dissolve(0.5)
 
     "Ya en la cubierta, mientras el barco se aleja de la isla, el grupo se reúne. El viento es suave, y el mar tranquilo."
 
     ## Diálogos según relación con el jugador
 
     if bob >= 2:
-        show bob reflexivo at left
+        show bob gr pensando at leftgr with Dissolve(0.5)
         b "Nunca pensé que confiar en vos me iba a salvar la vida. Gracias por no rendirte."
 
     elif bob <= -2:
-        show bob distante at left
+        show bob gr parado enojado at leftgr with Dissolve(0.5)
         b "No sé si fue suerte o qué, pero no vuelvo a seguir tus decisiones."
 
     else:
-        show bob neutral at left
-        b "Fue duro. No siempre estuve de acuerdo con vos, pero salimos adelante."
+        show bob gr parado serio at leftgr with Dissolve(0.5)
+        b "Fue duro. No siempre estuve de acuerdo contigo, pero salimos adelante."
+    
+    hide bob with Dissolve(0.5)
 
     if erika >= 2:
-        show erika serena at center
+        show erika gr sonriendo  at rightgr with Dissolve(0.5)
         k "Tu forma de pensar nos mantuvo unidos. Me alegra haber compartido esto con vos."
 
     elif erika <= -2:
-        show erika fría at center
+        show erika gr enojada at rightgr with Dissolve(0.5)
         k "Tomaste decisiones que casi nos cuestan todo. No lo voy a olvidar."
 
     else:
-        show erika pensativa at center
+        show erika gr parada at rightgr with Dissolve(0.5)
         k "Aprendí mucho. No sé si lo hicimos bien, pero sobrevivimos."
+   
+    hide erika with Dissolve(0.5)
 
     if tomas >= 2:
-        show tomas sonriente at right
+        show tomas gr sonriendo at leftgr with Dissolve(0.5)
         t "Sos de los que no se quiebran. Me alegra haber estado con vos en esto."
 
     elif tomas <= -2:
-        show tomas serio at right
+        show tomas gr enojado at leftgr with Dissolve(0.5)
         t "No me gustó cómo manejaste las cosas. Pero al menos estamos vivos."
 
     else:
-        show tomas tranquilo at right
+        show tomas gr serio at leftgr with Dissolve(0.5)
         t "Fue una locura. No sé si lo hicimos bien, pero funcionó."
 
+    hide tomas with Dissolve(0.5)
+
     if marina >= 2:
-        show marina emocionada at center
+        show marina gr sonriente at rightgr with Dissolve(0.5)
         m "Nunca me sentí tan protegida. Gracias por cuidarme."
 
     elif marina <= -2:
-        show marina distante at center
+        show marina gr triste at rightgr with Dissolve(0.5)
         m "No quiero hablar de lo que pasó. No contigo."
 
     else:
-        show marina vulnerable at center
+        show marina gr hablando at rightgr with Dissolve(0.5)
         m "Todavía estoy procesando todo. Pero gracias por estar ahí."
+    
+    hide marina with Dissolve(0.5)
 
     ## Reflexión final del jugador
 
@@ -17452,24 +17912,54 @@ label epilogo_isla:
     menu:
         "Fue una experiencia transformadora":
             y "No somos los mismos. Algo cambió en todos nosotros."
-            $ reflexion = "transformadora"
+            $ reporte_reflexion = "transformadora"
 
         "Solo quiero olvidar lo que pasó":
             y "Prefiero no pensar más en esto. Que quede atrás."
-            $ reflexion = "evasiva"
+            $ reporte_reflexion = "evasiva"
 
         "Sobrevivimos, y eso es suficiente":
             y "No sé qué aprendí. Pero sobrevivimos. Eso basta."
-            $ reflexion = "pragmática"
+            $ reporte_reflexion = "pragmática"
 
-    "El sol cae sobre el mar. El barco sigue su curso. El grupo, marcado por la experiencia, comienza a imaginar lo que vendrá."
+    "El barco sigue su curso. El grupo, marcado por la experiencia, comienza a imaginar lo que vendrá."
 
-    "El juego termina aqui!!!!"
     #enviar reporte salvo con id prueba
     if player_id == "prueba":
         "No se envia reporte. Se esta usando el id: prueba"
     else:   
         $ enviar_reporte(player_id)
         "El reporte se ha enviado con éxito"
+    
+    "Has completado con éxito la aventura, tu y tus compañeros naufragos han sobrevivido y regresan a sus hogares."
+    jump cap12_reporte
+
+label cap12_reporte:
+    # Generar contenido para los pop-ups de relaciones
+    $ relaciones_contenido = generar_lista_popup("RELACIONES", ["marina", "bob", "laura", "ingrid", "charles", "erika", "tomas"], es_relacion=True)
+    $ relaciones_cap12_bob = bob
+    $ relaciones_cap12_marina = marina
+    $ relaciones_cap12_laura = laura
+    $ relaciones_cap12_ingrid = ingrid
+    $ relaciones_cap12_charles = charles
+    $ relaciones_cap12_erika = erika
+    $ relaciones_cap12_tomas = tomas
+                    
+    # Calcular el total de decisiones y obtener la lista de variables específicas para el capítulo
+    $ desicion_intro = calcular_decisiones_intro(lista_decisiones_intro)
+                    
+    # Generar contenido para los pop-ups de decisiones
+    $ decisiones_contenido = generar_lista_popup("DECISIONES", lista_decisiones_intro, desicion_intro)
+
+    # Mostrar los pop-ups
+    show screen relaciones_popup(contenido=relaciones_contenido)
+    # show screen decisiones_popup(contenido=decisiones_contenido)
+    if player_id == "prueba":
+        "No se envia reporte. Se esta usando el id: prueba"
+    else:   
+        $ enviar_reporte(player_id)
+        "Reporte final enviado"
+    
+    " ¡¡ FELICITACIONES !! El juego termina aqui."
 
     return
