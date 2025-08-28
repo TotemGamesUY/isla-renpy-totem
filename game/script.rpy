@@ -27,7 +27,7 @@ init python:
 default player_id = ""
 define player_name = ""
 define player_lastname = ""
-define player_ids = ["clopez", "RAmeigeira", "Inefop", "prueba", "reporte", "MFierro", "MArroqui", "ESosa", "VMedina", "ASena", "GAlarcon", "EOroño", "GRibas", "NArena", "JAlbornoz", "MMendizaba", "MSire", "NdeBrum", "VGarcia", "JLopez", "BMartinez", "DCarrion", "Jlabandera", "LMachini", "KBerrospe", "lchaves",  "g3r", "5u3"]  # Lista de IDs válidos para android
+default player_ids = []  # Lista de IDs válidos para android
 default input_id = ""  # Variable para almacenar el ID ingresado por el jugador
 default input_codigo_capitulo = "" # Codigo que pide para continuar jugando los capitulos
 
@@ -935,10 +935,35 @@ init python:
         except Exception as e:
             print(f"❌ Error en la solicitud: {str(e)}")
 
+init python:
+    import csv, urllib.request, io, ssl
+
+    def cargar_ids_desde_sheet():
+        url = "https://docs.google.com/spreadsheets/d/1t3SZc7Ab1vd8cTYOLH-Yd3fTtQqVNJ1esFWw78fe5W0/export?format=csv"
+        ids = []
+        # Crear un contexto SSL que no verifique certificados
+        contexto = ssl._create_unverified_context()
+        # Descargar contenido del spreadsheet publicado como CSV
+        with urllib.request.urlopen(url, context=contexto) as response:
+            data = response.read().decode('utf-8')
+
+        # Convertir a un lector CSV
+        lector = csv.reader(io.StringIO(data))
+        for fila in lector:
+            if fila:
+                ids.append(fila[0])  # primera columna
+        player_ids.clear()
+        player_ids.extend(ids)
+        print(player_ids)
+
 ############################################   ###############################################################################################################
 ############################################   ###############################################################################################################
 ## Aca comienza la PARTE 1 #################   ###############################################################################################################
 ############################################   ###############################################################################################################
+
+label before_main_menu:
+    $ cargar_ids_desde_sheet()
+    return
 
 label pedir_id_2:
     #esta logica es para pedir ID solo en android, ahora no se esta aplicando.
@@ -948,7 +973,9 @@ label pedir_id_2:
             $ resultado = ui.interact()
 
             if resultado:
-                
+                $ print("holaaaaaaaa")
+                $ print (input_id)
+                $ print (player_ids)
                 if input_id in player_ids:
                     $ player_id = input_id  # Asignar el ID válido
                     
@@ -969,7 +996,9 @@ label pedir_id:
         $ resultado = ui.interact()
 
         if resultado:
-                
+            $ print("holaaaaaaaa")
+            $ print (input_id)
+            $ print (player_ids)    
             if input_id in player_ids:
                 $ player_id = input_id  # Asignar el ID válido
                     
